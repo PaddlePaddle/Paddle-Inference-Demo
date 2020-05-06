@@ -38,9 +38,6 @@ std::unique_ptr<paddle::PaddlePredictor> CreatePredictor() {
 
   // Open the memory optim.
   config.EnableMemoryOptim();
-  // Enable tensorrt engine.
-  // For the hardware of supporting fp16, such as T4, V100 etc, set precison to AnalysisConfig::Precision::kHalf
-  config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 3, AnalysisConfig::Precision::kFloat32, false);
   return CreatePaddlePredictor(config);
 }
 

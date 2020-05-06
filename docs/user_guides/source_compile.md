@@ -136,6 +136,7 @@ make inference_lib_dist -j4
 |WITH_BRPC_RDMA|是否使用 BRPC RDMA 作为 RPC 协议|OFF|
 |ON_INFER|是否打开预测优化|OFF|
 |CUDA_ARCH_NAME|是否只针对当前 CUDA 架构编译| All: 编译所有可支持的 CUDA 架构；Auto: 自动识别当前环境的架构编译|  
+|TENSORRT_ROOT|TensorRT lib的路径，该路径指定后会编译TRT子图功能 eg: /paddle/nvidia/TensorRT/ | /usr | 
 
 
 ## 基于Windows 10 
@@ -181,6 +182,7 @@ cmake .. -G "Visual Studio 16 2019" -A x64 -DWITH_GPU=OFF -DWITH_TESTING=OFF -DC
 |`WITH_BRPC_RDMA`|是否使用 BRPC RDMA 作为 RPC 协议|OFF|
 |`ON_INFER`|是否打开预测优化|OFF|
 |`CUDA_ARCH_NAM`E|是否只针对当前 CUDA 架构编译| All: 编译所有可支持的 CUDA 架构；Auto: 自动识别当前环境的架构编译|  
+|TENSORRT_ROOT|TensorRT lib的路径，该路径指定后会编译TRT子图功能 eg: /paddle/nvidia/TensorRT/ | /  | 
 
 <h2 align="left">结果验证/h2>
 
