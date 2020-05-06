@@ -20,15 +20,15 @@
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
 WITH_MKL=ON       
 WITH_GPU=ON         
-USE_TENSORRT=ON
+USE_TENSORRT=OFF
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/trt_refine_int8/build/fluid_inference_install_dir
+LIB_DIR=${YOUR_LIB_DIR}/fluid_inference_install_dir
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
 CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.5_cuda10.1/lib64
 CUDA_LIB=/paddle/nvidia-downloads/cuda-10.1/lib64
-TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
+# TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
 ```
 
 运行 `sh run_impl.sh`， 会在目录下产生build目录。
