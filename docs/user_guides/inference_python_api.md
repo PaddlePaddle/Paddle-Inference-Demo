@@ -1,209 +1,211 @@
-# Python 预测API介绍
+# Python 预测 API介绍
 
-## Python预测相关数据结构
+Fluid提供了高度优化的[C++预测库](./native_infer.html)，为了方便使用，我们也提供了C++预测库对应的Python接口，下面是详细的使用说明。
 
-使用Python预测API与C++预测API相似，主要包括`PaddleTensor`, `PaddleDType`, `AnalysisConfig`和`PaddlePredictor`，分别对应于C++ API中同名的类型。
+和C++ API接口类似，使用Python预测API预测也包含以下几个主要步骤：
 
-### PaddleTensor
+- 配置推理选项
+- 创建Predictor
+- 准备模型输入
+- 模型推理
+- 获取模型输出
 
-class paddle.fluid.core.PaddleTensor
-
-`PaddleTensor`是预测库输入和输出的数据结构，包括以下字段
-
-* `name`(str): 指定输入的名称
-* `shape`(tuple|list): Tensor的shape
-* `data`(numpy.ndarray): Tensor的数据，可在PaddleTensor构造的时候用`numpy.ndarray`直接传入
-* `dtype`(PaddleDType): Tensor的类型
-* `lod`(List[List[int]]): [LoD](../../../user_guides/howto/basic_concept/lod_tensor.html)信息
-
-`PaddleTensor`包括以下方法
-
-* `as_ndarray`: 返回`data`对应的numpy数组
-
-#### 代码示例
-``` python
-tensor = PaddleTensor(name="tensor", data=numpy.array([1, 2, 3], dtype="int32"))
-```
-调用`PaddleTensor`的成员字段和方法输出如下：
-``` python
->>> tensor.name
-'tensor'
->>> tensor.shape
-[3]
->>> tensor.dtype
-PaddleDType.INT32
->>> tensor.lod
-[]
->>> tensor.as_ndarray()
-array([1, 2, 3], dtype=int32)
-```
-
-
-### PaddleDType
-
-class paddle.fluid.core.PaddleTensor
-
-`PaddleDType`定义了`PaddleTensor`的数据类型，由传入`PaddleTensor`的numpy数组类型确定，包括以下成员
-
-* `INT64`: 64位整型
-* `INT32`: 32位整型
-* `FLOAT32`: 32位浮点型
-
-### AnalysisConfig
-
-class paddle.fluid.core.AnalysisConfig
-
-`AnalysisConfig`是创建预测引擎的配置，提供了模型路径设置、预测引擎运行设备选择以及多种优化预测流程的选项，主要包括以下方法  
-
-* `set_model`: 设置模型的路径
-* `model_dir`: 返回模型文件夹路径
-* `prog_file`: 返回模型文件路径
-* `params_file`: 返回参数文件路径
-* `enable_use_gpu`: 设置GPU显存(单位M)和Device ID
-* `disable_gpu`: 禁用GPU
-* `gpu_device_id`: 返回使用的GPU ID
-* `switch_ir_optim`: IR优化(默认开启)
-* `enable_tensorrt_engine`: 开启TensorRT
-* `enable_mkldnn`: 开启MKLDNN
-#### 代码示例
-设置模型和参数路径有两种形式：
-* 当模型文件夹下存在一个模型文件和多个参数文件时，传入模型文件夹路径，模型文件名默认为`__model__`
-``` python
-config = AnalysisConfig("./model") 
-```
-* 当模型文件夹下只有一个模型文件和一个参数文件时，传入模型文件和参数文件路径
-``` python
-config = AnalysisConfig("./model/model", "./model/params") 
-```
-使用`set_model`方法设置模型和参数路径方式同上
-
-其他预测引擎配置选项示例如下
-``` python
-config.enable_use_gpu(100, 0) # 初始化100M显存，使用gpu id为0
-config.gpu_device_id()        # 返回正在使用的gpu id
-config.disable_gpu()		  # 禁用gpu
-config.switch_ir_optim(True)  # 开启IR优化 
-config.enable_tensorrt_engine(precision_mode=AnalysisConfig.Precision.Float32,
-                              use_calib_mode=True) # 开启TensorRT预测，精度为fp32，开启int8离线量化
-config.enable_mkldnn()		  # 开启MKLDNN
-```
-
-
-
-### PaddlePredictor
-
-class paddle.fluid.core.PaddlePredictor
-
-`PaddlePredictor`是运行预测的引擎，由`paddle.fluid.core.create_paddle_predictor(config)`创建，主要提供以下方法
-
-* `run`: 输入和返回值均为`PaddleTensor`列表类型，功能为运行预测引擎，返回预测结果 
-
-#### 代码示例
+我们同样先从一个简单程序入手，介绍这一流程：
 
 ``` python
-# 设置完AnalysisConfig后创建预测引擎PaddlePredictor
-predictor = create_paddle_predictor(config)
-
-# 设置输入
-x = numpy.array([1, 2, 3], dtype="int64")
-x_t = fluid.core.PaddleTensor(x)
-
-y = numpy.array([4], dtype = "int64")
-y_t = fluid.core.PaddleTensor(y)
-
-# 运行预测引擎得到结果，返回值是一个PaddleTensor的列表
-results = predictor.run([x_t, y_t])
-
-# 获得预测结果，并应用到自己的应用中
-```
-## 支持方法列表
-* PaddleTensor
-	* `as_ndarray() -> numpy.ndarray`
-* AnalysisConfig 
-	* `set_model(model_dir: str) -> None`
-	* `set_model(prog_file: str, params_file: str) -> None`
-	* `model_dir() -> str`
-	* `prog_file() -> str`
-	* `params_file() -> str`
-	* `enable_use_gpu(memory_pool_init_size_mb: int, device_id: int) -> None`
-	* `gpu_device_id() -> int`
-	* `switch_ir_optim(x: bool = True) -> None`
-	* `enable_tensorrt_engine(workspace_size: int = 1 << 20, 
-	                          max_batch_size: int, 
-                              min_subgraph_size: int, 
-                              precision_mode: AnalysisConfig.precision,
-                              use_static: bool, 
-                              use_calib_mode: bool) -> None`
-	* `enable_mkldnn() -> None`
-* PaddlePredictor
-	* `run(input: List[PaddleTensor]) -> List[PaddleTensor]`
-
-可参考对应的[C++预测接口](https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/fluid/pybind/inference_api.cc)，其中定义了每个接口的参数和返回值
-
-## 完整使用示例
-
-下面是使用Fluid Python API进行预测的一个完整示例，使用resnet50模型
-
-下载[resnet50模型](http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz)并解压，运行如下命令将会调用预测引擎
-
-``` bash
-python resnet50_infer.py --model_file ./model/model --params_file ./model/params --batch_size 2
-```
-
-`resnet50_infer.py` 的内容是
-
-``` python
-import argparse
-import numpy as np
-
-from paddle.fluid.core import PaddleTensor
-from paddle.fluid.core import AnalysisConfig
-from paddle.fluid.core import create_paddle_predictor
-
-
-def main():
-    args = parse_args()
-
-    # 设置AnalysisConfig
-    config = AnalysisConfig(args.model_file, args.params_file)
-    config.disable_gpu()
-
-    # 创建PaddlePredictor
+def create_predictor():
+    # 通过AnalysisConfig配置推理选项
+    config = AnalysisConfig("./resnet50/model", "./resnet50/params")
+    config.switch_use_feed_fetch_ops(False)
+    config.enable_use_gpu(100, 0)
+    config.enable_mkldnn()
+    config.enable_memory_optim()
     predictor = create_paddle_predictor(config)
+    return predictor
 
-    # 设置输入，此处以随机输入为例，用户可自行输入真实数据
-    inputs = fake_input(args.batch_size)
+def run(predictor, data):
+    # 准备模型输入
+    input_names = predictor.get_input_names()
+    for i,  name in enumerate(input_names):
+        input_tensor = predictor.get_input_tensor(name)
+        input_tensor.reshape(data[i].shape)
+        input_tensor.copy_from_cpu(data[i].copy())
 
-    # 运行预测引擎
-    outputs = predictor.run(inputs)
-    output_num = 512
+    # 执行模型推理
+    predictor.zero_copy_run()
 
-    # 获得输出并解析
-    output = outputs[0]
-    print(output.name)
-    output_data = output.as_ndarray() #return numpy.ndarray
-    assert list(output_data.shape) == [args.batch_size, output_num]
-    for i in range(args.batch_size):
-        print(np.argmax(output_data[i]))
+    results = []
+    # 获取模型输出
+    output_names = predictor.get_output_names()
+    for i, name in enumerate(output_names):
+        output_tensor = predictor.get_output_tensor(name)
+        output_data = output_tensor.copy_to_cpu()
+        results.append(output_data)
 
-
-def fake_input(batch_size):      
-    shape = [batch_size, 3, 318, 318]
-    data = np.random.randn(*shape).astype("float32")
-    image = PaddleTensor(data)
-    return [image]
-
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model_file", type=str, help="model filename")
-    parser.add_argument("--params_file", type=str, help="parameter filename")
-    parser.add_argument("--batch_size", type=int, default=1, help="batch size")
-
-    return parser.parse_args()
-
-
-if __name__ == "__main__":
-    main()    
+    return results
 ```
 
+以上的程序中`create_predictor `函数对推理过程进行了配置以及创建了Predictor。 `run `函数进行了输入数据的准备、模型推理以及输出数据的获取过程。
+
+在接下来的部分中，我们会依次对程序中出现的AnalysisConfig，Predictor，模型输入，模型输出进行详细的介绍。
+
+## 一、推理配置管理器AnalysisConfig
+AnalysisConfig管理AnalysisPredictor的推理配置，提供了模型路径设置、推理引擎运行设备选择以及多种优化推理流程的选项。配置中包括了必选配置以及可选配置。
+
+### 1. 必选配置
+#### a.设置模型和参数路径
+* non-combined形式：模型文件夹`model_dir`下存在一个模型文件和多个参数文件时，传入模型文件夹路径，模型文件名默认为`__model__`。 使用方式为：
+
+``` python
+config.set_model("./model_dir")
+```
+* combined形式：模型文件夹`model_dir`下只有一个模型文件`model`和一个参数文件`params`时，传入模型文件和参数文件路径。使用方式为：
+
+``` python
+config.set_model("./model_dir/model", "./model_dir/params")
+```
+
+* 内存加载模式：如果模型是从内存加载，可以使用:
+
+``` python
+config.set_model_buffer(model_buffer, model_size, params_buffer, params_size)
+```	
+
+关于`non-combined` 以及 `combined`模型介绍，请参照[这里]()。
+
+#### b. 关闭feed与fetch OP
+`config.switch_use_feed_fetch_ops(False)  # 关闭feed和fetch OP使用，使用ZeroCopy接口必须设置此项`
+
+我们用一个小的例子来说明我们为什么要关掉它们。  
+
+假设我们有一个模型，模型运行的序列为:
+`input -> FEED_OP -> feed_out -> CONV_OP -> conv_out -> FETCH_OP -> output`
+
+序列中大写字母的`FEED_OP`, `CONV_OP`, `FETCH_OP` 为模型中的OP， 小写字母的`input`，`feed_out`，`output` 为模型中的变量。
+
+ZeroCopy模式下：
+
+- 通过`predictor.get_input_tensor(input_names[0])`获取模型输入为`FEED_OP`的输出， 即`feed_out`。
+- 通过`predictor.get_output_tensor(output_names[0])`接口获取的模型的输出为`FETCH_OP`的输入，即`conv_out`。
+
+ZeroCopy的方式避免了`input->FEED_OP` 以及 `FETCH_OP->output` 的copy，从而能加速推理性能，对小的模型效果加速明显。
+
+### 2. 可选配置
+ 
+#### a. 加速CPU推理
+ 
+``` python
+# 开启MKLDNN，可加速CPU推理，要求预测库带MKLDNN功能。
+config.enable_mkldnn()	  	  		
+# 可以设置CPU数学库线程数math_threads，可加速推理。
+# 注意：math_threads * 外部线程数 需要小于总的CPU的核心数目，否则会影响预测性能。
+config.set_cpu_math_library_num_threads(10) 
+
+```
+
+#### b. 使用GPU推理
+
+``` python
+# enable_use_gpu后，模型将运行在GPU上。
+# 第一个参数表示预先分配显存数目，第二个参数表示设备的ID。
+config.enable_use_gpu(100, 0) 
+```
+
+如果使用的预测lib带Paddle-TRT子图功能，可以打开TRT选项进行加速： 
+
+``` python
+# 开启TensorRT推理，可提升GPU推理性能，需要使用带TensorRT的推理库
+config.enable_tensorrt_engine(1 << 30,    # workspace_size   
+                        	 batch_size,    # max_batch_size     
+                        	 3,    # min_subgraph_size 
+                       		 AnalysisConfig.Precision.Float32,    # precision 
+                        	 False,    # use_static 
+                        	 False,    # use_calib_mode
+                        	 )
+```
+通过计算图分析，Paddle可以自动将计算图中部分子图融合，并调用NVIDIA的 TensorRT 来进行加速。
+
+
+#### c. 内存/显存优化
+
+``` python
+config.enable_memory_optim()  # 开启内存/显存复用
+```
+该配置设置后，在模型图分析阶段会对图中的变量进行依赖分类，两两互不依赖的变量会使用同一块内存/显存空间，缩减了运行时的内存/显存占用（模型较大或batch较大时效果显著）。
+
+
+#### d. debug开关
+
+
+``` python
+# 该配置设置后，会关闭模型图分析阶段的任何图优化，预测期间运行同训练前向代码一致。
+config.switch_ir_optim(False)
+```
+
+``` python
+# 该配置设置后，会在模型图分析的每个阶段后保存图的拓扑信息到.dot文件中，该文件可用graphviz可视化。
+config.switch_ir_debug(True)
+```
+
+## 二、预测器PaddlePredictor
+
+PaddlePredictor 是在模型上执行推理的预测器，根据AnalysisConfig中的配置进行创建。
+
+``` python
+predictor = create_paddle_predictor(config)
+```
+
+create_paddle_predictor 期间首先对模型进行加载，并且将模型转换为由变量和运算节点组成的计算图。接下来将进行一系列的图优化，包括OP的横向纵向融合，删除无用节点，内存/显存优化，以及子图（Paddle-TRT）的分析，加速推理性能，提高吞吐。
+
+
+## 三：输入/输出
+
+### 1. 准备输入
+
+#### a. 获取模型所有输入的Tensor名字
+
+``` python
+input_names = predictor.get_input_names()
+```
+
+#### b. 获取对应名字下的Tensor
+
+``` python
+# 获取第0个输入
+input_tensor = predictor.get_input_tensor(input_names[0])
+```
+
+#### c. 将输入数据copy到Tensor中
+
+``` python
+# 在copy前需要设置Tensor的shape
+input_tensor.reshape((batch_size, channels, height, width))
+# Tensor会根据上述设置的shape从input_data中拷贝对应数目的数据。input_data为numpy数组。
+input_tensor.copy_from_cpu(input_data)
+```
+
+### 2. 获取输出
+#### a. 获取模型所有输出的Tensor名字
+
+``` python
+output_names = predictor.get_output_names()
+```
+
+#### b. 获取对应名字下的Tensor
+
+``` python
+# 获取第0个输出
+output_tensor = predictor.get_output_tensor(ouput_names[0])
+```
+
+#### c. 将数据copy到Tensor中
+
+``` python
+# output_data为numpy数组
+output_data = output_tensor.copy_to_cpu()
+```
+
+
+## 下一步
+
+看到这里您是否已经对 Paddle Inference 的 Python API 使用有所了解了呢？请访问[这里]()进行样例测试。
