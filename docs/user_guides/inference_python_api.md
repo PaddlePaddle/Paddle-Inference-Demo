@@ -1,8 +1,9 @@
 # Python 预测 API介绍
 
-Fluid提供了高度优化的[C++预测库](./native_infer.html)，为了方便使用，我们也提供了C++预测库对应的Python接口，下面是详细的使用说明。
+Paddle Inference提供了高度优化的Python 和C++ API预测接口，本篇文档主要介绍Python API，使用C++ API进行预测的文档可以参考[这里](./cxx_api.md)。
+下面是详细的使用说明。
 
-和C++ API接口类似，使用Python预测API预测也包含以下几个主要步骤：
+使用Python预测API预测包含以下几个主要步骤：
 
 - 配置推理选项
 - 创建Predictor
@@ -10,7 +11,7 @@ Fluid提供了高度优化的[C++预测库](./native_infer.html)，为了方便�
 - 模型推理
 - 获取模型输出
 
-我们同样先从一个简单程序入手，介绍这一流程：
+我们先从一个简单程序入手，介绍这一流程：
 
 ``` python
 def create_predictor():
@@ -68,27 +69,27 @@ config.set_model("./model_dir/model", "./model_dir/params")
 * 内存加载模式：如果模型是从内存加载，可以使用:
 
 ``` python
-config.set_model_buffer(model_buffer, model_size, params_buffer, params_size)
+import os
+model_buffer = open('./resnet50/model','rb')
+params_buffer = open('./resnet50/params','rb')
+model_size = os.fstat(model_buffer.fileno()).st_size
+params_size = os.fstat(params_buffer.fileno()).st_size
+config.set_model_buffer(model_buffer.read(), model_size, params_buffer.read(), params_size)
 ```	
 
-关于`non-combined` 以及 `combined`模型介绍，请参照[这里]()。
+关于`non-combined` 以及 `combined`模型介绍，请参照[这里](../introduction/quick_start.md)。
 
 #### b. 关闭feed与fetch OP
 `config.switch_use_feed_fetch_ops(False)  # 关闭feed和fetch OP使用，使用ZeroCopy接口必须设置此项`
 
 我们用一个小的例子来说明我们为什么要关掉它们。  
-
 假设我们有一个模型，模型运行的序列为:
-`input -> FEED_OP -> feed_out -> CONV_OP -> conv_out -> FETCH_OP -> output`
+`input -> FEED_OP -> feed_out -> CONV_OP -> conv_out -> FETCH_OP -> output`                    
 
-序列中大写字母的`FEED_OP`, `CONV_OP`, `FETCH_OP` 为模型中的OP， 小写字母的`input`，`feed_out`，`output` 为模型中的变量。
+序列中大写字母的`FEED_OP`, `CONV_OP`, `FETCH_OP` 为模型中的OP， 小写字母的`input`，`feed_out`，`output` 为模型中的变量。                      
 
-ZeroCopy模式下：
+在ZeroCopy模式下，我们通过`predictor.get_input_tensor(input_names[0])`获取的模型输入为`FEED_OP`的输出， 即`feed_out`，我们通过`predictor.get_output_tensor(output_names[0])`接口获取的模型输出为`FETCH_OP`的输入，即`conv_out`，这种情况下，我们在运行期间就没有必要运行feed和fetch OP了，因此需要设置`config.switch_use_feed_fetch_ops(False)`来关闭feed和fetch op。
 
-- 通过`predictor.get_input_tensor(input_names[0])`获取模型输入为`FEED_OP`的输出， 即`feed_out`。
-- 通过`predictor.get_output_tensor(output_names[0])`接口获取的模型的输出为`FETCH_OP`的输入，即`conv_out`。
-
-ZeroCopy的方式避免了`input->FEED_OP` 以及 `FETCH_OP->output` 的copy，从而能加速推理性能，对小的模型效果加速明显。
 
 ### 2. 可选配置
  
@@ -124,6 +125,7 @@ config.enable_tensorrt_engine(1 << 30,    # workspace_size
                         	 )
 ```
 通过计算图分析，Paddle可以自动将计算图中部分子图融合，并调用NVIDIA的 TensorRT 来进行加速。
+使用Paddle-TensorRT 预测的完整方法可以参考[这里](../optimize/paddle_trt.md)。
 
 
 #### c. 内存/显存优化
@@ -208,4 +210,4 @@ output_data = output_tensor.copy_to_cpu()
 
 ## 下一步
 
-看到这里您是否已经对 Paddle Inference 的 Python API 使用有所了解了呢？请访问[这里]()进行样例测试。
+看到这里您是否已经对 Paddle Inference 的 Python API 使用有所了解了呢？请访问[这里](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python)进行样例测试。
