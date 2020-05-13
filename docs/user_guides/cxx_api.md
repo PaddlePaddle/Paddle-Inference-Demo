@@ -1,7 +1,7 @@
 # 使用C++API
 为了简单方便地进行推理部署，飞桨提供了一套高度优化的C++ API推理接口。下面对各主要API使用方法进行详细介绍。    
 
-在[使用流程]()一节中，我们了解到Paddle Inference预测包含了以下几个方面：
+在[使用流程](./tutorial)一节中，我们了解到Paddle Inference预测包含了以下几个方面：
 
 - 配置推理选项
 - 创建predictor
@@ -66,26 +66,29 @@ AnalysisConfig管理AnalysisPredictor的推理配置，提供了模型路径设�
 
 * non-combined形式：模型文件夹`model_dir`下存在一个模型文件和多个参数文件时，传入模型文件夹路径，模型文件名默认为`__model__`。 使用方式为：`config->SetModel("./model_dir");`。
 * combined形式：模型文件夹`model_dir`下只有一个模型文件`model`和一个参数文件`params`时，传入模型文件和参数文件路径。使用方式为：`config->SetModel("./model_dir/model", "./model_dir/params");`。
-* 内存加载模式：如果模型是从内存加载，可以使用`config->SetModelBuffer(model.data(), model.size(), params.data(), params.size())`。	
+* 内存加载模式：如果模型是从内存加载(模型必须为combined形式)，可以使用
 
-关于`non-combined` 以及 `combined`模型介绍，请参照[这里]()。
+	```c++
+	std::ifstream in_m(FLAGS_dirname + "/model");
+	std::ifstream in_p(FLAGS_dirname + "/params");
+	std::ostringstream os_model, os_param;
+	os_model << in_m.rdbuf();
+	os_param << in_p.rdbuf();
+	config.SetModelBuffer(os_model.str().data(), os_model.str().size(), os_param.str().data(), os_param.str().size());
+	```
+
+Paddle Inference有两种格式的模型，分别为`non-combined` 以及 `combined`。这两种类型我们在[Quick Start](introduction/quick_start)一节中提到过，忘记的同学可以回顾下。
 
 **b. 关闭Feed，Fetch op** 
 `config->SwitchUseFeedFetchOps(false);  // 关闭feed和fetch OP使用，使用ZeroCopy接口必须设置此项`
 
 我们用一个小的例子来说明我们为什么要关掉它们。  
-
 假设我们有一个模型，模型运行的序列为:
-`input -> FEED_OP -> feed_out -> CONV_OP -> conv_out -> FETCH_OP -> output`
+`input -> FEED_OP -> feed_out -> CONV_OP -> conv_out -> FETCH_OP -> output`                    
 
-序列中大些字母的`FEED_OP`, `CONV_OP`, `FETCH_OP` 为模型中的OP， 小写字母的`input`，`feed_out`，`output` 为模型中的变量。
+序列中大些字母的`FEED_OP`, `CONV_OP`, `FETCH_OP` 为模型中的OP， 小写字母的`input`，`feed_out`，`output` 为模型中的变量。                      
 
-ZeroCopy模式下：
-
-- 通过`predictor->GetInputTensor(input_names[0])`获取模型输入为`FEED_OP`的输出， 即`feed_out`。
-- 通过`predictor->GetOutputTensor(output_names[0])`接口获取的模型的输出为`FETCH_OP`的输入，即`conv_out`。
-
-ZeroCopy的方式避免了`input->FEED_OP` 以及 `FETCH_OP->output` 的copy，从而能加速推理性能（对小的模型效果加速明显）。
+在ZeroCopy模式下，我们通过`predictor->GetInputTensor(input_names[0])`获取的模型输入为`FEED_OP`的输出， 即`feed_out`，我们通过`predictor->GetOutputTensor(output_names[0])`接口获取的模型输出为`FETCH_OP`的输入，即`conv_out`，这种情况下，我们在运行期间就没有必要运行feed和fetch OP了，因此需要设置`config->SwitchUseFeedFetchOps(false)`来关闭feed和fetch op。
 
 
 #### 2. 可选配置
@@ -109,7 +112,7 @@ config->SetCpuMathLibraryNumThreads(10);
 config->EnableUseGpu(100, 0); 
 ```
 
-如果使用的预测lib带Paddle-TRT子图功能，可以打开TRT选项进行加速： 
+如果使用的预测lib带Paddle-TRT子图功能，可以打开TRT选项进行加速, 详细的请访问[Paddle-TensorRT文档](../optimize/paddle_trt)： 
 
 ```
 // 开启TensorRT推理，可提升GPU推理性能，需要使用带TensorRT的推理库
@@ -222,7 +225,6 @@ int output_size;
 float *output_d = output_t->data<float>(PaddlePlace::kGPU, &output_size);
 ```
 
-
 ### 下一步
 
-看到这里您是否已经对Paddle Inference的C++使用有所了解了呢？请访问[这里]()进行样例测试。
+看到这里您是否已经对Paddle Inference的C++使用有所了解了呢？请访问[这里](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B)进行样例测试。

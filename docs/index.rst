@@ -23,7 +23,6 @@ Welcome to Paddle-Inference's documentation!
   user_guides/inference_python_api
   user_guides/source_compile
   user_guides/cxx_api
-  user_guides/x2paddle
 
 .. toctree::
   :maxdepth: 1
@@ -31,6 +30,15 @@ Welcome to Paddle-Inference's documentation!
   :name: sec-optimize
   
   optimize/paddle_trt
+
+.. toctree::
+  :maxdepth: 1
+  :caption: 工具 
+  :name: sec-tools
+  
+  tools/visual
+  tools/x2paddle
+
   
 .. toctree::
   :maxdepth: 1
