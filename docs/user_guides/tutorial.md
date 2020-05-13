@@ -3,13 +3,45 @@
 ### 一： 模型准备
 Paddle Inference目前支持的模型结构为PaddlePaddle深度学习框架产出的模型格式。因此，在您开始使用 Paddle Inference框架前您需要准备一个由PaddlePaddle框架保存的模型。 如果您手中的模型是由诸如Caffe2、Tensorflow等框架产出的，那么我们推荐您使用 X2Paddle 工具进行模型格式转换。
 
-
 ### 二： 环境准备
 
-1） 如果您想用Paddle Inference Python API接口，请参照官方主页的引导，在您的环境中安装PaddlePaddle。
+**1） Python 环境**    
 
-2） 如果您想使用Paddle Inference C++ API 接口，请参照接下来的[预测库的编译]()页面。
+安装Python环境有以下三种方式：
 
+ a. 参照[官方主页](https://www.paddlepaddle.org.cn/)的引导进行pip安装。
+ 
+ b. 参照接下来的[预测库编译](../source_compile)页面进行自行编译。
+ 
+ c. 使用docker镜像
+ 
+	# 拉取镜像，该镜像预装Paddle 1.8 Python环境 
+	docker pull hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6
+	
+	export CUDA_SO="$(\ls /usr/lib64/libcuda* | xargs -I{} echo '-v {}:{}') $(\ls /usr/lib64/libnvidia* | xargs -I{} echo '-v {}:{}')"
+	export DEVICES=$(\ls /dev/nvidia* | xargs -I{} echo '--device {}:{}')
+	export NVIDIA_SMI="-v /usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
+	
+	docker run $CUDA_SO $DEVICES $NVIDIA_SMI --name trt_open --privileged --security-opt seccomp=unconfined --net=host -v $PWD:/paddle -it hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6 /bin/bash
+
+**2） C++ 环境**
+
+获取c++预测库有以下三种方式：
+
+a. [官网](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html#linux)下载预编译库
+
+b. 使用docker镜像
+ 
+	# 拉取镜像，在容器内主目录～/下存放c++预编译库。
+	docker pull hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6
+	
+	export CUDA_SO="$(\ls /usr/lib64/libcuda* | xargs -I{} echo '-v {}:{}') $(\ls /usr/lib64/libnvidia* | xargs -I{} echo '-v {}:{}')"
+	export DEVICES=$(\ls /dev/nvidia* | xargs -I{} echo '--device {}:{}')
+	export NVIDIA_SMI="-v /usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
+	
+	docker run $CUDA_SO $DEVICES $NVIDIA_SMI --name trt_open --privileged --security-opt seccomp=unconfined --net=host -v $PWD:/paddle -it hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6 /bin/bash
+
+c. 参照接下来的[预测库编译](../source_compile)页面进行自行编译。
 
 ### 三：使用Paddle Inference执行预测
 
