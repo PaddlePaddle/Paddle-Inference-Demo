@@ -77,7 +77,7 @@ AnalysisConfig管理AnalysisPredictor的推理配置，提供了模型路径设�
 	config.SetModelBuffer(os_model.str().data(), os_model.str().size(), os_param.str().data(), os_param.str().size());
 	```
 
-Paddle Inference有两种格式的模型，分别为`non-combined` 以及 `combined`。这两种类型我们在[Quick Start](introduction/quick_start)一节中提到过，忘记的同学可以回顾下。
+Paddle Inference有两种格式的模型，分别为`non-combined` 以及 `combined`。这两种类型我们在[Quick Start](../introduction/quick_start)一节中提到过，忘记的同学可以回顾下。
 
 **b. 关闭Feed，Fetch op** 
 `config->SwitchUseFeedFetchOps(false);  // 关闭feed和fetch OP使用，使用ZeroCopy接口必须设置此项`
