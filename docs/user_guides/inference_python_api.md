@@ -1,4 +1,4 @@
-# Python 预测 API介绍
+# 使用Python预测
 
 Paddle Inference提供了高度优化的Python 和C++ API预测接口，本篇文档主要介绍Python API，使用C++ API进行预测的文档可以参考[这里](./cxx_api.md)。
 下面是详细的使用说明。
