@@ -11,7 +11,7 @@ Paddle Inference目前支持的模型结构为PaddlePaddle深度学习框架产�
 
  a. 参照[官方主页](https://www.paddlepaddle.org.cn/)的引导进行pip安装。
  
- b. 参照接下来的[预测库编译](../source_compile)页面进行自行编译。
+ b. 参照接下来的[预测库编译](./source_compile)页面进行自行编译。
  
  c. 使用docker镜像
  
@@ -41,7 +41,7 @@ b. 使用docker镜像
 	
 	docker run $CUDA_SO $DEVICES $NVIDIA_SMI --name trt_open --privileged --security-opt seccomp=unconfined --net=host -v $PWD:/paddle -it hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6 /bin/bash
 
-c. 参照接下来的[预测库编译](../source_compile)页面进行自行编译。
+c. 参照接下来的[预测库编译](./source_compile)页面进行自行编译。
 
 ### 三：使用Paddle Inference执行预测
 
