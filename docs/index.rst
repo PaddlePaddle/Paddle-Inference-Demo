@@ -20,8 +20,8 @@ Welcome to Paddle-Inference's documentation!
   :name: sec-user-guides
   
   user_guides/tutorial
-  user_guides/inference_python_api
   user_guides/source_compile
+  user_guides/inference_python_api
   user_guides/cxx_api
 
 .. toctree::
