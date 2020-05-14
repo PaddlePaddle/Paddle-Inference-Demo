@@ -38,7 +38,6 @@ Welcome to Paddle-Inference's documentation!
   
   tools/visual
   tools/x2paddle
-
   
 .. toctree::
   :maxdepth: 1
@@ -48,10 +47,10 @@ Welcome to Paddle-Inference's documentation!
   benchmark/benchmark
   
 .. toctree::
-  :maxdepth: 1
+  :maxdepth: 2
   :caption: API文档
 
-  api_reference/cxx_api_doc
+  api/library_root
 
 .. toctree::
   :maxdepth: 1
