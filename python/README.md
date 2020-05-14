@@ -1,6 +1,6 @@
 # Python 预测样例
 
-**如果您看到这个目录，我们会假设您已经对Paddle Inference有了一定的了解。如果您刚刚接触Paddle Inference不久，建议您[访问这里]()对Paddle Inference做一个初步的认识。**
+**如果您看到这个目录，我们会假设您已经对Paddle Inference有了一定的了解。如果您刚刚接触Paddle Inference不久，建议您[访问这里](https://paddle-inference.readthedocs.io/en/latest/#)对Paddle Inference做一个初步的认识。**
 
 在这个目录下，我们为大家准备了图像中使用的分类，检测，以及NLP使用Ernie/Bert模型等Python测试样例。
 
