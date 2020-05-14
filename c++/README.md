@@ -2,7 +2,7 @@
 
 **如果您看到这个目录，我们会假设您已经对Paddle Inference有了一定的了解。**
 
-**如果您刚刚接触Paddle Inference不久，建议您[访问这里]()对Paddle Inference做一个初步的认识。**
+**如果您刚刚接触Paddle Inference不久，建议您[访问这里](https://paddle-inference.readthedocs.io/en/latest/#)对Paddle Inference做一个初步的认识。**
 
 这个目录包含了图像中使用的分类，检测，以及NLP中Ernie/Bert模型测试样例，同时也包含了Paddle-TRT，多线程等测试样例。
 
