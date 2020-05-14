@@ -3,3 +3,5 @@
 *.DS_Store
 ._*
 docs/_build/
+docs/api/
+docs/doxyoutput/
