@@ -165,7 +165,11 @@ print (output_data)
 
 <h2 align="left">相关链接</h2>
 
-Python API 使用介绍   
-C++ API使用介绍  
-Paddle Inference使用样例
+[Python API 使用介绍](../user_guides/inference_python_api)
+
+[C++ API使用介绍](../user_guides/cxx_api)
+
+[Python 使用样例](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python)
+
+[C++ 使用样例](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B)
 

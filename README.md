@@ -10,7 +10,7 @@ Paddle Inference为飞桨核心框架推理引擎。Paddle Inference功能特性
 
 **在这个repo中我们会假设您已经对Paddle Inference有了一定的了解。**
 
-**如果您刚刚接触Paddle Inference不久，建议您[访问这里](http://10.162.69.147:8082/test/infer_py_sample/docs/_build/html/)对Paddle Inference做一个初步的认识。**
+**如果您刚刚接触Paddle Inference不久，建议您[访问这里](https://paddle-inference.readthedocs.io/en/latest/index.html)对Paddle Inference做一个初步的认识。**
 
 
 ## 测试样例
