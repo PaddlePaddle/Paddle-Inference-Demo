@@ -1,4 +1,4 @@
-breathe==3.0.0
+breathe==4.18.1
 sphinx==3.0.3
 recommonmark
 sphinx_markdown_tables==0.0.14
