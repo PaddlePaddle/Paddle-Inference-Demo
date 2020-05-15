@@ -34,18 +34,18 @@ Paddle Inference提供了高度优化的Python 和C++ API预测接口，本篇�
 			input_tensor.reshape(data[i].shape)
 			input_tensor.copy_from_cpu(data[i].copy())
 
-	# 执行模型推理
-	predictor.zero_copy_run()
+		# 执行模型推理
+		predictor.zero_copy_run()
 
-	results = []
-	# 获取模型输出
-	output_names = predictor.get_output_names()
-	for i, name in enumerate(output_names):
-		output_tensor = predictor.get_output_tensor(name)
-		output_data = output_tensor.copy_to_cpu()
-		results.append(output_data)
+		results = []
+		# 获取模型输出
+		output_names = predictor.get_output_names()
+		for i, name in enumerate(output_names):
+			output_tensor = predictor.get_output_tensor(name)
+			output_data = output_tensor.copy_to_cpu()
+			results.append(output_data)
 
-	return results
+		return results
 
 
 以上的程序中 **create_predictor** 函数对推理过程进行了配置以及创建了Predictor。 **run** 函数进行了输入数据的准备、模型推理以及输出数据的获取过程。
