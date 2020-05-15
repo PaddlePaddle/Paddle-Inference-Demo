@@ -140,22 +140,24 @@ make inference_lib_dist -j4
 
 以下介绍的编译方法都是通用步骤，根据环境对应修改cmake选项即可。
 
-|选项|说明|默认值|
-|:--:|:--:|:--:|
-|WITH_GPU|是否支持 GPU|ON|
-|WITH_AVX|是否编译含有 AVX 指令集的飞桨二进制文件|ON|
-|WITH_PYTHON|是否内嵌 PYTHON 解释器并编译 Wheel 安装包 |ON|
-|WITH_TESTING|是否开启单元测试|OFF|
-|WITH_MKL|是否使用 MKL 数学库，如果为否，将使用 OpenBLAS|ON|
-|WITH_SYSTEM_BLAS|是否使用系统自带的 BLAS|OFF|
-|WITH_DISTRIBUTE|是否编译带有分布式的版本|OFF|
-|WITH_BRPC_RDMA|是否使用 BRPC RDMA 作为 RPC 协议|OFF|
-|ON_INFER|是否打开预测优化|OFF|
-|CUDA_ARCH_NAME|是否只针对当前 CUDA 架构编译| All: 编译所有可支持的 CUDA 架构；Auto: 自动识别当前环境的架构编译|  
-|TENSORRT_ROOT|TensorRT lib的路径，该路径指定后会编译TRT子图功能 eg: /paddle/nvidia/TensorRT/ | /usr | 
+================  ============================================================================  =============================================================
+      选项                                            说明                                                                 默认值
+================  ============================================================================  =============================================================
+WITH_GPU          是否支持GPU                                                                   ON
+WITH_AVX          是否编译含有AVX指令集的飞桨二进制文件                                         ON
+WITH_PYTHON       是否内嵌PYTHON解释器并编译Wheel安装包                                         ON
+WITH_TESTING      是否开启单元测试                                                              OFF
+WITH_MKL          是否使用MKL数学库，如果为否，将使用OpenBLAS                                   ON
+WITH_SYSTEM_BLAS  是否使用系统自带的BLAS                                                        OFF
+WITH_DISTRIBUTE   是否编译带有分布式的版本                                                      OFF
+WITH_BRPC_RDMA    是否使用BRPC,RDMA作为RPC协议                                                  OFF
+ON_INFER          是否打开预测优化                                                              OFF
+CUDA_ARCH_NAME    是否只针对当前CUDA架构编译                                                    All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译
+TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/  /usr
+================  ============================================================================  =============================================================
 
-
-## 基于Windows 10 
+基于Windows 10 
+-------------------
 
 **一：环境准备**
 
@@ -193,19 +195,21 @@ make inference_lib_dist -j4
 
 **cmake编译环境表**
 
-|选项|说明|默认值|
-|:--:|:--:|:--:|
-|WITH_GPU|是否支持 GPU|ON|
-|WITH_AVX|是否编译含有 AVX 指令集的飞桨二进制文件|ON|
-|WITH_PYTHON|是否内嵌 PYTHON 解释器并编译 Wheel 安装包 |ON|
-|`WITH_TESTING`|是否开启单元测试|OFF|
-|`WITH_MKL`|是否使用 MKL 数学库，如果为否，将使用 OpenBLAS|ON|
-|`WITH_SYSTEM_BLAS`|是否使用系统自带的 BLAS|OFF|
-|`WITH_DISTRIBUTE`|是否编译带有分布式的版本|OFF|
-|`WITH_BRPC_RDMA`|是否使用 BRPC RDMA 作为 RPC 协议|OFF|
-|`ON_INFER`|是否打开预测优化|OFF|
-|`CUDA_ARCH_NAM`E|是否只针对当前 CUDA 架构编译| All: 编译所有可支持的 CUDA 架构；Auto: 自动识别当前环境的架构编译|  
-|TENSORRT_ROOT|TensorRT lib的路径，该路径指定后会编译TRT子图功能 eg: /paddle/nvidia/TensorRT/ | /  | 
+================  ============================================================================  =============================================================
+      选项                                            说明                                                                 默认值
+================  ============================================================================  =============================================================
+WITH_GPU          是否支持GPU                                                                   ON
+WITH_AVX          是否编译含有AVX指令集的飞桨二进制文件                                         ON
+WITH_PYTHON       是否内嵌PYTHON解释器并编译Wheel安装包                                         ON
+WITH_TESTING      是否开启单元测试                                                              OFF
+WITH_MKL          是否使用MKL数学库，如果为否，将使用OpenBLAS                                   ON
+WITH_SYSTEM_BLAS  是否使用系统自带的BLAS                                                        OFF
+WITH_DISTRIBUTE   是否编译带有分布式的版本                                                      OFF
+WITH_BRPC_RDMA    是否使用BRPC,RDMA作为RPC协议                                                  OFF
+ON_INFER          是否打开预测优化                                                              OFF
+CUDA_ARCH_NAME    是否只针对当前CUDA架构编译                                                    All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译
+TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/  /usr
+================  ============================================================================  =============================================================
 
 **结果验证**
 
