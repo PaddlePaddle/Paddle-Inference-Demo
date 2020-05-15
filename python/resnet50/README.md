@@ -29,7 +29,7 @@
 ### 三：运行预测
 
 文件`img_preprocess.py`包含了图像的预处理。    
-文件`infer_resnet.py` 包含了创建predictor，读取事例图片，预测，获取输出的等功能。   
+文件`infer_resnet.py` 包含了创建predictor，读取示例图片，预测，获取输出的等功能。
 
 运行：
 ```
