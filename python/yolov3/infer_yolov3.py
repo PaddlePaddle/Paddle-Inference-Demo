@@ -1,8 +1,12 @@
 import numpy as np
 import argparse
+import cv2
+from PIL import Image
 
 from paddle.fluid.core import AnalysisConfig
 from paddle.fluid.core import create_paddle_predictor
+
+from utils import preprocess, draw_bbox
 
 def create_predictor(args):
    if args.model_dir is not "":
@@ -54,10 +58,13 @@ def parse_args():
 
 if __name__ == '__main__':
   args = parse_args()
+  img_name = 'ILSVRC2012_val_00000247.jpeg'
+  save_img_name = 'res.jpg'
+  im_size = 608
   pred = create_predictor(args) 
-  data = np.ones((1, 3, 608, 608)).astype(np.float32)
-  im_shape = np.array([608, 608]).reshape((1,2)).astype(np.int32)
-  result = run(pred, [data, im_shape]) 
-
-  print (result[0])
-
+  img = cv2.imread(img_name)
+  data = preprocess(img, im_size)
+  im_shape = np.array([im_size, im_size]).reshape((1,2)).astype(np.int32)
+  result = run(pred, [data, im_shape])
+  img = Image.open(img_name).convert('RGB').resize((im_size, im_size))
+  draw_bbox(img, result[0], save_name=save_img_name)
