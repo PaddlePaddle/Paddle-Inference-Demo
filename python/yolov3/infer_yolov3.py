@@ -58,7 +58,7 @@ def parse_args():
 
 if __name__ == '__main__':
   args = parse_args()
-  img_name = 'ILSVRC2012_val_00000247.jpeg'
+  img_name = 'kite.jpg'
   save_img_name = 'res.jpg'
   im_size = 608
   pred = create_predictor(args) 
