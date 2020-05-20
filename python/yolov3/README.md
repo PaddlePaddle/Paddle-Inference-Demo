@@ -39,22 +39,22 @@ python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yol
 输出结果如下所示：
 
 ```
-('category id is ', 0.0, ', bbox is ', array([ 98.47467, 471.34283, 120.73273, 578.5184 ], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([ 51.752716, 415.51324 ,  73.18762 , 515.24005 ], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([ 37.176304, 343.378   ,  46.64221 , 380.92963 ], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([155.78638, 328.0806 , 159.5393 , 339.37192], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([233.86328, 339.96912, 239.35403, 355.3322 ], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([ 16.212902, 344.42365 ,  25.193722, 377.97137 ], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([ 10.583471, 356.67862 ,  14.9261  , 372.8137  ], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([ 79.76479, 364.19492,  86.07656, 385.64255], dtype=float32))
-('category id is ', 0.0, ', bbox is ', array([312.8938 , 311.9908 , 314.58527, 316.60056], dtype=float32))
-('category id is ', 33.0, ', bbox is ', array([266.97925 ,  51.70044 , 299.45105 ,  99.996414], dtype=float32))
-('category id is ', 33.0, ', bbox is ', array([210.45593, 229.92128, 217.77551, 240.97136], dtype=float32))
-('category id is ', 33.0, ', bbox is ', array([125.36278, 159.80171, 135.49306, 189.8976 ], dtype=float32))
-('category id is ', 33.0, ', bbox is ', array([486.9354 , 266.164  , 494.4437 , 283.84637], dtype=float32))
-('category id is ', 33.0, ', bbox is ', array([259.01584, 232.23044, 270.69266, 248.58704], dtype=float32))
-('category id is ', 33.0, ', bbox is ', array([135.60567, 254.57668, 144.96178, 276.9275 ], dtype=float32))
-('category id is ', 33.0, ', bbox is ', array([341.91315, 255.44394, 345.0335 , 262.3398 ], dtype=float32))
+category id is 0.0, bbox is [ 98.47467 471.34283 120.73273 578.5184 ]
+category id is 0.0, bbox is [ 51.752716 415.51324   73.18762  515.24005 ]
+category id is 0.0, bbox is [ 37.176304 343.378     46.64221  380.92963 ]
+category id is 0.0, bbox is [155.78638 328.0806  159.5393  339.37192]
+category id is 0.0, bbox is [233.86328 339.96912 239.35403 355.3322 ]
+category id is 0.0, bbox is [ 16.212902 344.42365   25.193722 377.97137 ]
+category id is 0.0, bbox is [ 10.583471 356.67862   14.9261   372.8137  ]
+category id is 0.0, bbox is [ 79.76479 364.19492  86.07656 385.64255]
+category id is 0.0, bbox is [312.8938  311.9908  314.58527 316.60056]
+category id is 33.0, bbox is [266.97925   51.70044  299.45105   99.996414]
+category id is 33.0, bbox is [210.45593 229.92128 217.77551 240.97136]
+category id is 33.0, bbox is [125.36278 159.80171 135.49306 189.8976 ]
+category id is 33.0, bbox is [486.9354  266.164   494.4437  283.84637]
+category id is 33.0, bbox is [259.01584 232.23044 270.69266 248.58704]
+category id is 33.0, bbox is [135.60567 254.57668 144.96178 276.9275 ]
+category id is 33.0, bbox is [341.91315 255.44394 345.0335  262.3398 ]
 ```
 
 <p align="left">

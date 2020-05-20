@@ -44,5 +44,5 @@ def draw_bbox(img, result, threshold=0.5, save_name='res.jpg'):
              (xmin, ymin)],
             width=2,
             fill=(255, 0, 0))
-        print('category id is ', cat_id, ', bbox is ', bbox)
+        print('category id is {}, bbox is {}'.format(cat_id, bbox))
     img.save(save_name, quality=95)
