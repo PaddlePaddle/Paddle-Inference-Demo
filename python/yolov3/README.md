@@ -16,12 +16,12 @@
 
 2）**获取预测样例图片**
 
-下载[样例图片](https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ILSVRC2012_val_00000247.jpeg)。
+下载[样例图片](https://paddle-inference-dist.bj.bcebos.com/inference_demo/images/kite.jpg)。
 
 图片如下：
 <p align="left">
     <br>
-<img src='https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ILSVRC2012_val_00000247.jpeg' width = "200" height = "200">
+<img src='https://paddle-inference-dist.bj.bcebos.com/inference_demo/images/kite.jpg' width = "200" height = "200">
     <br>
 <p>
 
@@ -36,8 +36,33 @@
 python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --use_gpu=1
 ```
 
-运行的结果为： ('category id is ', 14.0, ', bbox is ', array([120.713684, 118.58473 , 420.50403 , 558.6027  ], dtype=float32))。
-14表示图片的类别。我们通过imagenet [类别映射表](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a)， 可以找到对应的类别，bbox则为检测到的物体框，该示例会将物体框画到图像上并存储res.jpg文件到本地目录。
+输出结果如下所示：
+
+```
+('category id is ', 0.0, ', bbox is ', array([ 98.47467, 471.34283, 120.73273, 578.5184 ], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([ 51.752716, 415.51324 ,  73.18762 , 515.24005 ], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([ 37.176304, 343.378   ,  46.64221 , 380.92963 ], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([155.78638, 328.0806 , 159.5393 , 339.37192], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([233.86328, 339.96912, 239.35403, 355.3322 ], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([ 16.212902, 344.42365 ,  25.193722, 377.97137 ], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([ 10.583471, 356.67862 ,  14.9261  , 372.8137  ], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([ 79.76479, 364.19492,  86.07656, 385.64255], dtype=float32))
+('category id is ', 0.0, ', bbox is ', array([312.8938 , 311.9908 , 314.58527, 316.60056], dtype=float32))
+('category id is ', 33.0, ', bbox is ', array([266.97925 ,  51.70044 , 299.45105 ,  99.996414], dtype=float32))
+('category id is ', 33.0, ', bbox is ', array([210.45593, 229.92128, 217.77551, 240.97136], dtype=float32))
+('category id is ', 33.0, ', bbox is ', array([125.36278, 159.80171, 135.49306, 189.8976 ], dtype=float32))
+('category id is ', 33.0, ', bbox is ', array([486.9354 , 266.164  , 494.4437 , 283.84637], dtype=float32))
+('category id is ', 33.0, ', bbox is ', array([259.01584, 232.23044, 270.69266, 248.58704], dtype=float32))
+('category id is ', 33.0, ', bbox is ', array([135.60567, 254.57668, 144.96178, 276.9275 ], dtype=float32))
+('category id is ', 33.0, ', bbox is ', array([341.91315, 255.44394, 345.0335 , 262.3398 ], dtype=float32))
+```
+
+<p align="left">
+    <br>
+<img src='https://paddle-inference-dist.bj.bcebos.com/inference_demo/images/kite_res.jpg' width = "200" height = "200">
+    <br>
+<p>
+
 
 ### 相关链接
 - [Paddle Inference使用Quick Start！]()
