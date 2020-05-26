@@ -19,9 +19,9 @@ def create_predictor(args):
    if args.use_gpu:
      config.enable_use_gpu(1000, 0)
    else:
-	 # If not specific mkldnn, you can set the blas thread.
-	 # The thread num should not be greater than the number of cores in the CPU.
-	 config.set_cpu_math_library_num_threads(4)
+     # If not specific mkldnn, you can set the blas thread.
+     # The thread num should not be greater than the number of cores in the CPU.
+     config.set_cpu_math_library_num_threads(4)
      #config.enable_mkldnn()
 
    predictor = create_paddle_predictor(config)
