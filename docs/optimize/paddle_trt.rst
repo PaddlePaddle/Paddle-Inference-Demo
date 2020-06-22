@@ -256,25 +256,25 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
 
   若使用的量化模型为TRT离线量化校准产出的，需要将 **use_calib_mode** 设为 **True** ：
 
-    .. code:: python
+  .. code:: python
 
-      config.enable_tensorrt_engine(
-        workspace_size=1<<30,
-        max_batch_size=1, min_subgraph_size=5,
-        precision_mode=AnalysisConfig.Precision.Int8,
-        use_static=False, use_calib_mode=True)
+    config.enable_tensorrt_engine(
+      workspace_size=1<<30,
+      max_batch_size=1, min_subgraph_size=5,
+      precision_mode=AnalysisConfig.Precision.Int8,
+      use_static=False, use_calib_mode=True)
 
   完整demo请参考【这里】
   
   若使用的量化模型为PaddleSlim量化产出的，需要将 **use_calib_mode** 设为 **False** ：
 
-    .. code:: python
+  .. code:: python
 
-      config.enable_tensorrt_engine(
-        workspace_size=1<<30,
-        max_batch_size=1, min_subgraph_size=5,
-        precision_mode=AnalysisConfig.Precision.Int8,
-        use_static=False, use_calib_mode=False)
+    config.enable_tensorrt_engine(
+      workspace_size=1<<30,
+      max_batch_size=1, min_subgraph_size=5,
+      precision_mode=AnalysisConfig.Precision.Int8,
+      use_static=False, use_calib_mode=False)
 
   之后按照使用Paddle-TensorRT的正常流程预测即可。完整demo请参考【这里】
 
