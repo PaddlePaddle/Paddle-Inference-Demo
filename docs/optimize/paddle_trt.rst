@@ -225,7 +225,7 @@ Int8量化预测
 
 a. 使用TensorRT自带Int8离线量化校准功能。校准即基于训练好的FP32模型和少量校准数据（如500～1000张图片）生成校准表（Calibration table），预测时，加载FP32模型和此校准表即可使用Int8精度预测。生成校准表的方法如下：
 
-  - 指定TensorRT配置时，将**precision_mode** 设置为 **AnalysisConfig.Precision.Int8** 并且设置 **use_calib_mode** 为**True**。
+  - 指定TensorRT配置时，将 **precision_mode** 设置为 **AnalysisConfig.Precision.Int8** 并且设置 **use_calib_mode** 为 **True**。
 
     .. code:: python
 
@@ -237,7 +237,7 @@ a. 使用TensorRT自带Int8离线量化校准功能。校准即基于训练好�
 
   - 准备500张左右的真实输入数据，在上述配置下，运行模型。（Paddle-TRT会统计模型中每个tensor值的范围信息，并将其记录到校准表中，运行结束后，会将校准表写入模型目录下的 `_opt_cache` 目录中）
 
-  如果想要了解使用TensorRT自带Int8离线量化校准功能生成校准表的完整代码，请参考【这里】的demo。
+  如果想要了解使用TensorRT自带Int8离线量化校准功能生成校准表的完整代码，请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E7%94%9F%E6%88%90%E9%87%8F%E5%8C%96%E6%A0%A1%E5%87%86%E8%A1%A8>`_ 的demo。
 
 b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离线量化和在线量化功能，其中，离线量化与TensorRT离线量化校准原理相似；在线量化又称量化训练(Quantization Aware Training, QAT)，是基于较多数据（如>=5000张图片）对预训练模型进行重新训练，使用模拟量化的思想，在训练阶段更新权重，实现减小量化误差的方法。使用PaddleSlim产出量化模型可以参考文档：
   
@@ -264,7 +264,7 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
       precision_mode=AnalysisConfig.Precision.Int8,
       use_static=False, use_calib_mode=True)
 
-  完整demo请参考【这里】
+  完整demo请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E5%8A%A0%E8%BD%BD%E6%A0%A1%E5%87%86%E8%A1%A8%E6%89%A7%E8%A1%8Cint8%E9%A2%84%E6%B5%8B>`_ 。
   
   若使用的量化模型为PaddleSlim量化产出的，需要将 **use_calib_mode** 设为 **False** ：
 
@@ -276,7 +276,7 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
       precision_mode=AnalysisConfig.Precision.Int8,
       use_static=False, use_calib_mode=False)
 
-  之后按照使用Paddle-TensorRT的正常流程预测即可。完整demo请参考【这里】
+  完整demo请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E4%B8%89%E4%BD%BF%E7%94%A8trt-%E5%8A%A0%E8%BD%BDpaddleslim-int8%E9%87%8F%E5%8C%96%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B>`_ 。
 
 运行Dynamic shape
 >>>>>>>>>>>>>>
@@ -313,8 +313,8 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
 
 我们在github上提供了使用TRT子图预测的更多样例：
 
-- Python 样例请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/paddle_trt>`_
-- C++ 样例地址请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B>`_
+- Python 样例请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/paddle_trt>`_ 。
+- C++ 样例地址请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B>`_ 。
 
 四：Paddle-TRT子图运行原理
 ---------------

@@ -33,7 +33,7 @@ std::unique_ptr<paddle::PaddlePredictor> CreatePredictor() {
                     FLAGS_params_file);
   }
   config.EnableUseGpu(500, 0);
-  // We use ZeroCopy, so we set config.SwitchUseFeedFetchOps(false)
+  // We use ZeroCopy, so we set config.SwitchUseFeedFetchOps(false) here.
   config.SwitchUseFeedFetchOps(false);
   config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5, AnalysisConfig::Precision::kFloat32, false, false);
   return CreatePaddlePredictor(config);
@@ -61,7 +61,7 @@ void run(paddle::PaddlePredictor *predictor,
   out_data->resize(out_num);
   output_t->copy_to_cpu(out_data->data());
 }
-
+ 
 int main(int argc, char* argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = CreatePredictor();
@@ -70,9 +70,9 @@ int main(int argc, char* argv[]) {
   std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224, 1.0); 
   std::vector<float> out_data;
   run(predictor.get(), input_data, input_shape, &out_data);
-  
-  for (auto e : out_data) {
-    LOG(INFO) << e << std::endl;
+  // Print first 20 outputs
+  for (int i = 0; i < 20; i++) {
+    LOG(INFO) << out_data[i] << std::endl;
   }
   return 0;
 }
