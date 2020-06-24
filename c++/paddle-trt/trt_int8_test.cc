@@ -10,11 +10,11 @@
 
 using paddle::AnalysisConfig;
 
-DEFINE_string(model_file, "", "Directory of the inference model.");
-DEFINE_string(params_file, "", "Directory of the inference model.");
+DEFINE_string(model_file, "", "Path of the inference model file.");
+DEFINE_string(params_file, "", "Path of the inference params file.");
 DEFINE_string(model_dir, "", "Directory of the inference model.");
-DEFINE_int32(batch_size, 1, "Directory of the inference model.");
-DEFINE_bool(use_calib, true, "Directory of the inference model.");
+DEFINE_int32(batch_size, 1, "Batch size.");
+DEFINE_bool(use_calib, true, "Whether to use calib. Set to true if you are using TRT calibration; Set to false if you are using PaddleSlim quant models.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -29,16 +29,14 @@ std::unique_ptr<paddle::PaddlePredictor> CreatePredictor() {
   AnalysisConfig config;
   if (FLAGS_model_dir != "") {
     config.SetModel(FLAGS_model_dir);
+  } else {
+    config.SetModel(FLAGS_model_file,
+                    FLAGS_params_file);
   }
-  config.SetModel(FLAGS_model_file,
-                     FLAGS_params_file);
-  config.EnableUseGpu(1000, 0);
-  // We use ZeroCopy, so we set config->SwitchUseFeedFetchOps(false)
+  config.EnableUseGpu(500, 0);
+  // We use ZeroCopy, so we set config.SwitchUseFeedFetchOps(false) here.
   config.SwitchUseFeedFetchOps(false);
-  config.EnableMKLDNN();
-
-  // Open the memory optim.
-  config.EnableMemoryOptim();
+  config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5, AnalysisConfig::Precision::kInt8, false, FLAGS_use_calib);
   return CreatePaddlePredictor(config);
 }
 
@@ -64,18 +62,18 @@ void run(paddle::PaddlePredictor *predictor,
   out_data->resize(out_num);
   output_t->copy_to_cpu(out_data->data());
 }
-
+ 
 int main(int argc, char* argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = CreatePredictor();
   std::vector<int> input_shape = {FLAGS_batch_size, 3, 224, 224}; 
-  // init 0 for the input. 
-  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224, 0); 
+  // Init input as 1.0 here for example. You can also load preprocessed real pictures to vectors as input.
+  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224, 1.0); 
   std::vector<float> out_data;
   run(predictor.get(), input_data, input_shape, &out_data);
-  
-  for (auto e : out_data) {
-    LOG(INFO) << e << std::endl;
+  // Print first 20 outputs
+  for (int i = 0; i < 20; i++) {
+    LOG(INFO) << out_data[i] << std::endl;
   }
   return 0;
 }
