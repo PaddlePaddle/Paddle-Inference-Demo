@@ -210,26 +210,74 @@ Calib Int8: |uncheck|
 - **workspace_size**，类型：int，默认值为1 << 30 （1G）。指定TensorRT使用的工作空间大小，TensorRT会在该大小限制下筛选最优的kernel执行预测运算。
 - **max_batch_size**，类型：int，默认值为1。需要提前设置最大的batch大小，运行时batch大小不得超过此限定值。
 - **min_subgraph_size**，类型：int，默认值为3。Paddle-TRT是以子图的形式运行，为了避免性能损失，当子图内部节点个数大于 min_subgraph_size 的时候，才会使用Paddle-TRT运行。
-- **precision_mode**，类型：**AnalysisConfig.Precision**, 默认值为 **AnalysisConfig.Precision.Float32**。指定使用TRT的精度，支持FP32（Float32），FP16（Half），Int8（Int8）。若需要使用Paddle-TRT int8离线量化校准，需设定precision为 **AnalysisConfig.Precision.Int8** , 且设置 **use_calib_mode** 为true。
-- **use_static**，类型：bool, 默认值为false。如果指定为true，在初次运行程序的时候会将TRT的优化信息进行序列化到磁盘上，下次运行时直接加载优化的序列化信息而不需要重新生成。
-- **use_calib_mode**，类型：bool, 默认值为false。若要运行Paddle-TRT int8离线量化校准，需要将此选项设置为true。
+- **precision_mode**，类型：**AnalysisConfig.Precision**, 默认值为 **AnalysisConfig.Precision.Float32**。指定使用TRT的精度，支持FP32（Float32），FP16（Half），Int8（Int8）。若需要使用Paddle-TRT int8离线量化校准，需设定precision为 **AnalysisConfig.Precision.Int8** , 且设置 **use_calib_mode** 为True。
+- **use_static**，类型：bool, 默认值为False。如果指定为True，在初次运行程序的时候会将TRT的优化信息进行序列化到磁盘上，下次运行时直接加载优化的序列化信息而不需要重新生成。
+- **use_calib_mode**，类型：bool, 默认值为False。若要运行Paddle-TRT int8离线量化校准，需要将此选项设置为True。
 
-运行INT8
+Int8量化预测
 >>>>>>>>>>>>>>
 
-神经网络的参数在一定程度上是冗余的，在很多任务上，我们可以在保证模型精度的前提下，将Float32的模型转换成Int8的模型。目前，Paddle-TRT支持离线将预训练好的Float32模型转换成Int8的模型，具体的流程如下：
+神经网络的参数在一定程度上是冗余的，在很多任务上，我们可以在保证模型精度的前提下，将Float32的模型转换成Int8的模型，从而达到减小计算量降低运算耗时、降低计算内存、降低模型大小的目的。使用Int8量化预测的流程可以分为两步：1）产出量化模型；2）加载量化模型进行Int8预测。下面我们对使用Paddle-TRT进行Int8量化预测的完整流程进行详细介绍。
 
-**1. 生成校准表** （Calibration table）：
+**1. 产出量化模型**
 
-a. 指定TensorRT配置时，将precision_mode 设置为 **AnalysisConfig.Precision.Int8** 并且设置 **use_calib_mode** 为true。      
+目前，我们支持通过两种方式产出量化模型：
 
-b. 准备500张左右的真实输入数据，在上述配置下，运行模型。（Paddle-TRT会统计模型中每个tensor值的范围信息，并将其记录到校准表中，运行结束后，会将校准表写入模型目录下的 `_opt_cache` 目录中）
+a. 使用TensorRT自带Int8离线量化校准功能。校准即基于训练好的FP32模型和少量校准数据（如500～1000张图片）生成校准表（Calibration table），预测时，加载FP32模型和此校准表即可使用Int8精度预测。生成校准表的方法如下：
+
+  - 指定TensorRT配置时，将 **precision_mode** 设置为 **AnalysisConfig.Precision.Int8** 并且设置 **use_calib_mode** 为 **True**。
+
+    .. code:: python
+
+      config.enable_tensorrt_engine(
+        workspace_size=1<<30,
+        max_batch_size=1, min_subgraph_size=5,
+        precision_mode=AnalysisConfig.Precision.Int8,
+        use_static=False, use_calib_mode=True)
+
+  - 准备500张左右的真实输入数据，在上述配置下，运行模型。（Paddle-TRT会统计模型中每个tensor值的范围信息，并将其记录到校准表中，运行结束后，会将校准表写入模型目录下的 `_opt_cache` 目录中）
+
+  如果想要了解使用TensorRT自带Int8离线量化校准功能生成校准表的完整代码，请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E7%94%9F%E6%88%90%E9%87%8F%E5%8C%96%E6%A0%A1%E5%87%86%E8%A1%A8>`_ 的demo。
+
+b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离线量化和在线量化功能，其中，离线量化与TensorRT离线量化校准原理相似；在线量化又称量化训练(Quantization Aware Training, QAT)，是基于较多数据（如>=5000张图片）对预训练模型进行重新训练，使用模拟量化的思想，在训练阶段更新权重，实现减小量化误差的方法。使用PaddleSlim产出量化模型可以参考文档：
   
-**2. INT8预测**       
+  - 离线量化 `快速开始教程 <https://paddlepaddle.github.io/PaddleSlim/quick_start/quant_post_tutorial.html>`_
+  - 离线量化 `API接口说明 <https://paddlepaddle.github.io/PaddleSlim/api_cn/quantization_api.html#quant-post>`_
+  - 离线量化 `Demo <https://github.com/PaddlePaddle/PaddleSlim/tree/release/1.1.0/demo/quant/quant_post>`_
+  - 量化训练 `快速开始教程 <https://paddlepaddle.github.io/PaddleSlim/quick_start/quant_aware_tutorial.html>`_
+  - 量化训练 `API接口说明 <https://paddlepaddle.github.io/PaddleSlim/api_cn/quantization_api.html#quant-aware>`_
+  - 量化训练 `Demo <https://github.com/PaddlePaddle/PaddleSlim/tree/release/1.1.0/demo/quant/quant_aware>`_
 
-  保持1中的配置不变，再次运行模型，Paddle-TRT会从模型目录下的 `_opt_cache` 读取校准表，进行INT8 预测。
+离线量化的优点是无需重新训练，简单易用，但量化后精度可能受影响；量化训练的优点是模型精度受量化影响较小，但需要重新训练模型，使用门槛稍高。在实际使用中，我们推荐先使用TRT离线量化校准功能生成量化模型，若精度不能满足需求，再使用PaddleSlim产出量化模型。
   
+**2. 加载量化模型进行Int8预测**       
+
+  加载量化模型进行Int8预测，需要在指定TensorRT配置时，将 **precision_mode** 设置为 **AnalysisConfig.Precision.Int8** 。
+
+  若使用的量化模型为TRT离线量化校准产出的，需要将 **use_calib_mode** 设为 **True** ：
+
+  .. code:: python
+
+    config.enable_tensorrt_engine(
+      workspace_size=1<<30,
+      max_batch_size=1, min_subgraph_size=5,
+      precision_mode=AnalysisConfig.Precision.Int8,
+      use_static=False, use_calib_mode=True)
+
+  完整demo请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E5%8A%A0%E8%BD%BD%E6%A0%A1%E5%87%86%E8%A1%A8%E6%89%A7%E8%A1%8Cint8%E9%A2%84%E6%B5%8B>`_ 。
   
+  若使用的量化模型为PaddleSlim量化产出的，需要将 **use_calib_mode** 设为 **False** ：
+
+  .. code:: python
+
+    config.enable_tensorrt_engine(
+      workspace_size=1<<30,
+      max_batch_size=1, min_subgraph_size=5,
+      precision_mode=AnalysisConfig.Precision.Int8,
+      use_static=False, use_calib_mode=False)
+
+  完整demo请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E4%B8%89%E4%BD%BF%E7%94%A8trt-%E5%8A%A0%E8%BD%BDpaddleslim-int8%E9%87%8F%E5%8C%96%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B>`_ 。
+
 运行Dynamic shape
 >>>>>>>>>>>>>>
 
@@ -265,8 +313,8 @@ b. 准备500张左右的真实输入数据，在上述配置下，运行模型�
 
 我们在github上提供了使用TRT子图预测的更多样例：
 
-- Python 样例请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/paddle_trt>`_
-- C++ 样例地址请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B>`_
+- Python 样例请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/paddle_trt>`_ 。
+- C++ 样例地址请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B>`_ 。
 
 四：Paddle-TRT子图运行原理
 ---------------
