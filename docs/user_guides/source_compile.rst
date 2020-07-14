@@ -268,4 +268,4 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 
 Include目录下包括了使用飞桨预测库需要的头文件，lib目录下包括了生成的静态库和动态库，third_party目录下包括了预测库依赖的其它库文件。
 
-您可以编写应用代码，与预测库联合编译并测试结果。请参 `C++ 预测库 API 使用 <https://aistudio.baidu.com/bjcpu/user/166411/248511/notebooks/248511.ipynb?redirects=1#C++%E9%A2%84%E6%B5%8BAPI>`_ 一节。
+您可以编写应用代码，与预测库联合编译并测试结果。请参 `C++ 预测库 API 使用 <https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/native_infer.html>`_ 一节。
