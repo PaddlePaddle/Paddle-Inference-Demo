@@ -10,14 +10,14 @@
 
 1） 安装
 
-VisualDL是飞桨可视化分析工具，以丰富的图表呈现训练参数变化趋势、模型结构、数据样本、高维数据分布等。可帮助用户更清晰直观地理解深度学习模型训练过程及模型结构，进而实现高效的模型优化。
+VisualDL是飞桨可视化分析工具，以丰富的图表呈现训练参数变化趋势、模型结构、数据样本、高维数据分布等，帮助用户更清晰直观地理解深度学习模型训练过程及模型结构，实现高效的模型优化。
 我们可以进入 `GitHub主页 <https://github.com/PaddlePaddle/VisualDL#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F>`_ 进行下载安装。
 
 2）可视化
 
 `点击 <https://paddle-inference-dist.bj.bcebos.com/temp_data/sample_model/__model__>`_ 下载测试模型。
 
-两种启动方式
+支持两种启动方式：
 
 - 前端拖拽上传模型文件：
 
@@ -29,7 +29,7 @@ VisualDL是飞桨可视化分析工具，以丰富的图表呈现训练参数变
 
 - 后端透传模型文件：
 
-  - 在命令行加入参数`--model`并指定 **模型文件** 路径（非文件夹路径），即可启动：
+  - 在命令行加入参数 --model 并指定 **模型文件** 路径（非文件夹路径），即可启动：
 
 .. code:: python
 
@@ -38,7 +38,7 @@ VisualDL是飞桨可视化分析工具，以丰富的图表呈现训练参数变
 
 .. image:: https://user-images.githubusercontent.com/48054808/88621327-b664f280-d0d2-11ea-9e76-e3fcfeea4e57.png
 
-Graph功能详细使用，请见 `Graph使用指南 <https://github.com/PaddlePaddle/VisualDL/blob/develop/docs/components/README.md#Graph--%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E7%BB%84%E4%BB%B6>`_
+Graph功能详细使用，请见 `Graph使用指南 <https://github.com/PaddlePaddle/VisualDL/blob/develop/docs/components/README.md#Graph--%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E7%BB%84%E4%BB%B6>`_ 。
 
 二： 通过代码方式生成dot文件
 ---------------------
