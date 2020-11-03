@@ -1,3 +1,4 @@
+#include "helper.h"
 #include "paddle/include/paddle_inference_api.h"
 #include <chrono>
 #include <gflags/gflags.h>
@@ -8,10 +9,14 @@
 #include <vector>
 
 DEFINE_string(model_dir, "./mobilenetv1", "model directory.");
-DEFINE_int32(thread_num, 1, "thread num");
 DEFINE_bool(use_gpu, false, "use gpu.");
 DEFINE_bool(test_leaky, false,
             "run 1000 times, and observe whether leaky memory or not.");
+
+const size_t thread_num = 2;
+paddle::inference::Timer timer_sum;
+paddle::inference::Barrier barrier_init(thread_num);
+paddle::inference::Barrier barrier_warmup(thread_num);
 
 namespace paddle_infer {
 
@@ -20,11 +25,25 @@ void PrepareConfig(Config *config) {
   if (FLAGS_use_gpu) {
     config->EnableUseGpu(500, 0);
   }
+  // switch to thread_local allocator.
+  config->EnableGpuMultiStream();
 }
 
-void Run(std::shared_ptr<Predictor> predictor, int thread_id) {
+void Run(int thread_id) {
+  Config config;
+  PrepareConfig(&config);
+
+  // create predictor
+  static std::mutex mutex;
+
+  std::shared_ptr<Predictor> predictor;
+  {
+    std::unique_lock<std::mutex> lock(mutex);
+    predictor = CreatePredictor(config);
+  }
 
   auto run_one_loop = [&](int batch_size) {
+    // prepare inputs.
     int channels = 3;
     int height = 224;
     int width = 224;
@@ -54,6 +73,10 @@ void Run(std::shared_ptr<Predictor> predictor, int thread_id) {
               << " mean val: " << mean_val / output_num;
   };
 
+  barrier_init.Wait();
+  run_one_loop(1);
+  barrier_warmup.Wait();
+
   auto pause = [](const std::string &hint) {
     if (FLAGS_test_leaky) {
       return;
@@ -70,38 +93,27 @@ void Run(std::shared_ptr<Predictor> predictor, int thread_id) {
   for (int i = 0; i < run_times; ++i) {
     run_one_loop(40);
     pause("Pause, you can view the GPU memory usage, please enter any "
-          "character to continue running. thread_id is " +
-          std::to_string(thread_id));
+          "character to continue running.");
 
+    // release memory pool.
     predictor->ShrinkMemory();
     pause("Pause, ShrinkMemory has been called, please observe the changes of "
-          "GPU memory. thread_idis " +
-          std::to_string(thread_id));
+          "GPU memory.");
 
     run_one_loop(1);
     pause("Pause, you can view the GPU memory usage, please enter any "
-          "character to continue running. thread_id is " +
-          std::to_string(thread_id));
+          "character to continue running.");
   }
 }
 }
 
 int main(int argc, char **argv) {
   google::ParseCommandLineFlags(&argc, &argv, true);
-
-  paddle_infer::Config config;
-  paddle_infer::PrepareConfig(&config);
-  auto main_predictor = paddle_infer::CreatePredictor(config);
-  std::vector<decltype(main_predictor)> predictors;
-  for (int i = 0; i < FLAGS_thread_num; ++i) {
-    predictors.emplace_back(std::move(main_predictor->Clone()));
-  }
-
   std::vector<std::thread> threads;
-  for (int i = 0; i < FLAGS_thread_num; ++i) {
-    threads.emplace_back(paddle_infer::Run, predictors[i], i);
+  for (size_t i = 0; i < thread_num; ++i) {
+    threads.emplace_back([&, i]() { paddle_infer::Run(i); });
   }
-  for (int i = 0; i < FLAGS_thread_num; ++i) {
+  for (size_t i = 0; i < thread_num; ++i) {
     threads[i].join();
   }
   LOG(INFO) << "Run done";
