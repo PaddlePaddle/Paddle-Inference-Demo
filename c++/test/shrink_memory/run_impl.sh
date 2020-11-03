@@ -4,9 +4,10 @@ mkdir -p build
 cd build
 rm -rf *
 
-# same with the single_thread_test or multi_thread_test
+# same with the single_thread_test, multi_thread_test or thread_local_test
 DEMO_NAME=single_thread_test
 #DEMO_NAME=multi_thread_test
+#DEMO_NAME=thread_local_test
 
 WITH_MKL=ON
 WITH_GPU=ON
