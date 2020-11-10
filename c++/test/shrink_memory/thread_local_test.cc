@@ -96,7 +96,7 @@ void Run(int thread_id) {
           "character to continue running.");
 
     // release memory pool.
-    predictor->ShrinkMemory();
+    predictor->TryShrinkMemory();
     pause("Pause, ShrinkMemory has been called, please observe the changes of "
           "GPU memory.");
 

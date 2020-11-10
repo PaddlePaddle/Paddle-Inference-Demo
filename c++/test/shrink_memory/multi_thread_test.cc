@@ -73,7 +73,8 @@ void Run(std::shared_ptr<Predictor> predictor, int thread_id) {
           "character to continue running. thread_id is " +
           std::to_string(thread_id));
 
-    predictor->ShrinkMemory();
+    uint64_t bytes = predictor->TryShrinkMemory();
+    LOG(INFO) << "thread_id " << thread_id << " release " << bytes / 1024. / 1024. << " MB";
     pause("Pause, ShrinkMemory has been called, please observe the changes of "
           "GPU memory. thread_idis " +
           std::to_string(thread_id));
