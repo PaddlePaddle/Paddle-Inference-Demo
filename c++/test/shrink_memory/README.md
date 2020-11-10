@@ -45,9 +45,9 @@ CUDA_LIB=/usr/local/cuda/lib64
 # 进入build目录
 cd build
 # 运行样例
-./single_thread_test -model_dir ${YOLO_MODEL_PATH} --use_gpu
-# ./multi_thread_test --model_dir ${YOUR_MODEL_PATH} --use_gpu --thread_num 2
-# ./thread_local_test --model_dir ${YOUR_MODEL_PATH} --use_gpu
+./build/single_thread_test -model_dir ${YOLO_MODEL_PATH} --use_gpu
+# ./build/multi_thread_test --model_dir ${YOUR_MODEL_PATH} --use_gpu --thread_num 2
+# ./build/thread_local_test --model_dir ${YOUR_MODEL_PATH} --use_gpu
 ```
 
 运行过程中，请根据提示观测GPU的显存占用或CPU的内存占用，可以发现，当某次运行的batch_size很大时，会使得显/内存池较大，此时应用的显/内存占用较高，可以通过ShrinkMemory操作来显示的释放显/内存池。
