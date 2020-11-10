@@ -24,7 +24,7 @@ void PrepareConfig(Config *config) {
   config->SetProgFile(FLAGS_model_dir + "/model");
   config->SetParamsFile(FLAGS_model_dir + "/params");
   if (FLAGS_use_gpu) {
-    config->EnableUseGpu(100, 0);
+    config->EnableUseGpu(500, 0);
   }
 }
 
@@ -85,7 +85,8 @@ void Demo(int repeat) {
   pause("Pause, batch_size=100 run done, please observe the GPU memory usage "
         "or CPU memory usage.");
 
-  predictor->ShrinkMemory();
+  uint64_t bytes = predictor->TryShrinkMemory();
+  LOG(INFO) << "release " << bytes/1024/1024 << " MB.";
   pause("Pause, ShrinkMemory has been called, please observe the changes of "
         "GPU memory or CPU memory usage.");
 
