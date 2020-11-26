@@ -1,16 +1,11 @@
 
 # PaddlePassBuilder 类
 
-**注意：** AnalysisPasses 独立于 Passes 之外，仅 `AppendAnalysisPass` 和 `AnalysisPasses` 两个 API 能对其进行修改和读取，其余 API 的操作对象都仅限于Passes，不会影响 AnalysisPasses。
+**注意：** PaddlePassBuilder 对象通过 `Config` 的 `pass_builder` 方法进行获取。其中存在2个成员对象 AnalysisPasses 和 Passes,AnalysisPasses 独立于 Passes 之外，仅 `AppendAnalysisPass` 和 `AnalysisPasses` 两个 API 能对其进行修改和读取，其余 API 的操作对象都仅限于Passes。
 
 类及方法定义如下：
 
 ```c++
-// PaddlePassBuilder 的构造函数
-// 参数：Passes - IR 图分析阶段的 Passes 的字符串列表
-// 返回：PaddlePassBuilder 对象
-PaddlePassBuilder(const std::vector<std::string> &passes);
-
 // 设置 IR 图分析阶段的 passes
 // 参数：passes - IR 图分析阶段的 passes 的字符串列表
 // 返回：None
