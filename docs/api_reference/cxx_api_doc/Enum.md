@@ -63,8 +63,8 @@ config.EnableTensorRtEngine(1 << 20, 1, 3,
 PlaceType为目标设备硬件类型，用户可以根据应用场景选择硬件平台类型。枚举变量定义如下：
 
 ```c++
-// PaddlePlace 枚举类型定义
-enum class PaddlePlace { kUNK = -1, kCPU, kGPU };
+// PlaceType 枚举类型定义
+enum class PlaceType { kUNK = -1, kCPU, kGPU };
 ```
 
 代码示例：
@@ -97,7 +97,7 @@ predictor->Run();
 auto output_names = predictor->GetOutputNames();
 auto output_tensor = predictor->GetInputHandle(output_names[0]);
 
-// 获取 Output Tensor 的 PaddlePlace 和 数据指针
+// 获取 Output Tensor 的 PlaceType 和 数据指针
 paddle_infer::PlaceType place;
 int size = 0;
 auto* out_data = output_tensor->data<float>(&place, &size);
