@@ -42,7 +42,7 @@ print(config.cpu_math_library_num_threads())
 **注意：** 
 1. 启用 MKLDNN 的前提为已经使用 CPU 进行预测，否则启用 MKLDNN 无法生效
 2. 启用 MKLDNN BF16 要求 CPU 型号可以支持 AVX512，否则无法启用 MKLDNN BF16
-3. `SetMkldnnCacheCapacity` 请参考 <a class="reference external" href="https://github.com/PaddlePaddle/FluidDoc/blob/develop/doc/fluid/design/mkldnn/caching/caching.md">MKLDNN cache设计文档</a>
+3. `set_mkldnn_cache_capacity` 请参考 <a class="reference external" href="https://github.com/PaddlePaddle/FluidDoc/blob/develop/doc/fluid/design/mkldnn/caching/caching.md">MKLDNN cache设计文档</a>
 
 API定义如下：
 
