@@ -2,28 +2,6 @@
 
 Paddle Inference的预测器，由 `CreatePredictor` 根据 `Config` 进行创建。用户可以根据Predictor提供的接口设置输入数据、执行模型预测、获取输出等。
 
-## Predictor 构造函数
-
-构造函数定义如下：
-
-```c++
-// 创建 Predictor 对象，输入为 Config 对象
-Predictor(const Config& config);
-
-// 创建 Config 对象，输入为其他 Predictor 对象，用于克隆对象
-Predictor(std::unique_ptr<paddle::PaddlePredictor>&& pred)
-```
-
-代码示例
-
-```c++
-// 构造 Config 对象
-paddle_infer::Config config(FLAGS_infer_model);
-
-// 根据 Config 对象创建预测器对象
-auto predictor = paddle_infer::CreatePredictor(config);
-```
-
 ## 获取输入输出
 
 API 定义如下：
@@ -53,6 +31,9 @@ std::unique_ptr<Tensor> GetOutputHandle(const std::string& name);
 代码示例：
 
 ```c++
+// 构造 Config 对象
+paddle_infer::Config config(FLAGS_infer_model);
+
 // 创建 Predictor
 auto predictor = paddle_infer::CreatePredictor(config);
 
