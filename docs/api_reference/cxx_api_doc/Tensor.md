@@ -1,0 +1,115 @@
+#  Tensor 类
+
+Tensor 是 Paddle Inference 的数据组织形式，用于对底层数据进行封装并提供接口对数据进行操作，包括设置 Shape、数据、LoD 信息等。
+
+**注意：** 应使用 `Predictor` 的 `GetInputHandle` 和 `GetOuputHandle` 接口获取输入输出 `Tensor`。
+
+Tensor 类的API定义如下：
+
+```c++
+// 设置 Tensor 的维度信息
+// 参数：shape - 维度信息
+// 返回：None
+void Reshape(const std::vector<int>& shape);
+
+// 从 CPU 获取数据，设置到 Tensor 内部
+// 参数：data - CPU 数据指针
+// 返回：None
+template <typename T>
+void CopyFromCpu(const T* data);
+
+// 从 Tensor 中获取数据到 CPU
+// 参数：data - CPU 数据指针
+// 返回：None
+template <typename T>
+void CopyToCpu(T* data);
+
+// 获取 Tensor 底层数据指针，用于设置 Tensor 输入数据
+// 在调用这个 API 之前需要先对输入 Tensor 进行 Reshape
+// 参数：place - 获取 Tensor 的 PlaceType
+// 返回：数据指针
+template <typename T>
+T* mutable_data(PlaceType place);
+
+// 获取 Tensor 底层数据的常量指针，用于读取 Tensor 输出数据
+// 参数：place - 获取 Tensor 的 PlaceType
+//      size - 获取 Tensor 的 size
+// 返回：数据指针
+template <typename T>
+T* data(PlaceType* place, int* size) const;
+
+// 设置 Tensor 的 LoD 信息
+// 参数：x - Tensor 的 LoD 信息
+// 返回：None
+void SetLoD(const std::vector<std::vector<size_t>>& x);
+
+// 获取 Tensor 的 LoD 信息
+// 参数：None
+// 返回：std::vector<std::vector<size_t>> - Tensor 的 LoD 信息
+std::vector<std::vector<size_t>> lod() const;
+
+// 获取 Tensor 的 DataType
+// 参数：None
+// 返回：DataType - Tensor 的 DataType
+DataType type() const;
+
+// 获取 Tensor 的维度信息
+// 参数：None
+// 返回：std::vector<int> - Tensor 的维度信息
+std::vector<int> shape() const;
+
+// 获取 Tensor 的 Name
+// 参数：None
+// 返回：std::string& - Tensor 的 Name
+const std::string& name() const;
+```
+
+代码示例：
+
+```c++
+// 构造 Config 对象
+paddle_infer::Config config(FLAGS_infer_model);
+
+// 创建 Predictor
+auto predictor = paddle_infer::CreatePredictor(config);
+
+// 准备输入数据
+int input_num = shape_production(INPUT_SHAPE);
+std::vector<float> input_data(input_num, 1);
+
+// 获取输入 Tensor
+auto input_names = predictor->GetInputNames();
+auto input_tensor = predictor->GetInputHandle(input_names[0]);
+
+// 设置输入 Tensor 的维度信息
+input_tensor->Reshape(INPUT_SHAPE);
+// 获取输入 Tensor 的 Name
+auto name = input_tensor->name();
+
+//  方式1: 通过 mutable_data 设置输入数据
+std::copy_n(input_data.begin(), input_data.size(),
+            input_tensor->mutable_data<float>(PaddlePlace::kCPU));
+
+//  方式2: 通过 CopyFromCpu 设置输入数据
+input_tensor->CopyFromCpu(input_data.data());
+
+// 执行预测
+predictor->Run();
+
+// 获取 Output Tensor
+auto output_names = predictor->GetOutputNames();
+auto output_tensor = predictor->GetInputHandle(output_names[0]);
+
+// 获取 Output Tensor 的维度信息
+std::vector<int> output_shape = output_tensor->shape();
+
+// 方式1: 通过 data 获取 Output Tensor 的数据
+paddle_infer::PlaceType place;
+int size = 0;
+auto* out_data = output_tensor->data<float>(&place, &size);
+
+// 方式2: 通过 CopyToCpu 获取 Output Tensor 的数据
+std::vector<float> output_data;
+output_data.resize(output_size);
+output_tensor->CopyToCpu(output_data.data());
+```
