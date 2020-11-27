@@ -88,6 +88,12 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_context = {
+    'css_files': [
+        '_static/theme_overrides.css',  # enable word_warp in code
+        ],
+     }
+
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
@@ -172,46 +178,3 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
-extensions = [
-    # there may be others here already, e.g. 'sphinx.ext.mathjax'
-    'breathe',
-    'exhale'
-]
-
-# Setup the breathe extension
-breathe_projects = {
-    "My Project": "./doxyoutput/xml"
-}
-breathe_default_project = "My Project"
-
-# Setup the exhale extension
-exhale_args = {
-    # These arguments are required
-    "containmentFolder":     "./api",
-    "rootFileName":          "library_root.rst",
-    "rootFileTitle":         "Library API",
-    "doxygenStripFromPath":  "..",
-    # Suggested optional arguments
-    "createTreeView":        True,
-    # TIP: if using the sphinx-bootstrap-theme, you need
-    # "treeViewIsBootstrap": True,
-    "exhaleExecutesDoxygen": True,
-    "exhaleDoxygenStdin":    "INPUT = paddle_include_file"
-}
-
-# Tell sphinx what the primary language being documented is.
-primary_domain = 'cpp'
-
-# Tell sphinx what the pygments highlight language should be.
-highlight_language = 'cpp'
-
-import os
-
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
-    #html_theme = "alabaster"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]

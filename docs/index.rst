@@ -45,12 +45,14 @@ Welcome to Paddle-Inference's documentation!
   :name: sec-benchmark
   
   benchmark/benchmark
-  
-.. toctree::
-  :maxdepth: 2
-  :caption: API文档
 
-  api/library_root
+.. toctree::
+  :maxdepth: 1
+  :caption: API 文档
+  :name: sec-api-reference
+
+  api_reference/cxx_api_index
+  api_reference/python_api_index
 
 .. toctree::
   :maxdepth: 1
