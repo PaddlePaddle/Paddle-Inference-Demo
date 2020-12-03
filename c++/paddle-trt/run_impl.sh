@@ -9,7 +9,7 @@ WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=ON
 
-LIB_DIR=/paddle/build/fluid_inference_install_dir
+LIB_DIR=/paddle/build/paddle_inference_install_dir
 CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
 CUDA_LIB=/paddle/nvidia-downloads/cuda-10.1/lib64
 TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
