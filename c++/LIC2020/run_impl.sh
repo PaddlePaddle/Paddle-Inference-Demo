@@ -11,7 +11,7 @@ WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=OFF
 
-LIB_DIR=${work_path}/fluid_inference_install_dir
+LIB_DIR=${work_path}/paddle_inference_install_dir
 CUDNN_LIB=/usr/local/cudnn/lib64
 CUDA_LIB=/usr/local/cuda/lib64
 # TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5

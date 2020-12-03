@@ -25,7 +25,7 @@ WITH_GPU=ON
 USE_TENSORRT=OFF
 
 # 配置预测库的根目录
-LIB_DIR=${YOUR_LIB_DIR}/fluid_inference_install_dir
+LIB_DIR=${YOUR_LIB_DIR}/paddle_inference_install_dir
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
 CUDNN_LIB=/usr/local/cudnn/lib64
