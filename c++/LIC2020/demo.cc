@@ -8,7 +8,9 @@
 
 #include "paddle/include/paddle_inference_api.h"
 
-using paddle::AnalysisConfig;
+using paddle_infer::Config;
+using paddle_infer::Predictor;
+using paddle_infer::CreatePredictor;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
@@ -28,8 +30,8 @@ double time_diff(Time t1, Time t2) {
   return counter.count() / 1000.0;
 }
 
-std::unique_ptr<paddle::PaddlePredictor> CreatePredictor() {
-  AnalysisConfig config;
+std::shared_ptr<Predictor> InitPredictor() {
+  Config config;
   if (FLAGS_model_dir != "") {
     config.SetModel(FLAGS_model_dir);
   } else {
@@ -38,9 +40,7 @@ std::unique_ptr<paddle::PaddlePredictor> CreatePredictor() {
   if (FLAGS_use_gpu) {
     config.EnableUseGpu(100, 0);
   }
-  // We use ZeroCopy, so we set config->SwitchUseFeedFetchOps(false)
-  config.SwitchUseFeedFetchOps(false);
-  return CreatePaddlePredictor(config);
+  return CreatePredictor(config);
 }
 
 template <typename Dtype>
@@ -70,7 +70,7 @@ std::vector<int64_t> PrepareInput(const std::vector<int>& shape,
   return datas;
 }
 
-void Run(paddle::PaddlePredictor* predictor,
+void Run(Predictor* predictor,
          std::vector<float>* out_data_0,
          std::vector<int64_t>* out_data_1,
          std::vector<int64_t>* out_data_2) {
@@ -87,10 +87,10 @@ void Run(paddle::PaddlePredictor* predictor,
   std::vector<int> shape_s{batch_size, seq_len};
 
 #define INPUT_EMB(num)                                                 \
-  auto input_##num = predictor->GetInputTensor(input_names[num]);      \
+  auto input_##num = predictor->GetInputHandle(input_names[num]);      \
   auto data_##num = PrepareInput<int64_t>(shape_seq, word_size_##num); \
   input_##num->Reshape(shape_seq);                                     \
-  input_##num->copy_from_cpu(data_##num.data())
+  input_##num->CopyFromCpu(data_##num.data())
 
   INPUT_EMB(0);
   INPUT_EMB(1);
@@ -98,41 +98,41 @@ void Run(paddle::PaddlePredictor* predictor,
 
 #undef INPUT_EMB
 
-  auto input_3 = predictor->GetInputTensor(input_names[3]);
+  auto input_3 = predictor->GetInputHandle(input_names[3]);
   auto data_3 = PrepareInput<float>(shape_seq);
   input_3->Reshape(shape_seq);
-  input_3->copy_from_cpu(data_3.data());
+  input_3->CopyFromCpu(data_3.data());
 
-  auto input_4 = predictor->GetInputTensor(input_names[4]);
+  auto input_4 = predictor->GetInputHandle(input_names[4]);
   auto data_4 = PrepareInput<int64_t>(shape_batch);
   input_4->Reshape(shape_batch);
-  input_4->copy_from_cpu(data_4.data());
+  input_4->CopyFromCpu(data_4.data());
 
 #define INPUT_5_or_6(num)                                         \
-  auto input_##num = predictor->GetInputTensor(input_names[num]); \
+  auto input_##num = predictor->GetInputHandle(input_names[num]); \
   auto data_##num = PrepareInput<int64_t>(shape_s, 1);            \
   input_##num->Reshape(shape_s);                                  \
-  input_##num->copy_from_cpu(data_##num.data())
+  input_##num->CopyFromCpu(data_##num.data())
 
   INPUT_5_or_6(5);
   INPUT_5_or_6(6);
 
 #undef INPUT_5_or_6
 
-  CHECK(predictor->ZeroCopyRun());
+  CHECK(predictor->Run());
 
   auto output_names = predictor->GetOutputNames();
   // there is three output of lic2020 baseline model
 
 #define OUTPUT(num)                                                  \
-  auto output_##num = predictor->GetOutputTensor(output_names[num]); \
+  auto output_##num = predictor->GetOutputHandle(output_names[num]); \
   std::vector<int> output_shape_##num = output_##num->shape();       \
   int out_num_##num = std::accumulate(output_shape_##num.begin(),    \
                                       output_shape_##num.end(),      \
                                       1,                             \
                                       std::multiplies<int>());       \
   out_data_##num->resize(out_num_##num);                             \
-  output_##num->copy_to_cpu(out_data_##num->data())
+  output_##num->CopyToCpu(out_data_##num->data())
 
   OUTPUT(0);
   OUTPUT(1);
@@ -143,7 +143,7 @@ void Run(paddle::PaddlePredictor* predictor,
 
 int main(int argc, char* argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
-  auto predictor = CreatePredictor();
+  auto predictor = InitPredictor();
 
   std::vector<float> out_data_0;
   std::vector<int64_t> out_data_1;
