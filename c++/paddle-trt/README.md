@@ -35,7 +35,7 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/fluid_inference_install_dir
+LIB_DIR=/paddle/paddle_inference_install_dir
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
 CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
@@ -77,7 +77,7 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/fluid_inference_install_dir
+LIB_DIR=/paddle/paddle_inference_install_dir
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
 CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
@@ -100,7 +100,7 @@ cd build
 
 #### 加载校准表执行Int8预测
 
-再次修改`run_impl.sh`，换成执行Int8预测的demo：
+1） 再次修改`run_impl.sh`，换成执行Int8预测的demo：
 
 ```shell
 # 选择执行Int8预测的demo
@@ -112,7 +112,7 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/fluid_inference_install_dir
+LIB_DIR=/paddle/paddle_inference_install_dir
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
 CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
@@ -177,7 +177,7 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/fluid_inference_install_dir
+LIB_DIR=/paddle/paddle_inference_install_dir
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
 CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
@@ -194,7 +194,7 @@ TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
 # 进入build目录
 cd build
 # 运行样例，注意此处要将use_calib配置为false
-./trt_int8_test --model_file=../ResNet50_quant/model --params_file=../ResNet50_quant/params --use_calib=false
+./trt_int8_test --model_dir=../ResNet50_quant/ --use_calib=false
 ```
 
 运行结束后，程序会将模型预测输出的前20个结果打印到屏幕，说明运行成功。
