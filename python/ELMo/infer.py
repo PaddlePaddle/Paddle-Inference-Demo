@@ -6,8 +6,8 @@ import argparse
 import reader
 import sys
 
-from paddle.fluid.core import AnalysisConfig
-from paddle.fluid.core import create_paddle_predictor
+from paddle.inference import Config
+from paddle.inference import create_predictor
 
 
 def parse_args():
@@ -15,36 +15,30 @@ def parse_args():
     Parsing the input parameters.
     """
     parser = argparse.ArgumentParser("Inference for lexical analyzer.")
-    parser.add_argument(
-        "--model_dir",
-        type=str,
-        default="elmo",
-        help="The folder where the test data is located.")
-    parser.add_argument(
-        "--testdata_dir",
-        type=str,
-        default="elmo_data/dev",
-        help="The folder where the test data is located.")
-    parser.add_argument(
-        "--use_gpu",
-        type=int,
-        default=False,
-        help="Whether or not to use GPU. 0-->CPU 1-->GPU")
-    parser.add_argument(
-        "--word_dict_path",
-        type=str,
-        default="elmo_data/vocabulary_min5k.txt",
-        help="The path of the word dictionary.")
-    parser.add_argument(
-        "--label_dict_path",
-        type=str,
-        default="elmo_data/tag.dic",
-        help="The path of the label dictionary.")
-    parser.add_argument(
-        "--word_rep_dict_path",
-        type=str,
-        default="elmo_data/q2b.dic",
-        help="The path of the word replacement Dictionary.")
+    parser.add_argument("--model_dir",
+                        type=str,
+                        default="elmo",
+                        help="The folder where the test data is located.")
+    parser.add_argument("--testdata_dir",
+                        type=str,
+                        default="elmo_data/dev",
+                        help="The folder where the test data is located.")
+    parser.add_argument("--use_gpu",
+                        type=int,
+                        default=False,
+                        help="Whether or not to use GPU. 0-->CPU 1-->GPU")
+    parser.add_argument("--word_dict_path",
+                        type=str,
+                        default="elmo_data/vocabulary_min5k.txt",
+                        help="The path of the word dictionary.")
+    parser.add_argument("--label_dict_path",
+                        type=str,
+                        default="elmo_data/tag.dic",
+                        help="The path of the label dictionary.")
+    parser.add_argument("--word_rep_dict_path",
+                        type=str,
+                        default="elmo_data/q2b.dic",
+                        help="The path of the word replacement Dictionary.")
 
     args = parser.parse_args()
     return args
@@ -65,13 +59,12 @@ def to_lodtensor(data):
     return flattened_data, [lod]
 
 
-def create_predictor(args):
+def init_predictor(args):
     if args.model_dir is not "":
-        config = AnalysisConfig(args.model_dir)
+        config = Config(args.model_dir)
     else:
-        config = AnalysisConfig(args.model_file, args.params_file)
+        config = Config(args.model_file, args.params_file)
 
-    config.switch_use_feed_fetch_ops(False)
     config.enable_memory_optim()
     if args.use_gpu:
         config.enable_use_gpu(1000, 0)
@@ -80,26 +73,26 @@ def create_predictor(args):
         # The thread num should not be greater than the number of cores in the CPU.
         config.set_cpu_math_library_num_threads(4)
 
-    predictor = create_paddle_predictor(config)
+    predictor = create_predictor(config)
     return predictor
 
 
 def run(predictor, datas, lods):
     input_names = predictor.get_input_names()
     for i, name in enumerate(input_names):
-        input_tensor = predictor.get_input_tensor(name)
+        input_tensor = predictor.get_input_handle(name)
         input_tensor.reshape(datas[i].shape)
         input_tensor.copy_from_cpu(datas[i].copy())
         input_tensor.set_lod(lods[i])
 
     # do the inference
-    predictor.zero_copy_run()
+    predictor.run()
 
     results = []
     # get out data from output tensor
     output_names = predictor.get_output_names()
     for i, name in enumerate(output_names):
-        output_tensor = predictor.get_output_tensor(name)
+        output_tensor = predictor.get_output_handle(name)
         output_data = output_tensor.copy_to_cpu()
         results.append(output_data)
     return results
@@ -114,12 +107,12 @@ if __name__ == '__main__':
     word_dict_len = max(map(int, word2id_dict.values())) + 1
     label_dict_len = max(map(int, label2id_dict.values())) + 1
 
-    pred = create_predictor(args)
+    pred = init_predictor(args)
 
-    test_data = paddle.batch(
-        reader.file_reader(args.testdata_dir, word2id_dict, label2id_dict,
-                           word_rep_dict),
-        batch_size=1)
+    test_data = paddle.batch(reader.file_reader(args.testdata_dir,
+                                                word2id_dict, label2id_dict,
+                                                word_rep_dict),
+                             batch_size=1)
     batch_id = 0
     id2word = {v: k for k, v in word2id_dict.items()}
     id2label = {v: k for k, v in label2id_dict.items()}

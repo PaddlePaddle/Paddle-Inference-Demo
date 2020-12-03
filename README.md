@@ -18,3 +18,5 @@ Paddle Inference为飞桨核心框架推理引擎。Paddle Inference功能特性
 1） 在python目录中，我们通过真实输入的方式罗列了一系列的测试样例，其中包括图像的分类，分割，检测，以及NLP的Ernie/Bert等Python使用样例，同时也包含Paddle-TRT， 多线程的使用样例。
 
 2） 在c++目录中，我们通过单测方式展现了一系列的测试样例，其中包括图像的分类，分割，检测，以及NLP的Ernie/Bert等C++使用样例，同时也包含Paddle-TRT， 多线程的使用样例。
+
+注意：如果您使用2.0以前的Paddle，请参考[release/1.8分支](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/release/1.8)
