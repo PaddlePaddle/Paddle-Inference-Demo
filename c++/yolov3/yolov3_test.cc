@@ -1,14 +1,16 @@
 #include "paddle/include/paddle_inference_api.h"
 
-#include <numeric>
+#include <chrono>
 #include <iostream>
 #include <memory>
-#include <chrono>
+#include <numeric>
 
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 
-using paddle::AnalysisConfig;
+using paddle_infer::Config;
+using paddle_infer::Predictor;
+using paddle_infer::CreatePredictor;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
@@ -27,13 +29,12 @@ double time_diff(Time t1, Time t2) {
   return counter.count() / 1000.0;
 }
 
-std::unique_ptr<paddle::PaddlePredictor> CreatePredictor() {
-  AnalysisConfig config;
+std::shared_ptr<Predictor> InitPredictor() {
+  Config config;
   if (FLAGS_model_dir != "") {
     config.SetModel(FLAGS_model_dir);
   } else {
-    config.SetModel(FLAGS_model_file,
-                    FLAGS_params_file);
+    config.SetModel(FLAGS_model_file, FLAGS_params_file);
   }
   if (FLAGS_use_gpu) {
     config.EnableUseGpu(100, 0);
@@ -45,47 +46,44 @@ std::unique_ptr<paddle::PaddlePredictor> CreatePredictor() {
   if (FLAGS_mem_optim) {
     config.EnableMemoryOptim();
   }
-  // We use ZeroCopy, so we set config->SwitchUseFeedFetchOps(false)
-  config.SwitchUseFeedFetchOps(false);
-  return CreatePaddlePredictor(config);
+  return CreatePredictor(config);
 }
 
-void run(paddle::PaddlePredictor *predictor,
-         const std::vector<float>& input,
-         const std::vector<int>& input_shape, 
-         const std::vector<int>& input_im,
-         const std::vector<int>& input_im_shape,
-         std::vector<float> *out_data) {
+void run(Predictor *predictor, const std::vector<float> &input,
+         const std::vector<int> &input_shape, const std::vector<int> &input_im,
+         const std::vector<int> &input_im_shape, std::vector<float> *out_data) {
   auto input_names = predictor->GetInputNames();
-  auto input_img = predictor->GetInputTensor(input_names[0]);
+  auto input_img = predictor->GetInputHandle(input_names[0]);
   input_img->Reshape(input_shape);
-  input_img->copy_from_cpu(input.data());
+  input_img->CopyFromCpu(input.data());
 
-  auto input_size = predictor->GetInputTensor(input_names[1]);
+  auto input_size = predictor->GetInputHandle(input_names[1]);
   input_size->Reshape(input_im_shape);
-  input_size->copy_from_cpu(input_im.data());
+  input_size->CopyFromCpu(input_im.data());
 
-  CHECK(predictor->ZeroCopyRun());
+  CHECK(predictor->Run());
 
   auto output_names = predictor->GetOutputNames();
   // there is only one output of yolov3
-  auto output_t = predictor->GetOutputTensor(output_names[0]);
+  auto output_t = predictor->GetOutputHandle(output_names[0]);
   std::vector<int> output_shape = output_t->shape();
-  int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1, std::multiplies<int>());
+  int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
+                                std::multiplies<int>());
 
   out_data->resize(out_num);
-  output_t->copy_to_cpu(out_data->data());
+  output_t->CopyToCpu(out_data->data());
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
-  auto predictor = CreatePredictor();
+  auto predictor = InitPredictor();
 
   const int height = 608;
   const int width = 608;
   const int channels = 3;
   std::vector<int> input_shape = {FLAGS_batch_size, channels, height, width};
-  std::vector<float> input_data(FLAGS_batch_size * channels * height * width, 0);
+  std::vector<float> input_data(FLAGS_batch_size * channels * height * width,
+                                0);
   for (size_t i = 0; i < input_data.size(); ++i) {
     input_data[i] = i % 255 * 0.13f;
   }
@@ -93,7 +91,8 @@ int main(int argc, char* argv[]) {
   std::vector<int> input_im_data(FLAGS_batch_size * 2, 608);
 
   std::vector<float> out_data;
-  run(predictor.get(), input_data, input_shape, input_im_data, input_im_shape, &out_data);
+  run(predictor.get(), input_data, input_shape, input_im_data, input_im_shape,
+      &out_data);
   LOG(INFO) << "output num is " << out_data.size();
   return 0;
 }
