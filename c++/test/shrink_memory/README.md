@@ -53,5 +53,6 @@ cd build
 运行过程中，请根据提示观测GPU的显存占用或CPU的内存占用，可以发现，当某次运行的batch_size很大时，会使得显/内存池较大，此时应用的显/内存占用较高，可以通过ShrinkMemory操作来显示的释放显/内存池。
 
 ### 更多链接
-- [Paddle Inference使用Quick Start！]()
-- [Paddle Inference Python Api使用]()
+- [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/latest/introduction/quick_start.html)
+- [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/cxx_api_index.html)
+- [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/python_api_index.html)
