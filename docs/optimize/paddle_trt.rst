@@ -3,6 +3,8 @@
 
 NVIDIA TensorRT 是一个高性能的深度学习预测库，可为深度学习推理应用程序提供低延迟和高吞吐量。PaddlePaddle 采用子图的形式对TensorRT进行了集成，即我们可以使用该模块来提升Paddle模型的预测性能。在这篇文章中，我们会介绍如何使用Paddle-TRT子图加速预测。
 
+如果您需要安装[TensorRT](https://developer.nvidia.com/nvidia-tensorrt-6x-download)，请参考[trt文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html).
+
 概述
 ----------------
 
@@ -187,11 +189,11 @@ Calib Int8: |uncheck|
 			results.append(output_data)
 		return results
 
-		if __name__ == '__main__':
-			pred = create_predictor() 
-			img = np.ones((1, 3, 224, 224)).astype(np.float32)
-			result = run(pred, [img]) 
-			print ("class index: ", np.argmax(result[0][0]))
+	if __name__ == '__main__':
+		pred = create_predictor()
+		img = np.ones((1, 3, 224, 224)).astype(np.float32)
+		result = run(pred, [img])
+		print ("class index: ", np.argmax(result[0][0]))
 		
 
 通过例子我们可以看出，我们通过 `enable_tensorrt_engine` 接口来打开TensorRT选项的。
@@ -314,7 +316,7 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
 我们在github上提供了使用TRT子图预测的更多样例：
 
 - Python 样例请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/paddle_trt>`_ 。
-- C++ 样例地址请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B>`_ 。
+- C++ 样例地址请访问此处 `链接 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt>`_ 。
 
 四：Paddle-TRT子图运行原理
 ---------------
