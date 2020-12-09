@@ -95,7 +95,7 @@ void run(Predictor *predictor, std::vector<float> *out_data) {
       1, 1, 1, 1, 1, 1};
   // shape info of this batch
   int32_t i3[3] = {0, 40, 71};
-  // max_seq_len represents the max length of all the sentences, only length of
+  // max_seq_len represents the max sentence length of all the sentences, only length of
   // input i4 is useful, data means nothing.
   int32_t i4[max_seq_len] = {0};
 
