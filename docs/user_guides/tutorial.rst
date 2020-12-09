@@ -49,7 +49,7 @@ b. 使用docker镜像
 
 	docker run $CUDA_SO $DEVICES $NVIDIA_SMI --name trt_open --privileged --security-opt seccomp=unconfined --net=host -v $PWD:/paddle -it hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6 /bin/bash
 
-c. 参照接下来的 `预测库编译 <./source_compile.html>`_页面进行自行编译。
+c. 参照接下来的 `预测库编译 <https://paddle-inference.readthedocs.io/en/latest/user_guides/source_compile.html>`_页面进行自行编译。
 
 三：使用Paddle Inference执行预测
 -----------------
