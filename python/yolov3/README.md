@@ -11,7 +11,7 @@
 
 1）**获取预测模型**
 
-点击[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleLite/yolov3_infer.tar.gz)下载模型， 该模型在imagenet数据集训练得到的，如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleDetection)。
+点击[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleLite/yolov3_infer.tar.gz)下载模型， 该模型在imagenet数据集训练得到的，如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleDetection)。解压后存储到该工程的根目录。
 
 
 2）**获取预测样例图片**
