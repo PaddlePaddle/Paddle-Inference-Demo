@@ -21,7 +21,7 @@ def crop_image(img, target_size, center):
         h_start = np.random.randint(0, height - size + 1)
     w_end = w_start + size
     h_end = h_start + size
-    img = img[int(h_start):int(h_end), int(w_start):int(w_end), :]w_start:w_end, :]
+    img = img[int(h_start):int(h_end), int(w_start):int(w_end), :]
     return img
 
 def preprocess(img):
