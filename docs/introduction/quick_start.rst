@@ -3,7 +3,7 @@ Quick Start
 
 **前提准备**
 接下来我们会通过几段Python代码的方式对Paddle Inference使用进行介绍，
-为了能够成功运行代码，请您在环境中（Mac， Windows，Linux）安装不低于1.7版本的Paddle，
+为了能够成功运行代码，请您在环境中（Mac， Windows，Linux）安装不低于1.8版本的Paddle，
 安装Paddle 请参考 `飞桨官网主页 <https://www.paddlepaddle.org.cn/>`_。
 
 导出预测模型文件
@@ -113,9 +113,9 @@ model_filename，params_filename表示要生成的模型结构文件、融合参
 		fluid.io.load_inference_model(dirname='sample_model', executor=exe, model_filename='model', params_filename='params')
 
 	with fluid.program_guard(inference_program):
-	results = exe.run(inference_program,
-		feed={feed_target_names[0]: data},
-		fetch_list=fetch_targets, return_numpy=False)
+	  results = exe.run(inference_program,
+	    feed={feed_target_names[0]: data},
+	    fetch_list=fetch_targets, return_numpy=False)
 
 	print (np.array(results[0]).shape)
 	# (1, 8, 7, 7)
@@ -162,7 +162,7 @@ model_filename，params_filename表示要生成的模型结构文件、融合参
 	output_tensor = predictor.get_output_tensor(output_names[0])
 	output_data = output_tensor.copy_to_cpu()
 
-	print (output_data)
+	print (np.array(output_data).shape)
 
 上述的代码例子，我们通过加载一个简答模型以及随机输入的方式，展示了如何使用Paddle Inference进行模型预测。可能对于刚接触Paddle Inferenece同学来说，代码中会有一些陌生名词出现，比如AnalysisConfig, Predictor 等。先不要着急，接下来的文章中会对这些概念进行详细的介绍。 
 
@@ -170,7 +170,10 @@ model_filename，params_filename表示要生成的模型结构文件、融合参
 **相关链接**
 
 `Python API 使用介绍 <../user_guides/inference_python_api.html>`_
+
 `C++ API使用介绍 <../user_guides/cxx_api.html>`_
+
 `Python 使用样例 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python>`_
+
 `C++ 使用样例 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B>`_
 

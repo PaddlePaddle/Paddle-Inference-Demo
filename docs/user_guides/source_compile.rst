@@ -188,8 +188,6 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 	cd build
 	cmake .. -G "Visual Studio 16 2019" -A x64 -DWITH_GPU=OFF -DWITH_TESTING=OFF 
 		-DCMAKE_BUILD_TYPE=Release -DPY_VERSION=3
-	
-.. image:: https://agroup-bos.cdn.bcebos.com/1b21aff9424cb33a98f2d1e018d8301614caedda
 
 使用 Visual Studio 打开解决方案文件，在窗口顶端的构建配置菜单中选择 Release x64，单击生成解决方案，等待构建完毕即可。  
 
@@ -268,4 +266,4 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 
 Include目录下包括了使用飞桨预测库需要的头文件，lib目录下包括了生成的静态库和动态库，third_party目录下包括了预测库依赖的其它库文件。
 
-您可以编写应用代码，与预测库联合编译并测试结果。请参 `C++ 预测库 API 使用 <https://aistudio.baidu.com/bjcpu/user/166411/248511/notebooks/248511.ipynb?redirects=1#C++%E9%A2%84%E6%B5%8BAPI>`_ 一节。
+您可以编写应用代码，与预测库联合编译并测试结果。请参考 `C++ 预测库 API 使用 <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/native_infer.html>`_ 一节。
