@@ -44,7 +44,7 @@ ShapeData: 0, 3, 8
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
 WITH_MKL=ON
 WITH_GPU=ON
-USE_TENSORRT=OFF
+USE_TENSORRT=ON
 
 # 配置预测库的根目录
 LIB_DIR=${YOUR_LIB_DIR}/paddle_inference_install_dir
@@ -62,8 +62,6 @@ TIPS:Ernie变长输入需要TensorRT7.2.1+或者低版本的TensorRT联合编译
 2） **运行样例**
 
 ```shell
-# 进入build目录
-cd build
 # 运行样例
 ./build/ernie_varlen_test --model_dir=/your/downloaded/model/path/here
 ```
