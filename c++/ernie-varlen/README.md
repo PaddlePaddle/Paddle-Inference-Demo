@@ -3,8 +3,9 @@
 ### 一：获取Ernie模型
 
 点击[链接](http://paddle-inference-dist.bj.bcebos.com/tensorrt_test/ernie_model_4.tar.gz)下载模型， 如果你想获取更多的**Ernie模型信息**，请访问[这里](https://www.paddlepaddle.org.cn/paddle/ernie)。
-当前Paddle Inference支持ernie的以下两种输入方式，变长输入性能更佳，本示例是变长输入的使用示例，输入方式一可以参考[单测代码](https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/fluid/inference/tests/api/trt_dynamic_shape_ernie_test.cc)。
-1）动态shape，单batch内padding到固定长度。支持FP32和FP16精度。
+当前Paddle Inference支持ernie的以下两种输入方式，变长输入性能更佳，本示例是变长输入的使用示例，输入方式一可以参考[单测代码](https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/fluid/inference/tests/api/trt_dynamic_shape_ernie_test.cc)。 
+
+1）动态shape，单batch内padding到固定长度。支持FP32和FP16精度。   
 batch 1， shape {3, 4, 1}，输入数据如下，其中'X'为padding数据
 ```
 aaaX
@@ -16,7 +17,8 @@ batch 2， shape {2, 5, 1}，输入数据如下，其中'X'为padding数据
 eeeXX
 fffff
 ```
-2）动态shape，同时batch内数据支持变长，不用padding数据。当前只支持FP16精度。
+
+2）动态shape，同时batch内数据支持变长，不用padding数据。当前只支持FP16精度。  
 batch1
 ```
 Data: aaabbbbc
@@ -53,7 +55,7 @@ CUDNN_LIB=/root/work/nvidia/cudnn_v7.6_cuda10.1/lib64
 CUDA_LIB=/root/work/nvidia/cuda-10.1/lib64
 TENSORRT_ROOT=/root/work/nvidia/TensorRT-6.0.1.5.cuda-10.1.cudnn7.6-OSS7.2.1
 ```
-**TIPS:**Ernie变长输入需要TensorRT7.2.1+或者低版本的TensorRT联合编译OSS 7.2.1（[TensorRT Open Source Software 7.2.1](https://github.com/NVIDIA/TensorRT/tree/7.2.1) ）。
+TIPS:Ernie变长输入需要TensorRT7.2.1+或者低版本的TensorRT联合编译OSS 7.2.1（[TensorRT Open Source Software 7.2.1](https://github.com/NVIDIA/TensorRT/tree/7.2.1) ）。
 
 运行 `sh run_impl.sh`， 会在目录下产生build目录。
 
