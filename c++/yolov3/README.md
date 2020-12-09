@@ -46,5 +46,6 @@ cd build
 运行结束后，程序会将模型输出个数打印到屏幕，说明运行成功。
 
 ### 更多链接
-- [Paddle Inference使用Quick Start！]()
-- [Paddle Inference Python Api使用]()
+- [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/latest/introduction/quick_start.html)
+- [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/cxx_api_index.html)
+- [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/python_api_index.html)
