@@ -203,3 +203,25 @@ cd build
 - [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/latest/introduction/quick_start.html)
 - [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/latest/user_guides/cxx_api.html)
 - [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/user_guides/inference_python_api.html)
+
+### 四、使用TRT dynamic shape变长输入功能
+
+TRT的默认模式限制输入是定长的，即所有输入的shape大小必须相同，并与模型输入大小一致。如果需要输入不同尺寸的图片，需要设置变长输入模型。相关接口如下：
+
+```c++
+std::map<std::string, std::vector<int>> min_input_shape = {
+    {"image", {FLAGS_batch_size, 3, 112, 112}}};
+std::map<std::string, std::vector<int>> max_input_shape = {
+    {"image", {FLAGS_batch_size, 3, 448, 448}}};
+std::map<std::string, std::vector<int>> opt_input_shape = {
+    {"image", {FLAGS_batch_size, 3, 224, 224}}};
+config.SetTRTDynamicShapeInfo(min_input_shape, max_input_shape,
+                            opt_input_shape);
+```
+
+其中 `min_input_shape` 、`max_input_shape` 、`opt_input_shape` 都是string到int类型的map，表示输入变量的最小、最大和最优shape，最优的含义是指，TRT会以最优shape来进行优化，理论上，接近最优shape的输入图片性能最佳。
+
+上面几个map的key是指TRT子图的输入变量名，注意不一定与模型的输入名一致。若存在多个TRT子图，需要对每一个子图的所有输入变量配置最小、最大和最优shape。
+
+运行样例的方式与使用TRT FP32精度预测相同，运行脚本换为`trt_dynamic_shape_test`即可。
+
