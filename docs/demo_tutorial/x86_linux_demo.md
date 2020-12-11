@@ -8,7 +8,7 @@ C++示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo
 
 #### 1.1.1 准备预测库
 
-请参考[推理库下载文档](ToSet)下载Paddle C++预测库。
+请参考[推理库下载文档](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/build_and_install_lib_cn.html)下载Paddle C++预测库。
 
 #### 1.1.2 准备预测模型
 
@@ -79,7 +79,7 @@ auto output_names = predictor->GetOutputNames();
 auto output_t = predictor->GetOutputHandle(output_names[0]);
 std::vector<int> output_shape = output_t->shape();
 int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
-                            std::multiplies<int>());
+                              std::multiplies<int>());
 std::vector<float> out_data;
 out_data.resize(out_num);
 output_t->CopyToCpu(out_data.data());
@@ -208,6 +208,6 @@ wget https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/
 
 ```
 python model_test.py --model_dir mobilenetv1_fp32 --img_path ILSVRC2012_val_00000247.jpeg
-``
+```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
