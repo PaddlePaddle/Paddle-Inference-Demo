@@ -16,6 +16,17 @@ Welcome to Paddle-Inference's documentation!
 
 .. toctree::
   :maxdepth: 1
+  :caption: 快速开始
+  :name: sec-quick-start
+
+  quick_start/workflow
+  quick_start/cpp_demo
+  quick_start/python_demo
+  quick_start/c_demo
+  quick_start/golang_demo
+
+.. toctree::
+  :maxdepth: 1
   :caption: 使用方法
   :name: sec-user-guides
   
