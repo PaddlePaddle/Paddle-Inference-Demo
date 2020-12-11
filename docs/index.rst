@@ -56,6 +56,7 @@ Welcome to Paddle-Inference's documentation!
   :name: sec-demo
   
   demo_tutorial/x86_linux_demo
+  demo_tutorial/x86_windows_demo
 
 .. toctree::
   :maxdepth: 1
