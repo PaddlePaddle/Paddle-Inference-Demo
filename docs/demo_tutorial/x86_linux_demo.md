@@ -180,7 +180,7 @@ input_tensor.copy_from_cpu(img.copy())
 #### 2.1.7 执行Predictor
 
 ```python
-predictor->Run();
+predictor.run();
 ```
 
 #### 2.1.8 获取输出
