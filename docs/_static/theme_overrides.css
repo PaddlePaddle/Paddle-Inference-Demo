@@ -1,7 +1,3 @@
 code, .rst-content tt, .rst-content code {
     white-space: normal;
 }
-
-.rst-content .section ol p, .rst-content .section ul p {
-    margin-bottom: 2px;
-}
