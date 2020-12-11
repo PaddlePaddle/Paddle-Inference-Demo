@@ -38,7 +38,14 @@ Welcome to Paddle-Inference's documentation!
   
   tools/visual
   tools/x2paddle
+
+.. toctree::
+  :maxdepth: 2
+  :caption: 硬件部署示例 
+  :name: sec-demo
   
+  demo_tutorial/x86_linux_demo
+
 .. toctree::
   :maxdepth: 1
   :caption: Benchmark
