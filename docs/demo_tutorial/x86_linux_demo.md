@@ -6,11 +6,11 @@ C++示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo
 
 ### 1.1 流程解析
 
-1) 准备预测库
+#### 1.1.1 准备预测库
 
 请参考[推理库下载文档](ToSet)下载Paddle C++预测库。
 
-2) 准备预测模型
+#### 1.1.2 准备预测模型
 
 使用Paddle训练结束后，得到预测模型，可以用于预测部署。
 
@@ -20,7 +20,7 @@ C++示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo
 wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
 ```
 
-3) 包含头文件
+#### 1.1.3 包含头文件
 
 使用Paddle预测库，只需要包含 `paddle_inference_api.h` 头文件。
 
@@ -28,7 +28,7 @@ wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp
 #include "paddle/include/paddle_inference_api.h"
 ```
 
-4) 设置Config
+#### 1.1.4 设置Config
 
 根据预测部署的实际情况，设置Config，用于后续创建Predictor。
 
@@ -47,13 +47,13 @@ config.SwitchIrOptim();
 config.EnableMemoryOptim();
 ```
 
-5) 创建Predictor
+#### 1.1.5 创建Predictor
 
 ```cpp
 std::shared_ptr<paddle_infer::Predictor> predictor = paddle_infer::CreatePredictor(config);
 ```
 
-6) 设置输入
+#### 1.1.6 设置输入
 
 从Predictor中获取输入的names和handle，然后设置输入数据。
 
@@ -66,13 +66,13 @@ input_t->Reshape(input_shape);
 input_t->CopyFromCpu(input_data.data());
 ```
 
-7) 执行Predictor
+#### 1.1.7 执行Predictor
 
 ```cpp
 predictor->Run();
 ```
 
-8) 获取输出
+#### 1.1.8 获取输出
 
 ```cpp
 auto output_names = predictor->GetOutputNames();
@@ -87,7 +87,7 @@ output_t->CopyToCpu(out_data.data());
 
 ### 1.2 编译运行示例
 
-1) 编译示例
+#### 1.2.1 编译示例
 
 文件`model_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
 文件`CMakeLists.txt` 为编译构建文件。   
@@ -99,7 +99,7 @@ output_t->CopyToCpu(out_data.data());
 
 运行 `sh run_impl.sh`， 会在当前目录下编译产生build目录。
 
-2) 运行示例
+#### 1.2.2 运行示例
 
 进入build目录，运行样例。
 
@@ -116,13 +116,13 @@ Python预测部署示例代码在[链接](https://github.com/PaddlePaddle/Paddle
 
 ### 2.1 流程解析
 
-1) 准备环境
+#### 2.1.1 准备环境
 
 请参考[飞桨官网](https://www.paddlepaddle.org.cn/)安装2.0及以上版本的Paddle。
 
 Python安装opencv：`pip install opencv-python`。
 
-2）准备预测模型
+#### 2.1.2 准备预测模型
 
 使用Paddle训练结束后，得到预测模型，可以用于预测部署。
 
@@ -133,14 +133,14 @@ wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp
 tar zxf mobilenetv1_fp32.tar.gz
 ```
 
-3）Python导入
+#### 2.1.3 Python导入
 
 ```
 from paddle.inference import Config
 from paddle.inference import create_predictor
 ```
 
-4) 设置Config
+#### 2.1.4 设置Config
 
 根据预测部署的实际情况，设置Config，用于后续创建Predictor。
 
@@ -158,13 +158,13 @@ config.switch_ir_optim()
 config.enable_memory_optim()
 ```
 
-5) 创建Predictor
+#### 2.1.5 创建Predictor
 
 ```python
 predictor = create_predictor(config)
 ```
 
-6) 设置输入
+#### 2.1.6 设置输入
 
 从Predictor中获取输入的names和handle，然后设置输入数据。
 
@@ -177,13 +177,13 @@ input_tensor.reshape(img.shape)
 input_tensor.copy_from_cpu(img.copy())
 ```
 
-7) 执行Predictor
+#### 2.1.7 执行Predictor
 
 ```python
-predictor->Run();
+predictor.run();
 ```
 
-8) 获取输出
+#### 2.1.8 获取输出
 
 ```python
 output_names = predictor.get_output_names()
