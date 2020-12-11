@@ -40,7 +40,7 @@ Welcome to Paddle-Inference's documentation!
   tools/x2paddle
 
 .. toctree::
-  :maxdepth: 2
+  :maxdepth: 1
   :caption: 硬件部署示例 
   :name: sec-demo
   

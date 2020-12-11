@@ -66,7 +66,7 @@ input_tensor.copy_from_cpu(img.copy())
 7) 执行Predictor
 
 ```python
-predictor->Run();
+predictor.run();
 ```
 
 8) 获取输出
