@@ -1,6 +1,6 @@
 # 预测流程
 
-<p align="center"><img width="500" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/workflow.png"/></p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/workflow.png"/></p>
 
 ## 一. 准备模型
 
@@ -25,7 +25,7 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方Release预测库�
 
 Paddle Inference采用 Predictor 进行预测。Predictor 是一个高性能预测引擎，该引擎通过对计算图的分析，完成对计算图的一系列的优化（如OP的融合、内存/显存的优化、 MKLDNN，TensorRT 等底层加速库的支持等），能够大大提升预测性能。
 
-<p align="center"><img width="500" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/predict.png"/></p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/predict.png"/></p>
 
 开发预测程序只需要简单的5个步骤 (这里以C++ API为例)：
 
