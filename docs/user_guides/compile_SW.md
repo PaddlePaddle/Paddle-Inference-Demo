@@ -20,9 +20,6 @@
 
     ```
     git clone https://github.com/PaddlePaddle/Paddle.git
-    ```
-
-    ```
     cd Paddle
     ```
 
@@ -84,14 +81,9 @@
 
         ```
         CBLAS_ROOT=/opt/CBLAS
-        ```
-
-        For Python2:
-        ```
+        # For Python2:
         cmake .. -DPY_VERSION=2 -DPYTHON_EXECUTABLE=`which python2` -DWITH_MKL=OFF -DWITH_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DON_INFER=ON -DWITH_PYTHON=ON -DREFERENCE_CBLAS_ROOT=${CBLAS_ROOT} -DWITH_CRYPTO=OFF -DWITH_XBYAK=OFF -DWITH_SW=ON -DCMAKE_CXX_FLAGS="-Wno-error -w"
-        ```
-        For Python3:
-        ```
+        # For Python3:
         cmake .. -DPY_VERSION=3 -DPYTHON_EXECUTABLE=`which python3` -DWITH_MKL=OFF -DWITH_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DON_INFER=ON -DWITH_PYTHON=ON -DREFERENCE_CBLAS_ROOT=${CBLAS_ROOT} -DWITH_CRYPTO=OFF -DWITH_XBYAK=OFF -DWITH_SW=ON -DCMAKE_CXX_FLAGS="-Wno-error -w"
         ```
 
