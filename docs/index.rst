@@ -61,6 +61,9 @@ Welcome to Paddle-Inference's documentation!
   demo_tutorial/x86_linux_demo
   demo_tutorial/x86_windows_demo
   demo_tutorial/paddle_xpu_infer_cn
+  demo_tutorial/cuda_linux_demo
+  demo_tutorial/cuda_jetson_demo
+  demo_tutorial/cuda_windows_demo
 
 .. toctree::
   :maxdepth: 1
