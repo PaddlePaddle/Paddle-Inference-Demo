@@ -32,6 +32,9 @@ Welcome to Paddle-Inference's documentation!
   
   user_guides/tutorial
   user_guides/source_compile
+  user_guides/compile_ARM
+  user_guides/compile_SW
+  user_guides/compile_ZHAOXIN
   user_guides/inference_python_api
   user_guides/cxx_api
 
@@ -57,6 +60,7 @@ Welcome to Paddle-Inference's documentation!
   
   demo_tutorial/x86_linux_demo
   demo_tutorial/x86_windows_demo
+  demo_tutorial/paddle_xpu_infer_cn
 
 .. toctree::
   :maxdepth: 1
