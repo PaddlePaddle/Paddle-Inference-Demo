@@ -33,16 +33,17 @@
 编译步骤
 -----------
 
-飞桨分为 CPU 版本和 GPU 版本。如果您的计算机没有 Nvidia GPU，请选择 CPU 版本构建安装。如果您的计算机含有 Nvidia GPU（ 1.0 且预装有 CUDA / CuDNN，也可选择 GPU 版本构建安装。本节简述飞桨在常用环境下的源码编译方式，欢迎访问飞桨官网获取更详细内容。请阅读本节内容。
+飞桨分为 CPU 版本和 GPU 版本。如果您的计算机没有 Nvidia GPU，请选择 CPU 版本构建安装。如果您的计算机含有 Nvidia GPU（ 1.0 且预装有 CUDA / CuDNN，也可选择 GPU 版本构建安装。
 
 **推荐配置及依赖项**
 
-1、稳定的互联网连接，主频 1 GHz 以上的多核处理器，9 GB 以上磁盘空间。  
-2、Python 版本 2.7 或 3.5 以上，pip 版本 9.0 及以上；CMake v3.5 及以上；Git 版本 2.17 及以上。请将可执行文件放入系统环境变量中以方便运行。  
-3、GPU 版本额外需要 Nvidia CUDA 9 / 10，CuDNN v7 及以上版本。根据需要还可能依赖 NCCL 和 TensorRT。  
+1、稳定的 Github 连接，主频 1 GHz 以上的多核处理器，9 GB 以上磁盘空间。  
+2、GCC 版本 4.8 或者 8.2；或者 Visual Studio 2015 Update 3。  
+3、Python 版本 2.7 或 3.5 以上，pip 版本 9.0 及以上；CMake v3.10 及以上；Git 版本 2.17 及以上。请将可执行文件放入系统环境变量中以方便运行。  
+4、GPU 版本额外需要 Nvidia CUDA 9 / 10，CuDNN v7 及以上版本。根据需要还可能依赖 TensorRT。  
 
 
-基于Ubuntu 18.04
+基于 Ubuntu 18.04
 ------------
 
 **一：环境准备**
@@ -54,7 +55,7 @@
 	sudo apt-get install gcc g++ make cmake git vim unrar python3 python3-dev python3-pip swig wget patchelf libopencv-dev
 	pip3 install numpy protobuf wheel setuptools
 
-若需启用 cuda 加速，需准备 cuda、cudnn、nccl。上述工具的安装请参考 nvidia 官网，以 cuda10.1，cudnn7.6 为例配置 cuda 环境。
+若需启用 cuda 加速，需准备 cuda、cudnn。上述工具的安装请参考 nvidia 官网，以 cuda10.1，cudnn7.6 为例配置 cuda 环境。
 
 .. code:: shell
 
@@ -67,15 +68,6 @@
 	tar -xzvf cudnn-10.1-linux-x64-v7.6.4.38.tgz
 	sudo cp -a cuda/include/cudnn.h /usr/local/cuda/include/
 	sudo cp -a cuda/lib64/libcudnn* /usr/local/cuda/lib64/
-
-	# nccl
-	# install nccl local deb 参考https://docs.nvidia.com/deeplearning/sdk/nccl-install-guide/index.html
-	sudo dpkg -i nccl-repo-ubuntu1804-2.5.6-ga-cuda10.1_1-1_amd64.deb
-	# 根据安装提示，还需要执行sudo apt-key add /var/nccl-repo-2.5.6-ga-cuda10.1/7fa2af80.pub
-	sudo apt update
-	sudo apt install libnccl2 libnccl-dev
-
-	sudo ldconfig
 
 
 **编译飞桨过程中可能会打开很多文件，Ubuntu 18.04 默认设置最多同时打开的文件数是1024（参见 ulimit -a），需要更改这个设定值。** 
@@ -95,17 +87,24 @@
 	su ${user}
 	ulimit -n 102400
 
+若在 TensorRT 依赖编译过程中出现头文件虚析构函数报错，请在 NvInfer.h 文件中为 class IPluginFactory 和 class IGpuAllocator 分别添加虚析构函数：
+
+.. code-block:: c++
+
+	virtual ~IPluginFactory() {};
+	virtual ~IGpuAllocator() {};
+
 
 **二：编译命令**
 
-使用 Git 将飞桨代码克隆到本地，并进入目录，切换到稳定版本（git tag显示的标签名，如v1.7.1）。  
+使用 Git 将飞桨代码克隆到本地，并进入目录，切换到稳定版本（git tag显示的标签名，如 release/2.0）。  
 **飞桨使用 develop 分支进行最新特性的开发，使用 release 分支发布稳定版本。在 GitHub 的 Releases 选项卡中，可以看到飞桨版本的发布记录。**  
 
 .. code:: shell
 
 	git clone https://github.com/PaddlePaddle/Paddle.git
 	cd Paddle
-	git checkout v1.7.1    
+	git checkout release/2.0    
 
 下面以 GPU 版本为例说明编译命令。其他环境可以参考“CMake编译选项表”修改对应的cmake选项。比如，若编译 CPU 版本，请将 WITH_GPU 设置为 OFF。
 
@@ -115,12 +114,11 @@
 	# 创建并进入 build 目录
 	mkdir build_cuda && cd build_cuda
 	# 执行cmake指令
-	cmake -DPY_VERSION=3 \
+	cmake .. -DPY_VERSION=3 \
 		-DWITH_TESTING=OFF \
 		-DWITH_MKL=ON \
 		-DWITH_GPU=ON \
 		-DON_INFER=ON \
-		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 		..
 		
 **使用make编译**
@@ -129,7 +127,7 @@ make -j4
 
 **编译成功后可在dist目录找到生成的.whl包**
 
-pip3 install python/dist/paddlepaddle-1.7.1-cp36-cp36m-linux_x86_64.whl
+pip3 install python/dist/paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl
 
 **预测库编译**
 
@@ -156,29 +154,71 @@ CUDA_ARCH_NAME    是否只针对当前CUDA架构编译                         
 TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/  /usr
 ================  ============================================================================  =============================================================
 
-基于Windows 10 
+**三：NVIDIA Jetson嵌入式硬件预测库源码编译**
+
+NVIDIA Jetson是NVIDIA推出的嵌入式AI平台，Paddle Inference支持在 NVIDIA Jetson平台上编译预测库。具体步骤如下：
+
+1、准备环境：
+
+.. code:: shell
+
+	# 开启硬件性能模式
+	sudo nvpmodel -m 0 && sudo jetson_clocks
+	# 增加 DDR 可用空间，Xavier 默认内存为 16 GB，所以内存足够，如在 Nano 上尝试，请执行如下操作。
+	sudo fallocate -l 5G /var/swapfile
+	sudo chmod 600 /var/swapfile
+	sudo mkswap /var/swapfile
+	sudo swapon /var/swapfile
+	sudo bash -c 'echo "/var/swapfile swap swap defaults 0 0" >> /etc/fstab'
+
+2、编译预测库：
+
+.. code:: shell
+
+	cd Paddle
+	mkdir build
+	cd build
+	cmake .. \
+	-DWITH_CONTRIB=OFF \
+	-DWITH_MKL=OFF  \
+	-DWITH_MKLDNN=OFF \
+	-DWITH_TESTING=OFF \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DON_INFER=ON \
+	-DWITH_PYTHON=OFF \
+	-DWITH_XBYAK=OFF  \
+	-DWITH_NV_JETSON=ON
+	make -j4
+	
+	# 生成预测lib
+	make inference_lib_dist -j4
+
+3、参照 `官网样例 <https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/performance_improving/inference_improving/paddle_tensorrt_infer.html#id2>` 进行测试。
+
+
+基于 Windows 10 
 -------------------
 
 **一：环境准备**
 
-除了本节开头提到的依赖，在 Windows 10 上编译飞桨，您还需要准备 Visual Studio 2015 Update3 以上版本。本节以 Visual Studio 企业版 2019（C++ 桌面开发，含 MSVC 14.24）、Python 3.8 为例介绍编译过程。
+除了本节开头提到的依赖，在 Windows 10 上编译飞桨，您还需要准备 Visual Studio 2015 Update 3。飞桨正在对更高版本的编译支持做完善支持。
 
 在命令提示符输入下列命令，安装必需的 Python 组件。
 
 .. code:: shell
 
-	pip3 install numpy protobuf wheel` 
+	pip3 install numpy protobuf wheel 
 
 **二：编译命令**
  
-使用 Git 将飞桨代码克隆到本地，并进入目录，切换到稳定版本（git tag显示的标签名，如v1.7.1）。  
-**飞桨使用 develop 分支进行最新特性的开发，使用 release 分支发布稳定版本。在 GitHub 的 Releases 选项卡中，可以看到 Paddle 版本的发布记录。**
+使用 Git 将飞桨代码克隆到本地，并进入目录，切换到稳定版本（git tag显示的标签名，如 release/2.0）。  
+**飞桨使用 develop 分支进行最新特性的开发，使用 release 分支发布稳定版本。在 GitHub 的 Releases 选项卡中，可以看到飞桨版本的发布记录。**  
 
 .. code:: shell
 
 	git clone https://github.com/PaddlePaddle/Paddle.git
 	cd Paddle
-	git checkout v1.7.1
+	git checkout release/2.0
 	
 创建一个构建目录，并在其中执行 CMake，生成解决方案文件 Solution File，以编译 CPU 版本为例说明编译命令，其他环境可以参考“CMake编译选项表”修改对应的cmake选项。
 
@@ -186,7 +226,7 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 
 	mkdir build
 	cd build
-	cmake .. -G "Visual Studio 16 2019" -A x64 -DWITH_GPU=OFF -DWITH_TESTING=OFF 
+	cmake .. -G "Visual Studio 14 2015 Win64" -A x64 -DWITH_GPU=OFF -DWITH_TESTING=OFF -DON_INFER=ON 
 		-DCMAKE_BUILD_TYPE=Release -DPY_VERSION=3
 
 使用 Visual Studio 打开解决方案文件，在窗口顶端的构建配置菜单中选择 Release x64，单击生成解决方案，等待构建完毕即可。  
@@ -213,13 +253,13 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 
 **一：python whl包**
 
-编译完毕后，会在 python/dist 目录下生成一个文件名类似 paddlepaddle-1.7.1-cp36-cp36m-linux_x86_64.whl 的 Python Wheel 安装包，安装测试的命令为：  
+编译完毕后，会在 python/dist 目录下生成一个文件名类似 paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl 的 Python Wheel 安装包，安装测试的命令为：  
 
 .. code:: shell
 
-	pip3 install python/dist/paddlepaddle-1.7.1-cp36-cp36m-linux_x86_64.whl
+	pip3 install python/dist/paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl
 
-安装完成后，可以使用 python3 进入python解释器，输入以下指令，出现 `Your Paddle Fluid is installed succesfully! ` ，说明安装成功。
+安装完成后，可以使用 python3 进入python解释器，输入以下指令，出现 `Your Paddle Fluid is installed successfully! ` ，说明安装成功。
 
 .. code:: python
 
@@ -267,3 +307,73 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 Include目录下包括了使用飞桨预测库需要的头文件，lib目录下包括了生成的静态库和动态库，third_party目录下包括了预测库依赖的其它库文件。
 
 您可以编写应用代码，与预测库联合编译并测试结果。请参考 `C++ 预测库 API 使用 <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/native_infer.html>`_ 一节。
+
+
+基于 MacOSX 10.14
+------------
+
+**一：环境准备**
+
+在编译 Paddle 前，需要在 MacOSX 预装 Apple Clang 11.0 和 Python 3.8，以及 python-pip。请使用下列命令安装 Paddle 编译必需的 Python 组件包。
+
+.. code:: shell
+
+	pip3 install numpy protobuf wheel setuptools
+
+
+**二：编译命令**
+
+使用 Git 将飞桨代码克隆到本地，并进入目录，切换到稳定版本（git tag显示的标签名，如 release/2.0）。  
+**飞桨使用 develop 分支进行最新特性的开发，使用 release 分支发布稳定版本。在 GitHub 的 Releases 选项卡中，可以看到飞桨版本的发布记录。**  
+
+.. code:: shell
+
+	git clone https://github.com/PaddlePaddle/Paddle.git
+	cd Paddle
+	git checkout release/2.0    
+
+下面以 CPU-MKL 版本为例说明编译命令。
+
+.. code:: shell
+
+	# 创建并进入 build 目录
+	mkdir build && cd build
+	# 执行cmake指令
+	cmake .. -DPY_VERSION=3 \
+		-DWITH_TESTING=OFF \
+		-DWITH_MKL=ON \
+		-DON_INFER=ON \
+		..
+		
+**使用make编译**
+
+make -j4
+
+**编译成功后可在dist目录找到生成的.whl包**
+
+pip3 install python/dist/paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl
+
+**预测库编译**
+
+make inference_lib_dist -j4
+
+
+**cmake编译环境表**
+
+以下介绍的编译方法都是通用步骤，根据环境对应修改cmake选项即可。
+
+================  ============================================================================  =============================================================
+      选项                                            说明                                                                 默认值
+================  ============================================================================  =============================================================
+WITH_GPU          是否支持GPU                                                                   ON
+WITH_AVX          是否编译含有AVX指令集的飞桨二进制文件                                         ON
+WITH_PYTHON       是否内嵌PYTHON解释器并编译Wheel安装包                                         ON
+WITH_TESTING      是否开启单元测试                                                              OFF
+WITH_MKL          是否使用MKL数学库，如果为否，将使用OpenBLAS                                   ON
+WITH_SYSTEM_BLAS  是否使用系统自带的BLAS                                                        OFF
+WITH_DISTRIBUTE   是否编译带有分布式的版本                                                      OFF
+WITH_BRPC_RDMA    是否使用BRPC,RDMA作为RPC协议                                                  OFF
+ON_INFER          是否打开预测优化                                                              OFF
+CUDA_ARCH_NAME    是否只针对当前CUDA架构编译                                                    All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译
+TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/  /usr
+================  ============================================================================  =============================================================
