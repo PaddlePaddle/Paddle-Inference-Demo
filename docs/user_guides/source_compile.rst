@@ -127,7 +127,7 @@ make -j4
 
 **编译成功后可在dist目录找到生成的.whl包**
 
-pip3 install python/dist/paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl
+pip3 install python/dist/paddlepaddle-2.0.0-cp38-cp38-linux_x86_64.whl
 
 **预测库编译**
 
@@ -193,7 +193,7 @@ NVIDIA Jetson是NVIDIA推出的嵌入式AI平台，Paddle Inference支持在 NVI
 	# 生成预测lib
 	make inference_lib_dist -j4
 
-3、参照 `官网样例 <https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/performance_improving/inference_improving/paddle_tensorrt_infer.html#id2>` 进行测试。
+3、参照 `官网样例 <https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/performance_improving/inference_improving/paddle_tensorrt_infer.html#id2>`_ 进行测试。
 
 
 基于 Windows 10 
@@ -253,11 +253,11 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 
 **一：python whl包**
 
-编译完毕后，会在 python/dist 目录下生成一个文件名类似 paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl 的 Python Wheel 安装包，安装测试的命令为：  
+编译完毕后，会在 python/dist 目录下生成一个 Python Wheel 安装包，安装测试的命令为：  
 
 .. code:: shell
 
-	pip3 install python/dist/paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl
+	pip3 install paddlepaddle-2.0.0-cp38-cp38-win_amd64.whl  
 
 安装完成后，可以使用 python3 进入python解释器，输入以下指令，出现 `Your Paddle Fluid is installed successfully! ` ，说明安装成功。
 
@@ -351,7 +351,7 @@ make -j4
 
 **编译成功后可在dist目录找到生成的.whl包**
 
-pip3 install python/dist/paddlepaddle-2.0.0-cp36-cp36m-linux_x86_64.whl
+pip3 install python/dist/paddlepaddle-2.0.0-cp38-cp38-macosx_10_14_x86_64.whl
 
 **预测库编译**
 
