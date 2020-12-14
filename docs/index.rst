@@ -35,6 +35,7 @@ Welcome to Paddle-Inference's documentation!
   user_guides/compile_ARM
   user_guides/compile_SW
   user_guides/compile_ZHAOXIN
+  user_guides/download_lib
   user_guides/inference_python_api
   user_guides/cxx_api
 
