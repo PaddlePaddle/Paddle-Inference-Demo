@@ -20,13 +20,7 @@
 
         ```
         wget https://github.com/Kitware/CMake/releases/download/v3.16.8/cmake-3.16.8.tar.gz
-        ```
-
-        ```
         tar -xzf cmake-3.16.8.tar.gz && cd cmake-3.16.8
-        ```
-
-        ```
         ./bootstrap && make && sudo make install
         ```
 
@@ -34,21 +28,9 @@
 
         ```
         ./bootstrap.sh
-        ```
-
-        ```
         ./configure
-        ```
-
-        ```
         make
-        ```
-
-        ```
         make check
-        ```
-
-        ```
         sudo make install
         ```
 
@@ -56,9 +38,6 @@
 
     ```
     git clone https://github.com/PaddlePaddle/Paddle.git
-    ```
-
-    ```
     cd Paddle
     ```
 
@@ -96,12 +75,10 @@
 
     >具体编译选项含义请参见[编译选项表](../Tables.html#Compile)
 
-        For Python2:
         ```
+        # For Python2:
         cmake .. -DPY_VERSION=2 -DPYTHON_EXECUTABLE=`which python2` -DWITH_MKL=ON -DWITH_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DON_INFER=ON -DWITH_PYTHON=ON
-        ```
-        For Python3:
-        ```
+        # For Python3:
         cmake .. -DPY_VERSION=3 -DPYTHON_EXECUTABLE=`which python3` -DWITH_MKL=ON -DWITH_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DON_INFER=ON -DWITH_PYTHON=ON
         ```
 
