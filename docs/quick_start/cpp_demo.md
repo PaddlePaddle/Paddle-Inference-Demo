@@ -177,7 +177,7 @@ I1211 08:29:43.667255 18792 resnet50_test.cc:76] 0.000138924
 #include "paddle/include/paddle_inference_api.h"
 ```
 
-(2) 创建配置对象，并根据需求配置，详细可参考 [C++ API - Config](../api_reference/cxx_api_doc/Config_index)
+(2) 创建配置对象，并根据需求配置，详细可参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index)
 
 ```c++
 // 创建默认配置对象
@@ -194,13 +194,13 @@ config.EnableMKLDNN();
 config.EnableMemoryOptim();
 ```
 
-(3) 根据Config创建预测对象
+(3) 根据Config创建预测对象，详细可参考 [C++ API 文档 - Predictor](../api_reference/cxx_api_doc/Predictor)
 
 ```c++
 auto predictor = paddle_infer::CreatePredictor(config);
 ```
 
-(4) 设置模型输入 Tensor，详细可参考 [C++ API - Tensor](../api_reference/cxx_api_doc/Tensor)
+(4) 设置模型输入 Tensor，详细可参考 [C++ API 文档 - Tensor](../api_reference/cxx_api_doc/Tensor)
 
 ```c++
 // 获取输入 Tensor
@@ -218,14 +218,14 @@ std::vector<float> input_data(input_size, 1);
 input_tensor->CopyFromCpu(input_data.data());
 ```
 
-(5) 执行预测
+(5) 执行预测，详细可参考 [C++ API 文档 - Predictor](../api_reference/cxx_api_doc/Predictor)
 
 ```c++
 // 执行预测
 predictor->Run();
 ```
 
-(5) 获得预测结果，详细可参考 [C++ API - Tensor](../api_reference/cxx_api_doc/Tensor)
+(5) 获得预测结果，详细可参考 [C++ API 文档 - Tensor](../api_reference/cxx_api_doc/Tensor)
 
 ```c++
 // 获取 Output Tensor

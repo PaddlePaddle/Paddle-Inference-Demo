@@ -16,7 +16,7 @@ paddle.inference.Config.switch_ir_optim(x: bool = True)
 paddle.inference.Config.ir_optim()
 
 # 设置是否在图分析阶段打印 IR，启用后会在每一个 PASS 后生成 dot 文件
-# 参数：x - 是否打印 IR，默认打开
+# 参数：x - 是否打印 IR，默认关闭
 # 返回：None
 paddle.inference.Config.switch_ir_debug(x: int=True)
 
