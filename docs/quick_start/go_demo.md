@@ -1,26 +1,26 @@
-# 预测示例 (Golang)
+# 预测示例 (GO)
 
-本章节包含2部分内容：(1) [运行 Golang 示例程序](#id1)；(2) [Golang 预测程序开发说明](#id7)。
+本章节包含2部分内容：(1) [运行 GO 示例程序](#id1)；(2) [GO 预测程序开发说明](#id7)。
 
-## 运行 Golang 示例程序
+## 运行 GO 示例程序
 
-### 1. 源码编译 Golang 预测库
+### 1. 源码编译 GO 预测库
 
-Paddle Inference 的 Golang 预测库即为 C 预测库，需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译
+Paddle Inference 的 GO 预测库即为 C 预测库，需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译
 
 - [安装与编译 Linux 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html) 
 - [安装与编译 Windows 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/windows_cpp_inference.html)
 
-编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 Golang 预测库，目录结构为：
+编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 GO 预测库，目录结构为：
 
 ```bash
 paddle_inference_c_install_dir
 ├── paddle
 │   ├── include
-│   │   └── paddle_c_api.h               C/Golang 预测库头文件
+│   │   └── paddle_c_api.h               C/GO 预测库头文件
 │   └── lib
-│       ├── libpaddle_fluid_c.a          C/Golang 静态预测库文件
-│       └── libpaddle_fluid_c.so         C/Golang 动态预测库文件
+│       ├── libpaddle_fluid_c.a          C/GO 静态预测库文件
+│       └── libpaddle_fluid_c.so         C/GO 动态预测库文件
 ├── third_party
 │   └── install                          第三方链接库和头文件
 │       ├── cryptopp
@@ -66,20 +66,20 @@ data/
 
 ### 3. 获取预测示例代码
 
-本章节 Golang 预测示例代码位于 [Paddle/go](hhttps://github.com/PaddlePaddle/Paddle/tree/develop/go)，目录包含以下文件：
+本章节 GO 预测示例代码位于 [Paddle/go](https://github.com/PaddlePaddle/Paddle/tree/develop/go)，目录包含以下文件：
 
 ```bash
 Paddle/go/
 ├── demo
 │   ├── mobilenet_c.cc
 │   ├── mobilenet_cxx.cc
-│   └── mobilenet.go         Golang 的预测示例程序源码
+│   └── mobilenet.go         GO 的预测示例程序源码
 ├── paddle
 │   ├── common.go
-│   ├── config.go            Config 的 Go references to C
-│   ├── predictor.go         Predictor 的 Go references to C
-│   ├── tensor.go            Tensor 的 Go references to C
-└── README_cn.md             Golang Demo README 说明
+│   ├── config.go            Config 的 GO references to C
+│   ├── predictor.go         Predictor 的 GO references to C
+│   ├── tensor.go            Tensor 的 GO references to C
+└── README_cn.md             GO Demo README 说明
 ```
 
 ### 4. 准备预测执行目录
@@ -98,17 +98,17 @@ Paddle/go/
 │   ├── mobilenet_cxx.cc
 │   └── mobilenet.go
 ├── paddle
-│   ├── config.go                            Config 的 Go references to C
-│   ├── predictor.go                         Predictor 的 Go references to C
-│   ├── tensor.go                            Tensor 的 Go references to C
+│   ├── config.go                            Config 的 GO references to C
+│   ├── predictor.go                         Predictor 的 GO references to C
+│   ├── tensor.go                            Tensor 的 GO references to C
 │   └── common.go
 ├── paddle_c                                 本章节第1步中的 paddle_inference_c_install_dir
 │   ├── paddle
 │   │   ├── include
-│   │   │   └── paddle_c_api.h               C/Golang 预测库头文件
+│   │   │   └── paddle_c_api.h               C/GO 预测库头文件
 │   │   └── lib
-│   │       ├── libpaddle_fluid_c.a          C/Golang 静态预测库文件
-│   │       └── libpaddle_fluid_c.so         C/Golang 动态预测库文件
+│   │       ├── libpaddle_fluid_c.a          C/GO 静态预测库文件
+│   │       └── libpaddle_fluid_c.so         C/GO 动态预测库文件
 │   └── third_party
 ├── data                                     本章节第2步中下载的模型和数据文件夹
 │   ├── model
@@ -116,7 +116,7 @@ Paddle/go/
 │   │   └── __params__
 │   ├── data.txt
 │   └── result.txt
-└── README_cn.md                             Golang Demo README 说明
+└── README_cn.md                             GO Demo README 说明
 ```
 
 ### 5. 执行预测程序
@@ -133,7 +133,7 @@ go run ./demo/mobilenet.go
 
 ```bash
 # 程序输出结果如下
-WARNING: Logging before InitGoogleLogging() is written to STDERR
+WARNING: Logging before InitGOogleLogging() is written to STDERR
 I1211 11:46:11.061076 21893 pd_config.cc:43] data/model/__model__
 I1211 11:46:11.061228 21893 pd_config.cc:48] data/model/__model__
 W1211 11:46:11.061488 21893 analysis_predictor.cc:1052] Deprecated. Please use CreatePredictor instead.
@@ -149,12 +149,12 @@ v:  +3.000000e+000 +2.676507e-002 ...
 137
 ```
 
-## Golang 预测程序开发说明
+## GO 预测程序开发说明
 
-使用 Paddle Inference 开发 Golang 预测程序仅需以下六个步骤：
+使用 Paddle Inference 开发 GO 预测程序仅需以下六个步骤：
 
 
-(1) 引用 Paddle 的 Go references to C 目录
+(1) 引用 Paddle 的 GO references to C 目录
 
 ```go
 import "/pathto/Paddle/go/paddle"

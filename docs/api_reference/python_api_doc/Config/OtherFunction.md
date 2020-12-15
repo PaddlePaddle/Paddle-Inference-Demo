@@ -3,7 +3,7 @@
 API定义如下：
 
 ```python
-# 开启内/显存复用，具体降低内存效果取决于模型结构。
+# 开启内存/显存复用，具体降低内存效果取决于模型结构。
 # 参数：None
 # 返回：None
 paddle.inference.Config.enable_memory_optim()
