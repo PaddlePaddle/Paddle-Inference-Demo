@@ -4,7 +4,16 @@
    contain the root `toctree` directive.
 
 Welcome to Paddle-Inference's documentation!
-=======================================
+===============================================
+
+.. toctree::
+  :maxdepth: 1
+  :caption: 产品介绍
+  :name: product-introduction
+
+  product_introduction/summary
+  product_introduction/inference_intro
+
 
 .. toctree::
   :maxdepth: 1
