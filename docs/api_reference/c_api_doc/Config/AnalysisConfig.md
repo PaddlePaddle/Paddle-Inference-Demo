@@ -10,19 +10,19 @@
 // 返回：PD_AnalysisConfig* - AnalysisConfig 对象指针
 PD_AnalysisConfig* PD_NewAnalysisConfig();
 
-// 删除 Config 对象
+// 删除 AnalysisConfig 对象
 // 参数：config - AnalysisConfig 对象指针
 // 返回：None
 void PD_DeleteAnalysisConfig(PD_AnalysisConfig* config);
 
-// 设置 Config 为无效状态，仅内部使用，保证每一个 Config 仅用来初始化一次 Predictor
+// 设置 AnalysisConfig 为无效状态，保证每一个 AnalysisConfig 仅用来初始化一次 Predictor
 // 参数：config - AnalysisConfig 对象指针
 // 返回：None
 void PD_SetInValid(PD_AnalysisConfig* config);
 
-// 判断当前 Config 是否有效
+// 判断当前 AnalysisConfig 是否有效
 // 参数：config - AnalysisConfig 对象指针
-// 返回：bool - 当前 Config 是否有效
+// 返回：bool - 当前 AnalysisConfig 是否有效
 bool PD_IsValid(const PD_AnalysisConfig* config);
 ```
 

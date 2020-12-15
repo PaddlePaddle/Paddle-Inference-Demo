@@ -95,7 +95,7 @@ PD_EnableUseGpu(config, 100, 0);
 PD_EnableCUDNN(config);
 
 // 通过 API 获取 CUDNN 启用结果 - True
-printf("Enable GPU is: %s\n", PD_CudnnEnabled(config) ? "True" : "False");
+printf("Enable CUDNN is: %s\n", PD_CudnnEnabled(config) ? "True" : "False");
 
 // 禁用 GPU 进行预测
 PD_DisableGpu(config);
@@ -138,7 +138,7 @@ PD_EnableTensorRtEngine(PD_AnalysisConfig* config, int workspace_size, int max_b
 bool PD_TensorrtEngineEnabled(const PD_AnalysisConfig* config);
 ```
 
-代码示例 (1)：使用 TensorRT FP32 / FP16 / INT8 进行预测
+代码示例：使用 TensorRT FP32 / FP16 / INT8 进行预测
 
 ```c
 // 创建 AnalysisConfig 对象

@@ -12,7 +12,6 @@ Welcome to Paddle-Inference's documentation!
   :name: sec-introduction
 
   introduction/summary
-  introduction/quick_start
 
 .. toctree::
   :maxdepth: 1
@@ -23,21 +22,19 @@ Welcome to Paddle-Inference's documentation!
   quick_start/cpp_demo
   quick_start/python_demo
   quick_start/c_demo
-  quick_start/golang_demo
+  quick_start/go_demo
+  quick_start/r_demo
 
 .. toctree::
   :maxdepth: 1
   :caption: 使用方法
   :name: sec-user-guides
   
-  user_guides/tutorial
   user_guides/source_compile
   user_guides/compile_ARM
   user_guides/compile_SW
   user_guides/compile_ZHAOXIN
   user_guides/download_lib
-  user_guides/inference_python_api
-  user_guides/cxx_api
 
 .. toctree::
   :maxdepth: 1
@@ -81,6 +78,8 @@ Welcome to Paddle-Inference's documentation!
   api_reference/cxx_api_index
   api_reference/python_api_index
   api_reference/c_api_index
+  api_reference/go_api_index
+  api_reference/r_api_index
 
 .. toctree::
   :maxdepth: 1

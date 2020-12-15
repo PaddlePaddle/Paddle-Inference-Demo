@@ -24,6 +24,8 @@ model/
 
 ### 3. 准备预测部署程序
 
+将以下代码保存为 `python_demo.py` 文件：
+
 ```python
 import argparse
 import numpy as np
