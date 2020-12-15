@@ -2,89 +2,77 @@
 
 API定义如下：
 
-```c
+```go
 // 开启内存/显存复用，具体降低内存效果取决于模型结构
 // 参数：config - AnalysisConfig 对象指针
 // 返回：None
-void PD_EnableMemoryOptim(PD_AnalysisConfig* config);
+func (config *AnalysisConfig) EnableMemoryOptim()
 
 // 判断是否开启内存/显存复用
 // 参数：config - AnalysisConfig 对象指针
 // 返回：bool - 是否开启内/显存复用
-bool PD_MemoryOptimEnabled(const PD_AnalysisConfig* config);
+func (config *AnalysisConfig) MemoryOptimEnabled() bool
 ```
 
 代码示例：
 
-```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+```go
+package main
 
-// 开启 CPU 内存优化
-PD_EnableMemoryOptim(config);
-// 通过 API 获取 CPU 是否已经开启显存优化 - true
-printf("CPU Mem Optim is: %s\n", PD_MemoryOptimEnabled(config) ? "True" : "False");
+// 引入 Paddle Golang Package
+import "/pathto/Paddle/go/paddle"
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
-PD_EnableUseGpu(config, 100, 0);
-// 开启 GPU 显存优化
-PD_EnableMemoryOptim(config);
-// 通过 API 获取 GPU 是否已经开启显存优化 - true
-printf("GPU Mem Optim is: %s\n", PD_MemoryOptimEnabled(config) ? "True" : "False");
-```
+func main() {
+    // 创建 AnalysisConfig 对象
+    config := paddle.NewAnalysisConfig()
 
-# 设置缓存路径
+    // 开启 CPU 内存优化
+    config.EnableMemoryOptim();
+    // 通过 API 获取 CPU 是否已经开启显存优化 - true
+    println("CPU Mem Optim is: ", config.MemoryOptimEnabled())
 
-**注意：** 如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `SetOptimCacheDir` 来设置缓存路径。
-
-API定义如下：
-
-```c
-// 设置缓存路径
-// 参数：config - AnalysisConfig 对象指针
-//      opt_cache_dir - 缓存路径
-// 返回：None
-void PD_SetOptimCacheDir(PD_AnalysisConfig* config, const char* opt_cache_dir);
-```
-
-代码示例：
-
-```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
-
-// 设置缓存路径
-const char * opt_cache_dir = "./mobilenet_v1/OptimCacheDir";
-PD_SetOptimCacheDir(config, opt_cache_dir);
+    // 启用 GPU 进行预测
+    config.EnableUseGpu(100, 0)
+    // 开启 GPU 显存优化
+    config.EnableMemoryOptim();
+    // 通过 API 获取 GPU 是否已经开启显存优化 - true
+    println("GPU Mem Optim is: ", config.MemoryOptimEnabled())
+}
 ```
 
 # Profile 设置
 
 API定义如下：
 
-```c
+```go
 // 打开 Profile，运行结束后会打印所有 OP 的耗时占比。
 // 参数：config - AnalysisConfig 对象指针
 // 返回：None
-void PD_EnableProfile(PD_AnalysisConfig* config);
+func (config *AnalysisConfig) EnableProfile()
 
 // 判断是否开启 Profile
 // 参数：config - AnalysisConfig 对象指针
 // 返回：bool - 是否开启 Profile
-bool PD_ProfileEnabled(const PD_AnalysisConfig* config);
+func (config *AnalysisConfig) ProfileEnabled() bool
 ```
 
 代码示例：
 
-```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+```go
+package main
 
-// 打开 Profile
-PD_EnableProfile(config);
+// 引入 Paddle Golang Package
+import "/pathto/Paddle/go/paddle"
 
-// 判断是否开启 Profile - true
-printf("Profile is: %s\n", PD_ProfileEnabled(config) ? "True" : "False");
+func main() {
+    // 创建 AnalysisConfig 对象
+    config := paddle.NewAnalysisConfig()
+
+    // 打开 Profile
+    config.EnableProfile();
+    // 判断是否开启 Profile - true
+    println("Profile is: ", config.ProfileEnabled())
+}
 ```
 
 执行预测之后输出的 Profile 的结果如下：
@@ -125,19 +113,26 @@ thread0::scale                   15          0.240771    0.013394    0.030727   
 
 API定义如下：
 
-```c
+```go
 // 去除 Paddle Inference 运行中的 LOG
 // 参数：config - AnalysisConfig 对象指针
 // 返回：None
-void PD_DisableGlogInfo(PD_AnalysisConfig* config);
+func (config *AnalysisConfig) DisableGlogInfo()
 ```
 
 代码示例：
 
-```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+```go
+package main
 
-// 去除 Paddle Inference 运行中的 LOG
-PD_DisableGlogInfo(config);
+// 引入 Paddle Golang Package
+import "/pathto/Paddle/go/paddle"
+
+func main() {
+    // 创建 AnalysisConfig 对象
+    config := paddle.NewAnalysisConfig()
+
+    // 去除 Paddle Inference 运行中的 LOG
+    config.DisableGlogInfo();
+}
 ```

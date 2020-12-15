@@ -63,6 +63,8 @@ model/
 
 ### 3. 准备预测部署程序
 
+将以下代码保存为 `c_demo.c` 文件：
+
 ```c
 #include <stdbool.h>
 #include "paddle_c_api.h"

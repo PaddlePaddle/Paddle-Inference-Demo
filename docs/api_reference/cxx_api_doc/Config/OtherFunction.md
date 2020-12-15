@@ -115,7 +115,7 @@ config.EnableProfile();
 std::cout << "Profile is: " << config.profile_enabled() << std::endl;
 ```
 
-输出的 Profile 的结果如下：
+执行预测之后输出的 Profile 的结果如下：
 
 ```bash
 ------------------------->     Profiling Report     <-------------------------

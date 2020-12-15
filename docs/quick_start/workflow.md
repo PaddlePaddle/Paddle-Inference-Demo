@@ -46,4 +46,5 @@ Paddle Inference 提供了C, C++, Python, Golang 和 Java 五种API的使用示�
 - [预测示例 (C++)](./cpp_demo)
 - [预测示例 (Python)](./python_demo)
 - [预测示例 (C)](./c_demo)
-- [预测示例 (Golang)](./golang_demo)
+- [预测示例 (GO)](./go_demo)
+- [预测示例 (R)](./r_demo)
