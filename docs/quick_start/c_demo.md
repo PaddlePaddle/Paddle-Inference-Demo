@@ -217,7 +217,7 @@ Output Data Length: 512
 #include "paddle_c_api.h"
 ```
 
-(2) 创建配置对象，并指定预测模型路径
+(2) 创建配置对象，并指定预测模型路径，详细可参考 [C API 文档 - AnalysisConfig](../api_reference/c_api_doc/Config_index)
 
 ```c
 // 配置 PD_AnalysisConfig
@@ -229,7 +229,7 @@ const char* params_path = "./model/params";
 PD_SetModel(config, model_path, params_path);
 ```
 
-(3) 设置模型输入和输出 Tensor
+(3) 设置模型输入和输出 Tensor，详细可参考 [C API 文档 - PaddleTensor](../api_reference/c_api_doc/PaddleTensor)
 
 ```c
 // 创建输入 Tensor
@@ -263,14 +263,14 @@ PD_Tensor* output_tensor = PD_NewPaddleTensor();
 int output_size;
 ```
 
-(4) 执行预测引擎
+(4) 执行预测引擎，，详细可参考 [C API 文档 - Predictor](../api_reference/c_api_doc/Predictor)
 
 ```c
 // 执行预测
 PD_PredictorRun(config, input_tensor, 1, &output_tensor, &output_size, 1);
 ```
 
-(5) 获得预测结果
+(5) 获得预测结果，详细可参考 [C API 文档 - PaddleTensor](../api_reference/c_api_doc/PaddleTensor)
 
 ```c
 // 获取预测输出 Tensor 信息
@@ -285,9 +285,10 @@ int result_length = PD_PaddleBufLength(output_buffer) / sizeof(float);
 printf("Output Data Length: %d\n", result_length);
 ```
 
-(6) 删除输入 Tensor 和 Buffer
+(6) 删除输入 Tensor，Buffer 和 Config
 
 ```c
 PD_DeletePaddleTensor(input_tensor);
 PD_DeletePaddleBuf(input_buffer);
+PD_DeleteAnalysisConfig(config);
 ```

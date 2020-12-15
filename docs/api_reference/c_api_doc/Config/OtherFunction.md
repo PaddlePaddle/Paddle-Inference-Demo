@@ -2,117 +2,89 @@
 
 API定义如下：
 
-```c++
+```c
 // 开启内存/显存复用，具体降低内存效果取决于模型结构
-// 参数：None
+// 参数：config - AnalysisConfig 对象指针
 // 返回：None
-void EnableMemoryOptim();
+void PD_EnableMemoryOptim(PD_AnalysisConfig* config);
 
 // 判断是否开启内存/显存复用
-// 参数：None
+// 参数：config - AnalysisConfig 对象指针
 // 返回：bool - 是否开启内/显存复用
-bool enable_memory_optim() const;
+bool PD_MemoryOptimEnabled(const PD_AnalysisConfig* config);
 ```
 
 代码示例：
 
-```c++
-// 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+```c
+// 创建 AnalysisConfig 对象
+PD_AnalysisConfig* config = PD_NewAnalysisConfig();
 
-// 开启 CPU 显存优化
-config.EnableMemoryOptim();
+// 开启 CPU 内存优化
+PD_EnableMemoryOptim(config);
 // 通过 API 获取 CPU 是否已经开启显存优化 - true
-std::cout << "CPU Mem Optim is: " << config.enable_memory_optim() << std::endl;
+printf("CPU Mem Optim is: %s\n", PD_MemoryOptimEnabled(config) ? "True" : "False");
 
-// 启用 GPU 进行预测
-config.EnableUseGpu(100, 0);
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+PD_EnableUseGpu(config, 100, 0);
 // 开启 GPU 显存优化
-config.EnableMemoryOptim();
+PD_EnableMemoryOptim(config);
 // 通过 API 获取 GPU 是否已经开启显存优化 - true
-std::cout << "GPU Mem Optim is: " << config.enable_memory_optim() << std::endl;
+printf("GPU Mem Optim is: %s\n", PD_MemoryOptimEnabled(config) ? "True" : "False");
 ```
 
 # 设置缓存路径
 
 **注意：** 如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `SetOptimCacheDir` 来设置缓存路径。
 
-
 API定义如下：
 
-```c++
+```c
 // 设置缓存路径
-// 参数：opt_cache_dir - 缓存路径
+// 参数：config - AnalysisConfig 对象指针
+//      opt_cache_dir - 缓存路径
 // 返回：None
-void SetOptimCacheDir(const std::string& opt_cache_dir);
+void PD_SetOptimCacheDir(PD_AnalysisConfig* config, const char* opt_cache_dir);
 ```
 
 代码示例：
 
-```c++
-// 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+```c
+// 创建 AnalysisConfig 对象
+PD_AnalysisConfig* config = PD_NewAnalysisConfig();
 
 // 设置缓存路径
-config.SetOptimCacheDir(FLAGS_infer_model + "/OptimCacheDir");
-```
-
-# FC Padding
-
-API定义如下：
-
-```c++
-// 禁用 FC Padding
-// 参数：None
-// 返回：None
-void DisableFCPadding();
-
-// 判断是否启用 FC Padding
-// 参数：None
-// 返回：bool - 是否启用 FC Padding
-bool use_fc_padding() const;
-```
-
-代码示例：
-
-```c++
-// 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
-
-// 禁用 FC Padding
-config.DisableFCPadding();
-
-// 通过 API 获取是否禁用 FC Padding - false
-std::cout << "Disable FC Padding is: " << config.use_fc_padding() << std::endl;
+const char * opt_cache_dir = "./mobilenet_v1/OptimCacheDir";
+PD_SetOptimCacheDir(config, opt_cache_dir);
 ```
 
 # Profile 设置
 
 API定义如下：
 
-```c++
+```c
 // 打开 Profile，运行结束后会打印所有 OP 的耗时占比。
-// 参数：None
+// 参数：config - AnalysisConfig 对象指针
 // 返回：None
-void EnableProfile();
+void PD_EnableProfile(PD_AnalysisConfig* config);
 
 // 判断是否开启 Profile
-// 参数：None
+// 参数：config - AnalysisConfig 对象指针
 // 返回：bool - 是否开启 Profile
-bool profile_enabled() const;
+bool PD_ProfileEnabled(const PD_AnalysisConfig* config);
 ```
 
 代码示例：
 
-```c++
-// 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+```c
+// 创建 AnalysisConfig 对象
+PD_AnalysisConfig* config = PD_NewAnalysisConfig();
 
 // 打开 Profile
-config.EnableProfile();
+PD_EnableProfile(config);
 
 // 判断是否开启 Profile - true
-std::cout << "Profile is: " << config.profile_enabled() << std::endl;
+printf("Profile is: %s\n", PD_ProfileEnabled(config) ? "True" : "False");
 ```
 
 输出的 Profile 的结果如下：
@@ -153,27 +125,19 @@ thread0::scale                   15          0.240771    0.013394    0.030727   
 
 API定义如下：
 
-```c++
+```c
 // 去除 Paddle Inference 运行中的 LOG
-// 参数：None
+// 参数：config - AnalysisConfig 对象指针
 // 返回：None
-void DisableGlogInfo();
-
-// 判断是否禁用 LOG
-// 参数：None
-// 返回：bool - 是否禁用 LOG
-bool glog_info_disabled() const;
+void PD_DisableGlogInfo(PD_AnalysisConfig* config);
 ```
 
 代码示例：
 
-```c++
-// 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+```c
+// 创建 AnalysisConfig 对象
+PD_AnalysisConfig* config = PD_NewAnalysisConfig();
 
-// 去除 Paddle Inference 运行中的 LOG
-config.DisableGlogInfo();
-
-// 判断是否禁用 LOG - true
-std::cout << "GLOG INFO is: " << config.glog_info_disabled() << std::endl;
+// 打开 Profile
+PD_DisableGlogInfo(config);
 ```
