@@ -1,4 +1,4 @@
-#Paddle Inference FAQ 
+# Paddle Inference FAQ 
 
 1、编译报错, 且出错语句没有明显语法错误。
 答：请检查使用的GCC版本，目前PaddlePaddle支持的编译器版本为GCC 4.8.2和GCC 8.2.0。
