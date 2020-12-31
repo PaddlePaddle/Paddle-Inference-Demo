@@ -52,7 +52,7 @@ predictor->Run();
 
 // 获取 Output Tensor
 auto output_names = predictor->GetOutputNames();
-auto output_tensor = predictor->GetInputHandle(output_names[0]);
+auto output_tensor = predictor->GetOutputHandle(output_names[0]);
 ```
 
 ## 运行和生成
@@ -102,14 +102,14 @@ predictor->Run();
 
 // 获取 Output Tensor
 auto output_names = predictor->GetOutputNames();
-auto output_t = predictor->GetOutputHandle(output_names[0]);
-std::vector<int> output_shape = output_t->shape();
+auto output_tensor = predictor->GetOutputHandle(output_names[0]);
+std::vector<int> output_shape = output_tensor->shape();
 int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 
                               1, std::multiplies<int>());
 // 获取 Output 数据
 std::vector<float> out_data;
 out_data.resize(out_num);
-output_t->CopyToCpu(out_data.data());
+output_tensor->CopyToCpu(out_data.data());
 
 // 释放中间Tensor
 predictor->ClearIntermediateTensor();
