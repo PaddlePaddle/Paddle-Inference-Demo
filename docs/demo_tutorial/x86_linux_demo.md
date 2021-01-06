@@ -8,7 +8,7 @@ C++示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo
 
 #### 1.1.1 准备预测库
 
-请参考[推理库下载文档](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/build_and_install_lib_cn.html)下载Paddle C++预测库。
+请参考[下载安装预测库文档](../user_guides/download_lib)下载Paddle Inference C++预测库，或者参考[源码编译文档](../user_guides/source_compile)编译Paddle Inference C++预测库。
 
 #### 1.1.2 准备预测模型
 
@@ -98,6 +98,8 @@ output_t->CopyToCpu(out_data.data());
 打开 `run_impl.sh` 文件，设置 LIB_DIR 为下载的预测库路径，比如 `LIB_DIR=/work/Paddle/build/paddle_inference_install_dir`。
 
 运行 `sh run_impl.sh`， 会在当前目录下编译产生build目录。
+
+注意：Paddle Inference 提供下载的C++预测库对应GCC 4.8，所以请检查您电脑中GCC版本是否一致，如果不一致可能出现未知错误。
 
 #### 1.2.2 运行示例
 

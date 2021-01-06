@@ -51,6 +51,8 @@ Welcome to Paddle-Inference's documentation!
   :name: sec-optimize
   
   optimize/paddle_trt
+  optimize/paddle_x86_cpu_int8
+
 
 .. toctree::
   :maxdepth: 1
