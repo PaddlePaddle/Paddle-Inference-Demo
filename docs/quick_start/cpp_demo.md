@@ -103,7 +103,7 @@ bash run_impl.sh
 
 ### 4. 执行预测程序
 
-**注意**：执行预测之前，需要现将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
+**注意**：执行预测之前，需要现将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。而且，Paddle Inference 提供下载的C++预测库对应GCC 4.8，所以请检查您电脑中GCC版本是否一致，如果不一致可能出现未知错误。
 
 ```bash
 # 设置 LD_LIBRARY_PATH
