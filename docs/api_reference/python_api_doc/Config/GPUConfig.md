@@ -133,7 +133,7 @@ config = paddle_infer.Config("./mobilenet_v1")
 config.enable_use_gpu(100, 0)
 
 # 启用 TensorRT 进行预测加速 - FP32
-config.enable_tensorrt_engine(workspace_size = 1 << 20, 
+config.enable_tensorrt_engine(workspace_size = 1 << 30, 
                               max_batch_size = 1, 
                               min_subgraph_size = 3, 
                               precision_mode=paddle_infer.PrecisionType.Float32, 
@@ -143,7 +143,7 @@ print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 
 
 # 启用 TensorRT 进行预测加速 - FP16
-config.enable_tensorrt_engine(workspace_size = 1 << 20, 
+config.enable_tensorrt_engine(workspace_size = 1 << 30, 
                               max_batch_size = 1, 
                               min_subgraph_size = 3, 
                               precision_mode=paddle_infer.PrecisionType.Half, 
@@ -152,7 +152,7 @@ config.enable_tensorrt_engine(workspace_size = 1 << 20,
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 
 # 启用 TensorRT 进行预测加速 - Int8
-config.enable_tensorrt_engine(workspace_size = 1 << 20, 
+config.enable_tensorrt_engine(workspace_size = 1 << 30, 
                               max_batch_size = 1, 
                               min_subgraph_size = 3, 
                               precision_mode=paddle_infer.PrecisionType.Int8, 

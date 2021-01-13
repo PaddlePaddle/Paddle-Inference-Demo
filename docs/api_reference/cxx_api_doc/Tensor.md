@@ -98,7 +98,7 @@ predictor->Run();
 
 // 获取 Output Tensor
 auto output_names = predictor->GetOutputNames();
-auto output_tensor = predictor->GetInputHandle(output_names[0]);
+auto output_tensor = predictor->GetOutputHandle(output_names[0]);
 
 // 获取 Output Tensor 的维度信息
 std::vector<int> output_shape = output_tensor->shape();
