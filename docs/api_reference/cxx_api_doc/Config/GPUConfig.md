@@ -114,7 +114,7 @@ int test_main(const paddle_infer::Config& config, Barrier* barrier = nullptr) {
   predictor->Run();
   // 获取预测输出
   auto output_names = predictor->GetOutputNames();
-  auto output_tensor = predictor->GetInputHandle(output_names[0]);
+  auto output_tensor = predictor->GetOutputHandle(output_names[0]);
   std::vector<int> output_shape = output_tensor->shape();
   std::cout << "Output shape is " << shape_to_string(output_shape) << std::endl;
 }
