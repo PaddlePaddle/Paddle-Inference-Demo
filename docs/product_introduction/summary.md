@@ -12,7 +12,7 @@
 | 飞桨前端推理引擎   | Paddle.js        | 浏览器中推理、小程序等       |
 
 
-其在推理生态中各自的关系如下
+各产品在推理生态中的关系如下
 
 ![](../images/inference_ecosystem.png)
 
