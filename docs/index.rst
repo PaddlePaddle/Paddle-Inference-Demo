@@ -43,6 +43,7 @@ Welcome to Paddle-Inference's documentation!
   user_guides/compile_ARM
   user_guides/compile_SW
   user_guides/compile_ZHAOXIN
+  user_guides/compile_MIPS
   user_guides/download_lib
 
 .. toctree::
