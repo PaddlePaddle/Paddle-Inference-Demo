@@ -19,12 +19,12 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
 
 make -j
 
-MODEL_DIR=$2
+MODEL_DIR=/home/li/repo/Paddle-Inference-Demo/c++/x86_gru_int8/saved_int8_gru_infer_path
 default_num_threads=1
 default_with_accuracy=false
 num_threads=${3:-$default_num_threads}
 # with_accuracy_layer=${4:-$default_with_accuracy}
 
 ./${DEMO_NAME} \
-    --model_dir=${MODEL_DIR} \
-    --threads=${num_threads} \
+    --model_dir=/home/li/repo/Paddle-Inference-Demo/c++/x86_gru_int8/saved_int8_gru_infer_path  \
+    --threads=1 \

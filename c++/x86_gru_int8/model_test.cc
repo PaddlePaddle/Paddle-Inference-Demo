@@ -29,33 +29,41 @@ int main(int argc, char *argv[]) {
   config.SetCpuMathLibraryNumThreads(FLAGS_threads);
   config.SwitchIrOptim();
   config.EnableMemoryOptim();
-  
+  std::cout<<"-------------------------Warning---------------------------"<<std::endl;
   // Create predictor
   auto predictor = paddle_infer::CreatePredictor(config);
 
   // Set input
   auto input_names = predictor->GetInputNames();
   auto input_t = predictor->GetInputHandle(input_names[0]);
-  std::vector<int> input_shape = {1, 3, 224, 224};
-  std::vector<float> input_data(1 * 3 * 224 * 224, 1);
+  std::vector<int> input_shape = {1, 10, 1};
+  std::vector<int> input_data(10);
+  for (int i = 0 ; i < input_data.size(); i++){
+    input_data[i]=210;
+  }
+  std::cout<<"input_data.size()"<<input_data.size()<<std::endl;
+  // for(int i = 0; i<input_data.size(); i++){
+  //   std::cout<<input_data[0]<<", ";
+  // }
   input_t->Reshape(input_shape);
   input_t->CopyFromCpu(input_data.data());
-
+  std::cout<<"succeed!"<<std::endl;
+  // for(int i = 0; i<input_data.size(); i++){
   // Run
   predictor->Run();
 
-  // Get output
-  auto output_names = predictor->GetOutputNames();
-  auto output_t = predictor->GetOutputHandle(output_names[0]);
-  std::vector<int> output_shape = output_t->shape();
-  int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
-                                std::multiplies<int>());
-  std::vector<float> out_data;
-  out_data.resize(out_num);
-  output_t->CopyToCpu(out_data.data());
+  // // Get output
+  // auto output_names = predictor->GetOutputNames();
+  // auto output_t = predictor->GetOutputHandle(output_names[0]);
+  // std::vector<int> output_shape = output_t->shape();
+  // int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
+  //                               std::multiplies<int>());
+  // std::vector<float> out_data;
+  // out_data.resize(out_num);
+  // output_t->CopyToCpu(out_data.data());
 
-  auto max_iter = std::max_element(out_data.begin(), out_data.end());
-  LOG(INFO) << "Output max_arg_index:" << max_iter - out_data.begin()
-    << ", max_value:" << *max_iter;
+  // auto max_iter = std::max_element(out_data.begin(), out_data.end());
+  // LOG(INFO) << "Output max_arg_index:" << max_iter - out_data.begin()
+  //   << ", max_value:" << *max_iter;
   return 0;
 }
