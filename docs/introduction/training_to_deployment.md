@@ -105,7 +105,7 @@ model.set_state_dict(model_state_dict)
 optim.set_state_dict(opt_state_dict)
 ```
 
-- 存储为预测格式模型：实际部署时，您需要使用预测格式的模型，预测格式模型相对训练格式模型而言，在拓扑上进行了裁剪，去除了预测不需要的算子。您可以参考[InputSpec](https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/04_dygraph_to_static/input_spec_cn.html)来完成动转静功能。只需InputSpec标记模型的输入，调用`paddle.jit.to_static`和`paddle.jit.save`即可得到预测格式的模型。
+- 存储为预测部署模型：实际部署时，您需要使用预测格式的模型，预测格式模型相对训练格式模型而言，在拓扑上进行了裁剪，去除了预测不需要的算子。您可以参考[InputSpec](https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/04_dygraph_to_static/input_spec_cn.html)来完成动转静功能。只需InputSpec标记模型的输入，调用`paddle.jit.to_static`和`paddle.jit.save`即可得到预测格式的模型。
 
 ```
 net = to_static(model, input_spec=[InputSpec(shape=[None, 1, 28, 28], name='x')])
