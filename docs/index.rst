@@ -97,5 +97,5 @@ Welcome to Paddle-Inference's documentation!
   :caption: FAQ
 
   introduction/faq
-
+  introduction/training_to_deployment
 
