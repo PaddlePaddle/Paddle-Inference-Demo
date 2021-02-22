@@ -16,10 +16,10 @@ Paddle Inference 原生支持由 [PaddlePaddle](https://github.com/PaddlePaddle/
 
 ### 2) C++ 环境
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方Release预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行源码编译。
+Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方Release预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](https://paddleinference.paddlepaddle.org.cn/user_guides/source_compile.html)。
 
-- [安装与编译 Linux 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html) 
-- [安装与编译 Windows 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/windows_cpp_inference.html)
+- [下载安装Linux预测库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux) 
+- [下载安装Windows预测库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)
 
 ## 三. 开发预测程序
 
