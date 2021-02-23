@@ -139,7 +139,7 @@ Calib Int8: |uncheck|
 二：API使用介绍
 -----------------
 
-在 `使用流程 <../user_guides/tutorial.html>`_ 一节中，我们了解到Paddle Inference预测包含了以下几个方面：
+在 `预测流程 <https://paddleinference.paddlepaddle.org.cn/quick_start/workflow.html>`_ 一节中，我们了解到Paddle Inference预测包含了以下几个方面：
 
 - 配置推理选项
 - 创建predictor
@@ -147,44 +147,42 @@ Calib Int8: |uncheck|
 - 模型推理
 - 获取模型输出
 
-使用Paddle-TRT 也是遵照这样的流程。我们先用一个简单的例子来介绍这一流程（我们假设您已经对Paddle Inference有一定的了解，如果您刚接触Paddle Inference，请访问 `这里 <../introduction/quick_start>`_ 对Paddle Inference有个初步认识。）：
+使用Paddle-TRT 也是遵照这样的流程。我们先用一个简单的例子来介绍这一流程（我们假设您已经对Paddle Inference有一定的了解，如果您刚接触Paddle Inference，请访问 `这里 <https://paddleinference.paddlepaddle.org.cn/quick_start/workflow.html>`_ 对Paddle Inference有个初步认识。）：
 
 .. code:: python
 
 	import numpy as np
-	from paddle.fluid.core import AnalysisConfig
-	from paddle.fluid.core import create_paddle_predictor
+	import paddle.inference as paddle_infer
 
 	def create_predictor():
-		# config = AnalysisConfig("")
-		config = AnalysisConfig("./resnet50/model", "./resnet50/params")
-		config.switch_use_feed_fetch_ops(False)
+	        config = paddle_infer.Config("./resnet50/model", "./resnet50/params")
 		config.enable_memory_optim()
 		config.enable_use_gpu(1000, 0)
    
 		# 打开TensorRT。此接口的详细介绍请见下文
-		config.enable_tensorrt_engine(workspace_size = 1<<30, 
-			max_batch_size=1, min_subgraph_size=5,
-			precision_mode=AnalysisConfig.Precision.Float32,
-			use_static=False, use_calib_mode=False)
+                config.enable_tensorrt_engine(workspace_size = 1 << 30, 
+                              max_batch_size = 1, 
+                              min_subgraph_size = 3, 
+                              precision_mode=paddle_infer.PrecisionType.Float32, 
+                              use_static = False, use_calib_mode = False)
 
-		predictor = create_paddle_predictor(config)
+                predictor = paddle_infer.create_predictor(config)
 		return predictor
    
 	def run(predictor, img):
 		# 准备输入
 		input_names = predictor.get_input_names()
 		for i,  name in enumerate(input_names):
-			input_tensor = predictor.get_input_tensor(name)
+			input_tensor = predictor.get_input_handle(name)
 			input_tensor.reshape(img[i].shape)   
 			input_tensor.copy_from_cpu(img[i].copy())
 		# 预测
-		predictor.zero_copy_run()
+		predictor.run()
 		results = []
 		# 获取输出
 		output_names = predictor.get_output_names()
 		for i, name in enumerate(output_names):
-			output_tensor = predictor.get_output_tensor(name)
+			output_tensor = predictor.get_output_handle(name)
 			output_data = output_tensor.copy_to_cpu()
 			results.append(output_data)
 		return results
@@ -200,19 +198,18 @@ Calib Int8: |uncheck|
 
 .. code:: python
 
-	config.enable_tensorrt_engine(
-		workspace_size = 1<<30,
- 		max_batch_size=1, min_subgraph_size=5,
- 		precision_mode=AnalysisConfig.Precision.Float32,
-		use_static=False, use_calib_mode=False)
-
+config.enable_tensorrt_engine(workspace_size = 1 << 30, 
+                              max_batch_size = 1, 
+                              min_subgraph_size = 3, 
+                              precision_mode=paddle_infer.PrecisionType.Float32, 
+                              use_static = False, use_calib_mode = False)
 
 接下来让我们看下该接口中各个参数的作用:  
 
 - **workspace_size**，类型：int，默认值为1 << 30 （1G）。指定TensorRT使用的工作空间大小，TensorRT会在该大小限制下筛选最优的kernel执行预测运算。
 - **max_batch_size**，类型：int，默认值为1。需要提前设置最大的batch大小，运行时batch大小不得超过此限定值。
 - **min_subgraph_size**，类型：int，默认值为3。Paddle-TRT是以子图的形式运行，为了避免性能损失，当子图内部节点个数大于 min_subgraph_size 的时候，才会使用Paddle-TRT运行。
-- **precision_mode**，类型：**AnalysisConfig.Precision**, 默认值为 **AnalysisConfig.Precision.Float32**。指定使用TRT的精度，支持FP32（Float32），FP16（Half），Int8（Int8）。若需要使用Paddle-TRT int8离线量化校准，需设定precision为 **AnalysisConfig.Precision.Int8** , 且设置 **use_calib_mode** 为True。
+- **precision_mode**，类型：**paddle_infer.PrecisionType**, 默认值为 **paddle_infer.PrecisionType.Float32**。指定使用TRT的精度，支持FP32（Float32），FP16（Half），Int8（Int8）。若需要使用Paddle-TRT int8离线量化校准，需设定precision为 **paddle_infer.PrecisionType.Int8** , 且设置 **use_calib_mode** 为True。
 - **use_static**，类型：bool, 默认值为False。如果指定为True，在初次运行程序的时候会将TRT的优化信息进行序列化到磁盘上，下次运行时直接加载优化的序列化信息而不需要重新生成。
 - **use_calib_mode**，类型：bool, 默认值为False。若要运行Paddle-TRT int8离线量化校准，需要将此选项设置为True。
 
@@ -227,14 +224,14 @@ Int8量化预测
 
 a. 使用TensorRT自带Int8离线量化校准功能。校准即基于训练好的FP32模型和少量校准数据（如500～1000张图片）生成校准表（Calibration table），预测时，加载FP32模型和此校准表即可使用Int8精度预测。生成校准表的方法如下：
 
-  - 指定TensorRT配置时，将 **precision_mode** 设置为 **AnalysisConfig.Precision.Int8** 并且设置 **use_calib_mode** 为 **True**。
+  - 指定TensorRT配置时，将 **precision_mode** 设置为 **paddle_infer.PrecisionType.Int8** 并且设置 **use_calib_mode** 为 **True**。
 
     .. code:: python
 
       config.enable_tensorrt_engine(
         workspace_size=1<<30,
         max_batch_size=1, min_subgraph_size=5,
-        precision_mode=AnalysisConfig.Precision.Int8,
+        precision_mode=paddle_infer.PrecisionType.Int8,
         use_static=False, use_calib_mode=True)
 
   - 准备500张左右的真实输入数据，在上述配置下，运行模型。（Paddle-TRT会统计模型中每个tensor值的范围信息，并将其记录到校准表中，运行结束后，会将校准表写入模型目录下的 `_opt_cache` 目录中）
@@ -254,7 +251,7 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
   
 **2. 加载量化模型进行Int8预测**       
 
-  加载量化模型进行Int8预测，需要在指定TensorRT配置时，将 **precision_mode** 设置为 **AnalysisConfig.Precision.Int8** 。
+  加载量化模型进行Int8预测，需要在指定TensorRT配置时，将 **precision_mode** 设置为 **paddle_infer.PrecisionType.Int8** 。
 
   若使用的量化模型为TRT离线量化校准产出的，需要将 **use_calib_mode** 设为 **True** ：
 
@@ -263,7 +260,7 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
     config.enable_tensorrt_engine(
       workspace_size=1<<30,
       max_batch_size=1, min_subgraph_size=5,
-      precision_mode=AnalysisConfig.Precision.Int8,
+      precision_mode=paddle_infer.PrecisionType.Int8,
       use_static=False, use_calib_mode=True)
 
   完整demo请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E5%8A%A0%E8%BD%BD%E6%A0%A1%E5%87%86%E8%A1%A8%E6%89%A7%E8%A1%8Cint8%E9%A2%84%E6%B5%8B>`_ 。
@@ -275,7 +272,7 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
     config.enable_tensorrt_engine(
       workspace_size=1<<30,
       max_batch_size=1, min_subgraph_size=5,
-      precision_mode=AnalysisConfig.Precision.Int8,
+      precision_mode=paddle_infer.PrecisionType.Int8,
       use_static=False, use_calib_mode=False)
 
   完整demo请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E4%B8%89%E4%BD%BF%E7%94%A8trt-%E5%8A%A0%E8%BD%BDpaddleslim-int8%E9%87%8F%E5%8C%96%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B>`_ 。
@@ -291,7 +288,7 @@ b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离
 	config.enable_tensorrt_engine(
 		workspace_size = 1<<30,
 		max_batch_size=1, min_subgraph_size=5,
-		precision_mode=AnalysisConfig.Precision.Float32,
+		precision_mode=paddle_infer.PrecisionType.Float32,
 		use_static=False, use_calib_mode=False)
 		  
 	min_input_shape = {"image":[1,3, 10, 10]}
