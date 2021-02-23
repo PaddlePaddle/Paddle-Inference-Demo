@@ -1,4 +1,4 @@
-# GPU上预测部署示例
+# Linux上GPU预测部署示例
 
 ## 1 C++预测部署示例
 
@@ -136,8 +136,7 @@ tar zxf mobilenetv1_fp32.tar.gz
 #### 2.1.3 Python导入
 
 ```
-from paddle.inference import Config
-from paddle.inference import create_predictor
+import paddle.inference as paddle_infer
 ```
 
 #### 2.1.4 设置Config
@@ -149,19 +148,19 @@ Config默认是使用CPU预测，若要使用GPU预测，需要手动开启，�
 ```python
 # args 是解析的输入参数
 if args.model_dir == "":
-    config = Config(args.model_file, args.params_file)
+    config = paddle_infer.Config(args.model_file, args.params_file)
 else:
-    config = Config(args.model_dir)
+    config = paddle_infer.Config(args.model_dir)
 config.enable_use_gpu(500, 0)
 config.switch_ir_optim()
 config.enable_memory_optim()
-config.enable_tensorrt_engine(workspace_size=1 << 30, precision_mode=AnalysisConfig.Precision.Float32,max_batch_size=1, min_subgraph_size=5, use_static=False, use_calib_mode=False)
+config.enable_tensorrt_engine(workspace_size=1 << 30, precision_mode=paddle_infer.PrecisionType.Float32,max_batch_size=1, min_subgraph_size=5, use_static=False, use_calib_mode=False)
 ```
 
 #### 2.1.5 创建Predictor
 
 ```python
-predictor = create_predictor(config)
+predictor = paddle_infer.create_predictor(config)
 ```
 
 #### 2.1.6 设置输入
