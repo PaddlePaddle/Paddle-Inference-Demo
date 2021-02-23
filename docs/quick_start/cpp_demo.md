@@ -6,10 +6,10 @@
 
 ### 1. 下载预编译 C++ 预测库
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方Release预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行源码编译。
+Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方Release预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](https://paddleinference.paddlepaddle.org.cn/user_guides/source_compile.html)。
 
-- [安装与编译 Linux 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html) 
-- [安装与编译 Windows 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/windows_cpp_inference.html)
+- [下载安装Linux预测库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)
+- [下载安装Windows预测库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)
 
 下载完成并解压之后，目录下的 `paddle_inference_install_dir` 即为 C++ 预测库，目录结构如下：
 
@@ -59,7 +59,7 @@ TensorRT version: v6
 
 ### 2. 准备预测部署模型
 
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ResNet50.tar.gz) 模型后解压，得到 Paddle Combined 形式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `model` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ResNet50.tar.gz) 模型后解压，得到 Paddle Combined 形式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `model` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。注：目前是按照老版本给出的示例，新版本的模型只需要自行更改名称即可，我们会尽快统一更新为2.0版本的模型。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ResNet50.tar.gz
@@ -96,14 +96,16 @@ LIB_DIR=${YOUR_LIB_DIR}/paddle_inference_install_dir
 # 如果上述的 WITH_GPU 或 USE_TENSORRT 设为ON，请设置对应的 CUDA, CUDNN, TENSORRT的路径，例如
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu
 CUDA_LIB=/usr/local/cuda-10.2/lib64
+```
+运行脚本进行编译，会在目录下产生build目录，并生成 build/resnet50_test 可执行文件
 
-# 编译，会在目录下产生build目录，并生成 build/resnet50_test 可执行文件
+```bash
 bash run_impl.sh
 ```
 
 ### 4. 执行预测程序
 
-**注意**：执行预测之前，需要现将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。而且，Paddle Inference 提供下载的C++预测库对应GCC 4.8，所以请检查您电脑中GCC版本是否一致，如果不一致可能出现未知错误。
+**注意**：执行预测之前，需要先将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。而且，Paddle Inference 提供下载的C++预测库对应GCC 4.8，所以请检查您电脑中GCC版本是否一致，如果不一致可能出现未知错误。
 
 ```bash
 # 设置 LD_LIBRARY_PATH
@@ -225,7 +227,7 @@ input_tensor->CopyFromCpu(input_data.data());
 predictor->Run();
 ```
 
-(5) 获得预测结果，详细可参考 [C++ API 文档 - Tensor](../api_reference/cxx_api_doc/Tensor)
+(6) 获得预测结果，详细可参考 [C++ API 文档 - Tensor](../api_reference/cxx_api_doc/Tensor)
 
 ```c++
 // 获取 Output Tensor

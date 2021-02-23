@@ -7,7 +7,7 @@
 * **Python 版本 2.7.15+/3.5.1+/3.6/3.7/3.8 (64 bit)**
 * **pip 或 pip3 版本 9.0.1+ (64 bit)**
 
-兆芯为x86架构，编译方法与[Linux下从源码编译cpu版](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/compile_Linux.html)一致。
+兆芯为x86架构，编译方法与[Linux下从源码编译cpu版](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/compile/linux-compile.html#compile_from_host)一致。
 
 ## 安装步骤
 
@@ -73,7 +73,7 @@
 
 8. 执行cmake：
 
-    >具体编译选项含义请参见[编译选项表](../Tables.html#Compile)
+    >具体编译选项含义请参见[编译选项表](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html#Compile)
 
         ```
         # For Python2:
