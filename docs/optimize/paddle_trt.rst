@@ -155,7 +155,7 @@ Calib Int8: |uncheck|
     import paddle.inference as paddle_infer
     
     def create_predictor():
-            config = paddle_infer.Config("./resnet50/model", "./resnet50/params")
+        config = paddle_infer.Config("./resnet50/model", "./resnet50/params")
         config.enable_memory_optim()
         config.enable_use_gpu(1000, 0)
         
