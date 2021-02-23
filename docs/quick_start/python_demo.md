@@ -10,7 +10,7 @@
 
 ### 2. 准备预测部署模型
 
-下载 [resnet50](http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz) 模型后解压，得到 Paddle Combined 形式的模型，位于文件夹 model 下。如需查看模型结构，可将 `model` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
+下载 [resnet50](http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz) 模型后解压，得到 Paddle Combined 形式的模型，位于文件夹 model 下。如需查看模型结构，可将 `model` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。注：目前是按照老版本给出的示例，新版本的模型只需要自行更改名称即可，我们会尽快统一更新为2.0版本的模型。
 
 ```bash
 wget http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz

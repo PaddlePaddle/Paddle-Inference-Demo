@@ -3,7 +3,7 @@
 
 X2Paddle可以将caffe、tensorflow、onnx模型转换成Paddle支持的模型。
 
-`X2Paddle <https://github.com/PaddlePaddle/X2Paddle>`_ 支持将Caffe/TensorFlow模型转换为PaddlePaddle模型。目前X2Paddle支持的模型参考 `x2paddle_model_zoo <https://github.com/PaddlePaddle/X2Paddle/blob/develop/x2paddle_model_zoo.md>`_ 。
+`X2Paddle <https://github.com/PaddlePaddle/X2Paddle>`_ 支持将Caffe/TensorFlow模型转换为PaddlePaddle模型。目前X2Paddle支持的模型参考 `x2paddle_model_zoo <https://github.com/PaddlePaddle/X2Paddle/blob/develop/docs/introduction/x2paddle_model_zoo.md>`_ 。
 
 
 多框架支持

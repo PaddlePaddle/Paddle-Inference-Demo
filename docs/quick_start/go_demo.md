@@ -121,7 +121,7 @@ Paddle/go/
 
 ### 5. 执行预测程序
 
-**注意**：需要现将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
+**注意**：需要先将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
 
 ```bash
 # 执行预测程序
@@ -160,7 +160,7 @@ v:  +3.000000e+000 +2.676507e-002 ...
 import "/pathto/Paddle/go/paddle"
 ```
 
-(2) 创建配置对象，并指定预测模型路径
+(2) 创建配置对象，并指定预测模型路径，详细可参考 [go API 文档 - Config](../api_reference/go_api_doc/Config_index)
 
 ```go
 // 配置 PD_AnalysisConfig
@@ -170,13 +170,13 @@ config := paddle.NewAnalysisConfig()
 config.SetModel("data/model/__model__", "data/model/__params__")
 ```
 
-(3) 根据Config创建预测对象
+(3) 根据Config创建预测对象，详细可参考 [go API 文档 - Predictor](../api_reference/go_api_doc/Predictor)	
 
 ```go
 predictor := paddle.NewPredictor(config)
 ```
 
-(4) 设置模型输入和输出 Tensor
+(4) 设置模型输入和输出 Tensor，详细可参考 [go API 文档 - Tensor](../api_reference/go_api_doc/Tensor)
 
 ```go
 // 创建输入 Tensor
@@ -189,7 +189,7 @@ input.SetValue(data[:1 * 3 * 300 * 300])
 input.Reshape([]int32{1, 3, 300, 300})
 ```
 
-(5) 执行预测引擎
+(5) 执行预测引擎，详细可参考 [go API 文档 - Predictor](../api_reference/go_api_doc/Predictor)
 
 ```go
 predictor.SetZeroCopyInput(input)
@@ -197,7 +197,7 @@ predictor.ZeroCopyRun()
 predictor.GetZeroCopyOutput(output)
 ```
 
-(6) 获得预测结果
+(6) 获得预测结果，详细可参考 [go API 文档 - Tensor](../api_reference/go_api_doc/Tensor)
 
 ```go
 // 获取预测输出 Tensor 信息
