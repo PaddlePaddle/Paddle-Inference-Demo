@@ -4,6 +4,7 @@ import cv2
 
 from paddle.inference import Config
 from paddle.inference import create_predictor
+from paddle.inference import PrecisionType
 from img_preprocess import preprocess
 
 def parse_args():
@@ -50,7 +51,7 @@ if __name__ == '__main__':
     config.enable_use_gpu(500, 0)
     config.switch_ir_optim()
     config.enable_memory_optim()
-    config.enable_tensorrt_engine(workspace_size=1 << 30, precision_mode=AnalysisConfig.Precision.Float32,max_batch_size=1, min_subgraph_size=5, use_static=False, use_calib_mode=False)
+    config.enable_tensorrt_engine(workspace_size=1 << 30, precision_mode=PrecisionType.Float32,max_batch_size=1, min_subgraph_size=5, use_static=False, use_calib_mode=False)
         
     # Create predictor
     predictor = create_predictor(config)
