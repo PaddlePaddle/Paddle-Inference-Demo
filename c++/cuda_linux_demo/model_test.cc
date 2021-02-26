@@ -13,6 +13,9 @@
 DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_string(model_file, "", "Path of the inference model file.");
 DEFINE_string(params_file, "", "Path of the inference params file.");
+DEFINE_int32(batch_size, 1, "Batch size.");
+
+using paddle_infer::PrecisionType;
 
 int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
