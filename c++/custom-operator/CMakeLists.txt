@@ -167,9 +167,9 @@ if(WITH_GPU)
   endif()
 endif()
 
-CUDA_ADD_LIBRARY(pd_infer_custom_op_shared ${CUSTOM_OPERATOR_FILES} SHARED)
-set_target_properties(pd_infer_custom_op_shared PROPERTIES OUTPUT_NAME pd_infer_custom_op)
-target_link_libraries(pd_infer_custom_op_shared ${DEPS})
+cuda_add_library(pd_infer_custom_op ${CUSTOM_OPERATOR_FILES} SHARED)
+add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
+set(DEPS ${DEPS} pd_infer_custom_op)
 
 if(WIN32)
   if(USE_TENSORRT)
@@ -197,3 +197,5 @@ if(WIN32)
       )
   endif()
 endif()
+
+target_link_libraries(${DEMO_NAME} ${DEPS})
