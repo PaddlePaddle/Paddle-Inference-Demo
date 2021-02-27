@@ -2,18 +2,17 @@ mkdir -p build
 cd build
 rm -rf *
 
-# same with the resnet50_test.cc
-DEMO_NAME=ernie_varlen_test
+DEMO_NAME=custom_op_test
 
 WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=OFF
 
-LIB_DIR=/root/work/Paddle/build/paddle_inference_install_dir
+LIB_DIR=/shixiaowei02/Paddle-custom-op-src/Paddle/build/paddle_inference_install_dir
 CUDNN_LIB=/usr/local/cudnn/lib64
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/root/work/nvidia/TensorRT-6.0.1.5.cuda-10.1.cudnn7.6-OSS7.2.1
-CUSTOM_OPERATOR_FILES="custom_relu_op.cc;custom_relu_op.cu"
+CUSTOM_OPERATOR_FILES="custom_relu_op.cc;custom_relu_op.cu;custom_relu_op_dup.cc"
 
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
