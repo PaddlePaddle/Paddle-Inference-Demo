@@ -45,7 +45,7 @@ int main() {
   paddle::AnalysisConfig config;
   config.EnableUseGpu(100, 0);
   config.SetModel("custom_relu_infer_model/custom_relu.pdmodel",
-                  "custom_op_inference/custom_relu_infer_model/custom_relu.pdiparams");
+                  "custom_relu_infer_model/custom_relu.pdiparams");
   auto predictor{paddle_infer::CreatePredictor(config)};
   std::vector<int> input_shape = {1, 1, 28, 28};
   std::vector<float> input_data(1 * 1 * 28 * 28, 1);
