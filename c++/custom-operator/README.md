@@ -1,11 +1,11 @@
 ## 自定义算子模型构建运行示例
 
 ### 一：获取本样例中的自定义算子模型
-待上传。
+下载地址：https://paddle-inference-dist.bj.bcebos.com/inference_demo/custom_operator/custom_relu_infer_model.tgz
 
 ### 二：**样例编译**
 
-文件 `custom_relu_op.cc`、`custom_relu_op.cu`、`custom_relu_op_dup.cc` 为自定义算子源文件，自定义算子编写方式请参考[飞桨官网文档](https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/index_cn.html)。
+文件 `custom_relu_op.cc`、`custom_relu_op.cu` 为自定义算子源文件，自定义算子编写方式请参考[飞桨官网文档](https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/index_cn.html)。
 注意：自定义算子目前是试验功能，需要依赖 boost，并需要与飞桨预测库 `libpaddle_inference.so` 联合构建。
 
 文件`custom_op_test.cc` 为预测的样例程序。    
