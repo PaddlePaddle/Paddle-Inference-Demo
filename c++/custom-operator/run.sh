@@ -8,7 +8,7 @@ WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=OFF
 
-LIB_DIR=/shixiaowei02/Paddle-custom-op-src/Paddle/build/paddle_inference_install_dir
+LIB_DIR=paddle_inference_install_dir
 CUDNN_LIB=/usr/local/cudnn/lib64
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/root/work/nvidia/TensorRT-6.0.1.5.cuda-10.1.cudnn7.6-OSS7.2.1
