@@ -12,7 +12,7 @@ LIB_DIR=/shixiaowei02/Paddle-custom-op-src/Paddle/build/paddle_inference_install
 CUDNN_LIB=/usr/local/cudnn/lib64
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/root/work/nvidia/TensorRT-6.0.1.5.cuda-10.1.cudnn7.6-OSS7.2.1
-CUSTOM_OPERATOR_FILES="custom_relu_op.cc;custom_relu_op.cu;custom_relu_op_dup.cc"
+CUSTOM_OPERATOR_FILES="custom_relu_op.cc;custom_relu_op.cu"
 
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \

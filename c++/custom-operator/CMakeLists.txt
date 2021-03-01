@@ -5,6 +5,9 @@ option(WITH_GPU        "Compile demo with GPU/CPU, default use CPU."            
 option(USE_TENSORRT "Compile demo with TensorRT."   ON)
 option(CUSTOM_OPERATOR_FILES "List of file names for custom operators" "")
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(external/boost)
+
 if(WITH_GPU)
   find_package(CUDA REQUIRED)
   add_definitions("-DPADDLE_WITH_CUDA")
@@ -169,7 +172,7 @@ endif()
 
 cuda_add_library(pd_infer_custom_op ${CUSTOM_OPERATOR_FILES} SHARED)
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
-set(DEPS ${DEPS} pd_infer_custom_op)
+set(DEPS ${DEPS} boost pd_infer_custom_op)
 
 if(WIN32)
   if(USE_TENSORRT)

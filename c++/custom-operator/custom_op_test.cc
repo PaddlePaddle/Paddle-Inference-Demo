@@ -44,20 +44,15 @@ void run(Predictor *predictor, const std::vector<float> &input,
 int main() {
   paddle::AnalysisConfig config;
   config.EnableUseGpu(100, 0);
-config.SetModel("/shixiaowei02/Paddle-custom-operator/Paddle/build_gpu/shixiaowei02/custom_op_inference/custom_relu.pdmodel",
-                  "/shixiaowei02/Paddle-custom-operator/Paddle/build_gpu/shixiaowei02/custom_op_inference/custom_relu.pdiparams");
-
+  config.SetModel("custom_relu_infer_model/custom_relu.pdmodel",
+                  "custom_op_inference/custom_relu_infer_model/custom_relu.pdiparams");
   auto predictor{paddle_infer::CreatePredictor(config)};
-
   std::vector<int> input_shape = {1, 1, 28, 28};
-
-  // init 0 for the input.
   std::vector<float> input_data(1 * 1 * 28 * 28, 1);
   std::vector<float> out_data;
   run(predictor.get(), input_data, input_shape, &out_data);
   for (auto e : out_data) {
-    LOG(INFO) << e << std::endl;
+    LOG(INFO) << e << '\n';
   }
-
   return 0;
 }
