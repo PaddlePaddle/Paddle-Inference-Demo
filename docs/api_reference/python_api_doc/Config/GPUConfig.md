@@ -118,6 +118,16 @@ paddle.inference.Config.enable_tensorrt_oss()
 # 参数：None
 # 返回：bool - 是否启用 TensorRT OSS
 paddle.inference.Config.tensorrt_oss_enabled()
+
+# 启用TensorRT DLA进行预测加速
+# 参数：dla_core - DLA设备的id，可选0，1，...，DLA设备总数 - 1
+# 返回：None
+paddle.inference.Config.enable_tensorrt_dla(dla_core: int = 0)
+
+# 判断是否已经开启TensorRT DLA加速
+# 参数：None
+# 返回：bool - 是否已开启TensorRT DLA加速
+paddle.inference.Config.tensorrt_dla_enabled()
 ```
 
 代码示例 (1)：使用 TensorRT FP32 / FP16 / INT8 进行预测
