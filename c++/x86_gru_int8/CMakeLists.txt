@@ -14,6 +14,7 @@ if(NOT DEFINED DEMO_NAME)
   message(FATAL_ERROR "please set DEMO_NAME with -DDEMO_NAME=demo_name")
 endif()
 
+include_directories("${CMAKE_SOURCE_DIR}")
 include_directories("${PADDLE_LIB}")
 include_directories("${PADDLE_LIB}/paddle/include")
 include_directories("${PADDLE_LIB}/third_party/install/protobuf/include")
@@ -31,6 +32,9 @@ link_directories("${PADDLE_LIB}/third_party/install/gflags/lib")
 link_directories("${PADDLE_LIB}/third_party/install/xxhash/lib")
 link_directories("${PADDLE_LIB}/paddle/lib")
 
+add_library(LAC_UTIL_LIB SHARED lac_util.cc)
+add_library(LAC_LIB SHARED lac.cc)
+
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
 
 if(WITH_MKL)
@@ -46,6 +50,9 @@ else()
   set(MATH_LIB ${PADDLE_LIB}/third_party/install/openblas/lib/libopenblas${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
+# include_directories(${PROJECT_SOURCE_DIR}/lac_util.h)
+# include_directories(${PROJECT_SOURCE_DIR}/lac.h)
+
 # Note: libpaddle_inference_api.so/a must put before libpaddle_fluid.so/a
 if(WITH_STATIC_LIB)
   set(DEPS
@@ -57,7 +64,7 @@ endif()
 
 set(EXTERNAL_LIB "-lrt -ldl -lpthread")
 set(DEPS ${DEPS}
-    ${MATH_LIB} ${MKLDNN_LIB} glog gflags xxhash protobuf z 
+    ${MATH_LIB} ${MKLDNN_LIB} glog gflags xxhash protobuf z ${LAC_UTIL_LIB} ${LAC_LIB}
     ${EXTERNAL_LIB})
 
 target_link_libraries(${DEMO_NAME} ${DEPS})
