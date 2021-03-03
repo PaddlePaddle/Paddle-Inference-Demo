@@ -71,7 +71,7 @@ void LAC::feed_data(const std::vector<std::string> &querys) {
 
   this->_input_tensor->Reshape({shape, 1});
   this->_input_tensor->SetLoD(this->_lod);
-  int64_t *input_d = this->_input_tensor->mutable_data<int64_t>();
+  auto *input_d = this->_input_tensor->mutable_data<paddle_infer::PlaceType::kCPU>();
   int index = 0;
   for (size_t i = 0; i < this->_seq_words_batch.size(); ++i) {
     for (size_t j = 0; j < this->_seq_words_batch[i].size(); ++j) {
