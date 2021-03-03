@@ -19,6 +19,7 @@
 #include <unordered_map>
 #include <vector>
 #include "paddle_api.h"  // NOLINT
+#include "paddle/include/paddle_inference_api.h"
 
 enum CODE_TYPE {
   CODE_GB18030 = 0,
@@ -51,7 +52,7 @@ class LAC {
   std::unique_ptr<paddle::PaddleTensor> _input_tensor;         //
   std::unique_ptr<const paddle::PaddleTensor> _output_tensor;  //
 
-  std::shared_ptr<paddle::PaddlePredictor> _predictor;   //
+  std::shared_ptr<paddle_infer::Predictor> _predictor;   //
 
  public:
   explicit LAC(const std::string &model_path,

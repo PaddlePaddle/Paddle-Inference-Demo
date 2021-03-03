@@ -22,6 +22,7 @@
 
 #include "lac.h"  // NOLINT
 
+
 enum RVAL {
   _SUCCESS = 0,
   _FAILD = -1,

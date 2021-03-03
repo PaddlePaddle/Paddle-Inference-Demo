@@ -26,17 +26,17 @@ DEFINE_int32(batch_size, 1, "batch size.");
 DEFINE_int32(iterations,100, "needed iterations");
 DEFINE_bool(with_accuracy_layer, false, "with accuracy or not");
 
-std::unique_ptr<paddle::PaddlePredictor> CreatePredictor(
-    const paddle::PaddlePredictor::Config *config, bool use_analysis = true) {
-  const auto *analysis_config =
-      reinterpret_cast<const paddle::AnalysisConfig *>(config);
-  if (use_analysis) {
-    return paddle::CreatePaddlePredictor<paddle::AnalysisConfig>(
-        *analysis_config);
-  }
-  auto native_config = analysis_config->ToNativeConfig();
-  return paddle::CreatePaddlePredictor<paddle::NativeConfig>(native_config);
-}
+// std::unique_ptr<paddle_infer::Predictor> CreatePredictor(
+//     const paddle_infer::Predictor::Config *config, bool use_analysis = true) {
+//   const auto *infer_config =
+//       reinterpret_cast<const paddle_infer::Config *>(config);
+//   if (use_analysis) {
+//     return paddle::CreatePaddlePredictor<paddle_infer::Config>(
+//         *infer_config);
+//   }
+//   auto native_config = infer_config->ToNativeConfig();
+//   return paddle::CreatePaddlePredictor<paddle::NativeConfig>(native_config);
+// }
 
 int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
@@ -57,18 +57,7 @@ int main(int argc, char *argv[]) {
   std::cout<<"-------------------------Warning---------------------------"<<std::endl;
   // Create predictor
   // auto predictor = paddle_infer::CreatePredictor(config);
-  auto predictor =
-      CreatePredictor(reinterpret_cast<paddle::PaddlePredictor::Config *>(&config),
-                      false);
-
-  PredictionRun(predictor.get(), input_slots_all, &outputs, 1);
-  for (int i = 0 ; i<100; i++){
-    for (int j = 0 ; j < 3; j++){
-      auto* temp = static_cast<int64_t *>(outputs[i][j].data.data());
-      std::cout<<*temp<<" ";
-    }
-    std::cout<<std::endl;
-  }
+  
 
   return 0;
 }

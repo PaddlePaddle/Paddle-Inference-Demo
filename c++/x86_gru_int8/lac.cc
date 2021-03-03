@@ -19,7 +19,6 @@
 #include "lac_util.h"    // NOLINT
 #include "paddle_api.h"  // NOLINT
 // #include "paddle_infer.h" // NOLINT
-#include "paddle/include/paddle_inference_api.h"
 
 LAC::LAC(const std::string &model_path,
          const std::string &conf_path,
@@ -35,9 +34,9 @@ LAC::LAC(const std::string &model_path,
   *_id2label_dict = load_id2label_dict(conf_path + "/tag.dic");
   std::cout << "read word dict succeed" << std::endl;
 
-  paddle::AnalysisConfig config;
-  config.set_threads(threads);
-  config.set_model_from_file(model_path);
+  paddle_infer::Config config;
+  config.SetCpuMathLibraryNumThreads(threads);
+  config.SetModel(model_path);
   this->_predictor = paddle_infer::CreatePredictor(config);
   std::cout << "load model succeed" << std::endl;
 
