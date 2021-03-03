@@ -61,11 +61,11 @@ void LAC::feed_data(const std::vector<std::string> &querys) {
   this->_seq_words_batch.clear();
   this->_lod[0].clear();
   this->_lod[0].push_back(0);
-  size_t shape = 0;
+  int shape = 0;
   for (size_t i = 0; i < querys.size(); ++i) {
     this->_seq_words = split_words(querys[i], this->_codetype);
     this->_seq_words_batch.push_back(this->_seq_words);
-    shape += this->_seq_words.size();
+    shape += static_cast<int>(this->_seq_words.size());
     this->_lod[0].push_back(shape);
   }
 
