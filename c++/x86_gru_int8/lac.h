@@ -61,7 +61,7 @@ class LAC {
                CODE_TYPE type = CODE_UTF8);
 
  private:
-  int feed_data(const std::vector<std::string> &querys);
+  void feed_data(const std::vector<std::string> &querys);
 
   std::vector<OutputItem> parse_targets(const std::vector<std::string> &tag_ids,
                                         const std::vector<std::string> &words);
