@@ -49,8 +49,8 @@ class LAC {
   std::unordered_map<std::string, std::string> _config_dict;
   int64_t _oov_id;
  
-  std::unique_ptr<paddle::PaddleTensor> _input_tensor;         //
-  std::unique_ptr<const paddle::PaddleTensor> _output_tensor;  //
+  std::unique_ptr<paddle_infer::Tensor> _input_tensor;         //
+  std::unique_ptr<const paddle_infer::Tensor> _output_tensor;  //
 
   std::shared_ptr<paddle_infer::Predictor> _predictor;   //
 

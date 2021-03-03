@@ -40,8 +40,15 @@ LAC::LAC(const std::string &model_path,
   this->_predictor = paddle_infer::CreatePredictor(config);
   std::cout << "load model succeed" << std::endl;
 
-  this->_input_tensor = this->_predictor->GetInput(0);
-  this->_output_tensor = this->_predictor->GetOutput(0);
+  // this->_input_tensor = this->_predictor->GetInput(0);
+  // this->_output_tensor = this->_predictor->GetOutput(0);
+
+  auto input_names = this->_predictor->GetInputNames();
+  this->_input_tensor = this->_predictor->GetInputHandle(input_names[0]);
+
+  auto output_names = this->_predictor->GetOutputNames();
+  this->_output_tensor = this->_predictor->GetOutputHandle(output_names[0]);
+
   this->_oov_id = this->_word2id_dict->size() - 1;
   auto word_iter = this->_word2id_dict->find("OOV");
   if (word_iter != this->_word2id_dict->end()) {
