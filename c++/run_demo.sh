@@ -18,13 +18,19 @@ declare -a test_demos
 for dir in $(ls ${work_path})
 do
     # test all demos
-    if [ "${dir}" != 'lib' -a -d "${dir}" ]; then
+    if [ "${dir}" != 'lib' -a "${dir}" != "test" -a -d "${dir}" ]; then
         test_demos+=("${dir}")
+    fi
+    if [ "${dir}" == "test" ]; then
+        for test_dir in $(ls "${dir}")
+        do
+            test_demos+=("${dir}/${test_dir}")
+        done
     fi
 done
 
 # tmp support demos
-test_demos=(yolov3 LIC2020 resnet50)
+test_demos=(yolov3 LIC2020 resnet50 test/shrink_memory)
 
 for demo in ${test_demos[@]};
 do
