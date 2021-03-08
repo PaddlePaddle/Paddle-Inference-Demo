@@ -30,7 +30,7 @@ do
 done
 
 # tmp support demos
-test_demos=(yolov3 LIC2020 resnet50 test/shrink_memory)
+test_demos=(yolov3 LIC2020 resnet50 test/shrink_memory cuda_linux_demo)
 
 for demo in ${test_demos[@]};
 do
