@@ -5,3 +5,8 @@
 docs/_build/
 docs/api/
 docs/doxyoutput/
+
+lib/
+*/CMakeLists.txt
+
+build/

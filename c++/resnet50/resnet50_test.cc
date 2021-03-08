@@ -67,13 +67,14 @@ int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = InitPredictor();
   std::vector<int> input_shape = {FLAGS_batch_size, 3, 224, 224};
-  // init 0 for the input.
-  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224, 0);
+  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
+  for (size_t i = 0; i < input_data.size(); ++i)
+    input_data[i] = i % 255 * 0.1;
   std::vector<float> out_data;
   run(predictor.get(), input_data, input_shape, &out_data);
 
-  for (auto e : out_data) {
-    LOG(INFO) << e << std::endl;
+  for (size_t i = 0; i < out_data.size(); i+=100) {
+    LOG(INFO) << i << " : " << out_data[i] << std::endl;
   }
   return 0;
 }

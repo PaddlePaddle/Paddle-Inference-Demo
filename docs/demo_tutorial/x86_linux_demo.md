@@ -14,10 +14,10 @@ C++示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo
 
 使用Paddle训练结束后，得到预测模型，可以用于预测部署。
 
-本示例准备了mobilenet_v1预测模型，可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz)下载，或者wget下载。
+本示例准备了mobilenet_v1预测模型，可以从[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz)下载，或者wget下载。
 
 ```shell
-wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz
 ```
 
 #### 1.1.3 包含头文件
@@ -107,7 +107,7 @@ output_t->CopyToCpu(out_data.data());
 
 ```shell
 cd build
-./model_test --model_dir=mobilenetv1_fp32_dir
+./model_test --model_file inference.pdmodel --params_file inference.pdiparams
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
