@@ -24,7 +24,7 @@ do
 done
 
 # tmp support demos
-test_demos=(yolov3 LIC2020)
+test_demos=(yolov3 LIC2020 resnet50)
 
 for demo in ${test_demos[@]};
 do
