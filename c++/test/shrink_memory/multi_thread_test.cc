@@ -7,7 +7,9 @@
 #include <thread>
 #include <vector>
 
-DEFINE_string(model_dir, "./mobilenetv1", "model directory.");
+DEFINE_string(model_file, "", "Directory of the inference model.");
+DEFINE_string(params_file, "", "Directory of the inference model.");
+DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_int32(thread_num, 1, "thread num");
 DEFINE_bool(use_gpu, false, "use gpu.");
 DEFINE_bool(test_leaky, false,
@@ -16,7 +18,11 @@ DEFINE_bool(test_leaky, false,
 namespace paddle_infer {
 
 void PrepareConfig(Config *config) {
-  config->SetModel(FLAGS_model_dir + "/model", FLAGS_model_dir + "/params");
+  if (FLAGS_model_dir != "") {
+    config->SetModel(FLAGS_model_dir);
+  } else {
+    config->SetModel(FLAGS_model_file, FLAGS_params_file);
+  }
   if (FLAGS_use_gpu) {
     config->EnableUseGpu(500, 0);
   }
