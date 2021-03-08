@@ -10,7 +10,7 @@ from utils import preprocess, draw_bbox
 
 
 def init_predictor(args):
-    if args.model_dir is not "":
+    if args.model_dir != "":
         config = Config(args.model_dir)
     else:
         config = Config(args.model_file, args.params_file)
@@ -86,7 +86,8 @@ if __name__ == '__main__':
     pred = init_predictor(args)
     img = cv2.imread(img_name)
     data = preprocess(img, im_size)
-    im_shape = np.array([im_size, im_size]).reshape((1, 2)).astype(np.int32)
-    result = run(pred, [data, im_shape])
-    img = Image.open(img_name).convert('RGB').resize((im_size, im_size))
+    scale_factor = np.array([im_size * 1. / img.shape[0], im_size * 1. / img.shape[1]]).reshape((1, 2)).astype(np.float32)
+    im_shape = np.array([im_size, im_size]).reshape((1, 2)).astype(np.float32)
+    result = run(pred, [im_shape, data, scale_factor])
+    img = Image.open(img_name).convert('RGB')
     draw_bbox(img, result[0], save_name=save_img_name)
