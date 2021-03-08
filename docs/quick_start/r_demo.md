@@ -24,16 +24,17 @@ docker run --rm -it paddle-rapi:latest bash
 
 ### 2. 准备预测部署模型
 
-下载 [resnet50](http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz) 模型后解压，得到 Paddle Combined 形式的模型，位于文件夹 model 下。如需查看模型结构，可将 `model` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
 
 ```bash
-wget http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz
-tar zxf resnet50_model.tar.gz
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
+tar zxf resnet50.tgz
 
 # 获得模型目录即文件如下
-model/
-├── model
-└── params
+resnet50/
+├── inference.pdmodel
+├── inference.pdiparams.info
+└── inference.pdiparams
 ```
 
 ### 3. 准备预测部署程序
@@ -51,7 +52,7 @@ paddle_infer <- import("paddle.inference")
 
 predict_run_resnet50 <- function() {
     # 创建 config
-    config <- paddle_infer$Config("model/model", "model/params")
+    config <- paddle_infer$Config("resnet50/inference.pdmodel", "resnet50/inference.pdiparams")
     
     # 根据 config 创建 predictor
     predictor <- paddle_infer$create_predictor(config)
@@ -148,7 +149,7 @@ paddle_infer <- import("paddle.inference")
 
 ```r
 # 创建 config，并设置预测模型路径
-config <- paddle_infer$Config("model/model", "model/params")
+config <- paddle_infer$Config("resnet50/inference.pdmodel", "resnet50/inference.pdiparams")
 ```
 
 (3) 根据Config创建预测对象，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)

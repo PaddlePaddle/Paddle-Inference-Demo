@@ -26,7 +26,7 @@ double time_diff(Time t1, Time t2) {
   typedef std::chrono::microseconds ms;
   auto diff = t2 - t1;
   ms counter = std::chrono::duration_cast<ms>(diff);
-  return counter.count() / 1000.0;
+  return counter.count();
 }
 
 std::shared_ptr<Predictor> InitPredictor() {
@@ -50,21 +50,24 @@ std::shared_ptr<Predictor> InitPredictor() {
 }
 
 void run(Predictor *predictor, const std::vector<float> &input,
-         const std::vector<int> &input_shape, const std::vector<int> &input_im,
+         const std::vector<int> &input_shape, const std::vector<float> &input_im,
          const std::vector<int> &input_im_shape, std::vector<float> *out_data) {
   auto input_names = predictor->GetInputNames();
-  auto input_img = predictor->GetInputHandle(input_names[0]);
-  input_img->Reshape(input_shape);
-  input_img->CopyFromCpu(input.data());
+  auto im_shape_handle = predictor->GetInputHandle(input_names[0]);
+  im_shape_handle->Reshape(input_im_shape);
+  im_shape_handle->CopyFromCpu(input_im.data());
 
-  auto input_size = predictor->GetInputHandle(input_names[1]);
-  input_size->Reshape(input_im_shape);
-  input_size->CopyFromCpu(input_im.data());
+  auto image_handle = predictor->GetInputHandle(input_names[1]);
+  image_handle->Reshape(input_shape);
+  image_handle->CopyFromCpu(input_im.data());
+
+  auto scale_factor_handle = predictor->GetInputHandle(input_names[2]);
+  scale_factor_handle->Reshape(input_im_shape);
+  scale_factor_handle->CopyFromCpu(input_im.data());
 
   CHECK(predictor->Run());
 
   auto output_names = predictor->GetOutputNames();
-  // there is only one output of yolov3
   auto output_t = predictor->GetOutputHandle(output_names[0]);
   std::vector<int> output_shape = output_t->shape();
   int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
@@ -82,13 +85,12 @@ int main(int argc, char *argv[]) {
   const int width = 608;
   const int channels = 3;
   std::vector<int> input_shape = {FLAGS_batch_size, channels, height, width};
-  std::vector<float> input_data(FLAGS_batch_size * channels * height * width,
-                                0);
+  std::vector<float> input_data(FLAGS_batch_size * channels * height * width);
   for (size_t i = 0; i < input_data.size(); ++i) {
     input_data[i] = i % 255 * 0.13f;
   }
   std::vector<int> input_im_shape = {FLAGS_batch_size, 2};
-  std::vector<int> input_im_data(FLAGS_batch_size * 2, 608);
+  std::vector<float> input_im_data(FLAGS_batch_size * 2, 608);
 
   std::vector<float> out_data;
   run(predictor.get(), input_data, input_shape, input_im_data, input_im_shape,
