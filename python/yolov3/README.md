@@ -11,7 +11,12 @@
 
 1）**获取预测模型**
 
-点击[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleLite/yolov3_infer.tar.gz)下载模型， 该模型在imagenet数据集训练得到的，如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleDetection)。解压后存储到该工程的根目录。
+点击[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/yolov3_r50vd_dcn_270e_coco.tgz)下载模型，如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleDetection)。解压后存储到该工程的根目录。
+
+```
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/yolov3_r50vd_dcn_270e_coco.tgz
+tar xzf yolov3_r50vd_dcn_270e_coco.tgz
+```
 
 
 2）**获取预测样例图片**
@@ -33,28 +38,30 @@
 
 运行：
 ```
+bash run.sh
+# 或
 python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --use_gpu=1
 ```
 
 输出结果如下所示：
 
 ```
-category id is 0.0, bbox is [ 98.47467 471.34283 120.73273 578.5184 ]
-category id is 0.0, bbox is [ 51.752716 415.51324   73.18762  515.24005 ]
-category id is 0.0, bbox is [ 37.176304 343.378     46.64221  380.92963 ]
-category id is 0.0, bbox is [155.78638 328.0806  159.5393  339.37192]
-category id is 0.0, bbox is [233.86328 339.96912 239.35403 355.3322 ]
-category id is 0.0, bbox is [ 16.212902 344.42365   25.193722 377.97137 ]
-category id is 0.0, bbox is [ 10.583471 356.67862   14.9261   372.8137  ]
-category id is 0.0, bbox is [ 79.76479 364.19492  86.07656 385.64255]
-category id is 0.0, bbox is [312.8938  311.9908  314.58527 316.60056]
-category id is 33.0, bbox is [266.97925   51.70044  299.45105   99.996414]
-category id is 33.0, bbox is [210.45593 229.92128 217.77551 240.97136]
-category id is 33.0, bbox is [125.36278 159.80171 135.49306 189.8976 ]
-category id is 33.0, bbox is [486.9354  266.164   494.4437  283.84637]
-category id is 33.0, bbox is [259.01584 232.23044 270.69266 248.58704]
-category id is 33.0, bbox is [135.60567 254.57668 144.96178 276.9275 ]
-category id is 33.0, bbox is [341.91315 255.44394 345.0335  262.3398 ]
+category id is 0.0, bbox is [216.26059 697.699   268.60815 848.7649 ]
+category id is 0.0, bbox is [113.00742 614.51337 164.59525 762.8045 ]
+category id is 0.0, bbox is [ 82.81181 507.96368 103.27139 565.0893 ]
+category id is 0.0, bbox is [346.4539  485.327   355.62698 502.63412]
+category id is 0.0, bbox is [520.77747 502.9539  532.1869  527.12494]
+category id is 0.0, bbox is [ 38.75421 510.04153  53.91417 561.62244]
+category id is 0.0, bbox is [ 24.630651 528.03186   36.35131  551.4408  ]
+category id is 0.0, bbox is [537.8204 516.3991 551.4925 532.4528]
+category id is 0.0, bbox is [176.29276 538.46545 192.09549 572.6228 ]
+category id is 0.0, bbox is [1207.4629   452.27505 1214.8047   461.21774]
+category id is 33.0, bbox is [593.3794    80.178375 668.2346   151.84273 ]
+category id is 33.0, bbox is [467.13992 339.5424  484.5012  358.15115]
+category id is 33.0, bbox is [278.30582 236.12378 304.95267 280.59497]
+category id is 33.0, bbox is [1082.6643   393.12796 1099.5437   421.86935]
+category id is 33.0, bbox is [302.35004 376.8052  320.6112  410.01248]
+category id is 33.0, bbox is [575.6267 343.2629 601.619  369.2695]
 ```
 
 <p align="left">
