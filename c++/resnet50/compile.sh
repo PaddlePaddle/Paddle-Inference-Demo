@@ -32,7 +32,7 @@ CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 
-WITH_ROCM=ON
+WITH_ROCM=OFF
 ROCM_LIB=/opt/rocm/lib
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
