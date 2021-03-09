@@ -2,18 +2,54 @@
 
 该文档为使用Paddle-TRT预测在ResNet50分类模型上的实践demo。如果您刚接触Paddle-TRT，推荐先访问[这里](https://paddle-inference.readthedocs.io/en/latest/optimize/paddle_trt.html)对Paddle-TRT有个初步认识。
 
+### 获取paddle_inference预测库
+
+下载paddle_inference预测库并解压存储到`Paddle-Inference-Demo/c++/lib`目录，lib目录结构如下所示
+
+```
+Paddle-Inference-Demo/c++/lib/
+├── CMakeLists.txt
+└── paddle_inference
+    ├── CMakeCache.txt
+    ├── paddle
+    │   ├── include                                    C++ 预测库头文件目录
+    │   │   ├── crypto
+    │   │   ├── internal
+    │   │   ├── paddle_analysis_config.h
+    │   │   ├── paddle_api.h
+    │   │   ├── paddle_infer_declare.h
+    │   │   ├── paddle_inference_api.h                 C++ 预测库头文件
+    │   │   ├── paddle_mkldnn_quantizer_config.h
+    │   │   └── paddle_pass_builder.h
+    │   └── lib
+    │       ├── libpaddle_inference.a                  C++ 静态预测库文件
+    │       └── libpaddle_inference.so                 C++ 动态态预测库文件
+    ├── third_party
+    │   ├── install                                    第三方链接库和头文件
+    │   │   ├── cryptopp
+    │   │   ├── gflags
+    │   │   ├── glog
+    │   │   ├── mkldnn
+    │   │   ├── mklml
+    │   │   ├── protobuf
+    │   │   └── xxhash
+    │   └── threadpool
+    │       └── ThreadPool.h
+    └── version.txt
+```
+
 本目录下，
 
 - `trt_fp32_test.cc` 为使用Paddle-TRT进行FP32精度预测的样例程序源文件（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
 - `trt_gen_calib_table_test.cc` 为离线量化校准中，产出量化校准表的样例程序源文件。
 - `trt_int8_test.cc` 为使用Paddle-TRT进行Int8精度预测的样例程序源文件，根据传入布尔类型参数`use_calib`为`true`或`false`，可以进行加载离线量化校准表进行Int8预测，或加载PaddleSlim量化产出的Int8模型进行预测。
-- `CMakeLists.txt` 为编译构建文件。   
-- `run_impl.sh` 包含了第三方库、预编译库的信息配置。
+脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
+脚本`run.sh` 一键运行脚本。
 
 ### 获取模型
 首先，我们从下列链接下载所需模型：
 
-[ResNet50 FP32模型](https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ResNet50.tar.gz)
+[ResNet50 FP32模型](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz)
 
 [ResNet50 PaddleSlim量化模型](https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ResNet50_quant.tar.gz)
 
@@ -23,36 +59,33 @@
 
 1）**修改`run_impl.sh`**
 
-打开`run_impl.sh`，我们对以下的几处信息进行修改：
+打开`compile.sh`，我们对以下的几处信息进行修改：
 
 ```shell
-# 选择使用fp32预测的demo
 DEMO_NAME=trt_fp32_test
 
-# 本节中，我们使用了TensorRT，需要将USE_TENSORRT打开
-WITH_MKL=ON       
-WITH_GPU=ON         
+# 根据预编译库中的version.txt信息判断是否将以下三个标记打开
+WITH_MKL=ON
+WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/paddle_inference_install_dir
+LIB_DIR=${work_path}/../lib/paddle_inference
 
-# 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
-CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
-CUDA_LIB=/paddle/nvidia-downloads/cuda-10.1/lib64
-TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
+# 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 ```
 
-运行 `sh run_impl.sh`， 会在目录下产生build目录。
+运行 `bash compile.sh`， 会在目录下产生build目录。
 
 
 2） **运行样例**
 
 ```shell
-# 进入build目录
-cd build
 # 运行样例
-./trt_fp32_test --model_file=../ResNet50/model --params_file=../ResNet50/params 
+./build/trt_fp32_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
 ```
 
 运行结束后，程序会将模型预测输出的前20个结果打印到屏幕，说明运行成功。
@@ -63,9 +96,9 @@ cd build
 
 #### 生成量化校准表
 
-1）**修改`run_impl.sh`**
+1）**修改`compile.sh`**
 
-打开`run_impl.sh`，我们对以下的几处信息进行修改：
+打开`compile.sh`，我们对以下的几处信息进行修改：
 
 ```shell
 # 选择生成量化校准表的demo
@@ -77,30 +110,28 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/paddle_inference_install_dir
+LIB_DIR=${work_path}/../lib/paddle_inference
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
-CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
-CUDA_LIB=/paddle/nvidia-downloads/cuda-10.1/lib64
-TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 ```
 
-运行 `sh run_impl.sh`， 会在目录下产生build目录。
+运行 `bash compile.sh`， 会在目录下产生build目录。
 
 2） **运行样例**
 
 ```shell
-# 进入build目录
-cd build
 # 运行样例
-./trt_gen_calib_table_test --model_file=../ResNet50/model --params_file=../ResNet50/params 
+./build/trt_gen_calib_table_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
 ```
 
 运行结束后，模型文件夹`ResNet50`下的`_opt_cache`文件夹下会多出一个名字为`trt_calib_*`的文件，即校准表。
 
 #### 加载校准表执行Int8预测
 
-1） 再次修改`run_impl.sh`，换成执行Int8预测的demo：
+1） 再次修改`compile.sh`，换成执行Int8预测的demo：
 
 ```shell
 # 选择执行Int8预测的demo
@@ -112,23 +143,21 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/paddle_inference_install_dir
+LIB_DIR=${work_path}/../lib/paddle_inference
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
-CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
-CUDA_LIB=/paddle/nvidia-downloads/cuda-10.1/lib64
-TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 ```
 
-运行 `sh run_impl.sh`， 会在目录下产生build目录。
+运行 `bash compile.sh`， 会在目录下产生build目录。
 
 2） **运行样例**
 
 ```shell
-# 进入build目录
-cd build
 # 运行样例，注意此处要将use_calib配置为true
-./trt_int8_test --model_file=../ResNet50/model --params_file=../ResNet50/params --use_calib=true
+./build/trt_int8_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_calib=true
 ```
 
 运行结束后，程序会将模型预测输出的前20个结果打印到屏幕，说明运行成功。
@@ -163,9 +192,9 @@ I0623 08:40:27.217834 107040 tensorrt_subgraph_pass.cc:321] Prepare TRT engine (
 
 这里，我们使用前面下载的ResNet50 PaddleSlim量化模型。与加载离线量化校准表执行Int8预测的区别是，PaddleSlim量化模型已经将scale保存在模型op的属性中，这里我们就不再需要校准表了，所以在运行样例时将`use_calib`配置为false。
 
-1）**修改`run_impl.sh`**
+1）**修改`compile.sh`**
 
-打开`run_impl.sh`，我们对以下的几处信息进行修改：
+打开`compile.sh`，我们对以下的几处信息进行修改：
 
 ```shell
 # 选择使用Int8预测的demo
@@ -177,24 +206,22 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=/paddle/paddle_inference_install_dir
+LIB_DIR=${work_path}/../lib/paddle_inference
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。请注意CUDA和CUDNN需要设置到lib64一层，而TensorRT是设置到根目录一层
-CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.6_cuda10.1/lib64
-CUDA_LIB=/paddle/nvidia-downloads/cuda-10.1/lib64
-TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 ```
 
-运行 `sh run_impl.sh`， 会在目录下产生build目录。
+运行 `bash compile.sh`， 会在目录下产生build目录。
 
 
 2） **运行样例**
 
 ```shell
-# 进入build目录
-cd build
 # 运行样例，注意此处要将use_calib配置为false
-./trt_int8_test --model_dir=../ResNet50_quant/ --use_calib=false
+./build/trt_int8_test --model_dir=./ResNet50_quant/ --use_calib=false
 ```
 
 运行结束后，程序会将模型预测输出的前20个结果打印到屏幕，说明运行成功。
