@@ -10,13 +10,13 @@
 
 文件`custom_op_test.cc` 为预测的样例程序。    
 文件`CMakeLists.txt` 为编译构建文件。   
-脚本`run_impl.sh` 包含了第三方库、预编译库的信息配置。
+脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
 
-我们首先需要对脚本`run_impl.sh` 文件中的配置进行修改。
+我们首先需要对脚本`compile.sh` 文件中的配置进行修改。
 
-1）**修改`run_impl.sh`**
+1）**修改`compile.sh`**
 
-打开`run_impl.sh`，我们对以下的几处信息进行修改：
+打开`compile.sh`，我们对以下的几处信息进行修改：
 
 ```shell
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
@@ -25,24 +25,22 @@ WITH_GPU=ON
 USE_TENSORRT=OFF
 
 # 配置预测库的根目录
-LIB_DIR=${YOUR_LIB_DIR}/paddle_inference_install_dir
+LIB_DIR=${work_path}/../lib/paddle_inference
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
-CUDNN_LIB=/paddle/nvidia-downloads/cudnn_v7.5_cuda10.1/lib64
-CUDA_LIB=/paddle/nvidia-downloads/cuda-10.1/lib64
-# TENSORRT_ROOT=/paddle/nvidia-downloads/TensorRT-6.0.1.5
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-7.0.0.11
 ```
 
-运行 `sh run_impl.sh`， 会在目录下产生build目录。
+运行 `bash compile.sh`， 会在目录下产生build目录。
 
 
 2） **运行样例**
 
 ```shell
-# 进入build目录
-cd build
 # 运行样例
-./custom_op_test
+./build/custom_op_test
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。

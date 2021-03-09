@@ -30,7 +30,7 @@ do
 done
 
 # tmp support demos
-test_demos=(yolov3 LIC2020 resnet50 test/shrink_memory cuda_linux_demo x86_linux_demo)
+test_demos=(yolov3 LIC2020 resnet50 test/shrink_memory cuda_linux_demo x86_linux_demo paddle-trt custom-operator)
 
 for demo in ${test_demos[@]};
 do
