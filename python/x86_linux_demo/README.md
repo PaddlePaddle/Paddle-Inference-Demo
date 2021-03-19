@@ -12,11 +12,11 @@ Python安装opencv：`pip install opencv-python`。
 
 使用Paddle训练结束后，得到预测模型，可以用于预测部署。
 
-本示例准备了mobilenet_v1预测模型，可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz)下载，或者wget下载。
+本示例准备了mobilenet_v1预测模型，可以从[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz)下载，或者wget下载。
 
 ```shell
-wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
-tar zxf mobilenetv1_fp32.tar.gz
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz
+tar zxf mobilenetv1.tgz
 ```
 
 3）Python导入
@@ -66,7 +66,7 @@ input_tensor.copy_from_cpu(img.copy())
 7) 执行Predictor
 
 ```python
-predictor.run();
+predictor.run()
 ```
 
 8) 获取输出
@@ -93,7 +93,7 @@ wget https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/
 执行预测命令。
 
 ```
-python model_test.py --model_dir mobilenetv1_fp32 --img_path ILSVRC2012_val_00000247.jpeg
+python model_test.py --model_file=./mobilenetv1/inference.pdmodel --params_file=./mobilenetv1/inference.pdiparams  --img_path ILSVRC2012_val_00000247.jpeg
 ``
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
