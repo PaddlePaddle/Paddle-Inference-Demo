@@ -17,7 +17,7 @@ def parse_args():
     parser = argparse.ArgumentParser("Inference for lexical analyzer.")
     parser.add_argument("--model_dir",
                         type=str,
-                        default="elmo",
+                        default="",
                         help="The folder where the test data is located.")
     parser.add_argument("--testdata_dir",
                         type=str,
@@ -39,7 +39,14 @@ def parse_args():
                         type=str,
                         default="elmo_data/q2b.dic",
                         help="The path of the word replacement Dictionary.")
-
+    parser.add_argument("--model_file",
+                        type=str,
+                        default="",
+                        help="Model filename, Specify this when your model is a combined model.")
+    parser.add_argument("--params_file",
+                        type=str,
+                        default="",
+                        help="Parameter filename, Specify this when your model is a combined model.")
     args = parser.parse_args()
     return args
 
