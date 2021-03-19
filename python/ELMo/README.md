@@ -9,7 +9,7 @@
 
 1) **获取预测模型**
 
-点击[链接](https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/elmo/elmo.tgz)下载模型，如果你想获取更多的**模型训练信息**，请访问[链接](https://github.com/PaddlePaddle/models/tree/release/1.8/PaddleNLP/pretrain_language_models/ELMo)。解压后存储到该工程的根目录。
+点击[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/elmo.tgz)下载模型，如果你想获取更多的**模型训练信息**，请访问[链接](https://github.com/PaddlePaddle/models/tree/release/1.8/PaddleNLP/pretrain_language_models/ELMo)。解压后存储到该工程的根目录。
 
 2) **获取相关数据**
 
