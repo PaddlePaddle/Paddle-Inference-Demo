@@ -4,16 +4,17 @@
 
 1.1 准备预测库
 
-请参考[推理库下载文档](ToSet)下载Paddle预测库。
+请参考[推理库下载文档](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/build_and_install_lib_cn.html)下载Paddle预测库。
 
 1.2 准备预测模型
 
 使用Paddle训练结束后，得到预测模型，可以用于预测部署。
 
-本示例准备了mobilenet_v1预测模型，可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz)下载，或者wget下载。
+本示例准备了mobilenet_v1预测模型，可以从[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz)下载，或者wget下载。
 
 ```
-wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz
+tar xzf mobilenetv1.tgz
 ```
 
 1.3 包含头文件
@@ -86,20 +87,34 @@ output_t->CopyToCpu(out_data.data());
 2.1 编译示例
 
 文件`model_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
-文件`CMakeLists.txt` 为编译构建文件。   
-脚本`run_impl.sh` 包含了第三方库、预编译库的信息配置。
+脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
+脚本`run.sh`为一键运行脚本。
 
-打开 `run_impl.sh` 文件，设置 LIB_DIR 为准备的预测库路径，比如 `LIB_DIR=/work/Paddle/build/paddle_inference_install_dir`。
+打开`compile.sh`，我们对以下的几处信息进行修改：
 
-运行 `sh run_impl.sh`， 会在目录下产生build目录。
+```shell
+# 根据预编译库中的version.txt信息判断是否将以下三个标记打开
+WITH_MKL=ON
+WITH_GPU=OFF
+USE_TENSORRT=OFF
+
+# 配置预测库的根目录
+LIB_DIR=${work_path}/../lib/paddle_inference
+
+# 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-7.0.0.11
+```
+
+运行 `bash compile.sh`， 会在目录下产生build目录。
 
 2.2 运行示例
 
-进入build目录，运行样例
-
 ```shell
-cd build
-./model_test --model_dir=mobilenetv1_fp32_dir
+bash run.sh
+# 或
+./build/model_test --model_file mobilenetv1/inference.pdmodel --params_file mobilenetv1/inference.pdiparams
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
