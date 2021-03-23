@@ -33,12 +33,11 @@ ShapeData: 0, 3, 8
 ### 二：样例编译
 
 文件`ernie_varlen_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
-文件`CMakeLists.txt` 为编译构建文件。
-脚本`run_impl.sh` 包含了第三方库、预编译库的信息配置。
+脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
 
-1）**修改`run_impl.sh`**
+1）**修改`compile.sh`**
 
-打开`run_impl.sh`，我们对以下的几处信息进行修改：
+打开`compile.sh`，我们对以下的几处信息进行修改：
 
 ```shell
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
@@ -47,17 +46,16 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 # 配置预测库的根目录
-LIB_DIR=${YOUR_LIB_DIR}/paddle_inference_install_dir
+LIB_DIR=${work_path}/../lib/paddle_inference
 
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
-LIB_DIR=/root/work/paddle-perf/paddle_inference_install_dir
-CUDNN_LIB=/root/work/nvidia/cudnn_v7.6_cuda10.1/lib64
-CUDA_LIB=/root/work/nvidia/cuda-10.1/lib64
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/root/work/nvidia/TensorRT-6.0.1.5.cuda-10.1.cudnn7.6-OSS7.2.1
 ```
 TIPS:Ernie变长输入需要TensorRT7.2.1+或者低版本的TensorRT联合编译OSS 7.2.1（[TensorRT Open Source Software 7.2.1](https://github.com/NVIDIA/TensorRT/tree/7.2.1) ）。
 
-运行 `sh run_impl.sh`， 会在目录下产生build目录。
+运行 `bash compile.sh`， 会在目录下产生build目录。
 
 2） **运行样例**
 

@@ -8,8 +8,8 @@
 
 Paddle Inference 的 C 预测库需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译
 
-- [安装与编译 Linux 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html) 
-- [安装与编译 Windows 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/windows_cpp_inference.html)
+- [安装与编译 Linux 预测库](../user_guides/source_compile.html#ubuntu-18-04)
+- [安装与编译 Windows 预测库](../user_guides/source_compile.html#windows-10)
 
 编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 C 预测库，目录结构如下：
 
@@ -19,8 +19,8 @@ paddle_inference_c_install_dir
 │   ├── include
 │   │   └── paddle_c_api.h               C 预测库头文件
 │   └── lib
-│       ├── libpaddle_fluid_c.a          C 静态预测库文件
-│       └── libpaddle_fluid_c.so         C 动态预测库文件
+│       ├── libpaddle_inference_c.a          C 静态预测库文件
+│       └── libpaddle_inference_c.so         C 动态预测库文件
 ├── third_party
 │   └── install                          第三方链接库和头文件
 │       ├── cryptopp
@@ -49,16 +49,17 @@ TensorRT version: v6
 
 ### 2. 准备预测部署模型
 
-下载 [resnet50](http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz) 模型后解压，得到 Paddle Combined 形式的模型，位于文件夹 model 下。如需查看模型结构，可将 `model` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型>，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
 
 ```bash
-wget http://paddle-inference-dist.bj.bcebos.com/resnet50_model.tar.gz
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
 tar zxf resnet50_model.tar.gz
 
 # 获得模型目录即文件如下
-model/
-├── model
-└── params
+resnet50/
+├── inference.pdmodel
+├── inference.pdiparams.info
+└── inference.pdiparams
 ```
 
 ### 3. 准备预测部署程序
@@ -76,8 +77,8 @@ int main() {
   PD_AnalysisConfig* config = PD_NewAnalysisConfig();
 
   // 设置预测模型路径，即为本小节第2步中下载的模型
-  const char* model_path  = "./model/model";
-  const char* params_path = "./model/params";
+  const char* model_path  = "./resnet50/inference.pdmodel";
+  const char* params_path = "./resnet50/inference.pdiparams";
   PD_SetModel(config, model_path, params_path);
 
   // 创建输入 Tensor
@@ -134,11 +135,11 @@ int main() {
 
 ### 4. 编译预测部署程序
 
-将 `paddle_inference_c_install_dir/paddle` 目录下的头文件 `paddle_c_api.h` 和动态库文件 `libpaddle_fluid_c.so` 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：
+将 `paddle_inference_c_install_dir/paddle` 目录下的头文件 `paddle_c_api.h` 和动态库文件 `libpaddle_inference_c.so` 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：
 
 ```bash
 # GCC 编译命令
-gcc c_demo.c libpaddle_fluid_c.so -o c_demo_prog
+gcc c_demo.c libpaddle_inference_c.so -o c_demo_prog
 
 # 编译完成之后生成 c_demo_prog 可执行文件，编译目录内容如下
 c_demo_dir/
@@ -150,14 +151,15 @@ c_demo_dir/
 ├── libpaddle_fluid_c.so     C 动态预测库文件
 │
 ├── resnet50_model.tar.gz    本小节第2步中下载的预测模型
-└── model                    本小节第2步中下载的预测模型解压后的模型文件
-    ├── model
-    └── params
+└── resnet50                 本小节第2步中下载的预测模型解压后的模型文件
+    ├── inference.pdmodel
+    ├── inference.pdiparams.info
+    └── inference.pdiparams
 ```
 
 ### 5. 执行预测程序
 
-**注意**：需要现将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
+**注意**：需要先将动态库文件 `libpaddle_inference_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
 
 ```bash
 # 执行预测程序
@@ -170,8 +172,8 @@ export LD_LIBRARY_PATH=`pwd`:$LD_LIBRARY_PATH
 ```bash
 # 程序输出结果如下
 WARNING: Logging before InitGoogleLogging() is written to STDERR
-I1211 05:57:48.939208 16443 pd_config.cc:43] ./model/model
-I1211 05:57:48.939507 16443 pd_config.cc:48] ./model/model
+I1211 05:57:48.939208 16443 pd_config.cc:43] ./resnet50/inference.pdmodel
+I1211 05:57:48.939507 16443 pd_config.cc:48] ./resnet50/inference.pdiparams
 PaddleBuf empty: true
 W1211 05:57:48.941076 16443 analysis_predictor.cc:1052] Deprecated. Please use CreatePredictor instead.
 I1211 05:57:48.941124 16443 analysis_predictor.cc:139] Profiler is deactivated, and no profiling report will be generated.
@@ -226,8 +228,8 @@ Output Data Length: 512
 PD_AnalysisConfig* config = PD_NewAnalysisConfig();
 
 // 设置预测模型路径，即为本小节第2步中下载的模型
-const char* model_path = "./model/model";
-const char* params_path = "./model/params";
+const char* model_path = "./resnet50/inference.pdmodel";
+const char* params_path = "./resnet50/inference.pdiparams";
 PD_SetModel(config, model_path, params_path);
 ```
 

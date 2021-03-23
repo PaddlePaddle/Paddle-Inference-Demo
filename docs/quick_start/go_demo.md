@@ -8,8 +8,8 @@
 
 Paddle Inference 的 GO 预测库即为 C 预测库，需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译
 
-- [安装与编译 Linux 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html) 
-- [安装与编译 Windows 预测库](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/windows_cpp_inference.html)
+- [安装与编译 Linux 预测库](../user_guides/source_compile.html#ubuntu-18-04)
+- [安装与编译 Windows 预测库](../user_guides/source_compile.html#windows-10)
 
 编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 GO 预测库，目录结构为：
 
@@ -19,8 +19,8 @@ paddle_inference_c_install_dir
 │   ├── include
 │   │   └── paddle_c_api.h               C/GO 预测库头文件
 │   └── lib
-│       ├── libpaddle_fluid_c.a          C/GO 静态预测库文件
-│       └── libpaddle_fluid_c.so         C/GO 动态预测库文件
+│       ├── libpaddle_inference_c.a          C/GO 静态预测库文件
+│       └── libpaddle_inference_c.so         C/GO 动态预测库文件
 ├── third_party
 │   └── install                          第三方链接库和头文件
 │       ├── cryptopp
@@ -107,8 +107,8 @@ Paddle/go/
 │   │   ├── include
 │   │   │   └── paddle_c_api.h               C/GO 预测库头文件
 │   │   └── lib
-│   │       ├── libpaddle_fluid_c.a          C/GO 静态预测库文件
-│   │       └── libpaddle_fluid_c.so         C/GO 动态预测库文件
+│   │       ├── libpaddle_inference_c.a          C/GO 静态预测库文件
+│   │       └── libpaddle_inference_c.so         C/GO 动态预测库文件
 │   └── third_party
 ├── data                                     本章节第2步中下载的模型和数据文件夹
 │   ├── model
@@ -121,7 +121,7 @@ Paddle/go/
 
 ### 5. 执行预测程序
 
-**注意**：需要现将动态库文件 `libpaddle_fluid_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
+**注意**：需要先将动态库文件 `libpaddle_inference_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
 
 ```bash
 # 执行预测程序

@@ -5,8 +5,11 @@
 #include <iostream>
 #include <memory>
 #include <numeric>
+#include <thread>
 
-DEFINE_string(model_dir, "./mobilenetv1", "Directory of the inference model.");
+DEFINE_string(model_file, "", "Directory of the inference model.");
+DEFINE_string(params_file, "", "Directory of the inference model.");
+DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_bool(use_gpu, false, "use_gpu");
 
 namespace paddle_infer {
@@ -21,8 +24,11 @@ double time_diff(Time t1, Time t2) {
 }
 
 void PrepareConfig(Config *config) {
-  config->SetProgFile(FLAGS_model_dir + "/model");
-  config->SetParamsFile(FLAGS_model_dir + "/params");
+  if (FLAGS_model_dir != "") {
+    config->SetModel(FLAGS_model_dir);
+  } else {
+    config->SetModel(FLAGS_model_file, FLAGS_params_file);
+  }
   if (FLAGS_use_gpu) {
     config->EnableUseGpu(500, 0);
   }
@@ -76,7 +82,8 @@ void Demo(int repeat) {
   auto pause = [](const std::string &hint) {
     std::string temp;
     LOG(INFO) << hint;
-    std::getline(std::cin, temp);
+    // std::getline(std::cin, temp);
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
   };
   pause("Pause, init predictor done, please enter any character to continue "
         "running.");
