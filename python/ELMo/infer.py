@@ -5,6 +5,7 @@ import paddle
 import argparse
 import reader
 import sys
+import os
 
 from paddle.inference import Config
 from paddle.inference import create_predictor
@@ -17,7 +18,7 @@ def parse_args():
     parser = argparse.ArgumentParser("Inference for lexical analyzer.")
     parser.add_argument("--model_dir",
                         type=str,
-                        default="",
+                        default="elmo",
                         help="The folder where the test data is located.")
     parser.add_argument("--testdata_dir",
                         type=str,
@@ -39,14 +40,7 @@ def parse_args():
                         type=str,
                         default="elmo_data/q2b.dic",
                         help="The path of the word replacement Dictionary.")
-    parser.add_argument("--model_file",
-                        type=str,
-                        default="",
-                        help="Model filename, Specify this when your model is a combined model.")
-    parser.add_argument("--params_file",
-                        type=str,
-                        default="",
-                        help="Parameter filename, Specify this when your model is a combined model.")
+
     args = parser.parse_args()
     return args
 
@@ -67,10 +61,9 @@ def to_lodtensor(data):
 
 
 def init_predictor(args):
-    if args.model_dir is not "":
-        config = Config(args.model_dir)
-    else:
-        config = Config(args.model_file, args.params_file)
+    
+    config = Config(os.path.join(args.model_dir, "inference.pdmodel"), 
+                    os.path.join(args.model_dir, "inference.pdiparams"))
 
     config.enable_memory_optim()
     if args.use_gpu:
