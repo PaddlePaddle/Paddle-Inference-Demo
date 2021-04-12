@@ -14,14 +14,6 @@ Welcome to Paddle-Inference's documentation!
   product_introduction/summary
   product_introduction/inference_intro
 
-
-.. toctree::
-  :maxdepth: 1
-  :caption: 开始使用
-  :name: sec-introduction
-
-  introduction/summary
-
 .. toctree::
   :maxdepth: 1
   :caption: 快速开始
