@@ -90,14 +90,7 @@ Calib Int8: |uncheck|
 
 1）linux下通过pip安装
 
-.. code:: shell
-
-	# 该whl包依赖cuda10.1， cudnnv7.6， tensorrt6.0 的lib， 需自行下载安装并设置lib路径到LD_LIBRARY_PATH中
-	wget https://paddle-inference-dist.bj.bcebos.com/libs/paddlepaddle_gpu-1.8.0-cp27-cp27mu-linux_x86_64.whl
-	pip install -U paddlepaddle_gpu-1.8.0-cp27-cp27mu-linux_x86_64.whl
-
-
-如果您想在Nvidia Jetson平台上使用，请点击此 `链接 <https://paddle-inference-dist.cdn.bcebos.com/temp_data/paddlepaddle_gpu-0.0.0-cp36-cp36m-linux_aarch64.whl>`_ 下载whl包，然后通过pip 安装。
+请从[whl list](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release)下载带trt且与自己环境一致的whl包，并通过pip安装
 
 2）使用docker镜像
 

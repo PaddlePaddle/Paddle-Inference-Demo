@@ -269,11 +269,11 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 
 **二：c++ lib**
 
-预测库编译后，所有产出均位于build目录下的fluid_inference_install_dir目录内，目录结构如下。version.txt 中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号。
+预测库编译后，所有产出均位于build目录下的paddle_inference_install_dir目录内，目录结构如下。version.txt 中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号。
 
 .. code:: shell
 
-	build/fluid_inference_install_dir
+	build/paddle_inference_install_dir
 	├── CMakeCache.txt
 	├── paddle
 	│   ├── include
@@ -284,9 +284,9 @@ TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图�
 	│   │   ├── paddle_mkldnn_quantizer_config.h
 	│   │   └── paddle_pass_builder.h
 	│   └── lib
-	│       ├── libpaddle_fluid.a (Linux)
-	│       ├── libpaddle_fluid.so (Linux)
-	│       └── libpaddle_fluid.lib (Windows)
+	│       ├── libpaddle_inference.a (Linux)
+	│       ├── libpaddle_inference.so (Linux)
+	│       └── libpaddle_inference.lib (Windows)
 	├── third_party
 	│   ├── boost
 	│   │   └── boost
