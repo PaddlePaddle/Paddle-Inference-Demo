@@ -9,7 +9,10 @@ from paddle.inference import PrecisionType
 
 # this is a simple resnet block for dynamci test.
 def init_predictor(args):
-    config = Config('./model')
+    if args.model_dir is not "":
+      config = Config(args.model_dir)
+    else:
+      config = Config(args.model_file, args.params_file)
     config.enable_memory_optim()
     config.enable_use_gpu(100, 0)
 
