@@ -219,6 +219,33 @@ if __name__ == '__main__':
     paddle.jit.save(net, 'inference_model/lenet')
 ```
 
+Paddle 2.0 默认保存的权重格式为 `*.pdiparams` 后缀的文件。若因特殊需求，希望沿用旧版本的分离权重方式，请参考以下示例进行另存为。Paddle 2.0 兼容支持这种旧格式推理部署模型的加载。
+
+```
+import paddle
+
+if __name__ == '__main__':
+    paddle.enable_static()
+    place = paddle.CPUPlace()
+    exe = paddle.static.Executor(place)
+
+    # load combined params and model
+    program, _, _ = paddle.static.load_inference_model(
+        path_prefix='inference_model',
+        executor=exe,
+        model_filename='lenet.pdmodel',
+        params_filename='lenet.pdiparams')
+
+    # save as separate persistables
+    paddle.static.save_vars(
+        executor=exe,
+        dirname="separate_persistables",
+        main_program=program,
+        vars=None,
+        predicate=paddle.static.io.is_persistable)
+```
+
+
 ## 三、使用 Paddle 2.0 Python 接口预测部署
 
 我们使用存储好的预测部署模型，借助 Python 2.0 接口执行预测部署。
