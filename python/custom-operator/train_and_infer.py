@@ -106,7 +106,7 @@ np_label = np.random.random((1, 1)).astype("int64")
 config = Config(path_prefix + ".pdmodel", path_prefix + ".pdiparams")
 
 # set device
-config.enable_use_gpu()
+config.enable_use_gpu(100)
 
 predictor = create_predictor(config)
 
