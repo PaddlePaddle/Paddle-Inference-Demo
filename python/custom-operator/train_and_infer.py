@@ -104,10 +104,11 @@ np_data = np.random.random((1, 1, 28, 28)).astype("float32")
 np_label = np.random.random((1, 1)).astype("int64")
 
 config = Config(path_prefix + ".pdmodel", path_prefix + ".pdiparams")
-predictor = create_predictor(config)
 
 # set device
-predictor.enable_use_gpu()
+config.enable_use_gpu()
+
+predictor = create_predictor(config)
 
 input_tensor = predictor.get_input_handle(predictor.get_input_names()[0])
 input_tensor.reshape(np_data.shape)
