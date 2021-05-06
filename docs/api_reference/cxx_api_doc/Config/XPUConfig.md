@@ -16,6 +16,6 @@ void EnableXpu(int l3_workspace_size = 0xfffc00);
 // 创建 Config 对象
 paddle_infer::Config config(FLAGS_model_dir);
 
-// 启用 XPU，并设置 l3 cache 大小为 100M
-config.EnableXpu(100);
+// 启用 XPU，并设置 l3 cache 大小为 16 MB
+config.EnableXpu(16 * 1024 * 1024);
 ```
