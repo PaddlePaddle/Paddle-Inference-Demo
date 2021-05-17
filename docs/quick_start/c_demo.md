@@ -16,8 +16,14 @@ Paddle Inference 的 C 预测库需要以源码编译的方式进行获取，请
 ```bash
 paddle_inference_c_install_dir
 ├── paddle
-│   ├── include
-│   │   └── paddle_c_api.h               C 预测库头文件
+│   ├── include               C 预测库头文件目录
+│   │   └── pd_common.h
+│   │   └── pd_config.h
+│   │   └── pd_inference_api.h         C 预测库头文件
+│   │   └── pd_predictor.h
+│   │   └── pd_tensor.h
+│   │   └── pd_types.h
+│   │   └── pd_utils.h
 │   └── lib
 │       ├── libpaddle_inference_c.a          C 静态预测库文件
 │       └── libpaddle_inference_c.so         C 动态预测库文件
@@ -67,67 +73,66 @@ resnet50/
 将以下代码保存为 `c_demo.c` 文件：
 
 ```c
-#include <stdbool.h>
-#include "paddle_c_api.h"
+#include "pd_inference_api.h"
 #include <memory.h>
 #include <malloc.h>
 
 int main() {
-  // 配置 PD_AnalysisConfig
-  PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+  // 创建 Config 对象
+  PD_Config* config = PD_ConfigCreate();
 
   // 设置预测模型路径，即为本小节第2步中下载的模型
   const char* model_path  = "./resnet50/inference.pdmodel";
   const char* params_path = "./resnet50/inference.pdiparams";
-  PD_SetModel(config, model_path, params_path);
+  PD_ConfigSetModel(config, model_path, params_path);
+  
+  // 根据 Config 创建 Predictor, 并销毁 Config 对象
+  PD_Predictor* predictor = PD_PredictorCreate(config);
 
-  // 创建输入 Tensor
-  PD_Tensor* input_tensor = PD_NewPaddleTensor();
+  // 准备输入数据
+  float input_shape[4] = {1, 3, 244, 244};
+  float input_data = (float*)calloc(1 * 3 * 224 * 224, sizeof(float));
 
-  // 创建输入 Buffer
-  PD_PaddleBuf* input_buffer = PD_NewPaddleBuf();
-  printf("PaddleBuf empty: %s\n", PD_PaddleBufEmpty(input_buffer) ? "true" : "false");
-  int batch   = 1;
-  int channel = 3;
-  int height  = 318;
-  int width   = 318;
-  int input_shape[4] = {batch, channel, height, width};
-  int input_size     = batch * channel * height * width;
-  float* input_data  = malloc(sizeof(float) * input_size);
-  int i = 0;
-  for (i = 0; i < input_size ; i++){ 
-      input_data[i] = 1.0f; 
-  }
-  PD_PaddleBufReset(input_buffer, (void*)(input_data), sizeof(float) * input_size);
+  // 获取输入 Tensor
+  PD_OneDimArrayCstr* input_names = PD_PredictorGetInputNames(predictor);
+  PD_Tensor* input_tensor = PD_PredictorGetInputHandle(predictor, input_names->data[0]);
 
-  // 设置输入 Tensor 信息
-  char* input_name = "data"; // 可通过 Netron 工具查看输入 Tensor 名字、形状、数据等
-  PD_SetPaddleTensorName(input_tensor, input_name);
-  PD_SetPaddleTensorDType(input_tensor, PD_FLOAT32);
-  PD_SetPaddleTensorShape(input_tensor, input_shape, 4);
-  PD_SetPaddleTensorData(input_tensor, input_buffer);
-
-  // 设置输出 Tensor 和 数量
-  PD_Tensor* output_tensor = PD_NewPaddleTensor();
-  int output_size;
+  // 设置输入 Tensor 的维度信息及数据
+  PD_TensorReshape(input_tensor, 4, input_shape);
+  PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 
   // 执行预测
-  PD_PredictorRun(config, input_tensor, 1, &output_tensor, &output_size, 1);
+  PD_PredictorRun(pd_predictor);
+
+  // 获取预测输出 Tensor
+  PD_OneDimArrayCstr* output_names = PD_PredictorGetOutputNames(predictor);
+  PD_Tensor* output_tensor = PD_PredictorGetOutputHandle(predictor, output_names->data[0]);
 
   // 获取预测输出 Tensor 信息
-  printf("Output Tensor Size: %d\n", output_size);
-  printf("Output Tensor Name: %s\n", PD_GetPaddleTensorName(output_tensor));
-  printf("Output Tensor Dtype: %d\n", PD_GetPaddleTensorDType(output_tensor));
+  PD_OneDimArrayInt32* output_shape = PD_TensorGetShape(output_tensor);
+  int32_t out_size = 1;
+  for (size_t i = 0; i < output_shape->size; ++i) {
+    out_size = out_size * output_shape->data[i];
+  }
+
+  // 打印输出 Tensor 信息
+  printf("Output Tensor Name: %s\n", output_names->data[0]);
+  printf("Output Tensor Size: %d\n", out_size);
 
   // 获取预测输出 Tensor 数据
-  PD_PaddleBuf* output_buffer = PD_GetPaddleTensorData(output_tensor);
-  float* result = (float*)(PD_PaddleBufData(output_buffer));
-  int result_length = PD_PaddleBufLength(output_buffer) / sizeof(float);
-  printf("Output Data Length: %d\n", result_length);
-  
-  // 删除输入 Tensor 和 Buffer
-  PD_DeletePaddleTensor(input_tensor);
-  PD_DeletePaddleBuf(input_buffer);
+  out_data = (float*)malloc(out_size * sizeof(float));
+  PD_TensorCopyToCpuFloat(output_tensor, out_data);
+
+
+  // 销毁相关对象， 回收相关内存
+  free(out_data)
+  PD_OneDimArrayInt32Destroy(output_shape);
+  PD_TensorDestroy(output_tensor);
+  PD_OneDimArrayCstrDestroy(output_names);
+  PD_TensorDestroy(input_tensor);
+  PD_OneDimArrayCstrDestroy(input_names);
+  free(input_data);
+  PD_PredictorDestroy(predictor);
 
   return 0;
 }
@@ -135,7 +140,7 @@ int main() {
 
 ### 4. 编译预测部署程序
 
-将 `paddle_inference_c_install_dir/paddle` 目录下的头文件 `paddle_c_api.h` 和动态库文件 `libpaddle_inference_c.so` 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：
+将 `paddle_inference_c_install_dir/paddle/include` 目录下的所有头文件和动态库文件 `paddle_inference_c_install_dir/paddle/lib/libpaddle_inference_c.so` 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：
 
 ```bash
 # GCC 编译命令
@@ -147,7 +152,13 @@ c_demo_dir/
 ├── c_demo.c                 预测 C 源码程序，内容如本小节第3步所示
 ├── c_demo_prog              编译后的预测可执行程序
 │
-├── paddle_c_api.h           C 预测库头文件
+├── pd_inference_api.h         C 预测库头文件
+├── pd_common.h
+├── pd_config.h
+├── pd_utils.h
+├── pd_predictor.h
+├── pd_tensor.h
+├── pd_types.h
 ├── libpaddle_fluid_c.so     C 动态预测库文件
 │
 ├── resnet50_model.tar.gz    本小节第2步中下载的预测模型
@@ -204,95 +215,93 @@ I1211 05:57:49.698067 16443 graph_pattern_detector.cc:101] ---  detected 53 subg
 --- Running analysis [inference_op_replace_pass]
 --- Running analysis [ir_graph_to_program_pass]
 I1211 05:57:49.741832 16443 analysis_predictor.cc:541] ======= optimize end =======
-Output Tensor Size: 1
 Output Tensor Name: AddmmBackward190.fc.output.1.tmp_1
-Output Tensor Dtype: 0
-Output Data Length: 512
+Output Tensor Size: 1
 ```
 
 ## C 预测程序开发说明
 
-使用 Paddle Inference 开发 C 预测程序仅需以下六个步骤：
+使用 Paddle Inference 开发 C 预测程序仅需以下七个步骤：
 
 
 (1) 引用头文件
 
 ```c
-#include "paddle_c_api.h"
+#include "pd_inference_api.h"
 ```
 
-(2) 创建配置对象，并指定预测模型路径，详细可参考 [C API 文档 - AnalysisConfig](../api_reference/c_api_doc/Config_index)
+(2) 创建配置对象，并指定预测模型路径，详细可参考 [C API 文档 - Config 方法](../api_reference/c_api_doc/Config_index)
 
 ```c
-// 配置 PD_AnalysisConfig
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+// 创建 Config 对象
+PD_Config* config = PD_ConfigCreate();
 
 // 设置预测模型路径，即为本小节第2步中下载的模型
-const char* model_path = "./resnet50/inference.pdmodel";
+const char* model_path  = "./resnet50/inference.pdmodel";
 const char* params_path = "./resnet50/inference.pdiparams";
-PD_SetModel(config, model_path, params_path);
+PD_ConfigSetModel(config, model_path, params_path);
 ```
-
-(3) 设置模型输入和输出 Tensor，详细可参考 [C API 文档 - PaddleTensor](../api_reference/c_api_doc/PaddleTensor)
+(3) 根据Config创建预测对象，详细可参考 [C API 文档 - Predictor 方法](../api_reference/c_api_doc/Predictor)
 
 ```c
-// 创建输入 Tensor
-PD_Tensor* input_tensor = PD_NewPaddleTensor();
+// 根据 Config 创建 Predictor, 并销毁 Config 对象
+PD_Predictor* predictor = PD_PredictorCreate(config);
+```
+(4) 设置模型输入Tensor，详细可参考 [C API 文档 - Tensor 方法](../api_reference/c_api_doc/Tensor)
 
-// 创建输入 Buffer
-PD_PaddleBuf* input_buffer = PD_NewPaddleBuf();
-printf("PaddleBuf empty: %s\n", PD_PaddleBufEmpty(input_buffer) ? "true" : "false");
-int batch = 1;
-int channel = 3;
-int height = 318;
-int width = 318;
-int input_shape[4] = {batch, channel, height, width};
-int input_size = batch * channel * height * width;
-float* data = malloc(sizeof(float) * input_size);
-int i = 0;
-for (i = 0; i < input_size ; i++){ 
-    data[i] = 1.0f; 
-}
-PD_PaddleBufReset(input_buffer, (void*)(data), sizeof(float) * input_size);
+```c
+// 准备输入数据
+float input_shape[4] = {1, 3, 244, 244};
+float input_data = (float*)calloc(1 * 3 * 224 * 224, sizeof(float));
 
-// 设置输入 Tensor 信息
-char* input_name = "data"; // 可通过 Netron 工具查看输入 Tensor 名字、形状、数据等
-PD_SetPaddleTensorName(input_tensor, input_name);
-PD_SetPaddleTensorDType(input_tensor, PD_FLOAT32);
-PD_SetPaddleTensorShape(input_tensor, input_shape, 4);
-PD_SetPaddleTensorData(input_tensor, input_buffer);
+// 获取输入 Tensor
+PD_OneDimArrayCstr* input_names = PD_PredictorGetInputNames(predictor);
+PD_Tensor* input_tensor = PD_PredictorGetInputHandle(predictor, input_names->data[0]);
 
-// 设置输出 Tensor 和 数量
-PD_Tensor* output_tensor = PD_NewPaddleTensor();
-int output_size;
+// 设置输入 Tensor 的维度信息及数据
+PD_TensorReshape(input_tensor, 4, input_shape);
+PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 ```
 
-(4) 执行预测引擎，，详细可参考 [C API 文档 - Predictor](../api_reference/c_api_doc/Predictor)
+(5) 执行预测引擎，详细可参考 [C API 文档 - Predictor 方法](../api_reference/c_api_doc/Predictor)
 
 ```c
 // 执行预测
-PD_PredictorRun(config, input_tensor, 1, &output_tensor, &output_size, 1);
+PD_PredictorRun(pd_predictor);
 ```
-
-(5) 获得预测结果，详细可参考 [C API 文档 - PaddleTensor](../api_reference/c_api_doc/PaddleTensor)
+(6) 获得预测结果，详细可参考 [C API 文档 - Tensor 方法](../api_reference/c_api_doc/Tensor)
 
 ```c
+// 获取预测输出 Tensor
+PD_OneDimArrayCstr* output_names = PD_PredictorGetOutputNames(predictor);
+PD_Tensor* output_tensor = PD_PredictorGetOutputHandle(predictor, output_names->data[0]);
+
 // 获取预测输出 Tensor 信息
-printf("Output Tensor Size: %d\n", output_size);
-printf("Output Tensor Name: %s\n", PD_GetPaddleTensorName(output_tensor));
-printf("Output Tensor Dtype: %d\n", PD_GetPaddleTensorDType(output_tensor));
+PD_OneDimArrayInt32* output_shape = PD_TensorGetShape(output_tensor);
+int32_t out_size = 1;
+for (size_t i = 0; i < output_shape->size; ++i) {
+  out_size = out_size * output_shape->data[i];
+}
+
+// 打印输出 Tensor 信息
+printf("Output Tensor Name: %s\n", output_names->data[0]);
+printf("Output Tensor Size: %d\n", out_size);
 
 // 获取预测输出 Tensor 数据
-PD_PaddleBuf* output_buffer = PD_GetPaddleTensorData(output_tensor);
-float* result = (float*)(PD_PaddleBufData(output_buffer));
-int result_length = PD_PaddleBufLength(output_buffer) / sizeof(float);
-printf("Output Data Length: %d\n", result_length);
+out_data = (float*)malloc(out_size * sizeof(float));
+PD_TensorCopyToCpuFloat(output_tensor, out_data);
 ```
 
-(6) 删除输入 Tensor，Buffer 和 Config
+(7) 销毁相关对象，回收相关内存
 
 ```c
-PD_DeletePaddleTensor(input_tensor);
-PD_DeletePaddleBuf(input_buffer);
-PD_DeleteAnalysisConfig(config);
+// 销毁相关对象， 回收相关内存
+free(out_data)
+PD_OneDimArrayInt32Destroy(output_shape);
+PD_TensorDestroy(output_tensor);
+PD_OneDimArrayCstrDestroy(output_names);
+PD_TensorDestroy(input_tensor);
+PD_OneDimArrayCstrDestroy(input_names);
+free(input_data);
+PD_PredictorDestroy(predictor);
 ```
