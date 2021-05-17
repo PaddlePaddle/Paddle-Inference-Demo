@@ -4,87 +4,135 @@ API定义如下：
 
 ```c
 // 开启内存/显存复用，具体降低内存效果取决于模型结构
-// 参数：config - AnalysisConfig 对象指针
+// 参数：pd_config - Config 对象指针
 // 返回：None
-void PD_EnableMemoryOptim(PD_AnalysisConfig* config);
+void PD_ConfigEnableMemoryOptim(PD_Config* pd_config);
 
 // 判断是否开启内存/显存复用
-// 参数：config - AnalysisConfig 对象指针
-// 返回：bool - 是否开启内/显存复用
-bool PD_MemoryOptimEnabled(const PD_AnalysisConfig* config);
+// 参数：pd_config - Config 对象指针
+// 返回：PD_Bool - 是否开启内/显存复用
+PD_Bool PD_ConfigMemoryOptimEnabled(PD_Config* pd_config);
 ```
-
 代码示例：
 
 ```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+// 创建 Config 对象
+PD_Config* config = PD_ConfigCreate();
 
 // 开启 CPU 内存优化
-PD_EnableMemoryOptim(config);
-// 通过 API 获取 CPU 是否已经开启显存优化 - true
-printf("CPU Mem Optim is: %s\n", PD_MemoryOptimEnabled(config) ? "True" : "False");
+PD_ConfigEnableMemoryOptim(config);
+
+// 通过 API 获取 CPU 是否已经开启内存优化 - True
+printf("CPU Mem Optim is: %s\n", PD_ConfigMemoryOptimEnabled(config) ? "True" : "False");
 
 // 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
-PD_EnableUseGpu(config, 100, 0);
+PD_ConfigEnableUseGpu(config, 100, 0);
+
 // 开启 GPU 显存优化
-PD_EnableMemoryOptim(config);
-// 通过 API 获取 GPU 是否已经开启显存优化 - true
-printf("GPU Mem Optim is: %s\n", PD_MemoryOptimEnabled(config) ? "True" : "False");
+PD_ConfigEnableMemoryOptim(config);
+
+// 通过 API 获取 GPU 是否已经开启显存优化 - True
+printf("GPU Mem Optim is: %s\n", PD_ConfigMemoryOptimEnabled(config) ? "True" : "False");
+
+// 销毁 Config 对象
+PD_ConfigDestroy(config);
 ```
 
 # 设置缓存路径
 
-**注意：** 如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `SetOptimCacheDir` 来设置缓存路径。
+**注意：** 如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `PD_ConfigSetOptimCacheDir` 来设置缓存路径。
+
 
 API定义如下：
 
 ```c
 // 设置缓存路径
-// 参数：config - AnalysisConfig 对象指针
+// 参数：pd_config     - Config 对象指针
 //      opt_cache_dir - 缓存路径
 // 返回：None
-void PD_SetOptimCacheDir(PD_AnalysisConfig* config, const char* opt_cache_dir);
+void PD_ConfigSetOptimCacheDir(PD_Config* pd_config, const char* opt_cache_dir);
 ```
 
 代码示例：
 
 ```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+// 创建 Config 对象
+PD_Config* config = PD_ConfigCreate();
+
+// 设置预测模型路径，这里为 Combined 模型
+const char* model_path  = "./model/inference.pdmodel";  
+const char* params_path = "./model/inference.pdiparams";
+PD_ConfigSetModel(config, model_path, params_path);
 
 // 设置缓存路径
-const char * opt_cache_dir = "./mobilenet_v1/OptimCacheDir";
-PD_SetOptimCacheDir(config, opt_cache_dir);
+PD_ConfigSetOptimCacheDir(config,"./model/OptimCacheDir");
+
+// 销毁 Config 对象
+PD_ConfigDestroy(config);
+```
+
+# FC Padding
+
+API定义如下：
+
+```c++
+// 禁用 FC Padding
+// 参数：pd_config - Config 对象指针
+// 返回：None
+void PD_ConfigDisableFCPadding(PD_Config* pd_config);
+
+// 判断是否启用 FC Padding
+// 参数：pd_config - Config 对象指针
+// 返回：PD_Bool - 是否启用 FC Padding
+PD_Bool PD_ConfigUseFcPadding(PD_Config* pd_config);
+```
+
+代码示例：
+
+```c
+// 创建 Config 对象
+PD_Config* config = PD_ConfigCreate();
+
+// 禁用 FC Padding
+PD_ConfigDisableFCPadding(config);
+
+// 通过 API 获取是否启用 FC Padding - False
+printf("FC Padding is: %s\n", PD_ConfigUseFcPadding(config) ? "True" : "False");
+
+// 销毁 Config 对象
+PD_ConfigDestroy(config);
 ```
 
 # Profile 设置
 
 API定义如下：
 
-```c
+```c++
 // 打开 Profile，运行结束后会打印所有 OP 的耗时占比。
-// 参数：config - AnalysisConfig 对象指针
+// 参数：pd_config - Config 对象指针
 // 返回：None
-void PD_EnableProfile(PD_AnalysisConfig* config);
+void PD_ConfigEnableProfile(PD_Config* pd_config);
 
 // 判断是否开启 Profile
-// 参数：config - AnalysisConfig 对象指针
-// 返回：bool - 是否开启 Profile
-bool PD_ProfileEnabled(const PD_AnalysisConfig* config);
+// 参数：pd_config - Config 对象指针
+// 返回：PD_Bool - 是否开启 Profile
+PD_Bool PD_ConfigProfileEnabled(PD_Config* pd_config);
 ```
 
 代码示例：
 
 ```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+// 创建 Config 对象
+PD_Config* config = PD_ConfigCreate();
 
 // 打开 Profile
-PD_EnableProfile(config);
+PD_ConfigEnableProfile(config);
 
-// 判断是否开启 Profile - true
-printf("Profile is: %s\n", PD_ProfileEnabled(config) ? "True" : "False");
+// 通过 API 获取是否启用Profile - True
+printf("Profile is: %s\n", PD_ConfigProfileEnabled(config) ? "True" : "False");
+
+// 销毁 Config 对象
+PD_ConfigDestroy(config);
 ```
 
 执行预测之后输出的 Profile 的结果如下：
@@ -125,19 +173,30 @@ thread0::scale                   15          0.240771    0.013394    0.030727   
 
 API定义如下：
 
-```c
+```c++
 // 去除 Paddle Inference 运行中的 LOG
-// 参数：config - AnalysisConfig 对象指针
+// 参数：pd_config - Config 对象指针
 // 返回：None
-void PD_DisableGlogInfo(PD_AnalysisConfig* config);
+void PD_ConfigDisableGlogInfo(PD_Config* pd_config);
+
+// 判断是否禁用 LOG
+// 参数：pd_config - Config 对象指针
+// 返回：PD_Bool - 是否禁用 LOG
+PD_Bool PD_ConfigGlogInfoDisabled(PD_Config* pd_config);
 ```
 
 代码示例：
 
 ```c
-// 创建 AnalysisConfig 对象
-PD_AnalysisConfig* config = PD_NewAnalysisConfig();
+// 创建 Config 对象
+PD_Config* config = PD_ConfigCreate();
 
 // 去除 Paddle Inference 运行中的 LOG
-PD_DisableGlogInfo(config);
+PD_ConfigDisableGlogInfo(config);
+
+// 通过 API 获取是否启用LOG - False
+printf("GLOG INFO is: %s\n", PD_ConfigGlogInfoDisabled(config) ? "True" : "False");
+
+// 销毁 Config 对象
+PD_ConfigDestroy(config);
 ```
