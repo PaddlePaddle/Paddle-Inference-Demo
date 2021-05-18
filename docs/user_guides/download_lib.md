@@ -1,4 +1,5 @@
 # 下载安装Linux预测库
+## C++预测库
 
 | 版本说明      |     预测库(1.8.5版本)  |预测库(2.1.0版本)   |     预测库(develop版本)     |  
 |:---------|:-------------------|:-------------------|:----------------|
@@ -13,7 +14,15 @@
 |manylinux_cuda11.0_cudnn8.0_avx_mkl_trt7_gcc82||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.0-gpu-cuda11.0-cudnn8-mkl-gcc8.2/paddle_inference.tgz)|||
 |nv_jetson_cuda10.2_cudnn8_trt7_all(jetpack4.4)||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.0-nv-jetson-jetpack4.4-all/paddle_inference.tgz)|||
 
-
+## Python预测库
+| 版本说明     |预测库(2.1.0版本)   |
+|:---------|:-------------------|
+|linux-cuda10.1-trt6-gcc82-py36m|[paddlepaddle_gpu-2.1.0.post101-cp36-cp36m-linux_x86_64.whl](https://paddle-wheel.bj.bcebos.com/with-trt/2.1.0-gpu-cuda10.1-cudnn7-mkl-gcc8.2/paddlepaddle_gpu-2.1.0.post101-cp36-cp36m-linux_x86_64.whl)|
+|linux-cuda10.1-trt6-gcc82-py37m|[paddlepaddle_gpu-2.1.0.post101-cp37-cp37m-linux_x86_64.whl](https://paddle-wheel.bj.bcebos.com/with-trt/2.1.0-gpu-cuda10.1-cudnn7-mkl-gcc8.2/paddlepaddle_gpu-2.1.0.post101-cp37-cp37m-linux_x86_64.whl)|
+|linux-cuda10.2-trt7-gcc82-py36m|[paddlepaddle_gpu-2.1.0-cp36-cp36m-linux_x86_64.whl](https://paddle-wheel.bj.bcebos.com/with-trt/2.1.0-gpu-cuda10.2-cudnn8-mkl-gcc8.2/paddlepaddle_gpu-2.1.0-cp36-cp36m-linux_x86_64.whl)|
+|linux-cuda10.2-trt7-gcc82-py37m|[paddlepaddle_gpu-2.1.0-cp37-cp37m-linux_x86_64.whl](https://paddle-wheel.bj.bcebos.com/with-trt/2.1.0-gpu-cuda10.2-cudnn8-mkl-gcc8.2/paddlepaddle_gpu-2.1.0-cp37-cp37m-linux_x86_64.whl)|
+|nv_jetson-cuda10.2-cudnn8-trt7-py36m|[paddlepaddle_gpu-2.1.0-cp36-cp36m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.1.0-nv-jetson-jetpack4.4-all/paddlepaddle_gpu-2.1.0-cp36-cp36m-linux_aarch64.whl)|
+|nv_jetson-cuda10.2-cudnn8-trt7-py38m|[paddlepaddle_gpu-2.1.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.1.0-nv-jetson-jetpack4.4-all/paddlepaddle_gpu-2.1.0-cp38-cp38-linux_aarch64.whl)|
 
 
 # 下载安装Windows预测库
