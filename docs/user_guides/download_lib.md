@@ -16,8 +16,10 @@
 
 
 ## Python预测库
-| 版本说明     |Python3.6   |Python3.7   |Python3.8   |
-|:---------|:-------------------|:-------------------|:-------------------|
+
+
+| 版本说明      |     python3.6  |python3.7   |     python3.8     |  
+|:---------|:-------------------|:-------------------|:----------------|
 |linux-cuda10.1-trt6-gcc82|[paddlepaddle_gpu-2.1.0.post101-cp36-cp36m-linux_x86_64.whl](https://paddle-wheel.bj.bcebos.com/with-trt/2.1.0-gpu-cuda10.1-cudnn7-mkl-gcc8.2/paddlepaddle_gpu-2.1.0.post101-cp36-cp36m-linux_x86_64.whl)|||
 |linux-cuda10.1-trt6-gcc82||[paddlepaddle_gpu-2.1.0.post101-cp37-cp37m-linux_x86_64.whl](https://paddle-wheel.bj.bcebos.com/with-trt/2.1.0-gpu-cuda10.1-cudnn7-mkl-gcc8.2/paddlepaddle_gpu-2.1.0.post101-cp37-cp37m-linux_x86_64.whl)||
 |linux-cuda10.2-trt7-gcc82|[paddlepaddle_gpu-2.1.0-cp36-cp36m-linux_x86_64.whl](https://paddle-wheel.bj.bcebos.com/with-trt/2.1.0-gpu-cuda10.2-cudnn8-mkl-gcc8.2/paddlepaddle_gpu-2.1.0-cp36-cp36m-linux_x86_64.whl)|||
