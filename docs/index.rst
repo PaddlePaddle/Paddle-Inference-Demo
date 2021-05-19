@@ -80,7 +80,6 @@ Welcome to Paddle-Inference's documentation!
   api_reference/cxx_api_index
   api_reference/python_api_index
   api_reference/c_api_index
-  api_reference/go_api_index
   api_reference/r_api_index
 
 .. toctree::
