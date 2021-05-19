@@ -23,8 +23,6 @@ Welcome to Paddle-Inference's documentation!
   quick_start/cpp_demo
   quick_start/python_demo
   quick_start/c_demo
-  quick_start/go_demo
-  quick_start/r_demo
 
 .. toctree::
   :maxdepth: 1
