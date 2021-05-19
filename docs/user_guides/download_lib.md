@@ -42,6 +42,8 @@
 |    cuda10.2_cudnn7_avx_mkl_trt7 | | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.0win/win-infer/mkl/post102/paddle_inference.zip)| MSVC 2017  |  CMake v3.17.0  |  7.6  |   10.2    |
 |    cuda11.0_cudnn8_avx_mkl_trt7 | | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.0win/win-infer/mkl/post110/paddle_inference.zip)| MSVC 2017  |  CMake v3.17.0  |  8.0  |   11.0    |
 
+**请确认您的VS版本与下载链接对应的版本完全一致，目前暂不保证在其它VS版本的可用性**
+
 环境硬件配置：
 
 | 操作系统      |    win10 家庭版本      |
