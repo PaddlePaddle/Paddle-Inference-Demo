@@ -4,23 +4,35 @@
 
 ## 运行 GO 示例程序
 
-### 1. 源码编译 GO 预测库
+### 1. 获取 C 预测库
 
-Paddle Inference 的 GO 预测库即为 C 预测库，需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译
+#### 下载C预测库
+
+您可以选择直接下载[paddle_inference_c预测库, todo 提供下载方式]()。
+
+#### 源码编译方式获取 C 预测库
+
+您可以源码编译的方式获取 C 预测库，请参照以下两个文档进行源码编译
 
 - [安装与编译 Linux 预测库](../user_guides/source_compile.html#ubuntu-18-04)
 - [安装与编译 Windows 预测库](../user_guides/source_compile.html#windows-10)
 
-编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 GO 预测库，目录结构为：
+编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 C 预测库，目录结构如下：
 
 ```bash
 paddle_inference_c_install_dir
 ├── paddle
-│   ├── include
-│   │   └── paddle_c_api.h               C/GO 预测库头文件
+│   ├── include               C 预测库头文件目录
+│   │   └── pd_common.h
+│   │   └── pd_config.h
+│   │   └── pd_inference_api.h         C 预测库头文件
+│   │   └── pd_predictor.h
+│   │   └── pd_tensor.h
+│   │   └── pd_types.h
+│   │   └── pd_utils.h
 │   └── lib
-│       ├── libpaddle_inference_c.a          C/GO 静态预测库文件
-│       └── libpaddle_inference_c.so         C/GO 动态预测库文件
+│       ├── libpaddle_inference_c.a          C 静态预测库文件
+│       └── libpaddle_inference_c.so         C 动态预测库文件
 ├── third_party
 │   └── install                          第三方链接库和头文件
 │       ├── cryptopp
@@ -40,113 +52,61 @@ GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
 WITH_MKL: ON
 WITH_MKLDNN: ON
 WITH_GPU: ON
-CUDA version: 9.0
+CUDA version: 10.1
 CUDNN version: v7.6
-CXX compiler version: 4.8.5
+CXX compiler version: 8.2
 WITH_TENSORRT: ON
 TensorRT version: v6
 ```
 
 ### 2. 准备预测部署模型
 
-下载 [mobilenetv1](https://paddle-inference-dist.cdn.bcebos.com/mobilenet-test-model-data.tar.gz) 模型后解压，得到 Paddle Combined 形式的模型和数据，位于文件夹 data 下。可将 `__model__` 文件通过模型可视化工具 Netron 打开来查看模型结构。
+下载 [resnet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle Combined 形式的模型。
 
 ```bash
-wget https://paddle-inference-dist.cdn.bcebos.com/mobilenet-test-model-data.tar.gz
-tar zxf mobilenet-test-model-data.tar.gz
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
+tar zxf resnet50.tgz
 
-# 获得 data 目录结构如下
-data/
-├── model
-│   ├── __model__
-│   └── __params__
-├── data.txt
-└── result.txt
+# 获得 resnet50 目录结构如下
+resnet50/
+├── inference.pdmodel
+├── inference.pdiparams
+└── inference.pdiparams.info
 ```
 
 ### 3. 获取预测示例代码
 
-本章节 GO 预测示例代码位于 [Paddle/go](https://github.com/PaddlePaddle/Paddle/tree/develop/go)，目录包含以下文件：
-
-```bash
-Paddle/go/
-├── demo
-│   ├── mobilenet_c.cc
-│   ├── mobilenet_cxx.cc
-│   └── mobilenet.go         GO 的预测示例程序源码
-├── paddle
-│   ├── common.go
-│   ├── config.go            Config 的 GO references to C
-│   ├── predictor.go         Predictor 的 GO references to C
-│   ├── tensor.go            Tensor 的 GO references to C
-└── README_cn.md             GO Demo README 说明
-```
+本章节 GO 预测示例代码位于 [Paddle-Inference-Demo](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/go)，目录下的resnet50子目录。
 
 ### 4. 准备预测执行目录
 
 执行预测程序之前需要完成以下几个步骤
 
-1. 将本章节 [第1步](#id2) 中的 `paddle_inference_c_install_dir` 移到到 `Paddle/go` 目录下，并将 `paddle_inference_c_install_dir` 重命名为 `paddle_c`
-2. 本章节 [第2步](#id3) 中下载的模型和数据文件夹 `data` 移动到 `Paddle/go` 目录下
+1. 使用`go get`获取golang paddle api
 
-执行完之后的目录结构如下：
-
-```bash
-Paddle/go/
-├── demo
-│   ├── mobilenet_c.cc
-│   ├── mobilenet_cxx.cc
-│   └── mobilenet.go
-├── paddle
-│   ├── config.go                            Config 的 GO references to C
-│   ├── predictor.go                         Predictor 的 GO references to C
-│   ├── tensor.go                            Tensor 的 GO references to C
-│   └── common.go
-├── paddle_c                                 本章节第1步中的 paddle_inference_c_install_dir
-│   ├── paddle
-│   │   ├── include
-│   │   │   └── paddle_c_api.h               C/GO 预测库头文件
-│   │   └── lib
-│   │       ├── libpaddle_inference_c.a          C/GO 静态预测库文件
-│   │       └── libpaddle_inference_c.so         C/GO 动态预测库文件
-│   └── third_party
-├── data                                     本章节第2步中下载的模型和数据文件夹
-│   ├── model
-│   │   ├── __model__
-│   │   └── __params__
-│   ├── data.txt
-│   └── result.txt
-└── README_cn.md                             GO Demo README 说明
+```
+# 此处使用对应tag的CommitId，假设为76e5724
+go get -d -v github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi@76e5724
 ```
 
-### 5. 执行预测程序
+2. 软链
 
-**注意**：需要先将动态库文件 `libpaddle_inference_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
+`go get`默认会将代码下载到`GOMODCACHE`目录下，您可以通过`go env | grep GOMODCACHE`的方式，查看该路径，在官网发布的docker镜像中该路径一般默认为`/root/gopath/pkg/mod`，进入到golang api代码路径建立软连接，将c预测库命名为`paddle_inference_c`。
 
-```bash
-# 执行预测程序
-export LD_LIBRARY_PATH=`pwd`/paddle_c/paddle/lib:$LD_LIBRARY_PATH
-go run ./demo/mobilenet.go
+3. 进入到golang api代码路径后，运行单测，验证。
+
+```
+bash test.sh
 ```
 
-成功执行之后，得到的预测输出结果如下：
+### 5. 编译执行
 
-```bash
-# 程序输出结果如下
-WARNING: Logging before InitGOogleLogging() is written to STDERR
-I1211 11:46:11.061076 21893 pd_config.cc:43] data/model/__model__
-I1211 11:46:11.061228 21893 pd_config.cc:48] data/model/__model__
-W1211 11:46:11.061488 21893 analysis_predictor.cc:1052] Deprecated. Please use CreatePredictor instead.
-============== paddle inference ==============
-input num:  1
-input name:  image
-output num:  1
-output name:  image
-============== run inference =================
-============= parse output ===================
-v:  +3.000000e+000 +2.676507e-002 ...
-137 6
-137
+```
+go mod init demo
+go get -d -v github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi@76e5724
+go build .
+
+./demo -thread_num 1 -work_num 1 -cpu_math 2
 ```
 
 ## GO 预测程序开发说明
@@ -154,20 +114,20 @@ v:  +3.000000e+000 +2.676507e-002 ...
 使用 Paddle Inference 开发 GO 预测程序仅需以下六个步骤：
 
 
-(1) 引用 Paddle 的 GO references to C 目录
+(1) 引用 Paddle Inference 的 GO API
 
 ```go
-import "/pathto/Paddle/go/paddle"
+import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
 ```
 
 (2) 创建配置对象，并指定预测模型路径，详细可参考 [go API 文档 - Config](../api_reference/go_api_doc/Config_index)
 
 ```go
 // 配置 PD_AnalysisConfig
-config := paddle.NewAnalysisConfig()
+config := paddle.NewConfig()
 
 // 设置预测模型路径，即为本小节第2步中下载的模型
-config.SetModel("data/model/__model__", "data/model/__params__")
+config.SetModel("resnet50/inference.pdmodel", "resnet50/inference.pdiparams")
 ```
 
 (3) 根据Config创建预测对象，详细可参考 [go API 文档 - Predictor](../api_reference/go_api_doc/Predictor)	
@@ -180,34 +140,36 @@ predictor := paddle.NewPredictor(config)
 
 ```go
 // 创建输入 Tensor
-input := predictor.GetInputTensors()[0]
-output := predictor.GetOutputTensors()[0]
+inNames := predictor.GetInputNames()
+inHandle := predictor.GetInputHandle(inNames[0])
 
-filename := "data/data.txt"
-data := ReadData(filename)
-input.SetValue(data[:1 * 3 * 300 * 300])
-input.Reshape([]int32{1, 3, 300, 300})
+data := make([]float32, 1*3*224*224)
+for i := 0; i < len(data); i++ {
+    data[i] = float32(i%255) * 0.1
+}
+inHandle.Reshape([]int32{1, 3, 224, 224})
+inHandle.CopyFromCpu(data)
 ```
 
 (5) 执行预测引擎，详细可参考 [go API 文档 - Predictor](../api_reference/go_api_doc/Predictor)
 
 ```go
-predictor.SetZeroCopyInput(input)
-predictor.ZeroCopyRun()
-predictor.GetZeroCopyOutput(output)
+predictor.Run()
 ```
 
 (6) 获得预测结果，详细可参考 [go API 文档 - Tensor](../api_reference/go_api_doc/Tensor)
 
 ```go
-// 获取预测输出 Tensor 信息
-output_val := output.Value()
-value := reflect.ValueOf(output_val)
-shape, dtype := paddle.ShapeAndTypeOf(value)
+outNames := predictor.GetOutputNames()
+outHandle := predictor.GetOutputHandle(outNames[0])
+outData := make([]float32, numElements(outHandle.Shape()))
+outHandle.CopyToCpu(outData)
 
-// 获取输出 float32 数据
-v := value.Interface().([][]float32)
-println("v: ", v[0][0], v[0][1], "...")
-println(shape[0], shape[1])
-println(output.Shape()[0])
+func numElements(shape []int32) int32 {
+	n := int32(1)
+	for _, v := range shape {
+		n *= v
+	}
+	return n
+}
 ```
