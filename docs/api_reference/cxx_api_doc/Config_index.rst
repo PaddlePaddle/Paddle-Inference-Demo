@@ -12,4 +12,3 @@ Config 类
     Config/XPUConfig
     Config/OptimConfig
     Config/OtherFunction
-    Config/InternalUse
