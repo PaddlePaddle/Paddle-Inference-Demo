@@ -11,15 +11,14 @@ API定义如下：
 
 ```go
 // 设置 CPU Blas 库计算线程数
-// 参数：config - AnalysisConfig 对象指针
-//      n - blas库计算线程数
+// 参数：mathThreadsNum - blas库计算线程数
 // 返回：None
-func (config *AnalysisConfig) SetCpuMathLibraryNumThreads(n int)
+func (config *Config) SetCpuMathLibraryNumThreads(mathThreadsNum int32)
 
 // 获取 CPU Blas 库计算线程数
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：int - cpu blas 库计算线程数
-func (config *AnalysisConfig) CpuMathLibraryNumThreads() int
+func (config *Config) CpuMathLibraryNumThreads() int32
 ```
 
 代码示例：
@@ -28,17 +27,18 @@ func (config *AnalysisConfig) CpuMathLibraryNumThreads() int
 package main
 
 // 引入 Paddle Golang Package
-import "/pathto/Paddle/go/paddle"
+import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
+import fmt
 
 func main() {
-    // 创建 AnalysisConfig 对象
-    config := paddle.NewAnalysisConfig()
+    // 创建 Config 对象
+    config := paddle.NewConfig()
 
     // 设置预测模型路径，这里为非 Combined 模型
     config.SetCpuMathLibraryNumThreads(10)
 
     // 输出模型路径
-    println("CPU Math Lib Thread Num is: ", config.CpuMathLibraryNumThreads())
+    fmt.Println("CPU Math Lib Thread Num is: ", config.CpuMathLibraryNumThreads())
 }
 ```
 
@@ -52,24 +52,24 @@ API定义如下：
 
 ```go
 // 启用 MKLDNN 进行预测加速
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：None
-func (config *AnalysisConfig) EnableMkldnn()
+func (config *Config) EnableMkldnn()
 
 // 判断是否启用 MKLDNN
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：bool - 是否启用 MKLDNN
-func (config *AnalysisConfig) MkldnnEnabled() bool
+func (config *Config) MkldnnEnabled() bool
 
 // 启用 MKLDNN BFLOAT16
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：None
-func (config *AnalysisConfig) EnableMkldnnBfloat16()
+func (config *Config) EnableMkldnnBfloat16()
 
 // 判断是否启用 MKLDNN BFLOAT16
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：bool - 是否启用 MKLDNN BFLOAT16
-func (config *AnalysisConfig) MkldnnBfloat16Enabled() bool
+func (config *Config) MkldnnBfloat16Enabled() bool
 ```
 
 代码示例：
@@ -78,23 +78,24 @@ func (config *AnalysisConfig) MkldnnBfloat16Enabled() bool
 package main
 
 // 引入 Paddle Golang Package
-import "/pathto/Paddle/go/paddle"
+import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
+import fmt
 
 func main() {
-    // 创建 AnalysisConfig 对象
-    config := paddle.NewAnalysisConfig()
+    // 创建 Config 对象
+    config := pd.NewConfig()
 
     // 启用 MKLDNN 进行预测
     config.EnableMkldnn()
 
     // 通过 API 获取 MKLDNN 启用结果 - true
-    println("Enable MKLDNN is: ", config.MkldnnEnabled())
+    fmt.Println("Enable MKLDNN is: ", config.MkldnnEnabled())
 
     // 启用 MKLDNN BFLOAT16 进行预测
     config.EnableMkldnnBfloat16()
 
     // 通过 API 获取 MKLDNN BFLOAT16 启用结果
     // 如果当前CPU支持AVX512，则返回 true, 否则返回 false
-    println("Enable MKLDNN BF16 is: ", config.MkldnnBfloat16Enabled())
+    fmt.Println("Enable MKLDNN BF16 is: ", config.MkldnnBfloat16Enabled())
 }
 ```

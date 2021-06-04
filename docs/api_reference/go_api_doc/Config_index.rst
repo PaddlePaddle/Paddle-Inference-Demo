@@ -5,7 +5,7 @@ AnalysisConfig 方法
     :maxdepth: 2
     :numbered: 3
 
-    Config/AnalysisConfig
+    Config/Config
     Config/ModelConfig
     Config/CPUConfig
     Config/GPUConfig
