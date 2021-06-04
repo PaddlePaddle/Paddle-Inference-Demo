@@ -32,7 +32,8 @@ func main() {
 	}
 	var wg sync.WaitGroup
 	var mx sync.Mutex
-	var times []time.Duration
+	var times = make([]time.Duration, *workNum)
+	var idx int = 0
 
 	config := pd.NewConfig()
 	config.SetModel(*modelName, *paramsName)
@@ -60,33 +61,44 @@ func main() {
 		predictors = append(predictors, mainPredictor.Clone())
 	}
 
+	inNames := predictors[0].GetInputNames()
+	outNames := predictors[0].GetOutputNames()
+	inHandles := make([]map[string]*pd.Tensor, *threadNum)
+	outHandles := make([]map[string]*pd.Tensor, *threadNum)
+	for i := 0; i < *threadNum; i++ {
+		inHandles[i] = make(map[string]*pd.Tensor)
+		for _, n := range inNames {
+			inHandles[i][n] = predictors[i].GetInputHandle(n)
+		}
+		outHandles[i] = make(map[string]*pd.Tensor)
+		for _, n := range outNames {
+			outHandles[i][n] = predictors[i].GetOutputHandle(n)
+		}
+	}
+
 	for i := 0; i < *workNum; i++ {
 		keyId := <-ch
 		wg.Add(1)
 		go func(predictors []*pd.Predictor, keyId int) {
 			start := time.Now()
 
-			inNames := predictors[keyId].GetInputNames()
-			inHandle := predictors[keyId].GetInputHandle(inNames[0])
-			outNames := predictors[keyId].GetOutputNames()
-			outHandle := predictors[keyId].GetOutputHandle(outNames[0])
-
 			data := make([]float32, 1*3*224*224)
 			for i := 0; i < len(data); i++ {
 				data[i] = float32(i%255) * 0.1
 			}
-			inHandle.Reshape([]int32{1, 3, 224, 224})
-			inHandle.CopyFromCpu(data)
+			inHandles[keyId][inNames[0]].Reshape([]int32{1, 3, 224, 224})
+			inHandles[keyId][inNames[0]].CopyFromCpu(data)
 
 			predictors[keyId].Run()
 
-			outData := make([]float32, numElements(outHandle.Shape()))
-			outHandle.CopyToCpu(outData)
+			outData := make([]float32, numElements(outHandles[keyId][outNames[0]].Shape()))
+			outHandles[keyId][outNames[0]].CopyToCpu(outData)
 			tim := time.Now().Sub(start)
 
-			log.Println("out max val:", maxValue(outData))
+			// log.Println("out max val:", maxValue(outData))
 			mx.Lock()
-			times = append(times, tim)
+			times[idx] = tim
+			idx += 1
 
 			defer func() {
 				wg.Done()
@@ -126,7 +138,7 @@ func timeInfo(times []time.Duration) {
 	sort.Slice(times, func(i, j int) bool {
 		return times[i] < times[j]
 	})
-	req_percent := []float32{0.9, 0.95, 0.99}
+	req_percent := []float32{0.5, 0.9, 0.95, 0.99}
 	for _, p := range req_percent {
 		idx := int32(float32(len(times))*p) - 1
 		log.Printf("percent %v, cost time %v\n", p, times[idx])
