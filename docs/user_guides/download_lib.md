@@ -14,6 +14,16 @@
 |manylinux_cuda11.0_cudnn8.0_avx_mkl_trt7_gcc82||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.0-gpu-cuda11.0-cudnn8-mkl-gcc8.2/paddle_inference.tgz)|||
 |nv_jetson_cuda10.2_cudnn8_trt7_all(jetpack4.4)||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.0-nv-jetson-jetpack4.4-all/paddle_inference.tgz)|||
 
+## C预测库
+
+|版本说明|预测库(2.1.1版本)|预测库(develop版本)|
+|:---------|:---------|:---------|
+|cpu_avx_mkl_gcc82|||
+|cpu_avx_openblas_gcc82|||
+|cpu_noavx_openblas_gcc82|||
+|cuda10.1_cudnn7.6_avx_mkl_gcc82|||
+|cuda10.1_cudnn7.6_avx_mkl_trt6_gcc82|||
+|cuda10.2_cudnn8.0_avx_mkl_trt7_gcc82|||
 
 ## Python预测库
 
@@ -30,6 +40,8 @@
 
 # 下载安装Windows预测库
 
+
+## C++预测库
 
 | 版本说明      |     预测库(1.8.4版本)  |预测库(2.1.0版本)   |     编译器     |    构建工具      |  cuDNN  |  CUDA  |
 |:---------|:-------------------|:-------------------|:----------------|:--------|:-------|:-------|
@@ -52,6 +64,17 @@
 | 内存 | 16G               |
 | 硬盘 | 1T hdd + 256G ssd |
 | 显卡 | GTX1080 8G        |
+
+## C 预测库
+
+|版本说明|预测库(2.1.1版本)|预测库(develop版本)|
+|:---------|:---------|:---------|
+|cpu_avx_mkl|||
+|cpu_avx_openblas|||
+|cpu_noavx_openblas_gcc82|||
+|cuda10.1_cudnn7.6_avx_mkl|||
+|cuda10.1_cudnn7.6_avx_mkl_trt6.0|||
+|cuda10.2_cudnn8.1_avx_mkl_trt7.2|||
 
 # 下载安装Mac预测库
 

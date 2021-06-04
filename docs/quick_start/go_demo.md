@@ -8,7 +8,7 @@
 
 #### 下载C预测库
 
-您可以选择直接下载[paddle_inference_c预测库, todo 提供下载方式]()。
+您可以选择直接下载[paddle_inference_c预测库](../user_guides/download_lib.md)。
 
 #### 源码编译方式获取 C 预测库
 
