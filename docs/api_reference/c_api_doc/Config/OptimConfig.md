@@ -34,9 +34,9 @@ const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
 
 // 开启 IR 优化
-PD_ConfigSwitchIrOptim(config, PD_True);
+PD_ConfigSwitchIrOptim(config, TRUE);
 // 开启 IR 打印
-PD_ConfigSwitchIrDebug(config, PD_True);
+PD_ConfigSwitchIrDebug(config, TRUE);
 
 // 通过 API 获取 IR 优化是否开启 - True
 printf("IR Optim is: %s\n", PD_ConfigIrOptim(config) ? "True" : "False");
@@ -110,7 +110,7 @@ PD_Config* config = PD_ConfigCreate();
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 Lite 子图
-PD_ConfigEnableLiteEngine(config, PD_PRECISION_FLOAT32, PD_False, 0, NULL, 0, NULL);
+PD_ConfigEnableLiteEngine(config, PD_PRECISION_FLOAT32, FALSE, 0, NULL, 0, NULL);
 
 // 通过 API 获取 Lite 子图启用信息 - True
 printf("Lite Engine is: %s\n", PD_ConfigLiteEngineEnabled(config) ? "True" : "False");
