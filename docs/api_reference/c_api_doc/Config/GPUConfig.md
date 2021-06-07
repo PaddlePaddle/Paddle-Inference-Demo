@@ -146,9 +146,9 @@ API定义如下：
 //      min_subgraph_size  - Paddle-TRT 是以子图的形式运行，为了避免性能损失，当子图内部节点个数
 //                           大于 min_subgraph_size 的时候，才会使用 Paddle-TRT 运行
 //      precision          - 指定使用 TRT 的精度，支持 FP32(kFloat32)，FP16(kHalf)，Int8(kInt8)
-//      use_static         - 若指定为 PD_True，在初次运行程序的时候会将 TRT 的优化信息进行序列化到磁盘上，
+//      use_static         - 若指定为 TRUE，在初次运行程序的时候会将 TRT 的优化信息进行序列化到磁盘上，
 //                           下次运行时直接加载优化的序列化信息而不需要重新生成
-//      use_calib_mode     - 若要运行 Paddle-TRT INT8 离线量化校准，需要将此选项设置为 PD_True
+//      use_calib_mode     - 若要运行 Paddle-TRT INT8 离线量化校准，需要将此选项设置为 TRUE
 // 返回：None
 void PD_ConfigEnableTensorRtEngine(PD_Config* pd_config,
                                    int32_t workspace_size,
@@ -215,15 +215,15 @@ PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 TensorRT 进行预测加速 - FP32
 PD_ConfigEnableTensorRtEngine(config, 1 << 20, 1, 3,
-                              PD_PRECISION_FLOAT32, PD_False, PD_False);
+                              PD_PRECISION_FLOAT32, FALSE, FALSE);
 
 // 启用 TensorRT 进行预测加速 - FP16
 PD_ConfigEnableTensorRtEngine(config, 1 << 20, 1, 3,
-                              PD_PRECISION_HALF, PD_False, PD_False);
+                              PD_PRECISION_HALF, FALSE, FALSE);
 
 // 启用 TensorRT 进行预测加速 - Int8
 PD_ConfigEnableTensorRtEngine(config, 1 << 20, 1, 3,
-                              PD_PRECISION_INT8, PD_False, PD_False);
+                              PD_PRECISION_INT8, FALSE, FALSE);
 
 // 通过 API 获取 TensorRT 启用结果 - True
 printf("Enable TensorRT is: %s\n", PD_ConfigTensorRtEngineEnabled(config) ? "True" : "False");
@@ -246,7 +246,7 @@ PD_ConfigSetModel(config, model_path, params_path);
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 TensorRT 进行预测加速 - Int8
-PD_ConfigEnableTensorRtEngine(config, 1 << 30, 1, 2, PD_PRECISION_INT8, PD_False, PD_True);
+PD_ConfigEnableTensorRtEngine(config, 1 << 30, 1, 2, PD_PRECISION_INT8, FALSE, TRUE);
 
 // 设置模型输入的动态 Shape 范围
 const char * tensor_name[1] = {"image"};
@@ -258,7 +258,7 @@ int32_t* min_shape[1] = {image_min_shape};
 int32_t* max_shape[1] = {image_max_shape};
 int32_t* opt_shape[1] = {image_opt_shape};
 PD_ConfigSetTrtDynamicShapeInfo(config, 1, tensor_name, shapes_num, 
-                                min_shape, max_shape, opt_shape, PD_False); 
+                                min_shape, max_shape, opt_shape, FALSE); 
 
 // 销毁 Config 对象
 PD_ConfigDestroy(config);
@@ -279,7 +279,7 @@ PD_ConfigSetModel(config, model_path, params_path);
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 TensorRT 进行预测加速 - FP32
-PD_ConfigEnableTensorRtEngine(config, 1 << 20, 1, 3, PD_PRECISION_FLOAT32, PD_False, PD_True);
+PD_ConfigEnableTensorRtEngine(config, 1 << 20, 1, 3, PD_PRECISION_FLOAT32, FALSE, TRUE);
 
 // 启用 TensorRT OSS 进行预测加速
 PD_ConfigEnableTensorRtOSS(config);
