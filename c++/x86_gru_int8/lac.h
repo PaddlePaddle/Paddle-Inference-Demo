@@ -54,19 +54,21 @@ class LAC {
 
   std::shared_ptr<paddle_infer::Predictor> _predictor;   //
 
- public:
+  void feed_data(const std::vector<std::string> &querys);
+
+  std::vector<OutputItem> parse_targets(const std::vector<std::string> &tag_ids,
+                                        const std::vector<std::string> &words);
+
+public:
   explicit LAC(const std::string &model_path,
                const std::string &conf_path,
                int threads = 1,
                CODE_TYPE type = CODE_UTF8);
 
- private:
-  void feed_data(const std::vector<std::string> &querys);
 
-  std::vector<OutputItem> parse_targets(const std::vector<std::string> &tag_ids,
-                                        const std::vector<std::string> &words);
   std::vector<OutputItem> lexer(const std::string &query);
 
   std::vector<std::vector<OutputItem>> lexer(
       const std::vector<std::string> &query);
+ 
 };

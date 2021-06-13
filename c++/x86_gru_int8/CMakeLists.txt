@@ -1,4 +1,4 @@
-project(mkldnn_int8_demo CXX C)
+project(gru_mkldnn_int8_demo CXX C)
 option(WITH_MKL        "Compile demo with MKL/OpenBlas support, default use MKL."       ON)
 option(WITH_STATIC_LIB "Compile demo with static/shared library, default use static."   ON)
 
@@ -15,6 +15,7 @@ if(NOT DEFINED DEMO_NAME)
 endif()
 
 include_directories("${CMAKE_SOURCE_DIR}")
+# message("WARNING! ")
 include_directories("${PADDLE_LIB}")
 include_directories("${PADDLE_LIB}/paddle/include")
 include_directories("${PADDLE_LIB}/third_party/install/protobuf/include")
@@ -22,15 +23,14 @@ include_directories("${PADDLE_LIB}/third_party/install/glog/include")
 include_directories("${PADDLE_LIB}/third_party/install/gflags/include")
 include_directories("${PADDLE_LIB}/third_party/install/xxhash/include")
 include_directories("${PADDLE_LIB}/third_party/install/zlib/include")
-include_directories("${PADDLE_LIB}/third_party/boost")
-include_directories("${PADDLE_LIB}/third_party/eigen3")
+include_directories("${PADDLE_LIB}/third_party/install/cryptopp/include")
 
 link_directories("${PADDLE_LIB}/third_party/install/zlib/lib")
 link_directories("${PADDLE_LIB}/third_party/install/protobuf/lib")
 link_directories("${PADDLE_LIB}/third_party/install/glog/lib")
 link_directories("${PADDLE_LIB}/third_party/install/gflags/lib")
 link_directories("${PADDLE_LIB}/third_party/install/xxhash/lib")
-link_directories("${PADDLE_LIB}/paddle/lib")
+link_directories("${PADDLE_LIB}/third_party/install/cryptopp/lib")
 
 add_library(LAC_UTIL_LIB SHARED lac_util.cc)
 add_library(LAC_LIB SHARED lac.cc)
@@ -50,21 +50,16 @@ else()
   set(MATH_LIB ${PADDLE_LIB}/third_party/install/openblas/lib/libopenblas${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
-# include_directories(${PROJECT_SOURCE_DIR}/lac_util.h)
-# include_directories(${PROJECT_SOURCE_DIR}/lac.h)
-
 # Note: libpaddle_inference_api.so/a must put before libpaddle_fluid.so/a
 if(WITH_STATIC_LIB)
   set(DEPS
-      ${PADDLE_LIB}/paddle/lib/libpaddle_fluid${CMAKE_STATIC_LIBRARY_SUFFIX})
+      ${PADDLE_LIB}/paddle/lib/libpaddle_inference${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
   set(DEPS
-      ${PADDLE_LIB}/paddle/lib/libpaddle_fluid${CMAKE_SHARED_LIBRARY_SUFFIX})
+      ${PADDLE_LIB}/paddle/lib/libpaddle_inference${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
 
 set(EXTERNAL_LIB "-lrt -ldl -lpthread")
-set(DEPS ${DEPS}
-    ${MATH_LIB} ${MKLDNN_LIB} glog gflags xxhash protobuf z ${LAC_UTIL_LIB} ${LAC_LIB}
-    ${EXTERNAL_LIB})
+set(DEPS LAC_LIB LAC_UTIL_LIB ${DEPS} ${MATH_LIB} ${MKLDNN_LIB} glog gflags xxhash protobuf cryptopp z ${EXTERNAL_LIB})
 
 target_link_libraries(${DEMO_NAME} ${DEPS})

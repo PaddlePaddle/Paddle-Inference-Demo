@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "lac.h"  // NOLINT
 
+#include "lac.h"  // NOLINT
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include "lac_util.h"    // NOLINT
 #include "paddle_api.h"  // NOLINT
-// #include "paddle_infer.h" // NOLINT
+#include "paddle/include/paddle_inference_api.h"
 
 LAC::LAC(const std::string &model_path,
          const std::string &conf_path,
@@ -40,9 +41,6 @@ LAC::LAC(const std::string &model_path,
   this->_predictor = paddle_infer::CreatePredictor(config);
   std::cout << "load model succeed" << std::endl;
 
-  // this->_input_tensor = this->_predictor->GetInput(0);
-  // this->_output_tensor = this->_predictor->GetOutput(0);
-
   auto input_names = this->_predictor->GetInputNames();
   this->_input_tensor = this->_predictor->GetInputHandle(input_names[0]);
 
@@ -54,7 +52,7 @@ LAC::LAC(const std::string &model_path,
   if (word_iter != this->_word2id_dict->end()) {
     this->_oov_id = word_iter->second;
   }
-  std::cout << "init succeed" << std::endl;
+  std::cout << "init LAC succeed" << std::endl;
 }
 
 void LAC::feed_data(const std::vector<std::string> &querys) {
@@ -71,7 +69,7 @@ void LAC::feed_data(const std::vector<std::string> &querys) {
 
   this->_input_tensor->Reshape({shape, 1});
   this->_input_tensor->SetLoD(this->_lod);
-  auto *input_d = this->_input_tensor->mutable_data<paddle_infer::PlaceType::kCPU>();
+  auto *input_d = this->_input_tensor->mutable_data<int64_t>(paddle_infer::PlaceType::kCPU);
   int index = 0;
   for (size_t i = 0; i < this->_seq_words_batch.size(); ++i) {
     for (size_t j = 0; j < this->_seq_words_batch[i].size(); ++j) {
@@ -120,12 +118,23 @@ std::vector<std::vector<OutputItem>> LAC::lexer(
     const std::vector<std::string> &querys) {
   this->feed_data(querys);
   this->_predictor->Run();
-  const int64_t *output_d = this->_output_tensor->data<int64_t>();
-  this->_labels.clear();
-  this->_results_batch.clear();
+  
+  auto output_names = this->_predictor->GetOutputNames();
+  auto output_t = this->_predictor->GetOutputHandle(output_names[0]);
+  std::vector<int> output_shape = output_t->shape();
+  int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
+                              std::multiplies<int>());
+  std::vector<int64_t> out_data;
+  out_data.resize(out_num);
+  output_t->CopyToCpu(out_data.data());
+
+// Here is the bug happen
+  // int64_t *output_d = this->_output_tensor->data<int64_t>(&(paddle_infer::PlaceType::kCPU), static_cast<int>((*this->_lod[0].end())*sizeof(int64_t)));
+  // this->_labels.clear();
+  // this->_results_batch.clear();
   for (size_t i = 0; i < this->_lod[0].size() - 1; ++i) {
     for (size_t j = 0; j < _lod[0][i + 1] - _lod[0][i]; ++j) {
-      int64_t cur_label_id = output_d[_lod[0][i] + j];
+      int64_t cur_label_id = out_data[_lod[0][i] + j];
       auto it = this->_id2label_dict->find(cur_label_id);
       this->_labels.push_back(it->second);
     }
