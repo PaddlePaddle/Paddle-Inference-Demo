@@ -25,9 +25,7 @@ import paddle.fluid as fluid
 
 from reader import Dataset
 
-sys.path.append("../../shared_modules/")
-from models.sequence_labeling import nets
-
+from sequence_labeling import nets
 
 def create_model(args, vocab_size, num_labels, mode='train'):
     """create lac model"""
