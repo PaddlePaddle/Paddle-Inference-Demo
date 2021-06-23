@@ -11,7 +11,7 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} -DDEMO_NAME=${DEMO_NAME} && make -j
 #MODEL_DIR=/home/lidanqing/Paddle-Inference-Demo/c++/x86_gru_int8/GRU_infer_model
 #DATA_DIR=/home/lidanqing/Paddle-Inference-Demo/c++/x86_gru_int8/test_eval_1w.bin
 
-MODEL_DIR=/home/li/repo/Paddle-Inference-Demo/c++/x86_gru_int8/GRU_eval_model_v2
+MODEL_DIR=/home/li/repo/Paddle-Inference-Demo/c++/x86_gru_int8/GRU_eval_int8
 # MODEL_DIR=/home/li/repo/Paddle-Inference-Demo/c++/x86_gru_int8/GRU_eval_int8
 DATA_DIR=/home/li/repo/Paddle-Inference-Demo/c++/x86_gru_int8/test_eval_1w.bin
 default_num_threads=1

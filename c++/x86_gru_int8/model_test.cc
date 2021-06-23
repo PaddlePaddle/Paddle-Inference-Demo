@@ -1,5 +1,5 @@
-#include <gflags/gflags.h>
 #include <glog/logging.h>
+#include <gflags/gflags.h>
 #include <algorithm>
 #include <chrono>
 #include <iostream>
@@ -118,7 +118,6 @@ void SetInput(std::vector<std::vector<paddle::PaddleTensor>> *inputs,
   TensorReader<int64_t> words_reader(file, words_begining_offset, "words");
   TensorReader<int64_t> targets_reader(file, targets_beginning_offset,
                                        "targets");
-  // If FLAGS_iterations is set to 0, run all batches
   auto iterations_max = total_sentences_num / batch_size;
   auto iterations = iterations_max;
   if (FLAGS_iterations > 0 && FLAGS_iterations < iterations_max) {
@@ -126,7 +125,6 @@ void SetInput(std::vector<std::vector<paddle::PaddleTensor>> *inputs,
   }
 
   for (auto i = 0; i < iterations; i++) {
-    // Calculate the words num.  Shape=[words_num, 1]
     std::vector<size_t> batch_lod = {0};
     size_t num_words = 0L;
     std::transform(lod_full.begin() + i * FLAGS_batch_size,
@@ -165,7 +163,6 @@ std::vector<double> Lexical_Test(
     const std::vector<std::vector<paddle::PaddleTensor>> &input_slots_all,
     std::vector<std::vector<paddle::PaddleTensor>> *outputs, paddle::AnalysisConfig *config,
     const bool use_analysis=FLAGS_use_analysis) {
-  std::cout<<"#######################################";
   auto predictor =
       CreatePredictor(reinterpret_cast<paddle::PaddlePredictor::Config *>(config),
                       use_analysis);
@@ -175,15 +172,14 @@ std::vector<double> Lexical_Test(
     iterations =
         FLAGS_iterations;  // ... unless the number of iterations is set
   outputs->resize(iterations);
-  //PredictionRun(predictor.get(), input_slots_all, &outputs, FLAGS_num_threads);
   int predicted_num = 0;
   struct timeval start, end;
   for (int i = 0; i < iterations; i++) {
     predictor->Run(input_slots_all[i], &(*outputs)[i], FLAGS_batch_size);
     predicted_num += FLAGS_batch_size;
-    // if (predicted_num % 100 == 0) {
-    //   LOG(INFO) << "Infer " << predicted_num << " samples";
-    // }
+    if (predicted_num % 100 == 0) {
+      std::cout << "Infer " << predicted_num << " samples" << std::endl;
+    }
   }
   
   std::vector<double> acc_res(3);
@@ -210,17 +206,15 @@ std::vector<double> Lexical_Test(
             : 0;
 
     std::cout << "Precision:  " << std::fixed << std::setw(6)
-              << std::setprecision(5) << precision;
+              << std::setprecision(5) << precision << std::endl;
     std::cout << "Recall:  " << std::fixed << std::setw(6)
-              << std::setprecision(5) << recall;
+              << std::setprecision(5) << recall << std::endl;
     std::cout << "F1 score: " << std::fixed << std::setw(6)
-              << std::setprecision(5) << f1_score;
+              << std::setprecision(5) << f1_score << std::endl;
 
     acc_res = {precision, recall, f1_score};
-    // return acc_res;
+    return acc_res;
   } else {
-    // EXPECT_GT(outputs->size(), 0UL);
-    // EXPECT_GT(outputs[0].size(), 0UL);
     std::cout << "No accuracy result. To get accuracy result provide a model "
                  "with accuracy layers in it and use --with_accuracy_layer "
                  "option.";
