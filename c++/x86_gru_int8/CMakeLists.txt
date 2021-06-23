@@ -1,10 +1,9 @@
-project(mkldnn_int8_demo CXX C)
+project(gru_mkldnn_demo CXX C)
 option(WITH_MKL        "Compile demo with MKL/OpenBlas support, default use MKL."       ON)
-option(WITH_STATIC_LIB "Compile demo with static/shared library, default use static."   ON)
+option(WITH_STATIC_LIB "Compile demo with static/shared library, default use static."   OFF)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
-message("flags" ${CMAKE_CXX_FLAGS})
 
 if(NOT DEFINED PADDLE_LIB)
   message(FATAL_ERROR "please set PADDLE_LIB with -DPADDLE_LIB=/path/paddle/lib")
@@ -49,15 +48,15 @@ endif()
 # Note: libpaddle_inference_api.so/a must put before libpaddle_fluid.so/a
 if(WITH_STATIC_LIB)
   set(DEPS
-      ${PADDLE_LIB}/paddle/lib/libpaddle_fluid${CMAKE_STATIC_LIBRARY_SUFFIX})
+      ${PADDLE_LIB}/paddle/lib/libpaddle_inference${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
   set(DEPS
-      ${PADDLE_LIB}/paddle/lib/libpaddle_fluid${CMAKE_SHARED_LIBRARY_SUFFIX})
+      ${PADDLE_LIB}/paddle/lib/libpaddle_inference${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
 
 set(EXTERNAL_LIB "-lrt -ldl -lpthread")
 set(DEPS ${DEPS}
-    ${MATH_LIB} ${MKLDNN_LIB} glog gflags xxhash protobuf z 
+    ${MATH_LIB} ${MKLDNN_LIB} glog gflags xxhash protobuf
     ${EXTERNAL_LIB})
 
 target_link_libraries(${DEMO_NAME} ${DEPS})
