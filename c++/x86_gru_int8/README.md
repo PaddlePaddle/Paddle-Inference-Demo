@@ -34,7 +34,7 @@ cd path/to/Paddle-Inference-Demo/c++/x86_gru_int8/dataloader
 python downloads.py dataset
 
 # 下载conf字典
-wget lexical_analysis-conf-modelsrepo-v1.8.0.tar.gz
+wget https://paddle-inference-dist.cdn.bcebos.com/gru/lexical_analysis-conf-modelsrepo-v1.8.0.tar.gz
 tar -xzvf lexical_analysis-conf-modelsrepo-v1.8.0.tar.gz
 
 # Need to use data generator in paddlepaddle
