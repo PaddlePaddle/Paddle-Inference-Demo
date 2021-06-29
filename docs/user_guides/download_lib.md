@@ -70,10 +70,10 @@
 | 版本说明      |     预测库(1.8.4版本)  |预测库(2.1.1版本)   |     编译器     |  cuDNN  |  CUDA  |
 |:-------------|:---------------------|:-----------------|:----------------|:--------|:-------|
 |cpu_avx_mkl| [fluid_inference.zip](https://paddle-wheel.bj.bcebos.com/1.8.4/win-infer/mkl/cpu/fluid_inference_install_dir.zip) | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/cpu/paddle_inference.zip)|  MSVC 2017 | - | - |
-|cpu_avx_openblas| [fluid_inference.zip](https://paddle-wheel.bj.bcebos.com/1.8.4/win-infer/open/cpu/fluid_inference_install_dir.zip) | [paddle_inference.zip](hhttps://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/open/cpu/paddle_inference.zip)| MSVC 2017 | - | - |
-|cuda10.1_cudnn7.6_avx_mkl_trt6 | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/post101/paddle_inference.zip) | |MSVC 2017  | 7.6|  10.1 |
-|cuda10.2_cudnn7.6_avx_mkl_trt7 | | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/post102/paddle_inference.zip)| MSVC 2017  | 7.6 | 10.2 |
-|cuda11.0_cudnn8.0_avx_mkl_trt7 | | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/post110/paddle_inference.zip)| MSVC 2017  | 8.0 | 11.0 |
+|cpu_avx_openblas| [fluid_inference.zip](https://paddle-wheel.bj.bcebos.com/1.8.4/win-infer/open/cpu/fluid_inference_install_dir.zip) | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/open/cpu/paddle_inference.zip)| MSVC 2017 | - | - |
+|cuda10.1_cudnn7.6_avx_mkl_trt6 | |[paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/post101/paddle_inference.zip) | |MSVC 2017  | 7.6|  10.1 |
+|cuda10.2_cudnn7.6_avx_mkl_trt7 | |[paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/post102/paddle_inference.zip)| MSVC 2017  | 7.6 | 10.2 |
+|cuda11.0_cudnn8.0_avx_mkl_trt7 | |[paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/post110/paddle_inference.zip)| MSVC 2017  | 8.0 | 11.0 |
 
 ## C预测库
 | 版本说明  |预测库(2.1.1版本)   |     编译器     |   cuDNN  |  CUDA  |
