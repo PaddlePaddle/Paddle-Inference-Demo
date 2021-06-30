@@ -20,11 +20,8 @@
 |Jetpack4.4: nv-jetson-cuda10.2-cudnn8-trt7(tx2)||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-nv-jetson-jetpack4.4-tx2/paddle_inference_install_dir.tgz)||
 |Jetpack4.4: nv-jetson-cuda10.2-cudnn8-trt7(xavier)||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-nv-jetson-jetpack4.4-xavier/paddle_inference_install_dir.tgz)||
 
-<<<<<<< HEAD
-=======
 
 ## C预测库
->>>>>>> 737e4d8... 2.1.1-inferlib
 
 |  版本说明 |预测库(2.1.1版本)|
 |:---------|:--------------|
@@ -56,7 +53,6 @@
 |nv_jetson-cuda10.2-trt7-volta|[paddlepaddle_gpu-2.1.1-cp36-cp36m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.1.1-nv-jetson-jetpack4.4-xavier/paddlepaddle_gpu-2.1.1-cp36-cp36m-linux_aarch64.whl)||||
 
 
-<<<<<<< HEAD
 | 版本说明      |     预测库(1.8.4版本)  |预测库(2.1.0版本)   |     编译器     |    构建工具      |  cuDNN  |  CUDA  |
 |:---------|:-------------------|:-------------------|:----------------|:--------|:-------|:-------|
 |    cpu_avx_mkl | [fluid_inference.zip](https://paddle-wheel.bj.bcebos.com/1.8.4/win-infer/mkl/cpu/fluid_inference_install_dir.zip) | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.0win/win-infer/mkl/cpu/paddle_inference.zip)|  MSVC 2017 |  CMake v3.17.0  | - | - |
@@ -70,7 +66,6 @@
 =======
 
 # 下载安装Windows预测库
->>>>>>> 737e4d8... 2.1.1-inferlib
 
 **请确认您的VS版本与下载链接对应的版本完全一致，目前暂不保证在其它VS版本的可用性**
 
@@ -83,8 +78,6 @@
 | 硬盘 | 1T hdd + 256G ssd |
 | 显卡 | GTX1080 8G        |
 
-<<<<<<< HEAD
-=======
 ## C++预测库
 
 | 版本说明      |     预测库(1.8.4版本)  |预测库(2.1.1版本)   |     编译器     |  cuDNN  |  CUDA  |
@@ -107,7 +100,6 @@
 
 
 
->>>>>>> 737e4d8... 2.1.1-inferlib
 # 下载安装Mac预测库
 
 ## C++预测库
