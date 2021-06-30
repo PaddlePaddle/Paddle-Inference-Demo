@@ -59,6 +59,7 @@
 **请确认您的VS版本与下载链接对应的版本完全一致，目前暂不保证在其它VS版本的可用性**
 
 环境硬件配置：
+
 | 操作系统      |    win10 家庭版本      |
 |:---------|:-------------------|
 | CPU      |      I7-8700K      |
@@ -67,6 +68,7 @@
 | 显卡 | GTX1080 8G        |
 
 ## C++预测库
+
 | 版本说明      |     预测库(1.8.4版本)  |预测库(2.1.1版本)   |     编译器     |  cuDNN  |  CUDA  |
 |:-------------|:---------------------|:-----------------|:----------------|:--------|:-------|
 |cpu_avx_mkl| [fluid_inference.zip](https://paddle-wheel.bj.bcebos.com/1.8.4/win-infer/mkl/cpu/fluid_inference_install_dir.zip) | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/cpu/paddle_inference.zip)|  MSVC 2017 | - | - |
@@ -76,6 +78,7 @@
 |cuda11.0_cudnn8.0_avx_mkl_trt7 | |[paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/post110/paddle_inference.zip)| MSVC 2017  | 8.0 | 11.0 |
 
 ## C预测库
+
 | 版本说明  |预测库(2.1.1版本)   |     编译器     |   cuDNN  |  CUDA  |
 |:---------|:-----------------|:--------------|:---------|:--------|
 |cpu_avx_mkl| [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.1/win-infer/mkl/cpu/paddle_inference_c.zip)|  MSVC 2017 | - | - |
@@ -89,11 +92,13 @@
 # 下载安装Mac预测库
 
 ## C++预测库
+
 | 版本说明       |预测库(2.1.1版本)   |
 |:---------|:----------------|
 |cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/mac/2.1.1/cpu_avx_openblas/paddle_inference_install_dir.tgz)|
 
 ## C预测库
+
 | 版本说明       |预测库(2.1.1版本)   |
 |:---------|:----------------|
 |cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/mac/2.1.1/cpu_avx_openblas/paddle_inference_c_install_dir.tgz)|
