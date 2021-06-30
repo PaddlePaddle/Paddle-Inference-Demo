@@ -20,6 +20,7 @@
 |Jetpack4.4: nv-jetson-cuda10.2-cudnn8-trt7(tx2)||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-nv-jetson-jetpack4.4-tx2/paddle_inference_install_dir.tgz)||
 |Jetpack4.4: nv-jetson-cuda10.2-cudnn8-trt7(xavier)||[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-nv-jetson-jetpack4.4-xavier/paddle_inference_install_dir.tgz)||
 
+
 ## C预测库
 
 |  版本说明 |预测库(2.1.1版本)|
