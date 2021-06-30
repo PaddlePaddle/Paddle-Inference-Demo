@@ -23,20 +23,20 @@
 
 ## C预测库
 
-|  版本说明 |预测库(2.1.1版本)|预测库(develop版本)|
-|:---------|:--------------|:----------------|
+|  版本说明 |预测库(2.1.1版本)|
+|:---------|:--------------|
 |manylinux_cpu_avx_mkl_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-avx-mkl/paddle_inference_c.tgz)||
-|manylinux_cpu_avx_mkl_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-avx-mkl-gcc5.4/paddle_inference_c.tgz)||
-|manylinux_cpu_avx_openblas_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-avx-openblas/paddle_inference_c.tgz)||
-|manylinux_cpu_avx_openblas_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-avx-openblas-gcc5.4/paddle_inference_c.tgz)||
-|manylinux_cpu_noavx_openblas_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-noavx-openblas/paddle_inference_c.tgz)||
-|manylinux_cpu_noavx_openblas_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-noavx-openblas-gcc5.4/paddle_inference_c.tgz)||
-|manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.1-cudnn7-mkl-gcc8.2/paddle_inference_c.tgz)||
-|manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.1-cudnn7-mkl-gcc5.4/paddle_inference_c.tgz)||
-|manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.2-cudnn8.1-mkl-gcc8.2/paddle_inference_c.tgz)||
-|manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.2-cudnn8.1-mkl-gcc5.4/paddle_inference_c.tgz)||
-|manylinux_cuda11.1_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda11.1-cudnn8.1-mkl-gcc8.2/paddle_inference_c.tgz)||
-|manylinux_cuda11.1_cudnn8.1_avx_mkl_trt7_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda11.1-cudnn8.1-mkl-gcc5.4/paddle_inference_c.tgz)||
+|manylinux_cpu_avx_mkl_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-avx-mkl-gcc5.4/paddle_inference_c.tgz)|
+|manylinux_cpu_avx_openblas_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-avx-openblas/paddle_inference_c.tgz)|
+|manylinux_cpu_avx_openblas_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-avx-openblas-gcc5.4/paddle_inference_c.tgz)|
+|manylinux_cpu_noavx_openblas_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-noavx-openblas/paddle_inference_c.tgz)|
+|manylinux_cpu_noavx_openblas_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-cpu-noavx-openblas-gcc5.4/paddle_inference_c.tgz)|
+|manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.1-cudnn7-mkl-gcc8.2/paddle_inference_c.tgz)|
+|manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.1-cudnn7-mkl-gcc5.4/paddle_inference_c.tgz)|
+|manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.2-cudnn8.1-mkl-gcc8.2/paddle_inference_c.tgz)|
+|manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda10.2-cudnn8.1-mkl-gcc5.4/paddle_inference_c.tgz)|
+|manylinux_cuda11.1_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda11.1-cudnn8.1-mkl-gcc8.2/paddle_inference_c.tgz)|
+|manylinux_cuda11.1_cudnn8.1_avx_mkl_trt7_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.1-gpu-cuda11.1-cudnn8.1-mkl-gcc5.4/paddle_inference_c.tgz)|
 
 
 ## Python预测库
