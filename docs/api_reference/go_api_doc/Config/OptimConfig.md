@@ -4,27 +4,24 @@ API定义如下：
 
 ```go
 // 启用 IR 优化
-// 参数：config - AnalysisConfig 对象指针
-//      x - 是否开启 IR 优化，默认打开
+// 参数：x - 是否开启 IR 优化，默认打开
 // 返回：None
-func (config *AnalysisConfig) SwitchIrOptim(x bool)
+func (config *Config) SwitchIrOptim(x bool)
 
 // 判断是否开启 IR 优化 
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：bool - 是否开启 IR 优化
-func (config *AnalysisConfig) IrOptim() bool
+func (config *Config) IrOptim() bool
 
 // 设置是否在图分析阶段打印 IR，启用后会在每一个 PASS 后生成 dot 文件
-// 参数：config - AnalysisConfig 对象指针
-//      x - 是否打印 IR，默认关闭
+// 参数：x - 是否打印 IR，默认关闭
 // 返回：None
-func (config *AnalysisConfig) SwitchIrDebug(x bool)
+func (config *Config) SwitchIrDebug(x bool)
 
-// 返回 pass_builder，用来自定义图分析阶段选择的 IR
-// 参数：config - AnalysisConfig 对象指针
-//      pass - 需要删除的 pass 名称
-// 返回：None
-func (config *AnalysisConfig) DeletePass(pass string)
+// // 返回 pass_builder，用来自定义图分析阶段选择的 IR
+// // 参数：pass - 需要删除的 pass 名称
+// // 返回：None
+// func (config *Config) DeletePass(pass string)
 ```
 
 代码示例：
@@ -33,11 +30,12 @@ func (config *AnalysisConfig) DeletePass(pass string)
 package main
 
 // 引入 Paddle Golang Package
-import "/pathto/Paddle/go/paddle"
+import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
+import fmt
 
 func main() {
-    // 创建 AnalysisConfig 对象
-    config := paddle.NewAnalysisConfig()
+    // 创建 Config 对象
+    config := pd.NewConfig()
 
     // 设置预测模型路径，这里为非 Combined 模型
     config.SetModel("data/model/__model__", "data/model/__params__")
@@ -48,16 +46,13 @@ func main() {
     config.SwitchIrDebug(true);
 
     // 通过 API 获取 IR 优化是否开启 - true
-    println("IR Optim is: ", config.IrOptim())
+    fmt.Println("IR Optim is: ", config.IrOptim())
 
     // 通过 config 去除 fc_fuse_pass
-    config.DeletePass("fc_fuse_pass")
+    // config.DeletePass("fc_fuse_pass")
 
     // 根据 Config 创建 Predictor
     predictor := paddle.NewPredictor(config)
-
-    // 删除 Predictor
-    paddle.DeletePredictor(predictor)
 }
 ```
 
