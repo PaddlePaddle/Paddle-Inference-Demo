@@ -4,14 +4,14 @@ API定义如下：
 
 ```go
 // 开启内存/显存复用，具体降低内存效果取决于模型结构
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：None
-func (config *AnalysisConfig) EnableMemoryOptim()
+func (config *Config) EnableMemoryOptim()
 
 // 判断是否开启内存/显存复用
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：bool - 是否开启内/显存复用
-func (config *AnalysisConfig) MemoryOptimEnabled() bool
+func (config *Config) MemoryOptimEnabled() bool
 ```
 
 代码示例：
@@ -20,23 +20,24 @@ func (config *AnalysisConfig) MemoryOptimEnabled() bool
 package main
 
 // 引入 Paddle Golang Package
-import "/pathto/Paddle/go/paddle"
+import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
+import fmt
 
 func main() {
-    // 创建 AnalysisConfig 对象
-    config := paddle.NewAnalysisConfig()
+    // 创建 Config 对象
+    config := pd.NewConfig()
 
     // 开启 CPU 内存优化
     config.EnableMemoryOptim();
     // 通过 API 获取 CPU 是否已经开启显存优化 - true
-    println("CPU Mem Optim is: ", config.MemoryOptimEnabled())
+    fmt.Println("CPU Mem Optim is: ", config.MemoryOptimEnabled())
 
     // 启用 GPU 进行预测
     config.EnableUseGpu(100, 0)
     // 开启 GPU 显存优化
     config.EnableMemoryOptim();
     // 通过 API 获取 GPU 是否已经开启显存优化 - true
-    println("GPU Mem Optim is: ", config.MemoryOptimEnabled())
+    fmt.Println("GPU Mem Optim is: ", config.MemoryOptimEnabled())
 }
 ```
 
@@ -46,14 +47,14 @@ API定义如下：
 
 ```go
 // 打开 Profile，运行结束后会打印所有 OP 的耗时占比。
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：None
-func (config *AnalysisConfig) EnableProfile()
+func (config *Config) EnableProfile()
 
 // 判断是否开启 Profile
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：bool - 是否开启 Profile
-func (config *AnalysisConfig) ProfileEnabled() bool
+func (config *Config) ProfileEnabled() bool
 ```
 
 代码示例：
@@ -62,16 +63,17 @@ func (config *AnalysisConfig) ProfileEnabled() bool
 package main
 
 // 引入 Paddle Golang Package
-import "/pathto/Paddle/go/paddle"
+import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
+import fmt
 
 func main() {
-    // 创建 AnalysisConfig 对象
-    config := paddle.NewAnalysisConfig()
+    // 创建 Config 对象
+    config := paddle.NewConfig()
 
     // 打开 Profile
     config.EnableProfile();
     // 判断是否开启 Profile - true
-    println("Profile is: ", config.ProfileEnabled())
+    fmt.Println("Profile is: ", config.ProfileEnabled())
 }
 ```
 
@@ -115,9 +117,9 @@ API定义如下：
 
 ```go
 // 去除 Paddle Inference 运行中的 LOG
-// 参数：config - AnalysisConfig 对象指针
+// 参数：无
 // 返回：None
-func (config *AnalysisConfig) DisableGlogInfo()
+func (config *Config) DisableGlogInfo()
 ```
 
 代码示例：
@@ -126,11 +128,11 @@ func (config *AnalysisConfig) DisableGlogInfo()
 package main
 
 // 引入 Paddle Golang Package
-import "/pathto/Paddle/go/paddle"
+import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
 
 func main() {
-    // 创建 AnalysisConfig 对象
-    config := paddle.NewAnalysisConfig()
+    // 创建 Config 对象
+    config := paddle.NewConfig()
 
     // 去除 Paddle Inference 运行中的 LOG
     config.DisableGlogInfo();
