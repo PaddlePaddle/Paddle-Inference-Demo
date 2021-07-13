@@ -200,3 +200,31 @@ printf("GLOG INFO is: %s\n", PD_ConfigGlogInfoDisabled(config) ? "True" : "False
 // 销毁 Config 对象
 PD_ConfigDestroy(config);
 ```
+
+# 查看config配置
+
+API定义如下：
+
+```c++
+// 返回config的配置信息
+// 参数：pd_config - Config 对象指针
+// 返回：const char* - config配置信息，注意用户需释放该指针。
+const char* PD_ConfigSummary(PD_Config* pd_config);
+```
+
+代码示例：
+
+```c
+// 创建 Config 对象
+PD_Config* config = PD_ConfigCreate();
+
+const char* summary = PD_ConfigSummary(config);
+
+printf("summary is %s\n", summary);
+
+// 释放summary指针
+free(summary);
+
+// 销毁 Config 对象
+PD_ConfigDestroy(config);
+```
