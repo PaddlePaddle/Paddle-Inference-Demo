@@ -142,3 +142,50 @@ config.disable_glog_info()
 # 判断是否禁用 LOG - true
 print("GLOG INFO is: {}".format(config.glog_info_disabled()))
 ```
+
+# 查看config配置
+
+API定义如下：
+
+```python
+# 返回config的配置信息
+# 参数：None
+# 返回：string - config配置信息
+paddle.inference.Config.summary()
+```
+
+调用summary()的输出如下所示：
+```
++-------------------------------+----------------------------------+
+| Option                        | Value                            |
++-------------------------------+----------------------------------+
+| model_dir                     | ./inference_pass/TRTFlattenTest/ |
++-------------------------------+----------------------------------+
+| cpu_math_thread               | 1                                |
+| enable_mkdlnn                 | false                            |
+| mkldnn_cache_capacity         | 10                               |
++-------------------------------+----------------------------------+
+| use_gpu                       | true                             |
+| gpu_device_id                 | 0                                |
+| memory_pool_init_size         | 100MB                            |
+| thread_local_stream           | false                            |
+| use_tensorrt                  | true                             |
+| tensorrt_precision_mode       | fp32                             |
+| tensorrt_workspace_size       | 1073741824                       |
+| tensorrt_max_batch_size       | 32                               |
+| tensorrt_min_subgraph_size    | 0                                |
+| tensorrt_use_static_engine    | false                            |
+| tensorrt_use_calib_mode       | false                            |
+| tensorrt_enable_dynamic_shape | false                            |
+| tensorrt_use_oss              | true                             |
+| tensorrt_use_dla              | false                            |
++-------------------------------+----------------------------------+
+| use_xpu                       | false                            |
++-------------------------------+----------------------------------+
+| ir_optim                      | true                             |
+| ir_debug                      | false                            |
+| memory_optim                  | false                            |
+| enable_profile                | false                            |
+| enable_log                    | true                             |
++-------------------------------+----------------------------------+
+```
