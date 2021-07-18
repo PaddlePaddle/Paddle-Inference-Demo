@@ -4,18 +4,19 @@
 
 ### 1.1 准备预测库
 
-请在[推理库下载文档](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html)下载manylinux_cpu_avx_mkl_gcc82预测库，建议版本2.0.0以上
+请在[推理库下载文档](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html)下载manylinux_cpu_avx_mkl_gcc82预测库，建议版本2.0.0以上。本文档使用2.1.1复现。
 
 ### 1.2 产出 INT8 预测模型
 
-使用Paddle训练结束后，得到预测模型。通过quant-aware 或者 post-quantization 得到quant gru模型。
-本示例准备了 gru_quant 模型，可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/int8/QAT_models/GRU_quant_acc.tar.gz)下载，或者wget下载。然后使用 [save_quant_model.py](https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/contrib/slim/tests/save_quant_model.py) 将 quant 模型转化为可以在 CPU 上获得加速的INT8模型，命令如下：
+使用PaddleSlim quant-aware 或者 post-quantizatio方法得到quant gru模型。
+本示例准备了训练好的 gru_quant 模型，用户可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/int8/QAT_models/GRU_quant_acc.tar.gz)下载，或者wget下载。然后使用 [save_quant_model.py](https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/contrib/slim/tests/save_quant_model.py) 将 quant 模型转化为可以在 CPU 上获得加速的INT8模型，命令如下：
 
 ```
 wget https://paddle-inference-dist.cdn.bcebos.com/int8/QAT_models/GRU_quant_acc.tar.gz
 tar -xzvf GRU_quant_acc.tar.gz
 gru_quant_model=/full/path/to/GRU_quant_acc
 int8_gru_save_path=/full/path/to/int8/gru/folder
+pip install paddlepaddle==2.1.1
 python3.6 path/to/Paddle/python/paddle/fluid/contrib/slim/tests/save_quant_model.py --quant_model_path ${gru_quant_model} --int8_model_save_path ${int8_gru_save_path} --ops_to_quantize "multi_gru"
 ```
 
@@ -24,8 +25,8 @@ python3.6 path/to/Paddle/python/paddle/fluid/contrib/slim/tests/save_quant_model
 ### 1.3 准备预测数据
 
 **Note:**
-- 如果为了验证gru int8性能，你可以直接从[这里](https://paddle-inference-dist.cdn.bcebos.com/gru/GRU_eval_data.tar.gz)下载已经转化好的 binary 数据, 下载好后直接跳过 1.3
-- 如果要预测自己的tsv数据，根据如下步骤读取数据和转化。我们为了减少python overhead和性能最大化，暂时使用转化的bin作输入数据。你也可以写自己的c++ dataloader或者python dataloader. 读取转化数据为binary data 如下：
+- 如果为验证保存好的int8 gru性能，你可以直接从[这里](https://paddle-inference-dist.cdn.bcebos.com/gru/GRU_eval_data.tar.gz)下载已经转化好的 binary 数据, 下载好后直接跳过 1.3
+- 如果要预测自己的tsv数据，可以根据如下步骤读取数据和转化。为了减少python overhead和性能最大化，暂时使用转化的bin作输入数据。你也可以写自己的c++ 或者python dataloader，但注意dataloader的overhead：
 
 ```
 cd path/to/Paddle-Inference-Demo/c++/x86_gru_int8/dataloader
@@ -54,6 +55,7 @@ python2 my_reader.py \
 ```
 修改参数：
 - **test_data：** tsv格式测试数据。如果需要测试性能，官方下载的1000例的可能太小，测试性能建议复制到10000例，因为oneDNN 使用cache存储，数据太少性能不突出。
+
 
 
 ### 1.4 设置Config
