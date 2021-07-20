@@ -28,6 +28,8 @@ data_g.add_arg("word_rep_dict_path", str, "./conf/q2b.dic",
                "The path of the word replacement Dictionary.")
 data_g.add_arg("test_data", str, "./data/test.tsv",
                "The folder where the training data is located.")
+data_g.add_arg("save_bin_path", str, "./data/test_eval_1000.bin",
+               "The converted binary file is located.")
 
 data_g.add_arg(
     "batch_size", int, 200,
@@ -70,14 +72,14 @@ def do_eval(args):
         targets.extend(new_targets.flatten())
         sum_sentences = sum_sentences + 1
         sum_words = sum_words + new_lod
-    file1 = open("test_eval_1w.bin", "w+b")
+    file1 = open(args.save_bin_path, "w+b")
     file1.write(np.array(int(sum_sentences)).astype('int64').tobytes())
     file1.write(np.array(int(sum_words)).astype('int64').tobytes())
     file1.write(np.array(lods).astype('uint64').tobytes())
     file1.write(np.array(words).astype('int64').tobytes())
     file1.write(np.array(targets).astype('int64').tobytes())
     file1.close()
-    print("SUCCESS!!")
+    print("SUCCESS!! Binary file saved at ",args.save_bin_path, )
 
 
 if __name__ == '__main__':

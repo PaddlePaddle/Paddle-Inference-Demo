@@ -1,9 +1,10 @@
-python2 my_reader.py \
+python my_reader.py \
     --batch_size 1 \
+    --test_data ./data/test.tsv \
+    --word_dict_path ./conf/word.dic \
+    --label_dict_path ./conf/tag.dic \
+    --word_rep_dict_path ./conf/q2b.dic \
+    --save_bin_path ./data/test_eval_1000.bin \
     --word_emb_dim 128 \
     --grnn_hidden_dim 128 \
     --bigru_num 2 \
-    --test_data ./data/test_8000_bk.tsv \
-    --word_dict_path ./conf/word.dic \
-    --label_dict_path ./conf/tag.dic \
-    --word_rep_dict_path ./conf/q2b.dic
