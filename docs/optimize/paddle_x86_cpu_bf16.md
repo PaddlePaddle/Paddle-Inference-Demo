@@ -14,6 +14,7 @@ bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位�
 |    googlenet   |                      1.61x                     |          0.705         |         0.7049         |    0.00014    |
 |   mobilenetV1  |                      1.71x                     |         0.7078         |         0.7071         |    0.00099    |
 |   mobilenetV2  |                      1.52x                     |          0.719         |         0.7171         |    0.00264    |
+**Note: Clas models batch_size=1  nr_threads=1**
 
 >**自然语言处理模型在 Intel(R) Xeon(R) Platinum 8371HC CPU @ 3.30GHz 上精度和性能**
 
@@ -28,8 +29,7 @@ bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位�
 | thread = 1 |  2794.97    |  2700.45 |  4210.27 |    1.56x    |
 | thread = 4 |  3076.66    |  4756.45 |  6186.94 |    1.30x    |
 
-Note: 
-* batch size = 50 iterations = 160
+**Note: Gru model batch size = 50 iterations = 160**
 
 ## 3 Paddle Bfloat16 Inference 复现
 
