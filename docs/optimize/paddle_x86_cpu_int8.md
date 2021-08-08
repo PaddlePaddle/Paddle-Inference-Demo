@@ -51,6 +51,24 @@ X86 CPU部署量化模型的步骤：
 |  1 thread  |      237.21       |       79.26       |       2.99X       |
 | 20 threads |       22.08       |       12.57       |       1.76X       |
 
+>**III. LAC (GRU) INT8 DNNL 在 Intel(R) Xeon(R) Gold 6271 上精度**
+  
+|  Model  | FP32    | INT8   | Accuracy diff|
+|---------|---------|--------|--------------|
+|accuracy | 0.89326 |0.89323 |  -0.00007    |
+
+>**IV. LAC (GRU) INT8 DNNL 在 Intel(R) Xeon(R) Gold 6271 上性能**
+
+| Performance (QPS)  | Naive fp32        | int8 | Int8/Native fp32 |
+|----------------------------|-------------------|------|------------------|
+| bs 1, thread 1             | 1108              | 1393 | 1.26             |
+| repeat 1, bs 50, thread 1  | 2175              | 3199 | 1.47             |
+| repeat 10, bs 50, thread 1 | 2165              | 3334 | 1.54             |
+
+Note: 
+* Ernie 复现 demo 可参考 [ERNIE QAT INT8 精度与性能复现](https://github.com/PaddlePaddle/benchmark/tree/master/Inference/c%2B%2B/ernie/mkldnn)
+* LAC (GRU) 复现 demo 可参考 [GRU INT8 精度与性能复现](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/x86_gru_int8)
+
 ## 3 PaddleSlim 产出量化模型
 
 X86 CPU预测端支持PaddleSlim量化训练方法和静态离线量化方法产出的量化模型。
@@ -142,4 +160,3 @@ config.enable_memory_optim()
 
 predictor = create_predictor(config)
 ```
-
