@@ -44,6 +44,7 @@ Welcome to Paddle-Inference's documentation!
   
   optimize/paddle_trt
   optimize/paddle_x86_cpu_int8
+  optimize/paddle_x86_cpu_bf16
 
 
 .. toctree::
