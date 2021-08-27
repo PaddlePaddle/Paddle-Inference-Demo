@@ -39,5 +39,5 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${LIB_DIR}/third_party/install/lite/cxx/
     --model_dir assets/models/mobilenet_v1_fp32_224 \
     --label_path assets/labels/synset_words.txt \
     --image_path assets/images/tabby_cat.raw \
-    --nnadapter_device_names huawei_ascend_npu \
+    --nnadapter_device_names $NNADAPTER_DEVICE_NAMES \
     --nnadapter_context_properties $NNADAPTER_CONTEXT_PROPERTIES
