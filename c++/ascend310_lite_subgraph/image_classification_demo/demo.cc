@@ -299,8 +299,8 @@ int main(int argc, char **argv) {
   }
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
   config.EnableLiteEngine(paddle_infer::PrecisionType::kFloat32, true);
-  config.npu()
-      .SetValid(true)
+  config.NPU()
+      .Enable()
       .SetDeviceNames({FLAGS_nnadapter_device_names})
       .SetContextProperties(FLAGS_nnadapter_context_properties)
       .SetModelCacheDir(FLAGS_nnadapter_model_cache_dir);
