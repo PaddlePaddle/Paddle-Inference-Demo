@@ -21,30 +21,17 @@ mkdir -p build
 cd build
 rm -rf *
 
-# same with the resnet50_test.cc
 DEMO_NAME=demo
 
 WITH_MKL=OFF
 WITH_GPU=OFF
 USE_TENSORRT=OFF
 
-CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
-CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
-
-WITH_ROCM=OFF
-ROCM_LIB=/opt/rocm/lib
-
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \
   -DDEMO_NAME=${DEMO_NAME} \
   -DWITH_GPU=${WITH_GPU} \
   -DWITH_STATIC_LIB=OFF \
-  -DUSE_TENSORRT=${USE_TENSORRT} \
-  -DWITH_ROCM=${WITH_ROCM} \
-  -DROCM_LIB=${ROCM_LIB} \
-  -DCUDNN_LIB=${CUDNN_LIB} \
-  -DCUDA_LIB=${CUDA_LIB} \
-  -DTENSORRT_ROOT=${TENSORRT_ROOT}
+  -DUSE_TENSORRT=${USE_TENSORRT} 
 
 make -j
