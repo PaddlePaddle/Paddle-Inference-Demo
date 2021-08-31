@@ -65,7 +65,6 @@ config.SetModel(FLAGS_model_dir); // Load no-combined model
 config.SetCpuMathLibraryNumThreads(FLAGS_threads);
 config.EnableMKLDNN();
 config.SwitchIrOptim();
-config.EnableMemoryOptim();
 ```
 
 ## 2 编译运行示例
