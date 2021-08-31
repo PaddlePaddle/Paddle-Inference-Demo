@@ -42,7 +42,9 @@ Paddle-Inference-Demo/c++/lib/
 
 - `clas.cc` 为使用Paddle-TRT TunedDynamicShape针对PaddleClas产出模型的测试程序源文件（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
 - `detect.cc` 为使用Paddle-TRT TunedDynamicShape针对PaddleDetection产出模型的测试程序源文件（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
-- `ocr.cc`
+- `ocr_cls.cc` 为使用Paddle-TRT TunedDynamicShape针对PaddleOCR产出cls模型的测试程序源文件（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
+- `ocr_det.cc` 为使用Paddle-TRT TunedDynamicShape针对PaddleOCR产出det模型的测试程序源文件（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
+- `ocr_rec.cc` 为使用Paddle-TRT TunedDynamicShape针对PaddleOCR产出rec模型的测试程序源文件（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
 - `ernie.cc`
 - `bert.cc`
 - `compile.sh` 包含了第三方库、预编译库的信息配置。
