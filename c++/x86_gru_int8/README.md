@@ -65,18 +65,7 @@ config.SetModel(FLAGS_model_dir); // Load no-combined model
 config.SetCpuMathLibraryNumThreads(FLAGS_threads);
 config.EnableMKLDNN();
 config.SwitchIrOptim();
-config.EnableMemoryOptim();
 ```
-**Note:**
-- 如果在 VNNI支持的 CPU 上预测保存好的 INT8 模型，则以下无需设置，因为 **1.2** 准备的INT8 模型经过量化和fusion优化。
-```
-# 预测保存好的int8模型，以下3行可以删除
-config.EnableMKLDNN();
-config.SwitchIrOptim();
-config.EnableMemoryOptim();
-```
-- 如果只测试FP32模型，则上述设置全部打开。
-
 
 ## 2 编译运行示例
 
