@@ -24,7 +24,7 @@
 
 ## C预测库
 
-|  版本说明 |预测库(2.1.1版本)|
+|  版本说明 |预测库(2.1.3版本)|
 |:---------|:--------------|
 |manylinux_cpu_avx_mkl_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.3/linux-cpu-avx-mkl-gcc8.2%20/paddle_inference_c.tgz)||
 |manylinux_cpu_avx_mkl_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.1.3/linux-cpu-avx-mkl-gcc5.4/paddle_inference_c.tgz)|
@@ -71,7 +71,7 @@
 
 ## C++预测库
 
-| 版本说明      |     预测库(1.8.4版本)  |预测库(2.1.1版本)   |     编译器     |  cuDNN  |  CUDA  |
+| 版本说明      |     预测库(1.8.4版本)  |预测库(2.1.3版本)   |     编译器     |  cuDNN  |  CUDA  |
 |:-------------|:---------------------|:-----------------|:----------------|:--------|:-------|
 |cpu_avx_mkl| [fluid_inference.zip](https://paddle-wheel.bj.bcebos.com/1.8.4/win-infer/mkl/cpu/fluid_inference_install_dir.zip) | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.3/win-infer/windows-cpu-mkl-avx/paddle_inference.zip)|  MSVC 2017 | - | - |
 |cpu_avx_openblas| [fluid_inference.zip](https://paddle-wheel.bj.bcebos.com/1.8.4/win-infer/open/cpu/fluid_inference_install_dir.zip) | [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.3/win-infer/windows-cpu-openbals-avx/paddle_inference.zip)| MSVC 2017 | - | - |
@@ -82,7 +82,7 @@
 
 ## C预测库
 
-| 版本说明  |预测库(2.1.1版本)   |     编译器     |   cuDNN  |  CUDA  |
+| 版本说明  |预测库(2.1.3版本)   |     编译器     |   cuDNN  |  CUDA  |
 |:---------|:-----------------|:--------------|:---------|:--------|
 |cpu_avx_mkl| [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.3/win-infer/windows-cpu-mkl-avx/paddle_inference_c.zip)|  MSVC 2017 | - | - |
 |cpu_avx_openblas| [paddle_inference.zip](https://paddle-wheel.bj.bcebos.com/2.1.3/win-infer/windows-cpu-openbals-avx/paddle_inference_c.zip)| MSVC 2017 | - | - |
@@ -97,13 +97,13 @@
 
 ## C++预测库
 
-| 版本说明       |预测库(2.1.1版本)   |
+| 版本说明       |预测库(2.1.3版本)   |
 |:---------|:----------------|
 |cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/mac/2.1.3/cpu_avx_openblas/paddle_inference_install_dir.tgz)|
 
 ## C预测库
 
-| 版本说明       |预测库(2.1.1版本)   |
+| 版本说明       |预测库(2.1.3版本)   |
 |:---------|:----------------|
 |cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/mac/2.1.3/cpu_avx_openblas/paddle_inference_c_install_dir.tgz)|
 
