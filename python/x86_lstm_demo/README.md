@@ -2,8 +2,10 @@
 
 ### 1. Prepare the PaddlePaddle release/2.2
 
-`git clone https://github.com/PaddlePaddle/Paddle.git`
-`git checkout release/2.2`
+```
+git clone https://github.com/PaddlePaddle/Paddle.git
+git checkout release/2.2
+```
 cd /paddle/repo/Paddle/build
 ```
 cmake -DCMAKE_BUILD_TYPE=Release \
@@ -20,8 +22,11 @@ cmake -DCMAKE_BUILD_TYPE=Release \
       -DWITH_LITE=OFF .. \
 ```
 `make -j12`
+
 `cd python/dist`
+
 `pip install paddlepaddle-0.0.0-cp37-cp37m-linux_x86_64.whl`
+
 export PYTHONPATH=/paddle/repo/Paddle/build/paddle/:/paddle/repo/Paddle/build/python
 
 
