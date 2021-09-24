@@ -73,6 +73,7 @@ def set_config_ptq(model_path,
     config.switch_ir_optim(True)
     # This pass must be added before fc_fuse_pass to work properly
     config.pass_builder().insert_pass(5, "fc_lstm_fuse_pass")
+    config.pass_builder().append_pass("fc_mkldnn_pass")
 
     config.enable_mkldnn()
     config.set_mkldnn_cache_capacity(test_args.mkldnn_cache_capacity)
