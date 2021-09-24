@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument(
         '--mkldnn_cache_capacity',
         type=int,
-        default=100,
+        default=0,
         help='The default value in Python API is 15, which can slow down int8 models.'
     )
     parser.add_argument(
