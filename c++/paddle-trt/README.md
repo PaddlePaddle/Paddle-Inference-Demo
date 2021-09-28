@@ -227,9 +227,9 @@ TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 运行结束后，程序会将模型预测输出的前20个结果打印到屏幕，说明运行成功。
 
 ### 更多链接
-- [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/latest/introduction/quick_start.html)
-- [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/latest/user_guides/cxx_api.html)
-- [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/user_guides/inference_python_api.html)
+- [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/latest/)
+- [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/latest/quick_start/cpp_demo.html)
+- [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/quick_start/python_demo.html)
 
 ### 四、使用TRT dynamic shape变长输入功能
 
