@@ -190,46 +190,46 @@ std::cout << "Enable CUDNN is: " << config.cudnn_enabled() << std::endl; // fals
 API定义如下：
 
 ```c++
-// 启用 TensorRT 进行预测加速
-// 参数：workspace_size     - 指定 TensorRT 使用的工作空间大小
-//      max_batch_size     - 设置最大的 batch 大小，运行时 batch 大小不得超过此限定值
-//      min_subgraph_size  - Paddle-TRT 是以子图的形式运行，为了避免性能损失，当子图内部节点个数
-//                           大于 min_subgraph_size 的时候，才会使用 Paddle-TRT 运行
-//      precision          - 指定使用 TRT 的精度，支持 FP32(kFloat32)，FP16(kHalf)，Int8(kInt8)
-//      use_static         - 若指定为 true，在初次运行程序的时候会将 TRT 的优化信息进行序列化到磁盘上，
-//                           下次运行时直接加载优化的序列化信息而不需要重新生成
-//      use_calib_mode     - 若要运行 Paddle-TRT INT8 离线量化校准，需要将此选项设置为 true
-// 返回：None
+/// 启用 TensorRT 进行预测加速
+/// 参数：workspace_size     - 指定 TensorRT 使用的工作空间大小
+///      max_batch_size     - 设置最大的 batch 大小，运行时 batch 大小不得超过此限定值
+///      min_subgraph_size  - Paddle-TRT 是以子图的形式运行，为了避免性能损失，当子图内部节点个数
+///                           大于 min_subgraph_size 的时候，才会使用 Paddle-TRT 运行
+///      precision          - 指定使用 TRT 的精度，支持 FP32(kFloat32)，FP16(kHalf)，Int8(kInt8)
+///      use_static         - 若指定为 true，在初次运行程序的时候会将 TRT 的优化信息进行序列化到磁盘上，
+///                          下次运行时直接加载优化的序列化信息而不需要重新生成
+///      use_calib_mode     - 若要运行 Paddle-TRT INT8 离线量化校准，需要将此选项设置为 true
+/// 返回：None
 void EnableTensorRtEngine(int workspace_size = 1 << 20,
                           int max_batch_size = 1, int min_subgraph_size = 3,
                           Precision precision = Precision::kFloat32,
                           bool use_static = false,
                           bool use_calib_mode = true);
-// 判断是否启用 TensorRT 
-// 参数：None
-// 返回：bool - 是否启用 TensorRT
+/// 判断是否启用 TensorRT 
+/// 参数：None
+/// 返回：bool - 是否启用 TensorRT
 bool tensorrt_engine_enabled() const;
 
-// 设置 TensorRT 的动态 Shape
-// 参数：min_input_shape          - TensorRT 子图支持动态 shape 的最小 shape
-//      max_input_shape          - TensorRT 子图支持动态 shape 的最大 shape
-//      optim_input_shape        - TensorRT 子图支持动态 shape 的最优 shape
-//      disable_trt_plugin_fp16  - 设置 TensorRT 的 plugin 不在 fp16 精度下运行
-// 返回：None
+/// 设置 TensorRT 的动态 Shape
+/// 参数：min_input_shape          - TensorRT 子图支持动态 shape 的最小 shape
+///      max_input_shape          - TensorRT 子图支持动态 shape 的最大 shape
+///      optim_input_shape        - TensorRT 子图支持动态 shape 的最优 shape
+///      disable_trt_plugin_fp16  - 设置 TensorRT 的 plugin 不在 fp16 精度下运行
+/// 返回：None
 void SetTRTDynamicShapeInfo(
       std::map<std::string, std::vector<int>> min_input_shape,
       std::map<std::string, std::vector<int>> max_input_shape,
       std::map<std::string, std::vector<int>> optim_input_shape,
       bool disable_trt_plugin_fp16 = false);
 
-// 启用 TensorRT OSS 进行预测加速
-// 参数：None
-// 返回：None
+/// 启用 TensorRT OSS 进行预测加速
+/// 参数：None
+/// 返回：None
 void EnableTensorRtOSS();
 
-// 判断是否启用 TensorRT OSS
-// 参数：None
-// 返回：bool - 是否启用 TensorRT OSS
+/// 判断是否启用 TensorRT OSS
+/// 参数：None
+/// 返回：bool - 是否启用 TensorRT OSS
 bool tensorrt_oss_enabled();
 
 /// 启用TensorRT DLA进行预测加速
@@ -241,6 +241,16 @@ void EnableTensorRtDLA(int dla_core = 0);
 /// 参数：None
 /// 返回：bool - 是否已开启TensorRT DLA加速
 bool tensorrt_dla_enabled();
+
+/// 禁用 TensorRT 稀疏推理
+/// 参数：None
+/// 返回：None
+void DisableTensorRTSparsity();
+
+/// 判断是否已经启用TensorRT 稀疏推理
+/// 参数：None
+/// 返回：bool - 是否已启用TensorRT 稀疏推理
+bool tensorrt_sparsity_enabled();
 ```
 
 代码示例 (1)：使用 TensorRT FP32 / FP16 / INT8 进行预测
@@ -269,6 +279,12 @@ config.EnableTensorRtEngine(1 << 20, 1, 3,
                             paddle_infer::PrecisionType::kInt8, false, true);
 // 通过 API 获取 TensorRT 启用结果 - true
 std::cout << "Enable TensorRT is: " << config.tensorrt_engine_enabled() << std::endl;
+
+// 禁用 TensorRT 稀疏推理
+config.DisableTensorRTSparsity();
+
+// 通过 API 获取 TensorRT 稀疏推理 启用结果 - false
+std::cout << "Enable TensorRT Sparsity is: " << config.tensorrt_sparsity_enabled() << std::endl;
 ```
 
 代码示例 (2)：使用 TensorRT 动态 Shape 进行预测

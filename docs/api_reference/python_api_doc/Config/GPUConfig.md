@@ -128,6 +128,16 @@ paddle.inference.Config.enable_tensorrt_dla(dla_core: int = 0)
 # 参数：None
 # 返回：bool - 是否已开启TensorRT DLA加速
 paddle.inference.Config.tensorrt_dla_enabled()
+
+# 禁用 TensorRT 稀疏推理
+# 参数：None
+# 返回：None
+paddle.inference.Config.disable_tensorrt_sparsity()
+
+# 判断是否已经禁用TensorRT 稀疏推理
+# 参数：None
+# 返回：bool - 是否已禁用TensorRT 稀疏推理
+paddle.inference.Config.tensorrt_sparsity_disabled()
 ```
 
 代码示例 (1)：使用 TensorRT FP32 / FP16 / INT8 进行预测
@@ -169,6 +179,12 @@ config.enable_tensorrt_engine(workspace_size = 1 << 30,
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
+
+# 禁用 TensorRT 稀疏推理
+config.disable_tensorrt_sparsity()
+
+# 通过 API 获取 TensorRT 稀疏推理 启用结果 - false
+print("Enable TensorRT Sparsity is: {}".format(config.tensorrt_sparsity_enabled()))
 ```
 
 代码示例 (2)：使用 TensorRT 动态 Shape 进行预测
