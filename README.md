@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Paddle Inference Demos
 
 
@@ -20,3 +21,62 @@ Paddle Inference为飞桨核心框架推理引擎。Paddle Inference功能特性
 2） 在c++目录中，我们通过单测方式展现了一系列的测试样例，其中包括图像的分类，分割，检测，以及NLP的Ernie/Bert等C++使用样例，同时也包含Paddle-TRT， 多线程的使用样例。
 
 注意：如果您使用2.0以前的Paddle，请参考[release/1.8分支](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/release/1.8)
+=======
+# Fluid Documentation Skeleton
+
+## Build
+
+To build documentation, you need have a linux machine and have python2, virtualenv, gmake installed.
+
+### Preparation
+
+You need to create a `virtualenv` instead of polute the global python library path
+
+```bash
+virtualenv .env
+```
+
+You can enter virtualenv by
+
+```bash
+source .env/bin/activate
+```
+
+You can exit virtualenv by
+
+```bash
+deactivate
+```
+
+### Install dependencies
+
+```bash
+# enter virtualenv
+source .env/bin/activate
+# install dependencies
+pip install -r requirements.txt
+```
+
+### Make HTML
+
+```bash
+# make clean  # make clean to regenerate toctree. Just `make html` may have a cache.
+make html
+```
+and the html files will be generated to `build/html`. You can open `build/html/index.html` with your browser to see the documentation.
+
+## Edit
+
+### Edit documentation
+
+It is suggested to use `reStructuredText` because it is the only official markup language supportted by our documentation generating system, sphinx. `markdown` can also be used. However, since the `markdown` has so many dialects, there is no guarantee that the `markdown` source file can be rendered well.
+
+The `reStructuredText` cheatsheet is [here](http://docutils.sourceforge.net/docs/user/rst/quickref.html).
+
+
+### Edit structure
+
+The `sphinx` (our documentation generating system) uses `toctree` to organize documentation. `toctree` means `table of content tree`. 
+
+Please see the [sphinx documentation](http://www.sphinx-doc.org/en/master/), especially [`toctree` directives](http://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html)
+>>>>>>> 0aa742d8c3c9cec248aa3e7d458674fe47584f42

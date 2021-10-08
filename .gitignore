@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *~
 *.pyc
 *.DS_Store
@@ -10,3 +11,6 @@ lib/
 */CMakeLists.txt
 
 build/
+=======
+.env
+>>>>>>> 0aa742d8c3c9cec248aa3e7d458674fe47584f42
