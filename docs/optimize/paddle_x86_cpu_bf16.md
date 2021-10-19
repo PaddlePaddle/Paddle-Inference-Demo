@@ -42,7 +42,7 @@ bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位�
 
 * 可以通过在命令行输入`lscpu`查看本机支持指令。
 * 在Intel支持`avx512_bf16`指令的机型上，(目前Cooper Lake机型支持`avx512_bf16`，如Intel(R) Xeon(R) Platinum 8371HC CPU, Intel(R) d on(R) Gold 6348H CPU），bfloat16性能会获得如上表的性能提升。[Cooper Lake机型列表](https://ark.intel.com/content/www/us/en/ark/products/codename/189143/products-formerly-cooper-lake.html?wapkw=cooper%20lake)
-* 在Intel支持`AVX512BW`、`AVX512VL`和`AVX512DQ`指令但是不支持`avx512_bf16`的机型上，如：SkyLake, CasCade Lake等，可以顺利运行不报错，但是性能无法达到上表的性能。
+* 在Intel支持`avx512bw`、`avx512vl`和`avx512dq`指令但是不支持`avx512_bf16`的机型上，如：SkyLake, CasCade Lake等，可以顺利运行不报错，但是性能无法达到上表的性能。
 * 为了防止在非配套机器上测试bfloat16功能，应进行适当检查:
 ```
 Python
