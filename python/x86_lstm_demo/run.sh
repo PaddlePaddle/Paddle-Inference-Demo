@@ -55,3 +55,4 @@ python3 model_test.py \
 --data_path=${work_path}/quant_lstm_input_data \
 --use_analysis=True \
 --num_threads=${omp_num_threads}
+
