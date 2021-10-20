@@ -128,7 +128,7 @@ python save_quant_model.py \
 
 ### 检查机器
 
-大家可以通过在命令行红输入lscpu查看本机支持指令。
+* 大家可以通过在命令行输入`lscpu`查看本机支持指令。
 * 在支持avx512_vnni的CPU服务器上，如：Casecade Lake, Model name: Intel(R) Xeon(R) Gold X2XX，INT8精度和性能最高，INT8性能提升为FP32模型的3~3.7倍。
 * 在支持avx512但是不支持avx512_vnni的CPU服务器上，如：SkyLake, Model name：Intel(R) Xeon(R) Gold X1XX，INT8性能为FP32性能的1.5倍左右。
 * 请确保机器支持完整的avx512指令集。
