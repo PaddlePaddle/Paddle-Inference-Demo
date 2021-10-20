@@ -35,39 +35,49 @@ X86 CPU部署量化模型的步骤：
 |     VGG16    |       3.47      |      10.67      |        3.07       |
 |     VGG19    |       2.83      |       9.09      |        3.21       |
 
-## 自然语言处理INT8模型在 Xeon(R) 6271 上的精度和性能
 
->**I. Ernie INT8 DNNL 在 Intel(R) Xeon(R) Gold 6271 的精度结果**
+## 自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的性能和精度
 
-| Model | FP32 Accuracy | INT8 Accuracy | Accuracy Diff |
-| :---: | :-----------: | :-----------: | :-----------: |
-| Ernie |    80.20%     |    79.44%     |    -0.76%     |
+>**自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的性能**
+
+|     Latency      | FP32 Latency (ms) | INT8 Latency (ms) | Ratio (FP32/INT8) |
+| :--------------: | :---------------: | :---------------: | :---------------: |
+|  Ernie 1 thread  |      237.21       |       79.26       |       2.99X       |
+| Ernie 20 threads |       22.08       |       12.57       |       1.76X       |
+
+| Performance (QPS)              | Naive FP32 | INT88 | Int8/Native FP32 |
+| ------------------------------ | ---------- | ----- | ---------------- |
+| GRU bs 1, thread 1             | 1108       | 1393  | 1.26             |
+| GRU repeat 1, bs 50, thread 1  | 2175       | 3199  | 1.47             |
+| GRU repeat 10, bs 50, thread 1 | 2165       | 3334  | 1.54             |
+
+| Performance (QPS) |  FP32   |  INT8   | INT8 /FP32 |
+| :---------------: | :-----: | :-----: | :--------: |
+|   LSTM 1 thread   | 4895.65 | 7190.55 |    1.47    |
+|  LSTM 4 threads   | 6370.86 | 7942.51 |    1.25    |
 
 
->**II. Ernie INT8 DNNL 在 Intel(R) Xeon(R) Gold 6271 上单样本耗时**
+>**自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的精度**
 
-|  Threads   | FP32 Latency (ms) | INT8 Latency (ms) | Ratio (FP32/INT8) |
-| :--------: | :---------------: | :---------------: | :---------------: |
-|  1 thread  |      237.21       |       79.26       |       2.99X       |
-| 20 threads |       22.08       |       12.57       |       1.76X       |
+|  Ernie   | FP32 Accuracy | INT8 Accuracy | Accuracy Diff |
+| :------: | :-----------: | :-----------: | :-----------: |
+| accuracy |    80.20%     |    79.44%     |    -0.76%     |
 
->**III. LAC (GRU) INT8 DNNL 在 Intel(R) Xeon(R) Gold 6271 上精度**
-  
-|  Model  | FP32    | INT8   | Accuracy diff|
-|---------|---------|--------|--------------|
-|accuracy | 0.89326 |0.89323 |  -0.00007    |
+| LAC (GRU) | FP32    | INT8    | Accuracy diff |
+| --------- | ------- | ------- | ------------- |
+| accuracy  | 0.89326 | 0.89323 | -0.00007      |
 
->**IV. LAC (GRU) INT8 DNNL 在 Intel(R) Xeon(R) Gold 6271 上性能**
+|  LSTM   | FP32  | INT8  |
+| :-----: | :---: | :---: |
+| HX_ACC  | 0.933 | 0.925 |
+| CTC_ACC | 0.999 | 1.000 |
 
-| Performance (QPS)  | Naive fp32        | int8 | Int8/Native fp32 |
-|----------------------------|-------------------|------|------------------|
-| bs 1, thread 1             | 1108              | 1393 | 1.26             |
-| repeat 1, bs 50, thread 1  | 2175              | 3199 | 1.47             |
-| repeat 10, bs 50, thread 1 | 2165              | 3334 | 1.54             |
 
-Note: 
+**Note:**
+* 图像分类复现 demo 可参考 [Intel CPU量化部署图像分类模型](https://github.com/PaddlePaddle/PaddleSlim/tree/develop/demo/mkldnn_quant)
 * Ernie 复现 demo 可参考 [ERNIE QAT INT8 精度与性能复现](https://github.com/PaddlePaddle/benchmark/tree/master/Inference/c%2B%2B/ernie/mkldnn)
 * LAC (GRU) 复现 demo 可参考 [GRU INT8 精度与性能复现](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/x86_gru_int8)
+* LSTM 复现 demo 可参考 [LSTM INT8 精度与性能复现](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/x86_lstm_demo)
 
 ## 3 PaddleSlim 产出量化模型
 
