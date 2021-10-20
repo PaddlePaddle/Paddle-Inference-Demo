@@ -40,18 +40,18 @@ X86 CPU部署量化模型的步骤：
 
 >**自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的性能**
 
-|     Latency      | FP32 Latency (ms) | INT8 Latency (ms) | Ratio (FP32/INT8) |
+|     Ernie Latency      | FP32 Latency (ms) | INT8 Latency (ms) | Ratio (FP32/INT8) |
 | :--------------: | :---------------: | :---------------: | :---------------: |
 |  Ernie 1 thread  |      237.21       |       79.26       |       2.99X       |
 | Ernie 20 threads |       22.08       |       12.57       |       1.76X       |
 
-| Performance (QPS)              | Naive FP32 | INT88 | Int8/Native FP32 |
+| GRU Performance (QPS)              | Naive FP32 | INT88 | Int8/Native FP32 |
 | ------------------------------ | ---------- | ----- | ---------------- |
 | GRU bs 1, thread 1             | 1108       | 1393  | 1.26             |
 | GRU repeat 1, bs 50, thread 1  | 2175       | 3199  | 1.47             |
 | GRU repeat 10, bs 50, thread 1 | 2165       | 3334  | 1.54             |
 
-| Performance (QPS) |  FP32   |  INT8   | INT8 /FP32 |
+| LSTM Performance (QPS) |  FP32   |  INT8   | INT8 /FP32 |
 | :---------------: | :-----: | :-----: | :--------: |
 |   LSTM 1 thread   | 4895.65 | 7190.55 |    1.47    |
 |  LSTM 4 threads   | 6370.86 | 7942.51 |    1.25    |
