@@ -40,15 +40,22 @@ bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位�
 
 ### 3.2 检查机器
 
-大家可以通过在命令行红输入lscpu查看本机支持指令。
+* 可以通过在命令行输入`lscpu`查看本机支持指令。
+* 在Intel支持`avx512_bf16`指令的机型上，(目前Cooper Lake机型支持`avx512_bf16`，如Intel(R) Xeon(R) Platinum 8371HC CPU, Intel(R) d on(R) Gold 6348H CPU），bfloat16性能会获得如上表的性能提升。[Cooper Lake机型列表](https://ark.intel.com/content/www/us/en/ark/products/codename/189143/products-formerly-cooper-lake.html?wapkw=cooper%20lake)
+* 在Intel支持`avx512bw`、`avx512vl`和`avx512dq`指令但是不支持`avx512_bf16`的机型上，如：SkyLake, CasCade Lake等，可以顺利运行不报错，但是性能无法达到上表的性能。
+* 为了防止在非配套机器上测试bfloat16功能，应进行适当检查:
+```
+Python
+import paddle
+paddle.fluid.core.supports_bfloat16() // 如果为true, bf16可以顺利运行不报错，性能未知。
+paddle.fluid.core.supports_bfloat16_fast_performance() // 如果为true, bf16可以顺利运行，且可获得上表所示的性能。
 
-* 在支持avx512_bf16的CPU服务器上，如Intel(R) Xeon(R) Platinum 8371HC CPU，bfloat16性能会获得如上表的提升。
-* 在支持AVX512BW、AVX512VL和AVX512DQ指令但是不支持avx512_bf16的CPU服务器上，如：SkyLake, CasCade Lake等，可以顺利运行，但是性能无法达到上表的性能。
-* 为了防止在非配套机器上测试bfloat16功能，应使用适当的检查:
+c++
+#include "paddle/fluid/platform/cpu_info.h"
+platform::MayIUse(platform::cpu_isa_t::avx512_core) // 如果为true, bf16可以顺利运行不报错，性能未知。
+platform::MayIUse(platform::cpu_isa_t::avx512_bf16) // 如果为true, bf16可以顺利运行，且可获得上表所示的性能。
 ```
-Python paddle.fluid.core.supports_bfloat16()
-c++  MayIUse(platform::cpu_isa_t::avx512_core)
-```
+
 ### 3.3 预测部署
 
 C++ API举例如下:
