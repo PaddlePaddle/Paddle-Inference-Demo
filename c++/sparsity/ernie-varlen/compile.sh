@@ -20,13 +20,13 @@ mkdir -p build
 cd build
 rm -rf *
 
-DEMO_NAME=trt_fp32_test
+DEMO_NAME=ernie_varlen_test
 
 WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=ON
 
-LIB_DIR=${work_path}/../lib/paddle_inference
+LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/usr/local/TensorRT-8.0.3.4
