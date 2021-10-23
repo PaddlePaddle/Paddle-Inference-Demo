@@ -27,12 +27,9 @@ WITH_GPU=ON
 USE_TENSORRT=ON
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
-#CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
-#CUDA_LIB=/usr/local/cuda/lib64
-#TENSORRT_ROOT=/usr/local/TensorRT-8.0.3.4
-CUDNN_LIB=/jingzhuangzhuang/nvidia/cudnn/lib64/
-CUDA_LIB=/jingzhuangzhuang/nvidia/cuda-11.3/lib64/
-TENSORRT_ROOT=/jingzhuangzhuang/nvidia/TensorRT-8.0.3.4
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-8.0.3.4
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \
