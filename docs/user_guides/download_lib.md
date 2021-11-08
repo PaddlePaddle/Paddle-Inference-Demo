@@ -92,7 +92,7 @@
 |cuda10.1_cudnn7.6_avx_mkl_trt6.0 | |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddle_inference.zip)| MSVC 2017  | 7.6|  10.1 |
 |cuda10.2_cudnn7.6_avx_mkl_trt7.0 | |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7/paddle_inference.zip)| MSVC 2017  | 7.6 | 10.2 |
 |cuda11.0_cudnn8.0_avx_mkl_trt7.2 | |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddle_inference.zip)| MSVC 2017  | 8.0 | 11.0 |
-|cuda11.2_cudnn8.1_avx_mkl_trt8.0 | |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8/paddle_inference.zip)| MSVC 2017  | 8.1 | 11.2 |
+|cuda11.2_cudnn8.2_avx_mkl_trt8.0 | |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8/paddle_inference.zip)| MSVC 2017  | 8.1 | 11.2 |
 
 ## C预测库
 
@@ -104,7 +104,7 @@
 |cuda10.1_cudnn7.6_avx_mkl_trt6 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddle_inference_c.zip) | MSVC 2017|7.6|   10.1    |
 |cuda10.2_cudnn7.6_avx_mkl_trt7 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7/paddle_inference_c.zip) | MSVC 2017 |7.6|   10.2    |
 |cuda11.0_cudnn8.0_avx_mkl_trt7 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddle_inference_c.zip) | MSVC 2017 |8.0|   11.0    |
-|cuda11.2_cudnn8.1_avx_mkl_trt8 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8/paddle_inference_c.zip) | MSVC 2017 |8.1|   11.2    |
+|cuda11.2_cudnn8.2_avx_mkl_trt8 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8/paddle_inference_c.zip) | MSVC 2017 |8.1|   11.2    |
 
 ## python预测库
 | 版本说明   |     python3.8     |  
@@ -112,7 +112,7 @@
 |cuda10.1-cudnn7.6-trt6-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.0/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7_trt/paddlepaddle_gpu-2.2.0.post101-cp38-cp38-win_amd64.whl)|
 |cuda10.2-cudnn7.6-trt7-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.0/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7_trt/paddlepaddle_gpu-2.2.0-cp38-cp38-win_amd64.whl)|
 |cuda11.0-cudnn8.0-trt7-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.0/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8_trt/paddlepaddle_gpu-2.2.0.post110-cp38-cp38-win_amd64.whl)|
-|cuda11.2-cudnn8.1-trt8-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.0/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8_trt/paddlepaddle_gpu-2.2.0.post112-cp38-cp38-win_amd64.whl)|
+|cuda11.2-cudnn8.2-trt8-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.0/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8_trt/paddlepaddle_gpu-2.2.0.post112-cp38-cp38-win_amd64.whl)|
 
 # 下载安装Mac预测库
 
