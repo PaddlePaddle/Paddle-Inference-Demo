@@ -90,8 +90,8 @@ int main() {
   PD_Predictor* predictor = PD_PredictorCreate(config);
 
   // 准备输入数据
-  float input_shape[4] = {1, 3, 244, 244};
-  float input_data = (float*)calloc(1 * 3 * 224 * 224, sizeof(float));
+  int32_t input_shape[4] = {1, 3, 244, 244};
+  float* input_data = (float*)calloc(1 * 3 * 224 * 224, sizeof(float));
 
   // 获取输入 Tensor
   PD_OneDimArrayCstr* input_names = PD_PredictorGetInputNames(predictor);
@@ -125,7 +125,7 @@ int main() {
 
 
   // 销毁相关对象， 回收相关内存
-  free(out_data)
+  free(out_data);
   PD_OneDimArrayInt32Destroy(output_shape);
   PD_TensorDestroy(output_tensor);
   PD_OneDimArrayCstrDestroy(output_names);
@@ -251,8 +251,8 @@ PD_Predictor* predictor = PD_PredictorCreate(config);
 
 ```c
 // 准备输入数据
-float input_shape[4] = {1, 3, 244, 244};
-float input_data = (float*)calloc(1 * 3 * 224 * 224, sizeof(float));
+int32_t input_shape[4] = {1, 3, 244, 244};
+float* input_data = (float*)calloc(1 * 3 * 224 * 224, sizeof(float));
 
 // 获取输入 Tensor
 PD_OneDimArrayCstr* input_names = PD_PredictorGetInputNames(predictor);
@@ -296,7 +296,7 @@ PD_TensorCopyToCpuFloat(output_tensor, out_data);
 
 ```c
 // 销毁相关对象， 回收相关内存
-free(out_data)
+free(out_data);
 PD_OneDimArrayInt32Destroy(output_shape);
 PD_TensorDestroy(output_tensor);
 PD_OneDimArrayCstrDestroy(output_names);
