@@ -1,5 +1,12 @@
 # **龙芯下从源码编译**
 
+## 已验证模型列表
+
+- resnet50
+- mobilenetv1
+- ernie
+- ELMo
+
 ## 环境准备
 
 * **处理器：Loongson-3A R4 (Loongson-3A4000)**
