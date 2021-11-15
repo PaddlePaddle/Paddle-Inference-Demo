@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
   config.EnableMKLDNN();
   config.SetCpuMathLibraryNumThreads(FLAGS_threads);
   config.SwitchIrOptim();
-  config.EnableMemoryOptim();
   
   // Create predictor
   auto predictor = paddle_infer::CreatePredictor(config);
