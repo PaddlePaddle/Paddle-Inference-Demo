@@ -149,9 +149,8 @@ config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
 config.SetModel(FLAGS_model_dir); // Load no-combined model
 }
 config.EnableMKLDNN();
-config.SwitchIrOptim(false);
+config.SwitchIrOptim(true);
 config.SetCpuMathLibraryNumThreads(FLAGS_threads);
-config.EnableMemoryOptim();
 
 auto predictor = paddle_infer::CreatePredictor(config);
 ```
