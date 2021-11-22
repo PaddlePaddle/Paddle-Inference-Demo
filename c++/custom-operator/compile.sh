@@ -6,14 +6,13 @@ work_path=$(dirname $(readlink -f $0))
 
 # 1. check paddle_inference exists
 if [ ! -d "${work_path}/../lib/paddle_inference" ]; then
-  echo "Please download paddle_inference lib and move it in Paddle-Inference-Demo/lib"
+  echo "Please download paddle_inference lib and move it in Paddle-Inference-Demo/c++/lib"
   exit 1
 fi
 
 # 2. compile
 mkdir -p build
 cd build
-rm -rf *
 
 DEMO_NAME=custom_op_test
 
