@@ -6,7 +6,6 @@ option(USE_TENSORRT "Compile demo with TensorRT."   ON)
 option(CUSTOM_OPERATOR_FILES "List of file names for custom operators" "")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(external/boost)
 
 if(WITH_GPU)
   find_package(CUDA REQUIRED)
@@ -16,7 +15,7 @@ endif()
 if(NOT WITH_STATIC_LIB)
   add_definitions("-DPADDLE_WITH_SHARED_LIB")
 else()
-  # PD_INFER_DECL is mainly used to set the dllimport/dllexport attribute in dynamic library mode. 
+  # PD_INFER_DECL is mainly used to set the dllimport/dllexport attribute in dynamic library mode.
   # Set it to empty in static library mode to avoid compilation issues.
   add_definitions("/DPD_INFER_DECL=")
 endif()
@@ -71,7 +70,7 @@ else()
   if(WITH_MKL)
     set(FLAG_OPENMP "-fopenmp")
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${FLAG_OPENMP}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ${FLAG_OPENMP}")
 endif()
 
 if(WITH_GPU)
@@ -172,7 +171,7 @@ endif()
 
 cuda_add_library(pd_infer_custom_op ${CUSTOM_OPERATOR_FILES} SHARED)
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
-set(DEPS ${DEPS} boost pd_infer_custom_op)
+set(DEPS ${DEPS} pd_infer_custom_op)
 
 if(WIN32)
   if(USE_TENSORRT)
@@ -195,7 +194,7 @@ if(WIN32)
     )
   endif()
   if(NOT WITH_STATIC_LIB)
-      add_custom_command(TARGET ${DEMO_NAME} POST_BUILD 
+      add_custom_command(TARGET ${DEMO_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy "${PADDLE_LIB}/paddle/lib/paddle_fluid.dll" ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}
       )
   endif()
