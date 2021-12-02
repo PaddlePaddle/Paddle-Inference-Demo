@@ -96,14 +96,10 @@ Calib Int8: |uncheck|
 
 .. code:: shell
 
-	# 拉取镜像，该镜像预装Paddle 1.8 Python环境，并包含c++的预编译库，lib存放在主目录～/ 下。
-	docker pull hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6
+	# 拉取镜像，该镜像预装Paddle 2.2 Python环境，并包含c++的预编译库，lib存放在主目录～/ 下。
+	docker pull paddlepaddle/paddle:latest-dev-cuda11.0-cudnn8-gcc82
 
-	export CUDA_SO="$(\ls /usr/lib64/libcuda* | xargs -I{} echo '-v {}:{}') $(\ls /usr/lib64/libnvidia* | xargs -I{} echo '-v {}:{}')"
-	export DEVICES=$(\ls /dev/nvidia* | xargs -I{} echo '--device {}:{}')
-	export NVIDIA_SMI="-v /usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
-
-	docker run $CUDA_SO $DEVICES $NVIDIA_SMI --name trt_open --privileged --security-opt seccomp=unconfined --net=host -v $PWD:/paddle -it hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6 /bin/bash
+	nvidia-docker run --name your_name -v $PWD:/paddle  --network=host -it paddlepaddle/paddle:latest-dev-cuda11.0-cudnn8-gcc82  /bin/bash
 
 3）手动编译  
 编译的方式请参照 `编译文档 <../user_guides/source_compile.html>`_ 
