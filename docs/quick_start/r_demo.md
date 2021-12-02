@@ -84,6 +84,11 @@ if (!interactive()) {
 }
 ```
 
+```r
+# use_python 中指定 python 可执行文件路径
+use_python("/opt/python3.7/bin/python")
+```
+
 ### 4. 执行预测程序
 
 ```bash
@@ -123,11 +128,11 @@ I1215 10:48:46.341869 52293 graph_pattern_detector.cc:100] ---  detected 53 subg
 --- Running analysis [adjust_cudnn_workspace_size_pass]
 --- Running analysis [inference_op_replace_pass]
 --- Running analysis [ir_graph_to_program_pass]
-I1215 10:48:46.388198 52293 analysis_predictor.cc:537] ======= optimize end =======
-I1215 10:48:46.388363 52293 naive_executor.cc:102] ---  skip [feed], feed -> data
-I1215 10:48:46.389770 52293 naive_executor.cc:102] ---  skip [AddmmBackward190.fc.output.1.tmp_1], fetch -> fetch
-[1] "Output data size is: 512"
-[1] "Output data shape is: (512,)"
+I1202 07:44:14.268868  6224 analysis_predictor.cc:717] ======= optimize end =======
+I1202 07:44:14.272181  6224 naive_executor.cc:98] ---  skip [feed], feed -> inputs
+I1202 07:44:14.273878  6224 naive_executor.cc:98] ---  skip [save_infer_model/scale_0.tmp_1], fetch -> fetch
+[1] "Output data size is: 1000"
+[1] "Output data shape is: (1000,)"
 ```
 
 ## R 预测程序开发说明
