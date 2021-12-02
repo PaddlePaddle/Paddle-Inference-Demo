@@ -30,7 +30,7 @@ Paddle Inference采用 Predictor 进行预测。Predictor 是一个高性能预�
 开发预测程序只需要简单的5个步骤 (这里以C++ API为例)：
 
 1. 配置推理选项 `paddle_infer::Config`，包括设置模型路径、运行设备、开启/关闭计算图优化、使用MKLDNN/TensorRT进行部署的加速等。
-2. 创建推理引擎 `paddle_infer::Predictor`，通过调用 `CreatePaddlePredictor(Config)` 接口，一行代码即可完成引擎初始化，其中 `Config` 为第1步中生成的配置推理选项。
+2. 创建推理引擎 `paddle_infer::Predictor`，通过调用 `CreatePredictor(Config)` 接口，一行代码即可完成引擎初始化，其中 `Config` 为第1步中生成的配置推理选项。
 3. 准备输入数据，需要以下几个步骤
     - 先通过 `auto input_names = predictor->GetInputNames()` 获取模型所有输入 Tensor 的名称
     - 再通过 `auto tensor = predictor->GetInputTensor(input_names[i])` 获取输入 Tensor 的指针
@@ -41,10 +41,9 @@ Paddle Inference采用 Predictor 进行预测。Predictor 是一个高性能预�
     - 再通过 `auto tensor = predictor->GetOutputTensor(out_names[i])` 获取输出 Tensor的 指针
     - 最后通过 `tensor->copy_to_cpu(data)`，将 tensor 中的数据 copy 到 data 指针上
 
-Paddle Inference 提供了C, C++, Python, Golang 和 R 五种API的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
+Paddle Inference 提供了C, C++, Python, Golang 四种API的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
 
 - [预测示例 (C++)](./cpp_demo)
 - [预测示例 (Python)](./python_demo)
 - [预测示例 (C)](./c_demo)
 - [预测示例 (GO)](./go_demo)
-- [预测示例 (R)](./r_demo)

@@ -55,7 +55,7 @@ TensorRT version: v6
 
 ### 2. 准备预测部署模型
 
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 加载到模型可视化工具 Netron 中打开。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
@@ -102,7 +102,7 @@ int main() {
   PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 
   // 执行预测
-  PD_PredictorRun(pd_predictor);
+  PD_PredictorRun(predictor);
 
   // 获取预测输出 Tensor
   PD_OneDimArrayCstr* output_names = PD_PredictorGetOutputNames(predictor);
@@ -120,7 +120,7 @@ int main() {
   printf("Output Tensor Size: %d\n", out_size);
 
   // 获取预测输出 Tensor 数据
-  out_data = (float*)malloc(out_size * sizeof(float));
+  float* out_data = (float*)malloc(out_size * sizeof(float));
   PD_TensorCopyToCpuFloat(output_tensor, out_data);
 
 
@@ -182,30 +182,37 @@ export LD_LIBRARY_PATH=`pwd`:$LD_LIBRARY_PATH
 
 ```bash
 # 程序输出结果如下
-WARNING: Logging before InitGoogleLogging() is written to STDERR
-I1211 05:57:48.939208 16443 pd_config.cc:43] ./resnet50/inference.pdmodel
-I1211 05:57:48.939507 16443 pd_config.cc:48] ./resnet50/inference.pdiparams
-PaddleBuf empty: true
-W1211 05:57:48.941076 16443 analysis_predictor.cc:1052] Deprecated. Please use CreatePredictor instead.
-I1211 05:57:48.941124 16443 analysis_predictor.cc:139] Profiler is deactivated, and no profiling report will be generated.
 --- Running analysis [ir_graph_build_pass]
 --- Running analysis [ir_graph_clean_pass]
 --- Running analysis [ir_analysis_pass]
 --- Running IR pass [simplify_with_basic_ops_pass]
+--- Running IR pass [layer_norm_fuse_pass]
+---    Fused 0 subgraphs into layer_norm op.
 --- Running IR pass [attention_lstm_fuse_pass]
 --- Running IR pass [seqconv_eltadd_relu_fuse_pass]
 --- Running IR pass [seqpool_cvm_concat_fuse_pass]
 --- Running IR pass [mul_lstm_fuse_pass]
 --- Running IR pass [fc_gru_fuse_pass]
+---    fused 0 pairs of fc gru patterns
 --- Running IR pass [mul_gru_fuse_pass]
 --- Running IR pass [seq_concat_fc_fuse_pass]
+--- Running IR pass [squeeze2_matmul_fuse_pass]
+--- Running IR pass [reshape2_matmul_fuse_pass]
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+W1202 07:16:22.473459  3803 op_compat_sensible_pass.cc:219]  Check the Attr(transpose_Y) of Op(matmul) in pass(reshape2_matmul_fuse_pass) failed!
+W1202 07:16:22.473500  3803 map_matmul_to_mul_pass.cc:668] Reshape2MatmulFusePass in op compat failed.
+--- Running IR pass [flatten2_matmul_fuse_pass]
+--- Running IR pass [map_matmul_v2_to_mul_pass]
+--- Running IR pass [map_matmul_v2_to_matmul_pass]
+--- Running IR pass [map_matmul_to_mul_pass]
+I1202 07:16:22.476769  3803 fuse_pass_base.cc:57] ---  detected 1 subgraphs
 --- Running IR pass [fc_fuse_pass]
-I1211 05:57:49.481595 16443 graph_pattern_detector.cc:101] ---  detected 1 subgraphs
+I1202 07:16:22.478200  3803 fuse_pass_base.cc:57] ---  detected 1 subgraphs
 --- Running IR pass [repeated_fc_relu_fuse_pass]
 --- Running IR pass [squared_mat_sub_fuse_pass]
 --- Running IR pass [conv_bn_fuse_pass]
+I1202 07:16:22.526548  3803 fuse_pass_base.cc:57] ---  detected 53 subgraphs
 --- Running IR pass [conv_eltwiseadd_bn_fuse_pass]
-I1211 05:57:49.698067 16443 graph_pattern_detector.cc:101] ---  detected 53 subgraphs
 --- Running IR pass [conv_transpose_bn_fuse_pass]
 --- Running IR pass [conv_transpose_eltwiseadd_bn_fuse_pass]
 --- Running IR pass [is_test_pass]
@@ -214,9 +221,11 @@ I1211 05:57:49.698067 16443 graph_pattern_detector.cc:101] ---  detected 53 subg
 --- Running analysis [adjust_cudnn_workspace_size_pass]
 --- Running analysis [inference_op_replace_pass]
 --- Running analysis [ir_graph_to_program_pass]
-I1211 05:57:49.741832 16443 analysis_predictor.cc:541] ======= optimize end =======
-Output Tensor Name: AddmmBackward190.fc.output.1.tmp_1
-Output Tensor Size: 1
+I1202 07:16:22.576740  3803 analysis_predictor.cc:717] ======= optimize end =======
+I1202 07:16:22.579823  3803 naive_executor.cc:98] ---  skip [feed], feed -> inputs
+I1202 07:16:22.581485  3803 naive_executor.cc:98] ---  skip [save_infer_model/scale_0.tmp_1], fetch -> fetch
+Output Tensor Name: save_infer_model/scale_0.tmp_1
+Output Tensor Size: 1000
 ```
 
 ## C 预测程序开发说明
@@ -267,7 +276,7 @@ PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 
 ```c
 // 执行预测
-PD_PredictorRun(pd_predictor);
+PD_PredictorRun(predictor);
 ```
 (6) 获得预测结果，详细可参考 [C API 文档 - Tensor 方法](../api_reference/c_api_doc/Tensor)
 
@@ -288,7 +297,7 @@ printf("Output Tensor Name: %s\n", output_names->data[0]);
 printf("Output Tensor Size: %d\n", out_size);
 
 // 获取预测输出 Tensor 数据
-out_data = (float*)malloc(out_size * sizeof(float));
+float* out_data = (float*)malloc(out_size * sizeof(float));
 PD_TensorCopyToCpuFloat(output_tensor, out_data);
 ```
 
