@@ -84,6 +84,11 @@ if (!interactive()) {
 }
 ```
 
+```r
+# use_python 中指定 python 可执行文件路径
+use_python("/opt/python3.7/bin/python")
+```
+
 ### 4. 执行预测程序
 
 ```bash
@@ -95,26 +100,37 @@ if (!interactive()) {
 
 ```bash
 # 程序输出结果如下
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-W1215 10:48:45.627841 52293 analysis_predictor.cc:134] Profiler is activated, which might affect the performance
 --- Running analysis [ir_graph_build_pass]
+W1202 07:44:14.075577  6224 allocator_facade.cc:145] FLAGS_use_stream_safe_cuda_allocator is invalid for naive_best_fit strategy
 --- Running analysis [ir_graph_clean_pass]
 --- Running analysis [ir_analysis_pass]
 --- Running IR pass [simplify_with_basic_ops_pass]
+--- Running IR pass [layer_norm_fuse_pass]
+---    Fused 0 subgraphs into layer_norm op.
 --- Running IR pass [attention_lstm_fuse_pass]
 --- Running IR pass [seqconv_eltadd_relu_fuse_pass]
 --- Running IR pass [seqpool_cvm_concat_fuse_pass]
 --- Running IR pass [mul_lstm_fuse_pass]
 --- Running IR pass [fc_gru_fuse_pass]
+---    fused 0 pairs of fc gru patterns
 --- Running IR pass [mul_gru_fuse_pass]
 --- Running IR pass [seq_concat_fc_fuse_pass]
+--- Running IR pass [squeeze2_matmul_fuse_pass]
+--- Running IR pass [reshape2_matmul_fuse_pass]
+W1202 07:44:14.165925  6224 op_compat_sensible_pass.cc:219]  Check the Attr(transpose_Y) of Op(matmul) in pass(reshape2_matmul_fuse_pass) failed!
+W1202 07:44:14.165951  6224 map_matmul_to_mul_pass.cc:668] Reshape2MatmulFusePass in op compat failed.
+--- Running IR pass [flatten2_matmul_fuse_pass]
+--- Running IR pass [map_matmul_v2_to_mul_pass]
+--- Running IR pass [map_matmul_v2_to_matmul_pass]
+--- Running IR pass [map_matmul_to_mul_pass]
+I1202 07:44:14.169189  6224 fuse_pass_base.cc:57] ---  detected 1 subgraphs
 --- Running IR pass [fc_fuse_pass]
-I1215 10:48:46.117144 52293 graph_pattern_detector.cc:100] ---  detected 1 subgraphs
+I1202 07:44:14.170653  6224 fuse_pass_base.cc:57] ---  detected 1 subgraphs
 --- Running IR pass [repeated_fc_relu_fuse_pass]
 --- Running IR pass [squared_mat_sub_fuse_pass]
 --- Running IR pass [conv_bn_fuse_pass]
+I1202 07:44:14.219425  6224 fuse_pass_base.cc:57] ---  detected 53 subgraphs
 --- Running IR pass [conv_eltwiseadd_bn_fuse_pass]
-I1215 10:48:46.341869 52293 graph_pattern_detector.cc:100] ---  detected 53 subgraphs
 --- Running IR pass [conv_transpose_bn_fuse_pass]
 --- Running IR pass [conv_transpose_eltwiseadd_bn_fuse_pass]
 --- Running IR pass [is_test_pass]
@@ -123,11 +139,11 @@ I1215 10:48:46.341869 52293 graph_pattern_detector.cc:100] ---  detected 53 subg
 --- Running analysis [adjust_cudnn_workspace_size_pass]
 --- Running analysis [inference_op_replace_pass]
 --- Running analysis [ir_graph_to_program_pass]
-I1215 10:48:46.388198 52293 analysis_predictor.cc:537] ======= optimize end =======
-I1215 10:48:46.388363 52293 naive_executor.cc:102] ---  skip [feed], feed -> data
-I1215 10:48:46.389770 52293 naive_executor.cc:102] ---  skip [AddmmBackward190.fc.output.1.tmp_1], fetch -> fetch
-[1] "Output data size is: 512"
-[1] "Output data shape is: (512,)"
+I1202 07:44:14.268868  6224 analysis_predictor.cc:717] ======= optimize end =======
+I1202 07:44:14.272181  6224 naive_executor.cc:98] ---  skip [feed], feed -> inputs
+I1202 07:44:14.273878  6224 naive_executor.cc:98] ---  skip [save_infer_model/scale_0.tmp_1], fetch -> fetch
+[1] "Output data size is: 1000"
+[1] "Output data shape is: (1000,)"
 ```
 
 ## R 预测程序开发说明

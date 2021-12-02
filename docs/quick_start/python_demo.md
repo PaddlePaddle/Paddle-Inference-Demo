@@ -10,7 +10,7 @@
 
 ### 2. 准备预测部署模型
 
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 文件重命名为 `__model__`，然后通过模型可视化工具 Netron 打开。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 加载到模型可视化工具 Netron 中打开。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
@@ -84,39 +84,8 @@ python python_demo.py --model_file ./resnet50/inference.pdmodel --params_file ./
 
 ```bash
 # 程序输出结果如下
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-I1211 11:12:40.869632 20942 analysis_predictor.cc:139] Profiler is deactivated, and no profiling report will be generated.
---- Running analysis [ir_graph_build_pass]
---- Running analysis [ir_graph_clean_pass]
---- Running analysis [ir_analysis_pass]
---- Running IR pass [simplify_with_basic_ops_pass]
---- Running IR pass [attention_lstm_fuse_pass]
---- Running IR pass [seqconv_eltadd_relu_fuse_pass]
---- Running IR pass [seqpool_cvm_concat_fuse_pass]
---- Running IR pass [mul_lstm_fuse_pass]
---- Running IR pass [fc_gru_fuse_pass]
---- Running IR pass [mul_gru_fuse_pass]
---- Running IR pass [seq_concat_fc_fuse_pass]
---- Running IR pass [fc_fuse_pass]
-I1211 11:12:41.327713 20942 graph_pattern_detector.cc:100] ---  detected 1 subgraphs
---- Running IR pass [repeated_fc_relu_fuse_pass]
---- Running IR pass [squared_mat_sub_fuse_pass]
---- Running IR pass [conv_bn_fuse_pass]
---- Running IR pass [conv_eltwiseadd_bn_fuse_pass]
-I1211 11:12:41.550542 20942 graph_pattern_detector.cc:100] ---  detected 53 subgraphs
---- Running IR pass [conv_transpose_bn_fuse_pass]
---- Running IR pass [conv_transpose_eltwiseadd_bn_fuse_pass]
---- Running IR pass [is_test_pass]
---- Running IR pass [runtime_context_cache_pass]
---- Running analysis [ir_params_sync_among_devices_pass]
---- Running analysis [adjust_cudnn_workspace_size_pass]
---- Running analysis [inference_op_replace_pass]
---- Running analysis [ir_graph_to_program_pass]
-I1211 11:12:41.594254 20942 analysis_predictor.cc:537] ======= optimize end =======
-I1211 11:12:41.594414 20942 naive_executor.cc:102] ---  skip [feed], feed -> data
-I1211 11:12:41.595824 20942 naive_executor.cc:102] ---  skip [AddmmBackward190.fc.output.1.tmp_1], fetch -> fetch
-Output data size is 1024
-Output data shape is (2, 512)
+Output data size is 2000
+Output data shape is (2, 1000)
 ```
 
 ## Python 预测程序开发说明
