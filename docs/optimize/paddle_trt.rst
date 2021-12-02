@@ -3,7 +3,7 @@
 
 NVIDIA TensorRT 是一个高性能的深度学习预测库，可为深度学习推理应用程序提供低延迟和高吞吐量。PaddlePaddle 采用子图的形式对TensorRT进行了集成，即我们可以使用该模块来提升Paddle模型的预测性能。在这篇文章中，我们会介绍如何使用Paddle-TRT子图加速预测。
 
-如果您需要安装 `TensorRT<https://developer.nvidia.com/nvidia-tensorrt-6x-download>`_，请参考 `trt文档<https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html>`_.
+如果您需要安装 `TensorRT <https://developer.nvidia.com/nvidia-tensorrt-6x-download>`_，请参考 `trt文档 <https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html>`_.
 
 概述
 ----------------
@@ -90,7 +90,7 @@ Calib Int8: |uncheck|
 
 1）linux下通过pip安装
 
-请从 `whl list<https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release>`_ 下载带trt且与自己环境一致的whl包，并通过pip安装
+请从 `whl list <https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release>`_ 下载带trt且与自己环境一致的whl包，并通过pip安装
 
 2）使用docker镜像
 
