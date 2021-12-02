@@ -85,7 +85,7 @@ CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 ```
-运行脚本进行编译，会在目录下产生build目录，并生成 build/resnet50_test 可执行文件
+运行脚本进行编译，会在目录下产生 `build` 目录，并生成 `build/resnet50_test` 可执行文件
 
 ```bash
 bash compile.sh
@@ -95,7 +95,7 @@ bash compile.sh
 
 **注意**：Paddle Inference 提供下载的C++预测库对应的 GCC 版本与您电脑中GCC版本需要一致，如果不一致可能出现未知错误。
 
-运行脚本 run.sh 执行预测程序。
+运行脚本 `run.sh` 执行预测程序。
 
 ```bash
 bash run.sh
