@@ -98,13 +98,17 @@ LIB_DIR=${YOUR_LIB_DIR}/paddle_inference_install_dir
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu
 CUDA_LIB=/usr/local/cuda-10.2/lib64
 ```
-运行脚本进行编译，会在目录下产生build目录，并生成 build/resnet50_test 可执行文件
+运行脚本进行编译，会在目录下产生 `build` 目录，并生成 `build/resnet50_test` 可执行文件
 
 ```bash
 bash run_impl.sh
 ```
 
-### 4. 执行预测程序
+### 3. 执行预测程序
+
+**注意**：Paddle Inference 提供下载的C++预测库对应的 GCC 版本与您电脑中GCC版本需要一致，如果不一致可能出现未知错误。
+
+运行脚本 `run.sh` 执行预测程序。
 
 **注意**：执行预测之前，需要先将动态库文件 `libpaddle_inference.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。而且，Paddle Inference 提供下载的C++预测库对应GCC 4.8，所以请检查您电脑中GCC版本是否一致，如果不一致可能出现未知错误。
 
