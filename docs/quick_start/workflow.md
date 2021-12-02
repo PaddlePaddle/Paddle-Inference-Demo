@@ -41,10 +41,9 @@ Paddle Inference采用 Predictor 进行预测。Predictor 是一个高性能预�
     - 再通过 `auto tensor = predictor->GetOutputTensor(out_names[i])` 获取输出 Tensor的 指针
     - 最后通过 `tensor->copy_to_cpu(data)`，将 tensor 中的数据 copy 到 data 指针上
 
-Paddle Inference 提供了C, C++, Python, Golang 和 R 五种API的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
+Paddle Inference 提供了C, C++, Python, Golang 四种API的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
 
 - [预测示例 (C++)](./cpp_demo)
 - [预测示例 (Python)](./python_demo)
 - [预测示例 (C)](./c_demo)
 - [预测示例 (GO)](./go_demo)
-- [预测示例 (R)](./r_demo)
