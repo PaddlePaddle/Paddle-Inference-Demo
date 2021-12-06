@@ -107,9 +107,10 @@
 ## python预测库
 | 版本说明   |     python3.8     |  
 |:---------|:-------------------|
-|cuda10.1-cudnn7.6-trt6-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddlepaddle_gpu-2.2.1.post101-cp38-cp38-win_amd64.whl)|
-|cuda10.2-cudnn8.1-trt7-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7.6.5_trt7.0.0.11/paddlepaddle_gpu-2.2.1-cp38-cp38-win_amd64.whl)|
-|cuda11.0-cudnn8.1-trt7-gcc8.2|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8_trt7.2/paddlepaddle_gpu-2.2.1.post110-cp38-cp38-win_amd64.whl)|
+|cuda10.1_cudnn7.6.5_avx_mkl-trt6.0.1.5|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddlepaddle_gpu-2.2.1.post101-cp38-cp38-win_amd64.whl)|
+|cuda10.2_cudnn7.6.5_avx_mkl-trt7.0.0.11|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7/paddlepaddle_gpu-2.2.1-cp38-cp38-win_amd64.whl)|
+|cuda11.0_cudnn8.0_avx_mkl-trt7.2.1.6|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddlepaddle_gpu-2.2.1.post110-cp38-cp38-win_amd64.whl)|
+|cuda11.2_cudnn8.1_avx_mkl-trt8.0.1.6|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8/paddlepaddle_gpu-2.2.1.post112-cp38-cp38-win_amd64.whl)|
 
 # 下载安装Mac预测库
 
