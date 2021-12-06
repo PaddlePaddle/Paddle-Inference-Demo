@@ -104,7 +104,8 @@
 |cuda10.2_cudnn7.6_avx_mkl_trt7 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7/paddle_inference_c.zip) | MSVC 2017 |7.6|   10.2    |
 |cuda11.0_cudnn8.0_avx_mkl_trt7 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddle_inference_c.zip) | MSVC 2017 |8.0|   11.0    |
 
-## python预测库
+## python预测
+
 
 | 版本说明  |python3.8   |
 |:---------|:-----------------|
@@ -121,9 +122,10 @@
 |:---------|:----------------|
 |cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_install_dir.tgz)|
 
+
 ## C预测库
 
-| 版本说明       |预测库(2.2.1版本)   |
+| 版本说明       |预测库(2.2.1版)   |
 |:---------|:----------------|
 |cpu_avx_openblas|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_c_install_dir.tgz)|
 
