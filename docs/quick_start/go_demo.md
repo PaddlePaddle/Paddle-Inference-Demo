@@ -82,7 +82,7 @@ resnet50/
 
 执行预测程序之前需要完成以下几个步骤
 
-1. 使用`go get`获取golang paddle api
+1. 使用`go get`获取golang paddle api，`go` 的版本需要大于等于 `1.15`
 
 ```
 # 此处使用对应tag的CommitId，假设为76e5724
