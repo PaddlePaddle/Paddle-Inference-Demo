@@ -105,8 +105,9 @@
 |cuda11.0_cudnn8.0_avx_mkl_trt7 | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddle_inference_c.zip) | MSVC 2017 |8.0|   11.0    |
 
 ## python预测库
-| 版本说明   |     python3.8     |  
-|:---------|:-------------------|
+
+| 版本说明  |python3.8   |
+|:---------|:-----------------|
 |cuda10.1_cudnn7.6.5_avx_mkl-trt6.0.1.5|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddlepaddle_gpu-2.2.1.post101-cp38-cp38-win_amd64.whl)|
 |cuda10.2_cudnn7.6.5_avx_mkl-trt7.0.0.11|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7/paddlepaddle_gpu-2.2.1-cp38-cp38-win_amd64.whl)|
 |cuda11.0_cudnn8.0_avx_mkl-trt7.2.1.6|[paddlepaddle-cp38m.whl](https://paddle-inference-lib.bj.bcebos.com/2.2.1/python/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddlepaddle_gpu-2.2.1.post110-cp38-cp38-win_amd64.whl)|
@@ -119,6 +120,7 @@
 | 版本说明       |预测库(2.2.1版本)   |
 |:---------|:----------------|
 |cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_install_dir.tgz)|
+
 ## C预测库
 
 | 版本说明       |预测库(2.2.1版本)   |
