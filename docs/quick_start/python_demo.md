@@ -14,7 +14,7 @@
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
-tar zxf resnet50_model.tar.gz
+tar zxf resnet50.tgz
 
 # 获得模型目录即文件如下
 resnet50/
