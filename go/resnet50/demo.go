@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	pd "github.com/jiweibo/paddle/paddle/fluid/inference/goapi"
+	pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
 )
 
 // flags
