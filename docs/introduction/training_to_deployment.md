@@ -420,6 +420,3 @@ out_data即为所需输出，可以对其进行后续的分析和处理。
 sh run.sh
 ./build/lenet_infer_test --model_file=inference_model/lenet/lenet.pdmodel --params_file=inference_model/lenet/lenet.pdiparams
 ```
-
-即可打印出预测结果：
-![图片](https://agroup-bos-bj.cdn.bcebos.com/bj-dc2e9237bf385ad86dea8efae001da13d81e2b2d)
