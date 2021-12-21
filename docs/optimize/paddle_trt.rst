@@ -3,7 +3,7 @@
 
 NVIDIA TensorRT 是一个高性能的深度学习预测库，可为深度学习推理应用程序提供低延迟和高吞吐量。PaddlePaddle 采用子图的形式对TensorRT进行了集成，即我们可以使用该模块来提升Paddle模型的预测性能。在这篇文章中，我们会介绍如何使用Paddle-TRT子图加速预测。
 
-如果您需要安装[TensorRT](https://developer.nvidia.com/nvidia-tensorrt-6x-download)，请参考[trt文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html).
+如果您需要安装 `TensorRT <https://developer.nvidia.com/nvidia-tensorrt-6x-download>`_，请参考 `trt文档 <https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html>`_.
 
 概述
 ----------------
@@ -90,20 +90,16 @@ Calib Int8: |uncheck|
 
 1）linux下通过pip安装
 
-请从[whl list](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release)下载带trt且与自己环境一致的whl包，并通过pip安装
+请从 `whl list <https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release>`_ 下载带trt且与自己环境一致的whl包，并通过pip安装
 
 2）使用docker镜像
 
 .. code:: shell
 
-	# 拉取镜像，该镜像预装Paddle 1.8 Python环境，并包含c++的预编译库，lib存放在主目录～/ 下。
-	docker pull hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6
+	# 拉取镜像，该镜像预装Paddle 2.2 Python环境，并包含c++的预编译库，lib存放在主目录～/ 下。
+	docker pull paddlepaddle/paddle:latest-dev-cuda11.0-cudnn8-gcc82
 
-	export CUDA_SO="$(\ls /usr/lib64/libcuda* | xargs -I{} echo '-v {}:{}') $(\ls /usr/lib64/libnvidia* | xargs -I{} echo '-v {}:{}')"
-	export DEVICES=$(\ls /dev/nvidia* | xargs -I{} echo '--device {}:{}')
-	export NVIDIA_SMI="-v /usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
-
-	docker run $CUDA_SO $DEVICES $NVIDIA_SMI --name trt_open --privileged --security-opt seccomp=unconfined --net=host -v $PWD:/paddle -it hub.baidubce.com/paddlepaddle/paddle:1.8.0-gpu-cuda10.0-cudnn7-trt6 /bin/bash
+	sudo nvidia-docker run --name your_name -v $PWD:/paddle  --network=host -it paddlepaddle/paddle:latest-dev-cuda11.0-cudnn8-gcc82  /bin/bash
 
 3）手动编译  
 编译的方式请参照 `编译文档 <../user_guides/source_compile.html>`_ 

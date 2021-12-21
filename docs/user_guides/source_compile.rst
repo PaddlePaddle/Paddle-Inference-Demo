@@ -33,7 +33,7 @@
 编译步骤
 -----------
 
-飞桨分为 CPU 版本和 GPU 版本。如果您的计算机没有 Nvidia GPU，请选择 CPU 版本构建安装。如果您的计算机含有 Nvidia GPU（ 1.0 且预装有 CUDA / CuDNN，也可选择 GPU 版本构建安装。
+飞桨分为 CPU 版本和 GPU 版本。如果您的计算机没有 Nvidia GPU，请选择 CPU 版本构建安装。如果您的计算机含有 Nvidia GPU 且预装有 CUDA / CuDNN，也可选择 GPU 版本构建安装。
 
 **推荐配置及依赖项**
 
@@ -151,6 +151,7 @@ WITH_DISTRIBUTE   是否编译带有分布式的版本                          
 WITH_BRPC_RDMA    是否使用BRPC,RDMA作为RPC协议                                                  OFF
 ON_INFER          是否打开预测优化                                                              OFF
 CUDA_ARCH_NAME    是否只针对当前CUDA架构编译                                                    All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译
+WITH_TENSORRT     是否开启 TensorRT                                                          OFF
 TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/  /usr
 ================  ============================================================================  =============================================================
 
@@ -246,6 +247,7 @@ WITH_DISTRIBUTE   是否编译带有分布式的版本                          
 WITH_BRPC_RDMA    是否使用BRPC,RDMA作为RPC协议                                                  OFF
 ON_INFER          是否打开预测优化                                                              OFF
 CUDA_ARCH_NAME    是否只针对当前CUDA架构编译                                                    All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译
+WITH_TENSORRT     是否开启 TensorRT                                                          OFF
 TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/  /usr
 ================  ============================================================================  =============================================================
 
@@ -375,5 +377,6 @@ WITH_DISTRIBUTE   是否编译带有分布式的版本                          
 WITH_BRPC_RDMA    是否使用BRPC,RDMA作为RPC协议                                                  OFF
 ON_INFER          是否打开预测优化                                                              OFF
 CUDA_ARCH_NAME    是否只针对当前CUDA架构编译                                                    All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译
+WITH_TENSORRT     是否开启 TensorRT                                                          OFF
 TENSORRT_ROOT     TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/  /usr
 ================  ============================================================================  =============================================================
