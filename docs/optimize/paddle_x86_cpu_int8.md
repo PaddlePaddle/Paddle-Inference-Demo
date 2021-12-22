@@ -4,7 +4,8 @@
 
 众所周知，模型量化可以有效加快模型预测性能，飞桨也提供了强大的模型量化功能。所以，本文主要介绍在X86 CPU部署PaddleSlim产出的量化模型。
 
-对于常见图像分类模型，在Casecade Lake机器上（例如Intel® Xeon® Gold 6271、6248，X2XX等），INT8模型进行推理的速度通常是FP32模型的3-3.7倍；在SkyLake机器上（例如Intel® Xeon® Gold 6148、8180，X1XX等），INT8模型进行推理的速度通常是FP32模型的1.5倍。
+对于常见图像分类模型，在Casecade Lake机器上（例如Intel® Xeon® Gold 6271、6248，X2XX等），图片分类模型INT8模型推理的速度可达FP32模型的3~3.7倍, 自然语言处理模型INT8模型目前可达到FP32的1.5~3倍性能提升（由于输入变长等）；在SkyLake机器上（例如Intel® Xeon® Gold 6148、8180，X1XX等），图片分类INT8模型推理的速度通常是FP32模型的1.5倍。
+对于BF16预测性能提升和适配机型，可以参考[X86 CPU上BF16预测性能提升](https://github.com/PaddlePaddle/PaddleSlim/tree/develop)/docs/optimize/paddle_x86_cpu_bf16.md)
 
 X86 CPU部署量化模型的步骤：
 * 产出量化模型：使用PaddleSlim训练并产出量化模型
@@ -137,7 +138,7 @@ python save_quant_model.py \
 
 参考[X86 Linux上预测部署示例](../demo_tutorial/x86_linux_demo)和[X86 Windows上预测部署示例](../demo_tutorial/x86_windows_demo)，准备预测库，对模型进行部署。
 
-请注意，在X86 CPU预测端部署量化模型，必须开启MKLDNN，不要开启IrOptim。
+请注意，在X86 CPU预测端部署量化模型，必须开启MKLDNN和IrOptim。
 
 C++ API举例如下。
 
@@ -163,8 +164,8 @@ if args.model_dir == "":
 else:
     config = Config(args.model_dir)
 config.enable_mkldnn()
+config.switch_ir_optim(True)
 config.set_cpu_math_library_num_threads(args.threads)
-config.switch_ir_optim()
 
 predictor = create_predictor(config)
 ```
