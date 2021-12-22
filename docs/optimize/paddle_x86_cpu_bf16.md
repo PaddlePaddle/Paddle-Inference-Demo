@@ -2,11 +2,13 @@
 
 ## 1 概述
 
-bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位的计算机数字格式。该格式是32位IEEE 754单精度浮点格式(float32)的截断(16位)版本。它保留了32位浮点数的近似动态范围，保留了指数的8位，但只支持8位精度，在float32中，8位精度是24位。Bfloat16用于降低存储需求，提高机器学习算法的计算速度。关于bfloat16数据类型的更多细节可以在[这里](https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf)找到。目前，bfloat16预测支持被添加到PaddlePaddle中。bfloat16训练正在开发中。
+bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位的计算机数字格式。该格式是32位IEEE 754单精度浮点格式(float32)的截断(16位)版本，它保留了符号位的1位，指数部分的8位和尾数部分的7位，舍弃了尾数部分不重要的后16位尾数（在float32中，尾数是23位）。Bfloat16用于降低存储需求，提高机器学习算法的计算速度。关于bfloat16数据类型的更多细节可以在[这里](https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf)找到。目前，X86 CPU bfloat16预在PaddlePaddle中已经支持，结果如下。X86 CPU bfloat16训练正在开发中。
 
-## 2 图像分类模型和自然bfloat16在Intel(R)机型上的精度和性能
+![](images/bfloat16.jpg)
 
->**图像分类模型在 Intel(R) Xeon(R) Platinum 8371HC CPU @ 3.30GHz 上精度和性能**
+## 2 图像分类和自然语言处理模型bfloat16在Intel(R)机型上预测的精度和性能
+
+>**图像分类模型在 Intel(R) Xeon(R) Platinum 8371HC CPU @ 3.30GHz 上预测的精度和性能**
 
 | Full   dataset | BF16 fps improvement compared to MKLDNN FP32  | TOP1 acc MKLDNN   FP32 | TOP1 acc MKLDNN   BF16 | TOP1 acc drop |
 |----------------|:----------------------------------------------:|:----------------------:|:----------------------:|:-------------:|
@@ -17,7 +19,7 @@ bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位�
 
 **Note: Clas models batch_size=1  nr_threads=1**
 
->**自然语言处理模型在 Intel(R) Xeon(R) Platinum 8371HC CPU @ 3.30GHz 上精度和性能**
+>**自然语言处理模型在 Intel(R) Xeon(R) Platinum 8371HC CPU @ 3.30GHz 上预测的精度和性能**
 
 | GRU Accuracy  | FP32    | BF16    | diff     |
 |------------|---------|---------|----------|
@@ -68,9 +70,8 @@ config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
 config.SetModel(FLAGS_model_dir); // Load no-combined model
 }
 config.EnableMKLDNN();
-config.SwitchIrOptim(false);
+config.SwitchIrOptim(true);
 config.SetCpuMathLibraryNumThreads(FLAGS_threads);
-config.EnableMemoryOptim();/
 // 将所可转为BF16的op转为BF16
 config.EnableMkldnnBfloat16();
 // 如果您想自己决定要替换哪些操作符，可以使用SetBfloat16Op选项
@@ -87,10 +88,9 @@ if args.model_dir == "":
 else:
     config = Config(args.model_dir)
 config.enable_mkldnn()
+config.switch_ir_optim(True)
 config.set_cpu_math_library_num_threads(args.threads)
-config.switch_ir_optim(False)
-config.enable_memory_optim()
-config.enable_mkldnn_bfloat16 ()
+config.enable_mkldnn_bfloat16()
 # 如果您想自己决定要替换哪些操作符，可以使用set_bfloat16_op选项
 # config.set_bfloat16_op({"conv2d", "pool2d"})
 predictor = create_predictor(config)
