@@ -2,7 +2,7 @@
 
 ## 1 概述
 
-bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位的计算机数字格式。该格式是32位IEEE 754单精度浮点格式(float32)的截断(16位)版本，它保留了符号位的1位，指数部分的8位和尾数部分的7位，舍弃了尾数部分不重要的后16位尾数（在float32中，尾数是23位）。Bfloat16用于降低存储需求，提高机器学习算法的计算速度。关于bfloat16数据类型的更多细节可以在[这里](https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf)找到。目前，X86 CPU bfloat16预在PaddlePaddle中已经支持，结果如下。X86 CPU bfloat16训练正在开发中。
+bfloat16 (Brain float Point)浮点格式是一种计算机内存中占用16位的计算机数字格式。该格式是32位IEEE 754单精度浮点格式(float32)的截断(16位)版本，它保留了符号位的1位，指数部分的8位和尾数部分的7位，舍弃了尾数部分不重要的后16位尾数（在float32中，尾数是23位）。Bfloat16用于降低存储需求，提高机器学习算法的计算速度。关于bfloat16数据类型的更多细节可以在[这里](https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf)找到。目前，X86 CPU bfloat16预测在PaddlePaddle中已经支持，结果如下。X86 CPU bfloat16训练正在开发中。
 
 ![](images/bfloat16.jpg)
 
