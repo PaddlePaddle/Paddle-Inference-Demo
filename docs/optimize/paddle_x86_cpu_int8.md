@@ -5,7 +5,6 @@
 众所周知，模型量化可以有效加快模型预测性能，飞桨也提供了强大的模型量化功能。所以，本文主要介绍在X86 CPU部署PaddleSlim产出的量化模型。
 
 对于常见图像分类模型，在Casecade Lake机器上（例如Intel® Xeon® Gold 6271、6248，X2XX等），图片分类模型INT8模型预测性能可达FP32模型的3-3.7倍, 自然语言处理模型INT8模型预测性能可达到FP32的1.5-3倍；在SkyLake机器上（例如Intel® Xeon® Gold 6148、8180，X1XX等），图片分类INT8模型预测性能可达FP32模型的1.5倍左右。
-对于BF16预测性能提升和适配机型，可以参考[X86 CPU上BF16预测性能提升](https://github.com/PaddlePaddle/PaddleSlim/tree/develop)/docs/optimize/paddle_x86_cpu_bf16.md)
 
 X86 CPU部署量化模型的步骤：
 * 产出量化模型：使用PaddleSlim训练并产出量化模型
