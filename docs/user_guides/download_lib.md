@@ -22,10 +22,10 @@
 |Jetpack4.4(4.5): nv-jetson-cuda10.2-cudnn8-trt7(nano)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.4_gcc7.5/nano/paddle_inference_install_dir.tgz)|
 |Jetpack4.4(4.5): nv-jetson-cuda10.2-cudnn8-trt7(tx2)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.4_gcc7.5/tx2/paddle_inference_install_dir.tgz)|
 |Jetpack4.4(4.5): nv-jetson-cuda10.2-cudnn8-trt7(xavier)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.4_gcc7.5/xavier/paddle_inference_install_dir.tgz)|
-|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt7(all)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/all/paddle_inference_install_dir.tgz)|
-|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt7(nano)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/nano/paddle_inference_install_dir.tgz)|
-|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt7(tx2)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/tx2/paddle_inference_install_dir.tgz)|
-|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt7(xavier)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/xavier/paddle_inference_install_dir.tgz)|
+|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt8(all)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/all/paddle_inference_install_dir.tgz)|
+|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt8(nano)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/nano/paddle_inference_install_dir.tgz)|
+|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt8(tx2)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/tx2/paddle_inference_install_dir.tgz)|
+|Jetpack4.6: nv-jetson-cuda10.2-cudnn8-trt8(xavier)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.1/cxx_c/Jetson/jetpack4.6_gcc7.5/xavier/paddle_inference_install_dir.tgz)|
 
 
 ## C预测库
