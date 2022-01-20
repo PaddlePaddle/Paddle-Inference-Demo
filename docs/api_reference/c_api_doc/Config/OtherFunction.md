@@ -218,13 +218,12 @@ const char* PD_ConfigSummary(PD_Config* pd_config);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-const char* summary = PD_ConfigSummary(config);
+PD_Cstr* summary = PD_ConfigSummary(config);
 
-printf("summary is %s\n", summary);
+printf("summary is %s\n", summary->data);
 
-// 释放summary指针
-free(summary);
-
+// 销毁 summary 对象
+PD_CstrDestroy(summary);
 // 销毁 Config 对象
 PD_ConfigDestroy(config);
 ```
