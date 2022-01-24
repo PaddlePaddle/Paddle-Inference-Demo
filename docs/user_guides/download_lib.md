@@ -11,7 +11,7 @@
 |manylinux_cpu_noavx_openblas_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/CPU/gcc5.4_openblas/paddle_inference.tgz)|
 |manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference.tgz)|
 |manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference.tgz)|
-|manylinux_cuda10.2_cudnn7.6_avx_mkl_trt7_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.2_cudnn7.6.5_trt6.0.1.5/paddle_inference.tgz)|
+|manylinux_cuda10.2_cudnn7.6_avx_mkl_trt6_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.2_cudnn7.6.5_trt6.0.1.5/paddle_inference.tgz)|
 |manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.2_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|                                                                    
 |manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc5.4|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.2_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|
 |manylinux_cuda11.1_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.1_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|
@@ -40,7 +40,7 @@
 |manylinux_cpu_noavx_openblas_gcc5.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/CPU/gcc5.4_openblas/paddle_inference_c.tgz)|
 |manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc8.2|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
 |manylinux_cuda10.1_cudnn7.6_avx_mkl_trt6_gcc5.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
-|manylinux_cuda10.2_cudnn7.6_avx_mkl_trt6_gcc5.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.2_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
+|manylinux_cuda10.2_cudnn7.6_avx_mkl_trt6_gcc5.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.2_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
 |manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.2_cudnn8.1.1_trt7.2.3.4/paddle_inference_c.tgz)|
 |manylinux_cuda10.2_cudnn8.1_avx_mkl_trt7_gcc5.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.2_cudnn8.1.1_trt7.2.3.4/paddle_inference_c.tgz)|
 |manylinux_cuda11.1_cudnn8.1_avx_mkl_trt7_gcc8.2|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.1_cudnn8.1.1_trt7.2.3.4/paddle_inference_c.tgz)|
