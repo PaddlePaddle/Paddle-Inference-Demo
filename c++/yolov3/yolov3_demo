@@ -1,0 +1,185 @@
+#include <QCoreApplication>
+#include <iostream>
+#include <string>
+#include <QtDebug>
+#include <iostream>
+#include <memory>
+#include <numeric>
+#include <time.h>
+#include <QTime>
+#include <ceshi.h>
+#include <QObject>
+#include <QThread>
+#include <QThreadPool>
+//Opencv
+#include <opencv4/opencv2/opencv.hpp>
+#include <opencv4/opencv2/core.hpp>
+#include <opencv4/opencv2/highgui.hpp>
+#include <opencv4/opencv2/imgproc.hpp>
+#include <opencv4/opencv2/objdetect.hpp>
+#include <opencv4/opencv2/imgproc/types_c.h>
+//paddle
+#include <paddle/include/paddle_inference_api.h>
+#include <glog/logging.h>
+
+using namespace std;
+using namespace cv;
+
+using paddle_infer::Config;
+using paddle_infer::Predictor;
+using paddle_infer::CreatePredictor;
+
+
+/**
+ * @brief Mattovector 将mat图像转为vector类型进行深度学习识别
+ * @param img         mat图像
+ * @param imgput      vector数据
+ * @param channels    通道数
+ * @param w           宽度
+ * @param h           高度
+ * @param clip        是否裁剪
+ */
+void Mattovector(Mat img,vector<float> & imgput, int channels, int w,int h,bool clip)
+{
+    if (img.rows==img.cols || !clip) //原图宽高相等或者 不裁剪 直接缩放
+    {
+      cv::resize(img, img, cv::Size(w, h));
+    }
+    else //中心点裁剪
+    {
+       float sc = (double)w/min(img.rows,img.cols);
+       int scwidth=int(round(img.cols * sc));
+       int scheight=int(round(img.rows * sc));
+       cv::resize(img, img, cv::Size(scwidth, scheight));
+       img = img(Rect(int((img.cols-w)/2), int((img.rows-h)/2), w, h));
+    }
+
+    cv::cvtColor(img,img,CV_RGB2BGR);
+    vector<cv::Mat> bgrChannels(channels);
+    cv::split(img, bgrChannels);
+    vector<float> mean{0.485,0.456,0.406};
+    vector<float> stdval{0.229,0.224,0.225};
+    for (auto i = 0; i < bgrChannels.size(); i++)
+      {
+           bgrChannels[i].convertTo(bgrChannels[i],CV_32FC1,(1/255.0)/stdval[i],-mean[i]/stdval[i]);
+           std::vector<float> data = std::vector<float>(bgrChannels[i].reshape(1, 1));
+           imgput.insert(imgput.end(), data.begin(), data.end());
+      }
+
+}
+
+void Mattovectors(vector<string> path,vector<float> & imgput, int channels, int w,int h,bool clip)
+{
+    vector<float> mean{0.485,0.456,0.406};
+    vector<float> stdval{0.229,0.224,0.225};
+    for (int var = 0; var < path.size(); ++var)
+    {
+        Mat img=imread(path[var]);
+        if (img.rows==img.cols || !clip) //原图宽高相等或者 不裁剪 直接缩放
+        {
+          cv::resize(img, img, cv::Size(w, h));
+        }
+        else //中心点裁剪
+        {
+           float sc = (double)w/min(img.rows,img.cols);
+           int scwidth=int(round(img.cols * sc));
+           int scheight=int(round(img.rows * sc));
+           cv::resize(img, img, cv::Size(scwidth, scheight));
+           img = img(Rect(int((img.cols-w)/2), int((img.rows-h)/2), w, h));
+        }
+
+        cv::cvtColor(img,img,CV_RGB2BGR);
+        vector<cv::Mat> bgrChannels(channels);
+        cv::split(img, bgrChannels);
+
+        for (auto i = 0; i < bgrChannels.size(); i++)
+          {
+               bgrChannels[i].convertTo(bgrChannels[i],CV_32FC1,(1/255.0)/stdval[i],-mean[i]/stdval[i]);
+               std::vector<float> data = std::vector<float>(bgrChannels[i].reshape(1, 1));
+               imgput.insert(imgput.end(), data.begin(), data.end());
+          }
+    }
+
+
+
+
+}
+
+void run1(Predictor *predictor,
+         const std::vector<int> &ip1,const std::vector<float> &ipd1,
+         const std::vector<int> &ip2, const std::vector<float> &ipd2,
+         const std::vector<int> &ip3, const std::vector<float> &ipd3,
+         std::vector<float> *out_data)
+ {
+  auto input_names = predictor->GetInputNames();
+  auto im_shape_handle = predictor->GetInputHandle(input_names[0]);
+  im_shape_handle->Reshape(ip1);
+  im_shape_handle->CopyFromCpu(ipd1.data());
+
+  auto image_handle = predictor->GetInputHandle(input_names[1]);
+  image_handle->Reshape(ip2);
+  image_handle->CopyFromCpu(ipd2.data());
+
+  auto scale_factor_handle = predictor->GetInputHandle(input_names[2]);
+  scale_factor_handle->Reshape(ip3);
+  scale_factor_handle->CopyFromCpu(ipd3.data());
+
+  CHECK(predictor->Run());
+
+  auto output_names = predictor->GetOutputNames();
+  auto output_t = predictor->GetOutputHandle(output_names[0]);
+  std::vector<int> output_shape = output_t->shape();
+  int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
+                                std::multiplies<int>());
+  LOG(INFO) << "output_shape is " <<output_shape.size();
+  LOG(INFO) << "out_num is " <<out_num;
+
+  out_data->resize(out_num);
+  output_t->CopyToCpu(out_data->data());
+}
+
+
+int main(int argc, char *argv[])
+{
+   
+    Mat img = imread("img.jpg");
+    vector<float> input_data;
+    Mattovector(img,input_data,3,608,608,false);
+    LOG(INFO)<<"(图像数据)"<<input_data.size();
+    Config config;
+    config.SetModel("33/model.pdmodel", "33/model.pdiparams");
+    if(0)
+    {
+           config.SetCpuMathLibraryNumThreads(4);
+           config.EnableMKLDNN();}
+    else{
+          config.EnableUseGpu(500, 0);
+          config.EnableMemoryOptim();}
+
+    auto predictor = CreatePredictor(config);
+    const int height = 608;
+    const int width = 608;
+    const int channels = 3;
+
+    std::vector<int> input_shape0={1,2};
+    std::vector<int> input_shape1 = {1, channels, height, width};
+    std::vector<int> input_shape2 = {1, 2};
+
+    std::vector<float> input_shape0_data = {608, 608};
+    std::vector<float> input_shape2_data ={0.6755,0.44970};
+
+    std::vector<float> out_data;
+    run1(predictor.get(), input_shape0, input_shape0_data,input_shape1,input_data,input_shape2, input_shape2_data,&out_data);
+
+
+    for (size_t i = 0; i < out_data.size(); i += 1)
+    {
+        LOG(INFO)<< out_data[i];
+    }
+    LOG(INFO) << "output num is " << out_data.size();
+    return 0;
+
+
+}
+
+
