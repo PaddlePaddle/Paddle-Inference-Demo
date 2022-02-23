@@ -49,7 +49,7 @@ std::shared_ptr<Predictor> InitPredictor() {
   return CreatePredictor(config);
 }
 
-void run(Predictor *predictor, float* input,
+void run(Predictor *predictor, const float* input,
          const std::vector<int> &input_shape, float *output) {
   int input_num = std::accumulate(input_shape.begin(), input_shape.end(), 1,
                                   std::multiplies<int>());
