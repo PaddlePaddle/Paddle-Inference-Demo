@@ -25,6 +25,8 @@ template <typename T>
 void CopyToCpu(T* data);
 
 // 使用用户的数据指针创建输入/输出 Tensor
+// 创建输入 Tensor 时，用户保证输入指针数据预测过程中有效
+// 创建输出 Tensor 时，用户保证输出指针的数据长度大于等于模型的输出数据大小
 // 参数：data - CPU/GPU 数据指针
 // 参数：shape - 数据 shape
 // 参数：place - 数据的存放位置
