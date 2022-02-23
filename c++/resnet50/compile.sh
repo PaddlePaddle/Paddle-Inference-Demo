@@ -30,7 +30,7 @@ USE_TENSORRT=OFF
 LIB_DIR=${work_path}/../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 
 WITH_ROCM=OFF
 ROCM_LIB=/opt/rocm/lib

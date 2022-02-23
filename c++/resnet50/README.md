@@ -42,17 +42,21 @@ Paddle-Inference-Demo/c++/lib/
 点击[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz)下载模型。如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleClas)。
 ### **样例编译**
  
-文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
+文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。 
+文件`resnet50_share_data.cc` 为使用 `ShareExternalData` 接口创建输入/输出 Tensor 的样例程序。    
 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
 脚本`run.sh` 一键运行脚本。
 
-编译Resnet50样例，我们首先需要对脚本`run_impl.sh` 文件中的配置进行修改。
+编译Resnet50样例，我们首先需要对脚本`compile.sh` 文件中的配置进行修改。
 
 1）**修改`compile.sh`**
 
 打开`compile.sh`，我们对以下的几处信息进行修改：
 
 ```shell
+# 编译的 demo 名称，resnet50_test 或 resnet50_share_data
+DEMO_NAME=resnet50_test
+
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
 WITH_MKL=ON
 WITH_GPU=ON

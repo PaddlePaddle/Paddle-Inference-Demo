@@ -57,10 +57,13 @@ void run(Predictor *predictor, float* input,
   auto input_names = predictor->GetInputNames();
   auto output_names = predictor->GetOutputNames();
   auto input_t = predictor->GetInputHandle(input_names[0]);
+  auto output_t = predictor->GetOutputHandle(output_names[0]);
   if (FLAGS_use_gpu){
     input_t->ShareExternalData<float>(input, input_shape, PlaceType::kGPU);
+    output_t->ShareExternalData<float>(output, {FLAGS_batch_size, 1000}, PlaceType::kGPU);
   }else{
     input_t->ShareExternalData<float>(input, input_shape, PlaceType::kCPU);
+    output_t->ShareExternalData<float>(output, {FLAGS_batch_size, 1000}, PlaceType::kCPU);
   }
 
   for (size_t i = 0; i < FLAGS_warmup; ++i)
@@ -68,12 +71,6 @@ void run(Predictor *predictor, float* input,
 
   auto st = time();
   for (size_t i = 0; i < FLAGS_repeats; ++i) {
-    auto output_t = predictor->GetOutputHandle(output_names[0]);
-    if (FLAGS_use_gpu){
-      output_t->ShareExternalData<float>(output, {FLAGS_batch_size, 1000}, PlaceType::kGPU);
-    }else{
-      output_t->ShareExternalData<float>(output, {FLAGS_batch_size, 1000}, PlaceType::kCPU);
-    }
     CHECK(predictor->Run());
   }
   LOG(INFO) << "run avg time is " << time_diff(st, time()) / FLAGS_repeats
@@ -99,6 +96,9 @@ int main(int argc, char *argv[]) {
     cudaMalloc((void **) &output, FLAGS_batch_size * 1000 * sizeof(float));
     run(predictor.get(), input, input_shape, output);
     cudaMemcpy(out_data.data(), output, FLAGS_batch_size * 1000 * sizeof(float), cudaMemcpyDeviceToHost);
+    
+    cudaFree(input);
+    cudaFree(output);
   } else {
     run(predictor.get(), input_data.data(), input_shape, out_data.data());
   }
