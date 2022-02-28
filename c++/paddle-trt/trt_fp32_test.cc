@@ -18,8 +18,9 @@ DEFINE_string(params_file, "", "Path of the inference params file.");
 DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_string(run_mode, "trt_fp32", "run_mode which can be: trt_fp32, trt_fp16 and paddle");
 DEFINE_int32(batch_size, 1, "Batch size.");
-DEFINE_int32(warmup, 10, "warmup");
-DEFINE_int32(repeats, 10, "repeats");
+DEFINE_int32(warmup, 5, "warmup");
+DEFINE_int32(repeats, 5, "repeats");
+
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
 double time_diff(Time t1, Time t2) {
@@ -75,7 +76,7 @@ void run(Predictor *predictor, const std::vector<float> &input,
     output_t->CopyToCpu(out_data->data());
   }
   LOG(INFO) << "run avg time is " << time_diff(st, time()) / FLAGS_repeats
-             << " ms";
+            << " ms";
 }
 
 int main(int argc, char *argv[]) {
