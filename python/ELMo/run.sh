@@ -18,4 +18,4 @@ fi
 
 
 # 3. run
-python infer.py --model_file=./elmo/inference.pdmodel --params_file=./elmo/inference.pdiparams
+python infer.py
