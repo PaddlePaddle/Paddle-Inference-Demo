@@ -9,7 +9,7 @@ bash ${work_path}/compile.sh
 
 # 2. download model
 if [ ! -d mobilenetv1 ]; then
-    wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz
+    wget -q https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/mobilenetv1.tgz
     tar xzf mobilenetv1.tgz
 fi
 
