@@ -9,7 +9,7 @@ bash ${work_path}/compile.sh
 
 # 2. download model
 if [ ! -d lic_model/ ]; then
-    wget https://paddle-inference-dist.bj.bcebos.com/lic_model.tgz
+    wget -q https://paddle-inference-dist.bj.bcebos.com/lic_model.tgz
     tar xzf lic_model.tgz
 fi
 
