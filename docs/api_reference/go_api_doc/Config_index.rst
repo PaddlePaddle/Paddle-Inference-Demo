@@ -9,5 +9,6 @@ AnalysisConfig 方法
     Config/ModelConfig
     Config/CPUConfig
     Config/GPUConfig
+    Config/ORTConfig
     Config/OptimConfig
     Config/OtherFunction
