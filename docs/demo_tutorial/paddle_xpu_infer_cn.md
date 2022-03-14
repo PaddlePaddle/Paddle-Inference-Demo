@@ -107,7 +107,7 @@ def parse_args():
 
 def set_config(args):
     config = Config(args.model_file, args.params_file)
-    config.enable_lite_engine(PrecisionType.Float32, True)
+    # config.enable_lite_engine(PrecisionType.Float32, True)
     # use lite xpu subgraph
     config.enable_xpu(10 * 1024 * 1024)
     # use lite cuda subgraph
