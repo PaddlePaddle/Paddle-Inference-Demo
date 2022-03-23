@@ -35,15 +35,42 @@ X86 CPU部署量化模型的步骤：
 |     VGG16    |       3.47      |      10.67      |        3.07       |
 |     VGG19    |       2.83      |       9.09      |        3.21       |
 
+## 物体检测模型量化在 Xeon(R) 6271 上的精度和性能
 
-## 自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的性能和精度
+>**物体检测模型量化在 Intel(R) Xeon(R) Gold 6271 上精度**
 
->**自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的性能**
+>**物体检测模型量化在 Intel(R) Xeon(R) Gold 6271 单核上性能**
+
+| CLX Faster RCNN (1 thread) | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT)  |
+|----------------------------|--------------|----------|---------------------|
+| TIME [ms per batch image]  | 7363.18      | 2951.93  | 2.49                |
+
+| CLX Retinanet (1 thread)   | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT INT8 )  |
+|----------------------------|--------------|----------|---------------------------|
+| TIME [ms per batch image]  | 3378.63      | 1403.64  | 2.41                      |
+
+| CLX Yolov3_darknet (1 thread)   | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT INT8 )  |
+|----------------------------|--------------|----------|---------------------------|
+| TIME [ms per batch image]  |       |   |                       |
+
+| CLX Yolov3_mobile (1 thread)   | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT INT8 )  |
+|----------------------------|--------------|----------|---------------------------|
+| TIME [ms per batch image]  |       |   |                       |
+
+
+## 自然语言处理INT8模型 Ernie, Bert, GRU, LSTM 模型在 Xeon(R) 6271 上的性能和精度
+
+>**自然语言处理INT8模型 Ernie, Bert, GRU, LSTM 模型在 Xeon(R) 6271 上的性能**
 
 |     Ernie Latency      | FP32 Latency (ms) | INT8 Latency (ms) | Ratio (FP32/INT8) |
 | :--------------: | :---------------: | :---------------: | :---------------: |
 |  Ernie 1 thread  |      237.21       |       79.26       |       2.99X       |
 | Ernie 20 threads |       22.08       |       12.57       |       1.76X       |
+
+| Bert QPS on 6271 | Native FP32 | oneDNN FP32 | oneDNN INT8 | oneDNN INT8/oneDNN FP32 | oneDNN INT8/Native FP32 |
+|:---------------------:|:-------------:|:-------------:|:-------------:|:---------:|:--------------:|
+| thread 1 | 313.53    | 280.13      | 128.82      |   **2.17X** |    **2.43X**                     |
+| thread 6| 98.05       | 55.25       | 30.16       |   1.83X |     3.25X                   |
 
 | GRU Performance (QPS)              | Naive FP32 | INT88 | Int8/Native FP32 |
 | ------------------------------ | ---------- | ----- | ---------------- |
@@ -57,7 +84,7 @@ X86 CPU部署量化模型的步骤：
 |  LSTM 4 threads   | 6370.86 | 7942.51 |    1.25    |
 
 
->**自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的精度**
+>**自然语言处理INT8模型 Ernie, Bert, GRU, LSTM 模型在 Xeon(R) 6271 上的精度**
 
 |  Ernie   | FP32 Accuracy | INT8 Accuracy | Accuracy Diff |
 | :------: | :-----------: | :-----------: | :-----------: |
@@ -75,9 +102,13 @@ X86 CPU部署量化模型的步骤：
 
 **Note:**
 * 图像分类复现 demo 可参考 [Intel CPU量化部署图像分类模型](https://github.com/PaddlePaddle/PaddleSlim/tree/develop/demo/mkldnn_quant)
-* Ernie 复现 demo 可参考 [ERNIE QAT INT8 精度与性能复现](https://github.com/PaddlePaddle/benchmark/tree/master/Inference/c%2B%2B/ernie/mkldnn)
-* LAC (GRU) 复现 demo 可参考 [GRU INT8 精度与性能复现](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/x86_gru_int8)
-* LSTM 复现 demo 可参考 [LSTM INT8 精度与性能复现](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/x86_lstm_demo)
+* 物体检测模型demo可参考
+  * 
+* 语言处理模型demo可参考
+  * Ernie 复现 demo 可参考 [ERNIE QAT INT8 精度与性能复现](https://github.com/PaddlePaddle/benchmark/tree/master/Inference/c%2B%2B/ernie/mkldnn)
+  * Bert 复现 demo可参考 []
+  * LAC (GRU) 复现 demo 可参考 [GRU INT8 精度与性能复现](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/x86_gru_int8)
+  * LSTM 复现 demo 可参考 [LSTM INT8 精度与性能复现](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/x86_lstm_demo)
 
 ## 3 PaddleSlim 产出量化模型
 
