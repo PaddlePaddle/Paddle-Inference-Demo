@@ -6,7 +6,7 @@
 
 ### 获取paddle_inference预测库
 
-下载paddle_inference预测库并解压存储到`Paddle-Inference-Demo/c++/lib`目录，注意必须是名字中含有ort标记的包，代表支持ONNXRuntime推理。lib目录结构如下所示
+下载paddle_inference预测库并解压存储到`Paddle-Inference-Demo/c++/lib`目录。lib目录结构如下所示
 
 ```
 Paddle-Inference-Demo/c++/lib/

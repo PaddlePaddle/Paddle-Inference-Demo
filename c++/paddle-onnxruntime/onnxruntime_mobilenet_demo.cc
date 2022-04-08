@@ -50,7 +50,9 @@ double time_diff(Time t1, Time t2) {
 std::shared_ptr<Predictor> InitPredictor() {
   Config config;
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
+  // 使用onnxruntime推理
   config.EnableONNXRuntime();
+  // 开启onnxruntime优化
   config.EnableORTOptimization();
   return CreatePredictor(config);
 }
