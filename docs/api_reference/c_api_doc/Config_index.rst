@@ -10,5 +10,6 @@ Config 方法
     Config/CPUConfig
     Config/GPUConfig
     Config/XPUConfig
+    Config/ORTConfig
     Config/OptimConfig
     Config/OtherFunction
