@@ -49,6 +49,16 @@ void EnableGpuMultiStream();
 // 参数：None
 // 返回：bool - 是否是否开启线程流
 bool thread_local_stream_enabled() const;
+
+// 启用 GPU FP16 计算精度进行预测
+// 参数：op_list - 保持 FP32 计算精度算子名单
+// 返回：None
+void Exp_EnableUseGpuFp16(std::unordered_set<std::string> op_list);
+
+// 判断是否启用 GPU FP16 计算精度 
+// 参数：None
+// 返回：bool - 是否启用 GPU FP16 计算精度
+bool gpu_fp16_enabled() const;
 ```
 
 GPU设置代码示例：
@@ -69,6 +79,12 @@ std::cout << "GPU device id is: " << config.gpu_device_id() << std::endl;
 config.DisableGpu();
 // 通过 API 获取 GPU 信息
 std::cout << "Use GPU is: " << config.use_gpu() << std::endl; // false
+
+// 启用 GPU FP16 计算精度进行预测
+config.EnableUseGpu(100, 0);
+config.Exp_EnableUseGpuFp16();
+// 通过 API 获取是否启用了 GPU FP16 计算精度
+std::cout << "Use GPU FP16 is: " << config.gpu_fp16_enabled() << std::endl; // true
 ```
 
 开启多线程流代码示例：
