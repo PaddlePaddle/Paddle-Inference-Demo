@@ -137,6 +137,6 @@ config = paddle_infer.Config("./mobilenet_v1")
 # 启用 MKLDNN 进行预测
 config.enable_mkldnn()
 
-# 启用 MKLDNN BFLOAT16 进行预测
+# 启用 MKLDNN INT8 进行预测
 config.enable_mkldnn_int8()
 ```
