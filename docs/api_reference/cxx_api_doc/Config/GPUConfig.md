@@ -53,7 +53,7 @@ bool thread_local_stream_enabled() const;
 // 启用 GPU FP16 计算精度进行预测
 // 参数：op_list - 保持 FP32 计算精度算子名单
 // 返回：None
-void Exp_EnableUseGpuFp16(std::unordered_set<std::string> op_list = {});
+void Exp_EnableUseGpuFp16(std::unordered_set<std::string> op_list);
 
 // 判断是否启用 GPU FP16 计算精度 
 // 参数：None
