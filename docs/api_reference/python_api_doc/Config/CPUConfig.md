@@ -77,6 +77,11 @@ paddle.inference.Config.enable_mkldnn_bfloat16()
 # 参数：使用 MKLDNN BFLOAT16 加速的 OP 集合
 # 返回：None
 paddle.inference.Config.set_bfloat16_op(op_list: Set[str])
+
+# 启用 MKLDNN INT8
+# 参数：使用 MKLDNN INT8 加速的 OP 集合
+# 返回：None
+paddle.inference.Config.enable_mkldnn_int8(op_list: Set[str])
 ```
 
 代码示例 (1)：使用 MKLDNN 进行预测
@@ -118,4 +123,20 @@ config.enable_mkldnn_bfloat16()
 
 # 设置启用 MKLDNN BFLOAT16 的 OP 列表
 config.set_bfloat16_op({"conv2d"})
+```
+
+代码示例 (3)：使用 MKLDNN INT8 进行预测
+
+```python
+# 引用 paddle inference 预测库
+import paddle.inference as paddle_infer
+
+# 创建 config
+config = paddle_infer.Config("./mobilenet_v1")
+
+# 启用 MKLDNN 进行预测
+config.enable_mkldnn()
+
+# 启用 MKLDNN BFLOAT16 进行预测
+config.enable_mkldnn_int8()
 ```
