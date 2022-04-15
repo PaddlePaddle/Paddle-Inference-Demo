@@ -137,7 +137,7 @@ python save_quant_model.py \
 
 参考[X86 Linux上预测部署示例](../demo_tutorial/x86_linux_demo)和[X86 Windows上预测部署示例](../demo_tutorial/x86_windows_demo)，准备预测库，对模型进行部署。
 
-请注意，在X86 CPU预测端部署量化模型，必须开启MKLDNN，不要开启IrOptim。
+请注意，在X86 CPU预测端部署量化模型，需要开启IrOptim或维持默认设置，还需要开启MKLDNN。
 
 C++ API举例如下。
 
@@ -148,8 +148,8 @@ config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
 } else {
 config.SetModel(FLAGS_model_dir); // Load no-combined model
 }
-config.EnableMKLDNN();
 config.SwitchIrOptim(true);
+config.EnableMKLDNN();
 config.SetCpuMathLibraryNumThreads(FLAGS_threads);
 
 auto predictor = paddle_infer::CreatePredictor(config);
@@ -162,9 +162,9 @@ if args.model_dir == "":
     config = Config(args.model_file, args.params_file)
 else:
     config = Config(args.model_dir)
+config.switch_ir_optim()
 config.enable_mkldnn()
 config.set_cpu_math_library_num_threads(args.threads)
-config.switch_ir_optim()
 
 predictor = create_predictor(config)
 ```
