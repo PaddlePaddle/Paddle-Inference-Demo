@@ -63,8 +63,8 @@ python2 my_reader.py \
 ```
 config.SetModel(FLAGS_model_dir); // Load no-combined model
 config.SetCpuMathLibraryNumThreads(FLAGS_threads);
-config.EnableMKLDNN();
 config.SwitchIrOptim();
+config.EnableMKLDNN();
 ```
 
 ## 2 编译运行示例
