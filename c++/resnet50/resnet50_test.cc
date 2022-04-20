@@ -7,10 +7,12 @@
 #include <glog/logging.h>
 
 #include "paddle/include/paddle_inference_api.h"
+#include "paddle/include/experimental/phi/common/float16.h"
 
 using paddle_infer::Config;
 using paddle_infer::Predictor;
 using paddle_infer::CreatePredictor;
+using phi::dtype::float16;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
@@ -19,6 +21,7 @@ DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_bool(use_gpu, false, "use gpu.");
+DEFINE_bool(use_gpu_fp16, false, "use gpu fp16.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -37,6 +40,9 @@ std::shared_ptr<Predictor> InitPredictor() {
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
   if (FLAGS_use_gpu) {
     config.EnableUseGpu(100, 0);
+  } else if (FLAGS_use_gpu_fp16) {
+    config.EnableUseGpu(100, 0);
+    config.Exp_EnableUseGpuFp16();
   } else {
     config.EnableMKLDNN();
   }
@@ -46,8 +52,9 @@ std::shared_ptr<Predictor> InitPredictor() {
   return CreatePredictor(config);
 }
 
-void run(Predictor *predictor, const std::vector<float> &input,
-         const std::vector<int> &input_shape, std::vector<float> *out_data) {
+template <typename T>
+void run(Predictor *predictor, T* const input_data,
+         const std::vector<int> &input_shape, T* out_data) {
   int input_num = std::accumulate(input_shape.begin(), input_shape.end(), 1,
                                   std::multiplies<int>());
 
@@ -55,7 +62,7 @@ void run(Predictor *predictor, const std::vector<float> &input,
   auto output_names = predictor->GetOutputNames();
   auto input_t = predictor->GetInputHandle(input_names[0]);
   input_t->Reshape(input_shape);
-  input_t->CopyFromCpu(input.data());
+  input_t->CopyFromCpu(input_data);
 
   for (size_t i = 0; i < FLAGS_warmup; ++i)
     CHECK(predictor->Run());
@@ -64,11 +71,7 @@ void run(Predictor *predictor, const std::vector<float> &input,
   for (size_t i = 0; i < FLAGS_repeats; ++i) {
     CHECK(predictor->Run());
     auto output_t = predictor->GetOutputHandle(output_names[0]);
-    std::vector<int> output_shape = output_t->shape();
-    int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
-                                  std::multiplies<int>());
-    out_data->resize(out_num);
-    output_t->CopyToCpu(out_data->data());
+    output_t->CopyToCpu(out_data);
   }
   LOG(INFO) << "run avg time is " << time_diff(st, time()) / FLAGS_repeats
             << " ms";
@@ -78,14 +81,39 @@ int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = InitPredictor();
   std::vector<int> input_shape = {FLAGS_batch_size, 3, 224, 224};
-  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
-  for (size_t i = 0; i < input_data.size(); ++i)
-    input_data[i] = i % 255 * 0.1;
-  std::vector<float> out_data;
-  run(predictor.get(), input_data, input_shape, &out_data);
+  const int input_volume = FLAGS_batch_size * 3 * 224 * 224;
+  const int output_volume = FLAGS_batch_size * 1000;
 
-  for (size_t i = 0; i < out_data.size(); i += 100) {
-    LOG(INFO) << i << " : " << out_data[i] << std::endl;
+  if (FLAGS_use_gpu_fp16) {
+    float16 input_data[input_volume];
+	  for (int i = 0; i < input_volume; i++) {
+	    input_data[i] = i % 255 * 0.1;
+	  }
+	  float16 out_data[output_volume];
+	  for (int i = 0; i < output_volume; i++) {
+	    out_data[i] = 0;
+	  }
+
+    run<float16>(predictor.get(), input_data, input_shape, out_data);
+    for (size_t i = 0; i < output_volume; i += 100) {
+      LOG(INFO) << i << " : " << out_data[i] << std::endl;
+    }
+  } else {
+    float input_data[input_volume];
+	  for (int i = 0; i < input_volume; i++) {
+	    input_data[i] = i % 255 * 0.1;
+	  }
+	  float out_data[output_volume];
+	  for (int i = 0; i < output_volume; i++) {
+	    out_data[i] = 0;
+	  }
+
+    run<float>(predictor.get(), input_data, input_shape, out_data);
+    for (size_t i = 0; i < output_volume; i += 100) {
+      LOG(INFO) << i << " : " << out_data[i] << std::endl;
+    }
   }
+
   return 0;
 }
+
