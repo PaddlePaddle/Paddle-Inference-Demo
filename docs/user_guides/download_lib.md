@@ -128,16 +128,16 @@
 
 ## C++预测库
 
-| 版本说明       |预测库(2.2.2版本)   |
+| 版本说明       |预测库(2.3.0-rc0版本)   |
 |:---------|:----------------|
-|cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/MacOS/CPU/x86-64_clang_avx_openb/paddle_inference_install_dir.tgz)|
+|cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0-rc0/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_install_dir.tgz)|
 
 
 ## C预测库
 
-| 版本说明       |预测库(2.2.2版)   |
+| 版本说明       |预测库(2.3.0-rc0版)   |
 |:---------|:----------------|
-|cpu_avx_openblas|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.2.2/cxx_c/MacOS/CPU/x86-64_clang_avx_openb/paddle_inference_c_install_dir.tgz)|
+|cpu_avx_openblas|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0-rc0/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_c_install_dir.tgz)|
 
 
 
