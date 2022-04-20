@@ -17,6 +17,9 @@ def init_predictor(args):
     config.enable_memory_optim()
     if args.use_gpu:
         config.enable_use_gpu(1000, 0)
+    elif args.use_gpu_fp16:
+        config.enable_use_gpu(1000, 0)
+        config.exp_enable_use_gpu_fp16()
     else:
         # If not specific mkldnn, you can set the blas thread.
         # The thread num should not be greater than the number of cores in the CPU.
@@ -75,6 +78,11 @@ def parse_args():
                         type=int,
                         default=0,
                         help="Whether use gpu.")
+    parser.add_argument("--use_gpu_fp16",
+                        type=int,
+                        default=0,
+                        help="Whether use gpu fp16.")
+    
     return parser.parse_args()
 
 
@@ -84,5 +92,7 @@ if __name__ == '__main__':
     img = cv2.imread('./ILSVRC2012_val_00000247.jpeg')
     img = preprocess(img)
     #img = np.ones((1, 3, 224, 224)).astype(np.float32)
+    if args.use_gpu_fp16:
+        img = img.astype(np.float16)
     result = run(pred, [img])
     print("class index: ", np.argmax(result[0][0]))
