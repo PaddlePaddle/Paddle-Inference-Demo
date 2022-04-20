@@ -86,13 +86,13 @@ int main(int argc, char *argv[]) {
 
   if (FLAGS_use_gpu_fp16) {
     float16 input_data[input_volume];
-	  for (int i = 0; i < input_volume; i++) {
-	    input_data[i] = i % 255 * 0.1;
-	  }
-	  float16 out_data[output_volume];
-	  for (int i = 0; i < output_volume; i++) {
-	    out_data[i] = 0;
-	  }
+    for (int i = 0; i < input_volume; i++) {
+      input_data[i] = i % 255 * 0.1;
+    }
+    float16 out_data[output_volume];
+    for (int i = 0; i < output_volume; i++) {
+      out_data[i] = 0;
+    }
 
     run<float16>(predictor.get(), input_data, input_shape, out_data);
     for (size_t i = 0; i < output_volume; i += 100) {
@@ -100,13 +100,13 @@ int main(int argc, char *argv[]) {
     }
   } else {
     float input_data[input_volume];
-	  for (int i = 0; i < input_volume; i++) {
-	    input_data[i] = i % 255 * 0.1;
-	  }
-	  float out_data[output_volume];
-	  for (int i = 0; i < output_volume; i++) {
-	    out_data[i] = 0;
-	  }
+    for (int i = 0; i < input_volume; i++) {
+      input_data[i] = i % 255 * 0.1;
+    }
+    float out_data[output_volume];
+    for (int i = 0; i < output_volume; i++) {
+       out_data[i] = 0;
+    }
 
     run<float>(predictor.get(), input_data, input_shape, out_data);
     for (size_t i = 0; i < output_volume; i += 100) {
