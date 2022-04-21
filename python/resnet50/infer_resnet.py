@@ -20,6 +20,10 @@ def init_predictor(args):
     elif args.use_gpu_fp16:
         config.enable_use_gpu(1000, 0)
         config.exp_enable_use_gpu_fp16()
+    elif args.use_onnxruntime:
+        config.enable_onnxruntime()
+        config.enable_ort_optimization()
+        config.set_cpu_math_library_num_threads(4)
     else:
         # If not specific mkldnn, you can set the blas thread.
         # The thread num should not be greater than the number of cores in the CPU.
@@ -82,7 +86,10 @@ def parse_args():
                         type=int,
                         default=0,
                         help="Whether use gpu fp16.")
-    
+    parser.add_argument("--use_onnxruntime",
+                        type=int,
+                        default=0,
+                        help="Whether use onnxruntime.")
     return parser.parse_args()
 
 
