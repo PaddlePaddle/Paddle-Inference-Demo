@@ -39,6 +39,8 @@ include_directories("${PADDLE_LIB}/third_party/install/xxhash/include")
 include_directories("${PADDLE_LIB}/third_party/install/zlib/include")
 include_directories("${PADDLE_LIB}/third_party/boost")
 include_directories("${PADDLE_LIB}/third_party/eigen3")
+include_directories("${PADDLE_LIB}/third_party/install/onnxruntime/include")
+include_directories("${PADDLE_LIB}/third_party/install/paddle2onnx/include")
 
 link_directories("${PADDLE_LIB}/third_party/install/zlib/lib")
 
@@ -47,6 +49,8 @@ link_directories("${PADDLE_LIB}/third_party/install/glog/lib")
 link_directories("${PADDLE_LIB}/third_party/install/gflags/lib")
 link_directories("${PADDLE_LIB}/third_party/install/xxhash/lib")
 link_directories("${PADDLE_LIB}/paddle/lib")
+link_directories("${PADDLE_LIB}/third_party/install/onnxruntime/lib")
+link_directories("${PADDLE_LIB}/third_party/install/paddle2onnx/lib")
 
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
 

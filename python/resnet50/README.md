@@ -39,6 +39,8 @@ python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=.
 运行的结果为： ('class index: ', 13)。
 13表示图片的类别。我们通过imagenet [类别映射表](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a)， 可以找到对应的类别，即junco, snowbird，由此说明我们的分类器分类正确。
 
+**提示**: 如果想使用onnxruntime后端，可以在python运行命令中传入`--use_onnxruntime=1`参数
+
 ### 相关链接
 - [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/python_api_index.html)
 
