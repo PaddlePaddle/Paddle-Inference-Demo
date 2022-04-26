@@ -75,6 +75,11 @@ void EnableMkldnnBfloat16();
 // 返回：None
 void EnableMkldnnInt8(const std::unordered_set<std::string>& op_list);
 
+// 判断是否启用 MKLDNN INT8
+// 参数：None
+// 返回：bool - 是否启用 MKLDNN INT8
+bool mkldnn_int8_enabled() const;
+
 // 判断是否启用 MKLDNN BFLOAT16
 // 参数：None
 // 返回：bool - 是否启用 MKLDNN BFLOAT16
@@ -134,4 +139,7 @@ config.EnableMKLDNN();
 
 // 启用 MKLDNN INT8 进行预测
 config.EnableMkldnnInt8();
+
+// 通过 API 获取 MKLDNN INT8 启用结果 - true
+std::cout << "Enable MKLDNN INT8 is: " << config.mkldnn_int8_enabled() << std::endl;
 ```
