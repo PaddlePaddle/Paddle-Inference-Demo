@@ -143,3 +143,4 @@ config.EnableMkldnnInt8();
 // 通过 API 获取 MKLDNN INT8 启用结果 - true
 std::cout << "Enable MKLDNN INT8 is: " << config.mkldnn_int8_enabled() << std::endl;
 ```
+

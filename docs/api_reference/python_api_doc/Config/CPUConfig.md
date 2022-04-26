@@ -140,3 +140,4 @@ config.enable_mkldnn()
 # 启用 MKLDNN INT8 进行预测
 config.enable_mkldnn_int8()
 ```
+
