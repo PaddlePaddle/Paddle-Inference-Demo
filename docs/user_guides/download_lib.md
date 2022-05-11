@@ -70,10 +70,10 @@
 |Jetpack4.6：nv_jetson-cuda10.2-trt8.0-nano|[paddlepaddle_gpu-2.3.0-cp36-cp36m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6_gcc7.5/nano/paddlepaddle_gpu-2.3.0-cp36-cp36m-linux_aarch64.whl)||||
 |Jetpack4.6：nv_jetson-cuda10.2-trt8.0-tx2|[paddlepaddle_gpu-2.3.0-cp36-cp36m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6_gcc7.5/tx2/paddlepaddle_gpu-2.3.0-cp36-cp36m-linux_aarch64.whl)||||
 |Jetpack4.6：nv_jetson-cuda10.2-trt8.0-xavier|[paddlepaddle_gpu-2.3.0-cp36-cp36m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6_gcc7.5/xavier/paddlepaddle_gpu-2.3.0-cp36-cp36m-linux_aarch64.whl)||||
-||Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-all|[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/all/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
-||Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-nano|[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/nano/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
-||Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-tx2|[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/tx2/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
-||Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-xavier|[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/xavier/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-all||[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/all/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-nano||[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/nano/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-tx2||[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/tx2/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-xavier||[paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.3.0/python/Jetson/jetpack4.6.1_gcc7.5/xavier/paddlepaddle_gpu-2.3.0-cp37-cp37m-linux_aarch64.whl)|||
 
 
 
