@@ -10,6 +10,7 @@ Config 类
     Config/CPUConfig
     Config/GPUConfig
     Config/XPUConfig
+    Config/IPUConfig
     Config/ORTConfig
     Config/OptimConfig
     Config/OtherFunction
