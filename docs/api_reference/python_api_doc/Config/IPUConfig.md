@@ -42,5 +42,5 @@ config = paddle_infer.Config("./mobilenet_v1")
 config.enable_ipu(1)
 
 # 使能float16模式
-config.SetIpuConfig(True)
+config.set_ipu_config(True)
 ```
