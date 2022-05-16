@@ -1,16 +1,16 @@
 Using the Paddle-TensorRT Repository for Inference
 ================
 
-NVIDIA TensorRT is a high-performance inference repository for deep learning tasks. It can lower the latency of the inference applications and improve their throughput. PaddlePaddle integrates TensorRT with subgraph design, so we can use the TensorRT module to enhance the performance of the Paddle model during the inference process. In this article, we will walk through how to use the subgraph module of Paddle-TRT to accelerate the inference. 
+NVIDIA TensorRT is an SDK for high-performance deep learning inference. It can lower the latency of the inference applications and improve their throughput. PaddlePaddle integrates TensorRT with subgraph design, so we can use the TensorRT module to enhance the performance of the Paddle model during the inference process. In this article, we will walk through how to use the subgraph module of Paddle-TRT to accelerate the inference. 
 
-If you need to install `TensorRT <https://developer.nvidia.com/nvidia-tensorrt-6x-download>`_, please refer to the `trt document <https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html>`_.
+If you need to install `TensorRT <https://developer.nvidia.com/nvidia-tensorrt-6x-download>`_, please refer to the `TensorRT document <https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html>`_.
 
 Overview
 ----------------
 
-After the model is loaded, the neural network can be represented as a computing graph consisting of variables and computing nodes. If the TRT subgraph mode is turned on, Paddle will analyze the model graph, find out subgraphs that can be optimized by TensorRT there in the analysis, and replace them with TensorRT nodes. During the model inference, if encountering TensorRT nodes, Paddle will accelerate this node with TensorRT where other nodes were executed with the original implementation of Paddle. Besides the common optimization methods like the operator (OP) integration or the video memory/memory optimization, TensorRT also contains the accelerated OP implementation to lower the inference latency and improve the throughput. 
+After the model is loaded, the neural network can be represented as a computing graph consisting of variables and computing nodes. If the TensorRT subgraph mode is turned on, Paddle will analyze the computing graph, find out subgraphs that can be optimized by TensorRT there in the analysis, and replace them with TensorRT nodes. During inference, if encountering TensorRT nodes, Paddle will accelerate this node with TensorRT where other nodes were executed with the original implementation of Paddle. Besides the common optimization methods like the operator (OP) fusion, device memory optimization, TensorRT also contains the accelerated OP implementation to lower the inference latency and improve the throughput. 
 
-Currently, Paddle-TRT supports the static shape mode and the dynamic shape mode. Tasks like image classification, segmentation, and model detection are supported in the static mode. Inference acceleration under FP16 and Int8 are also supported. In the dynamic mode, in addition to the CV models (FCN, Faster R-CNN) of the dynamic shape, Bert/Ernie of NLP are also supported.
+Currently, Paddle-TRT supports the static shape mode and the dynamic shape mode. Tasks like image classification, segmentation, and object detection are supported in the static mode. Inference acceleration under FP16 and Int8 are also supported. In the dynamic mode, in addition to the CV models (FCN, Faster R-CNN), NLP models (BERT, ERNIE, etc.) are also supported.
 
 **Capabilities of Paddle-TRT：**
 
