@@ -8,6 +8,7 @@ DEMO_NAME=yolov3_test
 WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=ON
+WITH_ONNXRUNTIME=ON
 
 LIB_DIR=/pr/Paddle/build/paddle_inference_install_dir
 MODEL_DIR=/paddle_infer_demo/yolov3_r34_float/
@@ -23,7 +24,8 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_STATIC_LIB=OFF \
   -DUSE_TENSORRT=${USE_TENSORRT} \
   -DCUDNN_LIB=${CUDNN_LIB} \
-  -DCUDA_LIB=${CUDA_LIB} 
+  -DCUDA_LIB=${CUDA_LIB} \
+  -DWITH_ONNXRUNTIME=${WITH_ONNXRUNTIME}
 
 make -j
 

@@ -1,6 +1,7 @@
 project(gru_mkldnn_demo CXX C)
 option(WITH_MKL        "Compile demo with MKL/OpenBlas support, default use MKL."       ON)
 option(WITH_STATIC_LIB "Compile demo with static/shared library, default use static."   OFF)
+option(WITH_ONNXRUNTIME "Compile demo with ONNXRuntime"  OFF)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
@@ -22,6 +23,8 @@ include_directories("${PADDLE_LIB}/third_party/install/xxhash/include")
 include_directories("${PADDLE_LIB}/third_party/install/zlib/include")
 include_directories("${PADDLE_LIB}/third_party/boost")
 include_directories("${PADDLE_LIB}/third_party/eigen3")
+include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/include")
+include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}paddle2onnx/include")
 
 link_directories("${PADDLE_LIB}/third_party/install/zlib/lib")
 link_directories("${PADDLE_LIB}/third_party/install/protobuf/lib")
@@ -29,6 +32,8 @@ link_directories("${PADDLE_LIB}/third_party/install/glog/lib")
 link_directories("${PADDLE_LIB}/third_party/install/gflags/lib")
 link_directories("${PADDLE_LIB}/third_party/install/xxhash/lib")
 link_directories("${PADDLE_LIB}/paddle/lib")
+link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib")
+link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}paddle2onnx/lib")
 
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
 
@@ -52,6 +57,16 @@ if(WITH_STATIC_LIB)
 else()
   set(DEPS
       ${PADDLE_LIB}/paddle/lib/libpaddle_inference${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
+
+if (WITH_ONNXRUNTIME)
+  if(WIN32)
+    set(DEPS ${DEPS} ${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib/onnxruntime.lib paddle2onnx)
+  elseif(APPLE)
+    set(DEPS ${DEPS} ${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib/libonnxruntime.1.10.0.dylib paddle2onnx)
+  else()
+    set(DEPS ${DEPS} ${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib/libonnxruntime.so.1.10.0 paddle2onnx)
+  endif()
 endif()
 
 set(EXTERNAL_LIB "-lrt -ldl -lpthread")
