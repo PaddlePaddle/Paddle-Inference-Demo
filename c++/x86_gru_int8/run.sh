@@ -4,7 +4,7 @@ rm -rf build && mkdir build && cd build
 DEMO_NAME=model_test
 
 LIB_DIR=$HOME/test/Paddle-Inference-Demo/c++/x86_gru_int8/paddle_inference
-cmake .. -DPADDLE_LIB=${LIB_DIR} -DDEMO_NAME=${DEMO_NAME} && make -j && cd ..
+cmake .. -DPADDLE_LIB=${LIB_DIR} -DDEMO_NAME=${DEMO_NAME} -DWITH_ONNXRUNTIME=ON && make -j && cd ..
 
 MODEL_DIR=GRU_eval_int8
 DATA_DIR=dataloader/data/test_eval_1000.bin

@@ -7,7 +7,7 @@ option(WITH_MKL        "Compile demo with MKL/OpenBlas support, default use MKL.
 option(WITH_GPU        "Compile demo with GPU/CPU, default use CPU."                    OFF)
 option(WITH_STATIC_LIB "Compile demo with static/shared library, default use static."   ON)
 option(USE_TENSORRT "Compile demo with TensorRT."   OFF)
-
+option(WITH_ONNXRUNTIME "Compile demo with ONNXRuntime"  OFF)
 
 macro(safe_set_static_flag)
     foreach(flag_var
@@ -74,6 +74,16 @@ if(WITH_STATIC_LIB)
 else()
   set(DEPS
       ${PADDLE_LIB}/paddle/lib/libpaddle_inference${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
+
+if (WITH_ONNXRUNTIME)
+  if(WIN32)
+    set(DEPS ${DEPS} ${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib/onnxruntime.lib paddle2onnx)
+  elseif(APPLE)
+    set(DEPS ${DEPS} ${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib/libonnxruntime.1.10.0.dylib paddle2onnx)
+  else()
+    set(DEPS ${DEPS} ${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib/libonnxruntime.so.1.10.0 paddle2onnx)
+  endif()
 endif()
 
 set(EXTERNAL_LIB "-lrt -ldl -lpthread")
