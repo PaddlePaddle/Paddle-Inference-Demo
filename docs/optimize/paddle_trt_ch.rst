@@ -1,80 +1,18 @@
 使用Paddle-TensorRT库预测
 ================
 
-NVIDIA TensorRT 是一个高性能的深度学习预测库，可为深度学习推理应用程序提供低延迟和高吞吐量。PaddlePaddle 采用子图的形式对TensorRT进行了集成，即我们可以使用该模块来提升Paddle模型的预测性能。在这篇文章中，我们会介绍如何使用Paddle-TRT子图加速预测。
+NVIDIA TensorRT 是一个高性能机器学习推理SDK，专注于深度学习模型在NVIDIA硬件的快速高效的推理。PaddlePaddle 以子图方式集成了TensorRT，将可用TensorRT加速的算子组成子图供给TensorRT，以获取TensorRT加速的同时，保留paddlepaddle即训即推的能力。在这篇文章中，我们会介绍如何使用Paddle-TRT加速预测。
 
 如果您需要安装 `TensorRT <https://developer.nvidia.com/nvidia-tensorrt-6x-download>`_，请参考 `trt文档 <https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html>`_.
 
 概述
 ----------------
 
-当模型加载后，神经网络可以表示为由变量和运算节点组成的计算图。如果我们打开TRT子图模式，在图分析阶段，Paddle会对模型图进行分析同时发现图中可以使用TensorRT优化的子图，并使用TensorRT节点替换它们。在模型的推断期间，如果遇到TensorRT节点，Paddle会调用TensorRT库对该节点进行优化，其他的节点调用Paddle的原生实现。TensorRT除了有常见的OP融合以及显存/内存优化外，还针对性的对OP进行了优化加速实现，降低预测延迟，提升推理吞吐。
+当模型加载后，神经网络可以表示为由变量和运算节点组成的计算图。当打开TRT子图模式时，，Paddle会在图分析阶段检测模型中可以使用TensorRT优化的子图并将其替换为TensorRT节点。在模型的推断期间，如果遇到TensorRT节点，Paddle会调用TensorRT库对该节点进行推理，其他的节点调用Paddle的原生实现。
 
-目前Paddle-TRT支持静态shape模式以及/动态shape模式。在静态shape模式下支持图像分类，分割，检测模型，同时也支持Fp16， Int8的预测加速。在动态shape模式下，除了对动态shape的图像模型（FCN， Faster rcnn）支持外，同时也对NLP的Bert/Ernie模型也进行了支持。 
+目前Paddle-TRT支持静态shape、动态shape两种运行方式。静态shape主要用于模型输入size除batch维，其他维度信息不变的情况；动态shape可用于输入size任意变化的模型， 比如NLP、OCR等领域模型的支持，当然也包括静态shape支持的模型； 静态shape 和动态shape 都支持fp32、fp16、int8等多种计算精度；Paddle-TRT 支持服务器端GPU，如T4、A10， 也支持边缘端硬件，如Jetson NX、 Jetson Nano、 Jetson TX2等。 在边缘硬件上，除支持常规的GPU外，还可以使用DLA进行推理；也支持RTX2080，3090等游戏显卡； 
 
-**Paddle-TRT的现有能力：**
-
-**1）静态shape：**
-
-支持模型：
-
-===========  =============  ========
- 分类模型      检测模型     分割模型
-===========  =============  ========
-Mobilenetv1  yolov3         ICNET
-Resnet50     SSD            UNet
-Vgg16        Mask-rcnn      FCN
-Resnext      Faster-rcnn
-AlexNet      Cascade-rcnn
-Se-ResNext   Retinanet
-GoogLeNet    Mobilenet-SSD
-DPN
-===========  =============  ========
-
-.. |check| raw:: html
-
-    <input checked=""  type="checkbox">
-
-.. |check_| raw:: html
-
-    <input checked=""  disabled="" type="checkbox">
-
-.. |uncheck| raw:: html
-
-    <input type="checkbox">
-
-.. |uncheck_| raw:: html
-
-    <input disabled="" type="checkbox">
-
-Fp16: |check|
-
-Calib Int8: |check|
-
-优化信息序列化: |check|
-
-加载PaddleSlim Int8模型: |check|
-
-
-**2）动态shape：**
-
-支持模型：
-
-===========  =====
-   图像       NLP
-===========  =====
-FCN          Bert
-Faster_RCNN  Ernie
-===========  =====
-
-Fp16: |check|
-
-Calib Int8: |uncheck|
-
-优化信息序列化: |uncheck|
-
-加载PaddleSlim Int8模型: |uncheck|
-
+因使用TensorRT首次推理时，TensorRT需要进行各OP融合、显存复用、以及OP的kernel选择等，导致首帧耗时过长，Paddle-TRT开放了序列化接口，用于将TensorRT分析的信息进行存储，在后续推理直接载入相关序列化信息，从而减少启动耗时；
 
 **Note:**
 
@@ -86,11 +24,11 @@ Calib Int8: |uncheck|
 一：环境准备
 -------------
 
-使用Paddle-TRT功能，我们需要准备带TRT的Paddle运行环境，我们提供了以下几种方式：
+使用Paddle-TRT功能，我们需要准备带TensorRT的Paddle运行环境，我们提供了以下几种方式：
 
 1）linux下通过pip安装
 
-请从 `whl list <https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release>`_ 下载带trt且与自己环境一致的whl包，并通过pip安装
+请从 `whl list <https://paddle-inference.readthedocs.io/en/latest/user_guides/download_lib.html>`_ 下载带TensorRT且与自己环境一致的whl包，并通过pip安装
 
 2）使用docker镜像
 
@@ -105,24 +43,6 @@ Calib Int8: |uncheck|
 编译的方式请参照 `编译文档 <../user_guides/source_compile.html>`_ 
 
 **Note1：** cmake 期间请设置 TENSORRT_ROOT （即TRT lib的路径）， WITH_PYTHON （是否产出python whl包， 设置为ON）选项。
-
-**Note2:** 编译期间会出现TensorRT相关的错误。
-
-需要手动在 NvInfer.h (trt5) 或 NvInferRuntime.h (trt6) 文件中为 class IPluginFactory 和 class IGpuAllocator 分别添加虚析构函数：
-
-.. code:: c++
-
-	virtual ~IPluginFactory() {};
-	virtual ~IGpuAllocator() {};
-	
-需要将 `NvInferRuntime.h` (trt6)中的 **protected: ~IOptimizationProfile() noexcept = default;**
-
-改为
-
-.. code:: c++
-
-	virtual ~IOptimizationProfile() noexcept = default;
-	
 
 
 二：API使用介绍
@@ -195,7 +115,7 @@ Calib Int8: |uncheck|
 
 接下来让我们看下该接口中各个参数的作用:  
 
-- **workspace_size**，类型：int，默认值为1 << 30 （1G）。指定TensorRT使用的工作空间大小，TensorRT会在该大小限制下筛选最优的kernel执行预测运算。
+- **workspace_size**，类型：int，默认值为1 << 30 （1G）。指定TensorRT使用的工作空间大小，TensorRT会在该大小限制下筛选最优的kernel进行推理。
 - **max_batch_size**，类型：int，默认值为1。需要提前设置最大的batch大小，运行时batch大小不得超过此限定值。
 - **min_subgraph_size**，类型：int，默认值为3。Paddle-TRT是以子图的形式运行，为了避免性能损失，当子图内部节点个数大于 min_subgraph_size 的时候，才会使用Paddle-TRT运行。
 - **precision_mode**，类型：**paddle_infer.PrecisionType**, 默认值为 **paddle_infer.PrecisionType.Float32**。指定使用TRT的精度，支持FP32（Float32），FP16（Half），Int8（Int8）。若需要使用Paddle-TRT int8离线量化校准，需设定precision为 **paddle_infer.PrecisionType.Int8** , 且设置 **use_calib_mode** 为True。
@@ -204,14 +124,14 @@ Calib Int8: |uncheck|
 
 Int8量化预测
 >>>>>>>>>>>>>>
+深度学习模型的权重参数在一定程度上是冗余的，在很多任务上，我们可以将模型量化而不影响计算精度。模型量化，一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。使用Int8量化预测的流程可以分为两步：1）产出量化模型；2）加载量化模型进行推理。下面我们对使用Paddle-TRT进行Int8量化推理的完整流程进行详细介绍。
 
-神经网络的参数在一定程度上是冗余的，在很多任务上，我们可以在保证模型精度的前提下，将Float32的模型转换成Int8的模型，从而达到减小计算量降低运算耗时、降低计算内存、降低模型大小的目的。使用Int8量化预测的流程可以分为两步：1）产出量化模型；2）加载量化模型进行Int8预测。下面我们对使用Paddle-TRT进行Int8量化预测的完整流程进行详细介绍。
 
 **1. 产出量化模型**
 
 目前，我们支持通过两种方式产出量化模型：
 
-a. 使用TensorRT自带Int8离线量化校准功能。校准即基于训练好的FP32模型和少量校准数据（如500～1000张图片）生成校准表（Calibration table），预测时，加载FP32模型和此校准表即可使用Int8精度预测。生成校准表的方法如下：
+a. 使用TensorRT自带Int8离线量化校准功能。校准即基于训练好的FP32模型和少量校准数据（如500～1000张图片）生成校准表（Calibration table）。推理时，加载FP32模型和此校准表即可使用Int8精度推理。生成校准表的方法如下：
 
   - 指定TensorRT配置时，将 **precision_mode** 设置为 **paddle_infer.PrecisionType.Int8** 并且设置 **use_calib_mode** 为 **True**。
 
@@ -225,14 +145,14 @@ a. 使用TensorRT自带Int8离线量化校准功能。校准即基于训练好�
 
   - 准备500张左右的真实输入数据，在上述配置下，运行模型。（Paddle-TRT会统计模型中每个tensor值的范围信息，并将其记录到校准表中，运行结束后，会将校准表写入模型目录下的 `_opt_cache` 目录中）
 
-  如果想要了解使用TensorRT自带Int8离线量化校准功能生成校准表的完整代码，请参考 `这里 <https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E7%94%9F%E6%88%90%E9%87%8F%E5%8C%96%E6%A0%A1%E5%87%86%E8%A1%A8>`_ 的demo。
+  如果想要了解使用TensorRT自带Int8离线量化校准功能生成校准表的完整代码，请参考 `<https://github.com/PaddlePaddle/Paddle-Inference-Demo/blob/master/c%2B%2B/paddle-trt/trt_gen_calib_table_test.cc>`_的demo。
 
 b. 使用模型压缩工具库PaddleSlim产出量化模型。PaddleSlim支持离线量化和在线量化功能，其中，离线量化与TensorRT离线量化校准原理相似；在线量化又称量化训练(Quantization Aware Training, QAT)，是基于较多数据（如>=5000张图片）对预训练模型进行重新训练，使用模拟量化的思想，在训练阶段更新权重，实现减小量化误差的方法。使用PaddleSlim产出量化模型可以参考文档：
   
   - 离线量化 `快速开始教程 <https://paddlepaddle.github.io/PaddleSlim/quick_start/quant_post_tutorial.html>`_
   - 离线量化 `API接口说明 <https://paddlepaddle.github.io/PaddleSlim/api_cn/quantization_api.html#quant-post>`_
   - 离线量化 `Demo <https://github.com/PaddlePaddle/PaddleSlim/tree/release/1.1.0/demo/quant/quant_post>`_
-  - 量化训练 `快速开始教程 <https://paddlepaddle.github.io/PaddleSlim/quick_start/quant_aware_tutorial.html>`_
+  - 量化训练 `快速开始教程 <https://github.com/PaddlePaddle/PaddleSlim/blob/develop/docs/zh_cn/quick_start/dygraph/dygraph_quant_aware_training_tutorial.md>`_
   - 量化训练 `API接口说明 <https://paddlepaddle.github.io/PaddleSlim/api_cn/quantization_api.html#quant-aware>`_
   - 量化训练 `Demo <https://github.com/PaddlePaddle/PaddleSlim/tree/release/1.1.0/demo/quant/quant_aware>`_
 
