@@ -77,11 +77,13 @@ C++ 修改如下：
 
 ```c++
 paddle_infer::Config config;
+
 if (FLAGS_model_dir == "") {
-config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
+  config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
 } else {
-config.SetModel(FLAGS_model_dir); // Load no-combined model
+  config.SetModel(FLAGS_model_dir); // Load no-combined model
 }
+
 config.EnableMKLDNN();
 config.SwitchIrOptim(true);
 config.SetCpuMathLibraryNumThreads(FLAGS_threads);

@@ -6,13 +6,11 @@ Paddle Inference在CPU上有：原生CPU、MKLDNN和ONNX Runtime后端三种推�
 
 本文档主要介绍使用Paddle Inference原生CPU、MKLDNN和ONNX Runtime后端进行推理时，如何调用API进行配置。详细代码请参考:[X86 Linux上预测部署示例](../demo_tutorial/x86_linux_demo)和[X86 Windows上预测部署示例](../demo_tutorial/x86_windows_demo)
 
-## 使用原生CPU推理
+## CPU原生推理
 
-原生CPU推理使用Paddle Inference原生的高性能Kernel进行计算，不依赖第三方加速库。使用部署简单，但性能无优势。
+原生CPU推理在推理时，使用飞桨核心框架的标准OP实现进行推理计算，不依赖第三方计算库，推理时也无需额外配置。
 
 ### 配置文件开发说明
-
-使用原生CPU推理，不同的地方只在配置文件。
 
 C++示例：
 ```c++
@@ -38,7 +36,7 @@ import paddle.inference as paddle_infer
 config = paddle_infer.Config()
 
 # 设置模型的文件夹路径
-config.set_model("model")
+config.set_model("model.pdmodel", "model.pdiparam")
 
 # 设置 CPU Blas 库线程数为 10
 config.set_cpu_math_library_num_threads(10)
@@ -47,13 +45,11 @@ config.set_cpu_math_library_num_threads(10)
 print(config.cpu_math_library_num_threads())
 ```
 
-## 使用MKLDNN推理
+## MKLDNN推理加速
 
 MKLDNN是Intel发布的开源的深度学习软件包，Paddle Inference除了有大量的算子支持MKLDNN加速，还针对MKLDNN进行了图优化。
 
 ### 配置文件开发说明
-
-使用MKLDNN推理，只需修改配置文件。
 
 C++示例：
 ```c++
@@ -82,7 +78,7 @@ import paddle.inference as paddle_infer
 config = paddle_infer.Config()
 
 # 设置模型的文件夹路径
-config.set_model("model")
+config.set_model("model.pdmodel", "model.pdiparam")
 
 # 启用 MKLDNN 进行预测
 config.enable_mkldnn()
@@ -94,13 +90,11 @@ print(config.mkldnn_enabled())
 config.set_mkldnn_cache_capacity(1)
 ```
 
-## 使用ONNX Runtime后端推理
+## ONNX Runtime推理
 
-ONNX Runtime是一个跨平台的机器学习模型加速器，对ONNX标准支持最全最广泛的的推理引擎。Paddle Inference从2.3开始新增了ONNX Runtime后端，能将Paddle模型运行在该后端上。
+ONNX Runtime是由微软开源的一款推理引擎，Paddle Inference通过Paddle2ONNX集成ONNX Runtime作为推理的后端之一，开发者在使用时，只需一行配置代码即可让模型通过ONNX Runtime进行推理。
 
 ### 配置文件开发说明
-
-使用ONNX Runtime推理，只需修改配置文件。
 
 C++示例：
 ```c++
@@ -140,7 +134,7 @@ print("Use ONNXRuntime is: {}".format(config.onnxruntime_enabled())) # True
 # 开启ONNXRuntime优化
 config.enable_ort_optimization();
 
-// 设置 ONNXRuntime 算子计算线程数为 10
+# 设置 ONNXRuntime 算子计算线程数为 10
 config.set_cpu_math_library_num_threads(10)
 
 # 禁用 ONNXRuntime 进行预测
