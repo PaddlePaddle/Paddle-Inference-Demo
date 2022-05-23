@@ -47,7 +47,7 @@ print(config.cpu_math_library_num_threads())
 
 ## MKLDNN推理加速
 
-MKLDNN是Intel发布的开源的深度学习软件包，Paddle Inference除了有大量的算子支持MKLDNN加速，还针对MKLDNN进行了图优化。
+MKLDNN(现OneDNN)是由英特尔开发的开源深度学习软件包，支持神经网络在CPU上的高性能计算，在Paddle Inference中可通过一行配置打开MKLDNN加速。
 
 ### 配置文件开发说明
 
