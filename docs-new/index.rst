@@ -39,12 +39,12 @@ Welcome to Paddle Inference's documentation!
 
 .. toctree::
   :maxdepth: 1
-  :caption: 性能调优
-  :name: sec-optimize
+  :caption: CPU部署
+  :name: sec-cpu-inference
   
-  optimize/paddle_trt
-  optimize/paddle_x86_cpu_int8
-  optimize/paddle_x86_cpu_bf16
+  cpu_inference/README
+  cpu_inference/paddle_x86_cpu_int8
+  cpu_inference/paddle_x86_cpu_bf16
 
 
 .. toctree::
