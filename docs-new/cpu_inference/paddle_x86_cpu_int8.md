@@ -16,10 +16,15 @@ X86 CPU部署量化模型的步骤：
 X86 CPU预测端支持PaddleSlim量化训练方法和静态离线量化方法产出的量化模型。
 
 关于使用PaddleSlim产出量化模型，请参考文档：
-* [静态离线量化-快速开始](https://paddleslim.readthedocs.io/zh_CN/latest/quick_start/quant_post_static_tutorial.html)
-* [量化训练-快速开始](https://paddleslim.readthedocs.io/zh_CN/latest/quick_start/quant_aware_tutorial.html)
-* [目标检测模型量化](https://paddleslim.readthedocs.io/zh_CN/latest/tutorials/paddledetection_slim_quantization_tutorial.html)
-* [量化API文档](https://paddleslim.readthedocs.io/zh_CN/latest/api_cn/quantization_api.html)
+- 静态图量化
+  - [离线量化-快速开始](https://paddleslim.readthedocs.io/zh_CN/latest/quick_start/static/quant_post_static_tutorial.html)
+  - [量化训练-快速开始](https://paddleslim.readthedocs.io/zh_CN/latest/quick_start/static/quant_aware_tutorial.html)
+  - [量化API文档](https://paddleslim.readthedocs.io/zh_CN/latest/api_cn/static/quant/quantization_api.html)
+- 动态图量化
+  - [离线量化-快速开始](https://paddleslim.readthedocs.io/zh_CN/latest/quick_start/dygraph/dygraph_quant_post_tutorial.html)
+  - [量化训练-快速开始](https://paddleslim.readthedocs.io/zh_CN/latest/quick_start/dygraph/dygraph_quant_aware_training_tutorial.html)
+  - [量化API文档](https://paddleslim.readthedocs.io/zh_CN/latest/api_cn/dygraph/quanter/qat.html)
+
 
 在产出部署在X86 CPU预测端的模型时，需要注意：
 * 静态离线量化方法支持的量化OP有conv2d, depthwise_conv2d, mul和matmul，所以 `quant_post_static`的输入参数 `quantizable_op_type`可以是这四个op的组合。
