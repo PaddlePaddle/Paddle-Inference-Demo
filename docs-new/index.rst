@@ -20,6 +20,9 @@ Welcome to Paddle Inference's documentation!
   :name: sec-quick-start
 
   quick_start/workflow
+  quick_start/cpp_install
+  quick_start/python_install
+  quick_start/c_install
   quick_start/cpp_demo
   quick_start/python_demo
   quick_start/c_demo
