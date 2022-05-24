@@ -22,7 +22,7 @@ void AppendPass(const std::string &pass_type);
 // 返回：None
 void InsertPass(size_t idx, const std::string &pass_type);
 
-// 删除第 idx 位置的pass
+// 删除第 idx 位置的 pass
 // 参数：idx - 删除的 index 位置
 // 返回：None
 void DeletePass(size_t idx);
@@ -68,7 +68,7 @@ std::vector<std::string> AnalysisPasses() const;
 
 ```c++
 // 构造 Config 对象
-paddle_infer::Config config(FLAGS_infer_model);
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.pdiparams");
 
 // 开启 IR 优化
 config.SwitchIrOptim();
@@ -89,7 +89,7 @@ const std::vector<std::string> all_passes = pass_builder->AllPasses();
 pass_builder->ClearPasses();
 // 设置 Passes
 pass_builder->SetPasses({"attention_lstm_fuse_pass", "fc_gru_fuse_pass"});
-// 在末尾处添加pass
+// 在末尾处添加 pass
 pass_builder->AppendPass("fc_fuse_pass");
 // 删除 Passes
 pass_builder->DeletePass("fc_fuse_pass");
@@ -114,7 +114,7 @@ std::cout << pass_builder->DebugString() << std::endl;
 
 ```c++
 // 构造 Config 对象
-paddle_infer::Config config(FLAGS_infer_model);
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.pdiparams");
 
 // 开启 IR 优化
 config.SwitchIrOptim();
