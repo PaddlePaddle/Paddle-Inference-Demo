@@ -1,6 +1,9 @@
 # Predictor 类
 
-Paddle Inference的预测器，由 `CreatePredictor` 根据 `Config` 进行创建。用户可以根据Predictor提供的接口设置输入数据、执行模型预测、获取输出等。
+Paddle Inference 的预测器，由 `CreatePredictor` 根据 `Config` 进行创建。用户可以根据Predictor提供的接口设置输入数据、执行模型预测、获取输出等。
+
+**注意事项：**
+一个 `Config` 对象只能用于调用一次 `CreatePredictor` 生成一个 `Predictor`，需要通过 `CreatePredictor` 创建多个 `Predictor` 时请分别创建 `Config` 对象。
 
 ## 获取输入输出
 
@@ -32,7 +35,7 @@ std::unique_ptr<Tensor> GetOutputHandle(const std::string& name);
 
 ```c++
 // 构造 Config 对象
-paddle_infer::Config config(FLAGS_infer_model);
+paddle_infer::Config config("./resnet.pdmodel", "./resnet.pdiparams");
 
 // 创建 Predictor
 auto predictor = paddle_infer::CreatePredictor(config);
@@ -65,7 +68,7 @@ API 定义如下：
 // 返回：None
 bool Run();
 
-// 根据该Predictor，克隆一个新的Predictor，两个Predictor之间共享权重
+// 根据该 Predictor，克隆一个新的 Predictor，两个 Predictor 之间共享权重
 // 参数：None
 // 返回：std::unique_ptr<Predictor> - 新的 Predictor
 std::unique_ptr<Predictor> Clone();

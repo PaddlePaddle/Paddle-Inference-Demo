@@ -2,7 +2,8 @@
 
 Tensor 是 Paddle Inference 的数据组织形式，用于对底层数据进行封装并提供接口对数据进行操作，包括设置 Shape、数据、LoD 信息等。
 
-**注意：** 应使用 `Predictor` 的 `GetInputHandle` 和 `GetOuputHandle` 接口获取输入输出 `Tensor`。
+**注意：** 
+应使用 `Predictor` 的 `GetInputHandle` 和 `GetOuputHandle` 接口获取输入输出 `Tensor`。
 
 Tensor 类的API定义如下：
 
@@ -18,7 +19,9 @@ void Reshape(const std::vector<int>& shape);
 template <typename T>
 void CopyFromCpu(const T* data);
 
-// 从 Tensor 中获取数据到 CPU
+// 从 Tensor 中获取数据到 CPU，该接口内含同步等待 GPU 运行结束，当 Predictor 
+// 运行在 GPU 硬件时，在 CPU 线程下对该 API 调用进行计时是不准确的
+//
 // 参数：data - CPU 数据指针
 // 返回：None
 template <typename T>
@@ -80,7 +83,7 @@ const std::string& name() const;
 
 ```c++
 // 构造 Config 对象
-paddle_infer::Config config(FLAGS_infer_model);
+paddle_infer::Config config("./resnet.pdmodel", "./resnet.pdiparams");
 
 // 创建 Predictor
 auto predictor = paddle_infer::CreatePredictor(config);
