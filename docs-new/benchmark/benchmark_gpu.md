@@ -3,13 +3,13 @@
 ## 测试条件
 
 - 测试模型
-    - MobileNetV1
+	- MobileNetV1
 	- MobileNetV2
 	- ResNet101
 	- mask_rcnn_r50_vd_fpn_1x_coco
 	- ssdlite_mobilenet_v1_300_coco
 	- yolov3_darknet53_270e_coco
-    - deeplabv3p_resnet50
+	- deeplabv3p_resnet50
 	- bert
 	- ViT_base_patch32_384
 	- SwinTransformer_base_patch4_window12_384
