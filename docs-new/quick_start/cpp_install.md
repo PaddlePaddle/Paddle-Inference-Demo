@@ -1,14 +1,20 @@
-# C/C++ 推理部署
+# C++ 推理部署
 
-本文主要介绍 Paddle Inferrence C/C++ API 的安装。主要分为以下三个章节：环境准备，安装步骤，和验证安装。
+本文主要介绍 Paddle Inference C++ API 的安装。主要分为以下三个章节：环境准备，安装步骤，和验证安装。
 
 ## 环境准备
 
 - G++ 8.2
 - CMake 3.0+
-- CUDA 10.1 / CUDA 10.2 / CUDA 11.0 / CUDA 11.1 / CUDA 11.2, cudnn 7+ （仅在使用GPU版本的预测库时需要）
-- Visual Studio 2019 (仅在使用Windows版本的预测库时需要，根据Paddle预测库所使用的VS版本选择，请参考 [Visual Studio 不同版本二进制兼容性]() )
+- Visual Studio 2015 Update 3 (仅在使用 Windows 版本的预测库时需要，根据 Paddle 预测库所使用的 VS 版本选择，请参考 [Visual Studio 不同版本二进制兼容性](https://docs.microsoft.com/zh-cn/cpp/porting/binary-compat-2015-2017?view=msvc-170&viewFallbackFrom=vs-2019) )
+- CUDA 10.1 / CUDA 10.2 / CUDA 11.0 / CUDA 11.2, cudnn7.6+, TensorRt （仅在使用 GPU 版本的预测库时需要， CUDA、cudnn 和 TensorRt 的版本对应关系如下表所示）
 
+|CUDA 版本|cudnn 版本| TensorRt 版本|
+|---|---|---|
+|10.1|7.6|6|
+|10.2|7.6|7|
+|11.0|8.0|7|
+|11.2|8.2|8|
 
 ## 开始安装
 
@@ -16,7 +22,8 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 预测�
 
 - [下载安装 Linux 预测库](../user_guides/download_lib.html#linux)
 - [下载安装 Windows 预测库](../user_guides/download_lib.html#windows)
-- [下载安装 MacOs预测库]（）
+- [下载安装 MacOs预测库](../user_guides/download_lib.html#mac)
+
 下载完成并解压之后，目录下的 `paddle_inference_install_dir` 即为 C++ 预测库，目录结构如下：
 
 ```bash
@@ -49,6 +56,8 @@ paddle_inference/paddle_inference_install_dir/
 └── version.txt
 ```
 
+include 目录下包括了使用飞桨预测库需要的头文件，lib 目录下包括了生成的静态库和动态库，third_party 目录下包括了预测库依赖的其它库文件。
+
 其中 `version.txt` 文件中记录了该预测库的版本信息，包括 Git Commit ID、使用 OpenBlas 或 MKL 数学库、CUDA/CUDNN 版本号，如：
 
 ```bash
@@ -65,3 +74,8 @@ TensorRT version: v6
 
 ## 验证安装
 
+您可以编写应用代码，与预测库联合编译并测试结果。请参考 [预测示例(C++)](../quick_start/cpp_demo) 一节。
+
+## 快速使用
+
+请参考 [预测示例(C++)](../quick_start/cpp_demo) 和 [C++ API 文档](../api_reference/cpp_api_index)。
