@@ -58,15 +58,15 @@ config.delete_pass("xxxx_fuse_pass")
 ```
 为了快速定位出问题的 Pass，有两种思路：
 - 二分法，一次注释一半的 Pass，二分法查找。Pass 全集见运行日志中的 ir_analysis_pass 部分。
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/ir_1.png"/></p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/ir_1.png"/></p>
 - 逐个 delete 命中的 Pass（有命中日志的 Pass ），如下图。
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/ir_3.png"/></p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/ir_3.png"/></p>
 
 ### 2.5 开启 TensorRT
 开启 TensorRT，一般不会出现精度问题，会出现推理出错的情况。
 - 动态 shape 输入
 如果开启 TensorRT 后有如下报错，请参考日志设置正确动态 shape 输入变量。
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/trt_1.png"/></p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/trt_1.png"/></p>
 - c++ API
 ```c++
 std::map<std::string, std::vector<int>> min_input_shape = {
@@ -114,5 +114,5 @@ config.Exp_DisableTensorRtOPs({"concat"});
 config.exp_disable_tensorrt_ops(["concat"])
 ```
 
-### 2.5 其他
+### 2.6 其他
 如果通过以上步骤仍未解决您的问题，请再仔细检查各步骤是否完全对齐或者可提交 issue，将您的具体问题、单测以及模型等提供给 Paddle Inference 框架同学，感谢。
