@@ -4,7 +4,7 @@
 
 ## 运行 GO 示例程序
 
-### 1. 获取 C 预测库
+### 1. 下载预编译 C 预测库
 
 #### 下载C预测库
 
@@ -14,13 +14,14 @@
 
 您可以源码编译的方式获取 C 预测库，请参照以下两个文档进行源码编译
 
-- [安装与编译 Linux 预测库](../user_guides/source_compile.html#ubuntu-18-04)
-- [安装与编译 Windows 预测库](../user_guides/source_compile.html#windows-10)
+- [安装与编译 Linux 预测库](../user_guides/source_compile.html#linux)
+- [安装与编译 Windows 预测库](../user_guides/source_compile.html#windows)
+- [安装与编译 Mac 预测库](../user_guides/source_compile.html#mac)
 
-编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 C 预测库，目录结构如下：
+编译完成后，在编译目录下的 `paddle_inference_c` 即为 C 预测库，目录结构如下：
 
 ```bash
-paddle_inference_c_install_dir
+paddle_inference_c
 ├── paddle
 │   ├── include               C 预测库头文件目录
 │   │   └── pd_common.h
@@ -48,7 +49,7 @@ paddle_inference_c_install_dir
 其中 `version.txt` 文件中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号，如：
 
 ```bash
-GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
+GIT COMMIT ID: 590b4dbcdd989324089ce43c22ef151c746c92a3
 WITH_MKL: ON
 WITH_MKLDNN: ON
 WITH_GPU: ON
@@ -86,7 +87,8 @@ resnet50/
 
 ```
 # 此处使用对应tag的CommitId，假设为76e5724，可在步骤1中查看到
-go get -d -v github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi@76e5724
+export GO111MODULE=on
+go get -d -v github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi@590b4dbcdd989324089ce43c22ef151c746c92a3
 ```
 
 2. 软链
@@ -96,8 +98,8 @@ go get -d -v github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi@76e5724
 ```bash
 eval $(go env | grep GOMODCACHE)
 # 按需修改最后的goapi版本号
-cd ${GOMODCACHE}/github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi\@v0.0.0-20210517084506-76e5724c16a5/
-ln -s ${PADDLE_C_DOWNLOAD_DIR}/paddle_inference_c_install_dir paddle_inference_c
+cd ${GOMODCACHE}/github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi\@v0.0.0-20220523104455-d5b6eec273a9/
+ln -s ${PADDLE_C_DOWNLOAD_DIR}/paddle_inference_c paddle_inference_c
 ```
 
 3. 进入到golang api代码路径后，运行单测，验证。
@@ -111,8 +113,16 @@ bash test.sh
 进入步骤3中预测示例代码所在目录，执行：
 
 ```
+git clone https://github.com/PaddlePaddle/Paddle-Inference-Demo.git
+cd Paddle-Inference-Demo/go/resnet50
+# 将Paddle预测lib库加入环境变量
+export LD_LIBRARY_PATH=${PADDLE_C_DOWNLOAD_DIR}/paddle_inference_c/third_party/install/paddle2onnx/lib/:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PADDLE_C_DOWNLOAD_DIR}/paddle_inference_c/third_party/install/onnxruntime/lib/:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PADDLE_C_DOWNLOAD_DIR}/paddle_inference_c/third_party/install/mklml/lib/:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PADDLE_C_DOWNLOAD_DIR}/paddle_inference_c/third_party/install/mkldnn/lib/:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PADDLE_C_DOWNLOAD_DIR}/paddle_inference_c/paddle/lib/:${LD_LIBRARY_PATH}
 go mod init demo
-go get -d -v github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi@76e5724
+go get -d -v github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi@v0.0.0-20220523104455-d5b6eec273a9
 go build .
 
 ./demo -thread_num 1 -work_num 1 -cpu_math 2

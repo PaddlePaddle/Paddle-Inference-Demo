@@ -6,44 +6,51 @@
 
 ### 1. 下载预编译 C++ 预测库
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方Release预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.html)。
+Paddle Inference 提供了 Ubuntu/Windows/MacOS/Jetson 平台的官方 Release 预测库下载，如果使用的是以上平台，推理通过以下链接直接下载，或者也可以参考[源码编译](../user_guides/source_compile.html)文档自行编译。
 
-- [下载安装Linux预测库](../user_guides/download_lib.html#linux)
-- [下载安装Windows预测库](../user_guides/download_lib.html#windows)
+- [下载安装 Linux 预测库](../user_guides/download_lib.html#linux)
+- [下载安装 Windows 预测库](../user_guides/download_lib.html#windows)
+- [下载安装 Windows 预测库](../user_guides/download_lib.html#mac)
 
 下载完成并解压之后，目录下的 `paddle_inference_install_dir` 即为 C++ 预测库，目录结构如下：
 
 ```bash
-paddle_inference/paddle_inference_install_dir/
+paddle_inference
 ├── CMakeCache.txt
 ├── paddle
-│   ├── include                                    C++ 预测库头文件目录
+│   ├── include                              C++ 预测库头文件目录
 │   │   ├── crypto
+│   │   ├── experimental
 │   │   ├── internal
 │   │   ├── paddle_analysis_config.h
 │   │   ├── paddle_api.h
+│   │   ├── paddle_infer_contrib.h
 │   │   ├── paddle_infer_declare.h
-│   │   ├── paddle_inference_api.h                 C++ 预测库头文件
+│   │   ├── paddle_inference_api.h           C++ 预测库头文件
 │   │   ├── paddle_mkldnn_quantizer_config.h
-│   │   └── paddle_pass_builder.h
+│   │   ├── paddle_pass_builder.h
+│   │   └── paddle_tensor.h
 │   └── lib
-│       ├── libpaddle_inference.a                      C++ 静态预测库文件
-│       └── libpaddle_inference.so                     C++ 动态态预测库文件
-├── third_party
-│   ├── install                                    第三方链接库和头文件
+│       ├── libpaddle_inference.a
+│       └── libpaddle_inference.so
+├── third_party                              第三方链接库和头文件
+│   ├── install
 │   │   ├── cryptopp
 │   │   ├── gflags
 │   │   ├── glog
 │   │   ├── mkldnn
 │   │   ├── mklml
+│   │   ├── onnxruntime
+│   │   ├── paddle2onnx
 │   │   ├── protobuf
+│   │   ├── utf8proc
 │   │   └── xxhash
 │   └── threadpool
 │       └── ThreadPool.h
 └── version.txt
 ```
 
-其中 `version.txt` 文件中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号，如：
+其中 `version.txt` 文件中记录了该预测库的版本信息，包括 Git Commit ID、使用 OpenBlas 或 MKL 数学库、CUDA/CUDNN 版本号，如：
 
 ```bash
 GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
@@ -59,20 +66,29 @@ TensorRT version: v6
 
 ### 2. 获取预测示例代码并编译
 
-本章节 C++ 预测示例代码位于 [Paddle-Inference-Demo/c++/resnet50](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c++/resnet50)。目录包含以下文件：
+本章节 C++ 预测示例代码位于 [Paddle-Inference-Demo/c++/resnet50](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c++/resnet50)。
+
+```
+# 获取部署 Demo 代码库
+git clone https://github.com/PaddlePaddle/Paddle-Inference-Demo.git
+```
+
+其中以ResNet50为例，Linux Demo 代码在如下路径
 
 ```bash
 Paddle-Inference-Demo/c++/resnet50/
-├── resnet50_test.cc   预测 C++ 源码程序
-├── README.md          README 说明
-├── compile.sh         编译脚本
-└── run.sh             运行脚本 
+├── resnet50_test.cc         预测 C++ 源码程序
+├── README.md                README 说明
+├── compile.sh               编译脚本
+└── run.sh                   运行脚本 
 ```
 
-编译运行预测样例之前，需要根据运行环境配置编译脚本 `compile.sh`。
+编译运行预测样例之前，先下载对应预测库并解压，将解压后的 paddle_inference 目录移至 Paddle-Inference-Demo/c++/lib 目录下。
+
+编译时，根据部署的环境和硬件，编辑`compile.sh`，其中各参数含义如下所示，
 
 ```bash
-# 根据预编译库中的version.txt信息判断是否将以下三个标记打开
+# 根据预编译库中的 version.txt 信息判断是否将以下三个标记打开
 WITH_MKL=ON       
 WITH_GPU=ON         
 USE_TENSORRT=OFF
@@ -80,11 +96,12 @@ USE_TENSORRT=OFF
 # 配置预测库的根目录，即为本章节第1步中下载/编译的 C++ 预测库，可重命名为 paddle_inference 后置于 ../lib 目录下
 LIB_DIR=${work_path}/../lib/paddle_inference
 
-# 如果上述的 WITH_GPU 或 USE_TENSORRT 设为ON，请设置对应的 CUDA, CUDNN, TENSORRT的路径，例如
+# 如果上述的 WITH_GPU 或 USE_TENSORRT 设为ON，请设置对应的 CUDA, CUDNN, TENSORRT 的路径，例如
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/usr/local/TensorRT-6.0.1.5
 ```
+
 运行脚本进行编译，会在目录下产生 `build` 目录，并生成 `build/resnet50_test` 可执行文件
 
 ```bash
@@ -93,7 +110,7 @@ bash compile.sh
 
 ### 3. 执行预测程序
 
-**注意**：Paddle Inference 提供下载的C++预测库对应的 GCC 版本与您电脑中GCC版本需要一致，如果不一致可能出现未知错误。
+**注意**：Paddle Inference 提供下载的 C++ 预测库对应的 GCC 版本与您电脑中GCC版本需要一致，如果不一致可能出现未知错误。
 
 运行脚本 `run.sh` 执行预测程序。
 

@@ -4,39 +4,43 @@
 
 ## 运行 C 示例程序
 
-### 1. 源码编译 C 预测库
+### 1. 下载预编译 C 预测库
+Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 预测库下载，如果使用的是以上平台，推理通过以下链接直接下载，或者也可以参考[源码编译](../user_guides/source_compile.html)文档自行编译。
 
-Paddle Inference 的 C 预测库需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译
+- [下载安装 Linux 预测库](../user_guides/download_lib.html#linux)
+- [下载安装 Windows 预测库](../user_guides/download_lib.html#windows)
+- [下载安装 Mac 预测库](../user_guides/download_lib.html#mac)
 
-- [安装与编译 Linux 预测库](../user_guides/source_compile.html#ubuntu-18-04)
-- [安装与编译 Windows 预测库](../user_guides/source_compile.html#windows-10)
 
-编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 C 预测库，目录结构如下：
+下载完成并解压后，目录下的 `paddle_inference_c` 即为 C 预测库，目录结构如下：
 
 ```bash
-paddle_inference_c_install_dir
+paddle_inference_c
 ├── paddle
-│   ├── include               C 预测库头文件目录
-│   │   └── pd_common.h
-│   │   └── pd_config.h
-│   │   └── pd_inference_api.h         C 预测库头文件
-│   │   └── pd_predictor.h
-│   │   └── pd_tensor.h
-│   │   └── pd_types.h
+│   ├── include                         C 预测库头文件目录
+│   │   ├── pd_common.h
+│   │   ├── pd_config.h
+│   │   ├── pd_inference_api.h          C 预测头文件
+│   │   ├── pd_predictor.h
+│   │   ├── pd_tensor.h
+│   │   ├── pd_types.h
 │   │   └── pd_utils.h
 │   └── lib
-│       ├── libpaddle_inference_c.a          C 静态预测库文件
-│       └── libpaddle_inference_c.so         C 动态预测库文件
+│       ├── libpaddle_inference_c.a     C 静态预测库文件
+│       └── libpaddle_inference_c.so    C 动态预测库文件
 ├── third_party
-│   └── install                          第三方链接库和头文件
+│   └── install                         第三方链接库和头文件
 │       ├── cryptopp
 │       ├── gflags
 │       ├── glog
 │       ├── mkldnn
 │       ├── mklml
+│       ├── onnxruntime
+│       ├── paddle2onnx
 │       ├── protobuf
+│       ├── utf8proc
 │       └── xxhash
-└── version.txt                          版本信息与编译选项信息
+└── version.txt
 ```
 
 其中 `version.txt` 文件中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号，如：
@@ -140,11 +144,20 @@ int main() {
 
 ### 4. 编译预测部署程序
 
-将 `paddle_inference_c_install_dir/paddle/include` 目录下的所有头文件和动态库文件 `paddle_inference_c_install_dir/paddle/lib/libpaddle_inference_c.so` 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：
+将 `paddle_inference_c/paddle/include` 目录下的所有头文件和动态库文件 `paddle_inference_c_install_dir/paddle/lib/libpaddle_inference_c.so` 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：
+将如下动态库文件拷贝到与预测源码同一目录，然后使用 gcc 进行编译，
+- paddle_inference_c/third_party/install/paddle2onnx/lib/libpaddle2onnx.so
+- paddle_inference_c/third_party/install/onnxruntime/lib/libonnxruntime.so.1.10.0
+- paddle_inference_c/third_party/install/mklml/lib/libiomp5.so
+- paddle_inference_c/third_party/install/mkldnn/lib/libdnnl.so.2
+- paddle_inference_c/paddle/lib/libpaddle_inference_c.so
 
 ```bash
 # GCC 编译命令
-gcc c_demo.c libpaddle_inference_c.so -o c_demo_prog
+gcc c_demo.c -Ipaddle_inference_c/paddle/include \
+    libpaddle2onnx.so libonnxruntime.so.1.10.0 \
+    libiomp5.so libdnnl.so.2 libpaddle_inference_c.so \
+    -o c_demo_prog
 
 # 编译完成之后生成 c_demo_prog 可执行文件，编译目录内容如下
 c_demo_dir/
@@ -170,11 +183,11 @@ c_demo_dir/
 
 ### 5. 执行预测程序
 
-**注意**：需要先将动态库文件 `libpaddle_inference_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
+**注意**：需要先将动态库文件所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
 
 ```bash
 # 执行预测程序
-export LD_LIBRARY_PATH=`pwd`:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${PWD}:$LD_LIBRARY_PATH
 ./c_demo_prog
 ```
 

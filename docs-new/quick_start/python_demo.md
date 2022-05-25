@@ -6,7 +6,7 @@
 
 ### 1. 安装 Python 预测库
 
-请参照 [官方主页-快速安装](https://www.paddlepaddle.org.cn/install/quick) 页面进行自行安装或编译，当前支持 pip/conda 安装，docker镜像 以及源码编译等多种方式来准备 Paddle Inference 开发环境。
+请参照 [官方主页-快速安装](https://www.paddlepaddle.org.cn/install/quick) 页面进行自行安装或编译，当前支持 pip/conda 安装，docker 镜像以及源码编译等多种方式来准备 Paddle Inference 开发环境。
 
 ### 2. 准备预测部署模型
 
