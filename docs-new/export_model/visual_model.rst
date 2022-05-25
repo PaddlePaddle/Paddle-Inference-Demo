@@ -49,7 +49,7 @@ VisualDL是飞桨可视化分析工具，以丰富的图表呈现训练参数变
 
   - 在命令行加入参数 --model 并指定 **模型文件** 路径（非文件夹路径），即可启动：
 
-.. code:: python
+.. code:: shell
 
 	visualdl --model model.pdmodel --port 8080
 
