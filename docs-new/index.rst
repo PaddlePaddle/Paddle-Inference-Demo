@@ -49,11 +49,13 @@ Welcome to Paddle Inference's documentation!
 
 .. toctree::
   :maxdepth: 1
-  :caption: 工具 
-  :name: sec-tools
+  :caption: 模型导出
+  :name: sec-export-model
   
-  tools/visual
-  tools/x2paddle
+  export_model/README
+  export_model/paddle_model_export
+  export_model/outside_model_export
+  export_model/visual_model
 
 .. toctree::
   :maxdepth: 1
