@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>精度问题追查 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="性能分析" href="performance_analysis_profiler.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+<p><span class="caption-text">Debug</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="performance_analysis_profiler.html">性能分析</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">精度问题追查</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#section-2">1 追查准备工作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#section-3">2 追查具体步骤</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-4">2.1 预处理和模型输入对齐</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-5">2.2 关闭所有优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-6">2.3 开启内存显存优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ir">2.4 开启IR优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tensorrt">2.5 开启 TensorRT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#shape">2.5.1 动态 shape 输入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#op-tensorrt">2.5.2 禁止 OP 进入 TensorRT</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#section-7">2.6 其他</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>精度问题追查</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/debug/precision_tracing.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="section-1">
+<h1>精度问题追查<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h1>
+<p>本文档将向您介绍在推理部署过程中可以完成推理，但是结果不一致，出现影响到最终指标的 diff 的情况下，如何进行精度问题的追查。</p>
+<section id="section-2">
+<h2>1 追查准备工作<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h2>
+<p>在追查出现精度问题原因前需要对齐所有的推理配置项，控制其他变量一致，其中包括：</p>
+<p>(1) paddle版本</p>
+<p>(2) 硬件环境</p>
+<p>(3) 模型</p>
+<p>(4) 预处理和模型输入</p>
+<p>如果是 <code class="docutils literal notranslate"><span class="pre">C++</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Python</span></code> 结果不一致，请使用同一硬件环境；如果是不同硬件结果不一致，请使用同样的测试代码。</p>
+</section>
+<section id="section-3">
+<h2>2 追查具体步骤<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h2>
+<p>以正确结果为基准（训练前向，或不开任何优化的推理结果），不断按如下步骤调整错误结果的配置从而复现问题。</p>
+<section id="section-4">
+<h3>2.1 预处理和模型输入对齐<a class="headerlink" href="#section-4" title="Permalink to this headline">¶</a></h3>
+<p>打印模型输入数据，确定预处理对齐（比对两种情况下的全部模型输入是否完全一致）。</p>
+</section>
+<section id="section-5">
+<h3>2.2 关闭所有优化<a class="headerlink" href="#section-5" title="Permalink to this headline">¶</a></h3>
+<p>关闭所有优化（对应 API 如下），不开启 TensorRT，排查结果是否对齐，此种情况下约等于使用训练前向进行推理。</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>API</th>
+<th>内存显存优化</th>
+<th>IR</th>
+<th>TensorRT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C++</td>
+<td>//config.EnableMemoryOptim() 不开启</td>
+<td>config.SwitchIrOptim(false)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>#config.enable_memory_optim() 不开启</td>
+<td>config.switch_ir_optim(False)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table><p><strong>结果分析</strong></p>
+<p>(1) 如果此步骤发现结果不对齐或报错，可以在同样环境下用训练前向的 <code class="docutils literal notranslate"><span class="pre">paddle.static.Executor</span></code> 接口加载模型，跑训练前向验证一下结果是否一致，结果仍不一致则为原生 OP 实现问题，结果一致但是推理接口出错则是推理问题。</p>
+<p>(2) 定位引起不一致的具体 OP ：
+可以通过裁剪模型的方式，尝试进一步定位引发结果出错的具体 OP。裁剪网络方式可以使用二分法，或者针对网络结构设计容易快速定位 OP 的方式（如果裁剪重复结构的分界线，backbone 等）。模型裁剪可以通过组网代码，或者使用我们研发使用的<a class="reference external" href="http://agroup.baidu.com/api/static/bj/-3ca5e635ac4cb83d9b3ccc628f8acfd0c57ad4d8?filename=prune.py">模型裁剪工具</a>。</p>
+</section>
+<section id="section-6">
+<h3>2.3 开启内存显存优化<a class="headerlink" href="#section-6" title="Permalink to this headline">¶</a></h3>
+<p><strong>配置选项：</strong></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>API</th>
+<th>内存显存优化</th>
+<th>IR</th>
+<th>TensorRT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C++</td>
+<td>config.EnableMemoryOptim() 开启</td>
+<td>config.SwitchIrOptim(false)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>config.enable_memory_optim() 开启</td>
+<td>config.switch_ir_optim(False)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table><p>模型推理在是否开启内存显存优化的情况下均可正常使用，不会影响性能，只可能影响显存的大小，在使用 TensorRT 的情况下，对显存影响也不大。若开启内存显存优化情况下，结果出现不一致，请您能够提交相关的样例至 issue，协助我们解决框架问题。</p>
+</section>
+<section id="ir">
+<h3>2.4 开启IR优化<a class="headerlink" href="#ir" title="Permalink to this headline">¶</a></h3>
+<p><strong>配置选项：</strong></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>API</th>
+<th>内存显存优化</th>
+<th>IR</th>
+<th>TensorRT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C++</td>
+<td>config.EnableMemoryOptim() 开启</td>
+<td>config.SwitchIrOptim(true)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>config.enable_memory_optim() 开启</td>
+<td>config.switch_ir_optim(True)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table><p>IR 优化会涉及到具体的 Pass 优化，如果开启 IR 优化后出现结果不一致的情况，下一步需要定位引发问题的具体 Pass。</p>
+<p>(1) C++ API</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">pass_builder</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">DeletePass</span><span class="p">(</span><span class="s">&quot;xxx_fuse_pass&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(2) Python API</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">delete_pass</span><span class="p">(</span><span class="s2">&quot;xxxx_fuse_pass&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>为了快速定位出问题的 Pass，有两种思路：</strong></p>
+<p>(1) 二分法。一次注释一半的 Pass，二分法查找。Pass 全集见运行日志中的 ir_analysis_pass 部分。</p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/ir_1.png"/></p><p>(2) 逐个查找。delete 命中的 Pass（有命中日志的 Pass ），如下图。</p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/ir_3.png"/></p></section>
+<section id="tensorrt">
+<h3>2.5 开启 TensorRT<a class="headerlink" href="#tensorrt" title="Permalink to this headline">¶</a></h3>
+<p>开启 TensorRT，一般不会出现精度问题，会出现推理出错的情况。</p>
+<section id="shape">
+<h4>2.5.1 动态 shape 输入<a class="headerlink" href="#shape" title="Permalink to this headline">¶</a></h4>
+<p>如果开启 TensorRT 后有如下报错，请参考日志设置正确动态 shape 输入变量。</p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/trt_1.png"/></p><p>(1) c++ API</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">min_input_shape</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">{</span><span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">}}};</span>
+<span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">max_input_shape</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">{</span><span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">}}};</span>
+<span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">opt_input_shape</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">{</span><span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">}}};</span>
+
+<span class="n">config</span><span class="p">.</span><span class="n">SetTRTDynamicShapeInfo</span><span class="p">(</span><span class="n">min_input_shape</span><span class="p">,</span> <span class="n">max_input_shape</span><span class="p">,</span>
+                            <span class="n">opt_input_shape</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(2) Python API</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">min_input_shape</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">]}</span>
+<span class="n">max_input_shape</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">]}</span>
+<span class="n">opt_input_shape</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">]}</span>
+
+<span class="n">config</span><span class="o">.</span><span class="n">set_trt_dynamic_shape_info</span><span class="p">(</span><span class="n">min_input_shape</span><span class="p">,</span> <span class="n">max_input_shape</span><span class="p">,</span> <span class="n">opt_input_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>或者使用推理自动生成动态 shape 的方式进行操作，对应 API 如下，先调用 <code class="docutils literal notranslate"><span class="pre">CollectShapeRangeInfo</span></code> 接口生成动态 shape 文件，在推理时将 <code class="docutils literal notranslate"><span class="pre">CollectShapeRangeInfo</span></code> 接口删掉，使用 <code class="docutils literal notranslate"><span class="pre">EnableTunedTensorRtDynamicShape</span></code> 接口调用动态 shape 输入即可。</p>
+<p>(1) c++ API</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">//config.CollectShapeRangeInfo(&quot;shape_range_info.pbtxt&quot;);</span>
+<span class="n">config</span><span class="p">.</span><span class="n">EnableTunedTensorRtDynamicShape</span><span class="p">(</span><span class="s">&quot;shape_range_info.pbtxt&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(2) Python API</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#config.collect_shape_range_info(&quot;shape_range_info.pbtxt&quot;)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">enable_tuned_tensorrt_dynamic_shape</span><span class="p">(</span><span class="s2">&quot;shape_range_info.pbtxt&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="op-tensorrt">
+<h4>2.5.2 禁止 OP 进入 TensorRT<a class="headerlink" href="#op-tensorrt" title="Permalink to this headline">¶</a></h4>
+<p>若推理报错结果显示某个具体 OP 推理出现问题，可将此 OP 移出进入 TensorRT 的列表，使用原生 GPU 进行推理。</p>
+<p>(1) c++ API</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">Exp_DisableTensorRtOPs</span><span class="p">({</span><span class="s">&quot;concat&quot;</span><span class="p">});</span>
+</pre></div>
+</div>
+<p>(2) Python API</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">exp_disable_tensorrt_ops</span><span class="p">([</span><span class="s2">&quot;concat&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="section-7">
+<h3>2.6 其他<a class="headerlink" href="#section-7" title="Permalink to this headline">¶</a></h3>
+<p>如果通过以上步骤仍未解决您的问题，请再仔细检查各步骤是否完全对齐或者可提交 issue，将您的具体问题、单测以及模型等提供给 Paddle Inference 框架同学，感谢。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="performance_analysis_profiler.html" class="btn btn-neutral float-left" title="性能分析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>性能数据 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="C++ API 文档" href="../api_reference/cxx_api_index.html" />
+    <link rel="prev" title="Windows上GPU预测部署示例" href="../demo_tutorial/cuda_windows_demo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">性能数据</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#section-2">测试条件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#section-3">数据</a></li>
+</ul>
+</li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>性能数据</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/benchmark/benchmark.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="section-1">
+<h1>性能数据<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h1>
+<section id="section-2">
+<h2>测试条件<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>测试模型</p>
+<ul>
+<li><p>Mobilenetv2</p></li>
+<li><p>Resnet101</p></li>
+<li><p>Yolov3</p></li>
+<li><p>Faster-RCNN</p></li>
+<li><p>Deeplabv3</p></li>
+<li><p>Unet</p></li>
+<li><p>Bert/Ernie</p></li>
+<li><p>…</p></li>
+</ul>
+</li>
+<li><p>测试机器</p>
+<ul>
+<li><p>P4</p></li>
+<li><p>T4</p></li>
+<li><p>cpu</p></li>
+<li><p>…</p></li>
+</ul>
+</li>
+<li><p>测试说明</p>
+<ul>
+<li><p>测试Paddle版本：release/2.0-rc1</p></li>
+<li><p>warmup=10， repeats=1000，统计平均时间，单位ms。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="section-3">
+<h2>数据<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>model_name</th>
+<th>batch_size</th>
+<th>num_samples</th>
+<th>device</th>
+<th>ir_optim</th>
+<th>enable_tensorrt</th>
+<th>enable_mkldnn</th>
+<th>trt_precision</th>
+<th>cpu_math_library_num_threads</th>
+<th>Average_latency</th>
+<th>QPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bert_emb_v1-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>8.5914</td>
+<td>116.396</td>
+</tr>
+<tr>
+<td>bert_emb_v1-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>15.3364</td>
+<td>130.409</td>
+</tr>
+<tr>
+<td>bert_emb_v1-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>8.09328</td>
+<td>123.559</td>
+</tr>
+<tr>
+<td>bert_emb_v1-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>27.0221</td>
+<td>148.027</td>
+</tr>
+<tr>
+<td>bert_emb_v1-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>14.9749</td>
+<td>133.556</td>
+</tr>
+<tr>
+<td>deeplabv3p_xception_769_fp32-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>458.679</td>
+<td>8.7207</td>
+</tr>
+<tr>
+<td>deeplabv3p_xception_769_fp32-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>379.832</td>
+<td>10.531</td>
+</tr>
+<tr>
+<td>deeplabv3p_xception_769_fp32-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>96.0014</td>
+<td>10.4165</td>
+</tr>
+<tr>
+<td>deeplabv3p_xception_769_fp32-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>193.826</td>
+<td>10.3185</td>
+</tr>
+<tr>
+<td>deeplabv3p_xception_769_fp32-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>114.996</td>
+<td>8.69596</td>
+</tr>
+<tr>
+<td>deeplabv3p_xception_769_fp32-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>227.272</td>
+<td>8.80004</td>
+</tr>
+<tr>
+<td>faster_rcnn_r50_1x-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>162.795</td>
+<td>12.2854</td>
+</tr>
+<tr>
+<td>faster_rcnn_r50_1x-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>141.49</td>
+<td>7.06762</td>
+</tr>
+<tr>
+<td>faster_rcnn_r50_1x-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>320.018</td>
+<td>12.4993</td>
+</tr>
+<tr>
+<td>faster_rcnn_r50_1x-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>162.685</td>
+<td>12.2937</td>
+</tr>
+<tr>
+<td>faster_rcnn_r50_1x-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>140.516</td>
+<td>7.11662</td>
+</tr>
+<tr>
+<td>faster_rcnn_r50_1x-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>318.193</td>
+<td>12.571</td>
+</tr>
+<tr>
+<td>mobilenet_ssd-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>5.34364</td>
+<td>187.138</td>
+</tr>
+<tr>
+<td>mobilenet_ssd-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>10.0709</td>
+<td>397.185</td>
+</tr>
+<tr>
+<td>mobilenet_ssd-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.45996</td>
+<td>309.6</td>
+</tr>
+<tr>
+<td>mobilenet_v2-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>3.74114</td>
+<td>1069.19</td>
+</tr>
+<tr>
+<td>mobilenet_v2-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>1.77892</td>
+<td>562.14</td>
+</tr>
+<tr>
+<td>mobilenet_v2-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>2.44298</td>
+<td>818.673</td>
+</tr>
+<tr>
+<td>mobilenet_v2-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.19198</td>
+<td>556.175</td>
+</tr>
+<tr>
+<td>mobilenet_v2-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>4.53171</td>
+<td>441.335</td>
+</tr>
+<tr>
+<td>mobilenet_v2-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>3.45571</td>
+<td>289.376</td>
+</tr>
+<tr>
+<td>resnet101-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>13.1659</td>
+<td>75.9538</td>
+</tr>
+<tr>
+<td>resnet101-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>21.1129</td>
+<td>189.457</td>
+</tr>
+<tr>
+<td>resnet101-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>11.7751</td>
+<td>169.849</td>
+</tr>
+<tr>
+<td>resnet101-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>7.79821</td>
+<td>128.234</td>
+</tr>
+<tr>
+<td>resnet101-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>18.3</td>
+<td>218.58</td>
+</tr>
+<tr>
+<td>resnet101-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>15.4095</td>
+<td>129.79</td>
+</tr>
+<tr>
+<td>unet-paddle</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>155.15</td>
+<td>25.7814</td>
+</tr>
+<tr>
+<td>unet-paddle</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>36.8867</td>
+<td>27.11</td>
+</tr>
+<tr>
+<td>unet-paddle</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>75.5283</td>
+<td>26.4801</td>
+</tr>
+<tr>
+<td>yolov3_darknet</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>84.2696</td>
+<td>11.8667</td>
+</tr>
+<tr>
+<td>yolov3_darknet</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>139.273</td>
+<td>14.3603</td>
+</tr>
+<tr>
+<td>yolov3_darknet</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>208.45</td>
+<td>19.1893</td>
+</tr>
+<tr>
+<td>yolov3_darknet</td>
+<td>1</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>43.5201</td>
+<td>22.9779</td>
+</tr>
+<tr>
+<td>yolov3_darknet</td>
+<td>2</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>86.456</td>
+<td>23.1331</td>
+</tr>
+<tr>
+<td>yolov3_darknet</td>
+<td>4</td>
+<td>1000</td>
+<td>P4</td>
+<td>true</td>
+<td>true</td>
+<td></td>
+<td>fp32</td>
+<td></td>
+<td>170.954</td>
+<td>23.3981</td>
+</tr>
+</tbody>
+</table></section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api_reference/cxx_api_index.html" class="btn btn-neutral float-right" title="C++ API 文档" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../demo_tutorial/cuda_windows_demo.html" class="btn btn-neutral float-left" title="Windows上GPU预测部署示例" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

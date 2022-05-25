@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>预测流程 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="预测示例 (C++)" href="cpp_demo.html" />
+    <link rel="prev" title="Paddle Inference 简介" href="../product_introduction/inference_intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">预测流程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#section-2">一. 准备模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#section-3">二. 准备环境</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python">1) Python 环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c">2) C++ 环境</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#section-4">三. 开发预测程序</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>预测流程</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/quick_start/workflow.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="section-1">
+<h1>预测流程<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h1>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/workflow.png"/></p><section id="section-2">
+<h2>一. 准备模型<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h2>
+<p>Paddle Inference 原生支持由 <a class="reference external" href="https://github.com/PaddlePaddle/Paddle">PaddlePaddle</a> 深度学习框架训练产出的推理模型。新版本 PaddlePaddle 用于推理的模型分别通过 <code class="docutils literal notranslate"><span class="pre">paddle.jit.save</span></code> (动态图) 与 <code class="docutils literal notranslate"><span class="pre">paddle.static.save_inference_model</span></code> (静态图) 或 <code class="docutils literal notranslate"><span class="pre">paddle.Model().save</span></code> (高层API) 保存下来；老版本的 PaddlePaddle 用于推理的模型通过 <code class="docutils literal notranslate"><span class="pre">fluid.io.save_inference_model</span></code> 这个API保存下来。更详细的说明请参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/02_paddle2.0_develop/08_model_save_load_cn.html">这里</a>。</p>
+<p>如果您手中的模型是由诸如 Caffe、Tensorflow、PyTorch 等框架产出的，那么您可以使用 <a class="reference external" href="https://github.com/PaddlePaddle/X2Paddle">X2Paddle</a> 工具将模型转换为 PadddlePaddle 格式。</p>
+</section>
+<section id="section-3">
+<h2>二. 准备环境<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h2>
+<section id="python">
+<h3>1) Python 环境<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<p>请参照 <a class="reference external" href="https://www.paddlepaddle.org.cn/install/quick">官方主页-快速安装</a> 页面进行自行安装或编译，当前支持 pip/conda 安装，docker镜像 以及源码编译等多种方式来准备 Paddle Inference 开发环境。</p>
+</section>
+<section id="c">
+<h3>2) C++ 环境<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h3>
+<p>Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方Release预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行<a class="reference external" href="https://paddleinference.paddlepaddle.org.cn/user_guides/source_compile.html">源码编译</a>。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux">下载安装Linux预测库</a></p></li>
+<li><p><a class="reference external" href="https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows">下载安装Windows预测库</a></p></li>
+</ul>
+</section>
+</section>
+<section id="section-4">
+<h2>三. 开发预测程序<a class="headerlink" href="#section-4" title="Permalink to this headline">¶</a></h2>
+<p>Paddle Inference采用 Predictor 进行预测。Predictor 是一个高性能预测引擎，该引擎通过对计算图的分析，完成对计算图的一系列的优化（如OP的融合、内存/显存的优化、 MKLDNN，TensorRT 等底层加速库的支持等），能够大大提升预测性能。</p>
+<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs/images/predict.png"/></p><p>开发预测程序只需要简单的5个步骤 (这里以C++ API为例)：</p>
+<ol class="simple">
+<li><p>配置推理选项 <code class="docutils literal notranslate"><span class="pre">paddle_infer::Config</span></code>，包括设置模型路径、运行设备、开启/关闭计算图优化、使用MKLDNN/TensorRT进行部署的加速等。</p></li>
+<li><p>创建推理引擎 <code class="docutils literal notranslate"><span class="pre">paddle_infer::Predictor</span></code>，通过调用 <code class="docutils literal notranslate"><span class="pre">CreatePredictor(Config)</span></code> 接口，一行代码即可完成引擎初始化，其中 <code class="docutils literal notranslate"><span class="pre">Config</span></code> 为第1步中生成的配置推理选项。</p></li>
+<li><p>准备输入数据，需要以下几个步骤</p>
+<ul class="simple">
+<li><p>先通过 <code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">input_names</span> <span class="pre">=</span> <span class="pre">predictor-&gt;GetInputNames()</span></code> 获取模型所有输入 Tensor 的名称</p></li>
+<li><p>再通过 <code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">tensor</span> <span class="pre">=</span> <span class="pre">predictor-&gt;GetInputTensor(input_names[i])</span></code> 获取输入 Tensor 的指针</p></li>
+<li><p>最后通过 <code class="docutils literal notranslate"><span class="pre">tensor-&gt;copy_from_cpu(data)</span></code>，将 data 中的数据拷贝到 tensor 中</p></li>
+</ul>
+</li>
+<li><p>执行预测，只需要运行<code class="docutils literal notranslate"><span class="pre">predictor-&gt;Run()</span></code>一行代码，即可完成预测执行</p></li>
+<li><p>获得预测结果，需要以下几个步骤</p>
+<ul class="simple">
+<li><p>先通过 <code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">out_names</span> <span class="pre">=</span> <span class="pre">predictor-&gt;GetOutputNames()</span></code> 获取模型所有输出 Tensor 的名称</p></li>
+<li><p>再通过 <code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">tensor</span> <span class="pre">=</span> <span class="pre">predictor-&gt;GetOutputTensor(out_names[i])</span></code> 获取输出 Tensor的 指针</p></li>
+<li><p>最后通过 <code class="docutils literal notranslate"><span class="pre">tensor-&gt;copy_to_cpu(data)</span></code>，将 tensor 中的数据 copy 到 data 指针上</p></li>
+</ul>
+</li>
+</ol>
+<p>Paddle Inference 提供了C, C++, Python, Golang 四种API的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="cpp_demo.html"><span class="doc">预测示例 (C++)</span></a></p></li>
+<li><p><a class="reference internal" href="python_demo.html"><span class="doc">预测示例 (Python)</span></a></p></li>
+<li><p><a class="reference internal" href="c_demo.html"><span class="doc">预测示例 (C)</span></a></p></li>
+<li><p><a class="reference internal" href="go_demo.html"><span class="doc">预测示例 (GO)</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cpp_demo.html" class="btn btn-neutral float-right" title="预测示例 (C++)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../product_introduction/inference_intro.html" class="btn btn-neutral float-left" title="Paddle Inference 简介" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

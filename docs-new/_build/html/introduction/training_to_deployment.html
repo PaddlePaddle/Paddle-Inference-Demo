@@ -1,0 +1,690 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>训练推理示例说明 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Paddle Inference FAQ" href="faq.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">训练推理示例说明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#paddle-2-0">一、使用 Paddle 2.0 新接口训练一个简单模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#section-2">二、预训练模型如何转换为预测部署模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-3">参考代码</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#paddle-2-0-python">三、使用 Paddle 2.0 Python 接口预测部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-4">加载预测模型并进行预测配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-5">设置输入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-6">运行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-7">获取输出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-8">完整可运行代码</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#paddle-2-0-c">四、使用 Paddle 2.0 C++ 接口预测部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-9">准备预测库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-10">下载预测样例包</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-11">配置依赖库路径</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-12">加载预测模型并进行预测配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-13">设置输入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-14">运行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-15">获取输出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-16">执行预测</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>训练推理示例说明</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/introduction/training_to_deployment.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="section-1">
+<h1>训练推理示例说明<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h1>
+<p>本文档将向您介绍如何使用 Paddle 2.0 新接口训练和推理一个模型。</p>
+<section id="paddle-2-0">
+<h2>一、使用 Paddle 2.0 新接口训练一个简单模型<a class="headerlink" href="#paddle-2-0" title="Permalink to this headline">¶</a></h2>
+<p>我们参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/tutorial/cv_case/image_classification/image_classification.html#lenetmnist"> LeNet 的 MNIST 数据集图像分类 </a>，使用 Paddle 2.0 接口训练一个简单的模型，分别存储成预训练和预测部署模型。我们将着重介绍如何生成模型文件。</p>
+<ul class="simple">
+<li><p>依赖包导入</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span>
+<span class="kn">import</span> <span class="nn">paddle.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">paddle.nn</span> <span class="kn">import</span> <span class="n">Layer</span>
+<span class="kn">from</span> <span class="nn">paddle.vision.datasets</span> <span class="kn">import</span> <span class="n">MNIST</span>
+<span class="kn">from</span> <span class="nn">paddle.metric</span> <span class="kn">import</span> <span class="n">Accuracy</span>
+<span class="kn">from</span> <span class="nn">paddle.nn</span> <span class="kn">import</span> <span class="n">Conv2D</span><span class="p">,</span><span class="n">MaxPool2D</span><span class="p">,</span><span class="n">Linear</span>
+<span class="kn">from</span> <span class="nn">paddle.static</span> <span class="kn">import</span> <span class="n">InputSpec</span>
+<span class="kn">from</span> <span class="nn">paddle.jit</span> <span class="kn">import</span> <span class="n">to_static</span>
+<span class="kn">from</span> <span class="nn">paddle.vision.transforms</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>查看 Paddle 版本</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>数据集准备</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">())</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">())</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>构建 LeNet 网络</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LeNet</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LeNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_pool1</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2D</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_pool2</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2D</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">16</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">84</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear3</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_pool1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_pool2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">start_axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">stop_axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>模型训练</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_loader</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LeNet</span><span class="p">()</span>
+<span class="n">optim</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">()):</span>
+            <span class="n">x_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">predicts</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">predicts</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+            <span class="n">acc</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">predicts</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">batch_id</span> <span class="o">%</span> <span class="mi">300</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;epoch: </span><span class="si">{}</span><span class="s2">, batch_id: </span><span class="si">{}</span><span class="s2">, loss is: </span><span class="si">{}</span><span class="s2">, acc is: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">acc</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+            <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+            <span class="n">optim</span><span class="o">.</span><span class="n">clear_grad</span><span class="p">()</span>
+<span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>存储训练模型（训练格式）：您可以参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/02_paddle2.0_develop/08_model_save_load_cn.html#id8"> 参数存储 </a>，了解如何在动态图下存储训练格式的模型。只需调用<code class="docutils literal notranslate"><span class="pre">paddle.save</span></code>接口即可。</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">paddle</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;lenet.pdparams&#39;</span><span class="p">)</span>
+<span class="n">paddle</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">optim</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">&quot;lenet.pdopt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="section-2">
+<h2>二、预训练模型如何转换为预测部署模型<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>加载预训练模型：您可以参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/02_paddle2.0_develop/08_model_save_load_cn.html#id9">参数载入</a>了解如何在动态图下加载训练格式的模型，此方法可帮助您完成恢复训练，即模型状态回到训练中断的时刻，恢复训练之后的梯度更新走向是和恢复训练前的梯度走向完全相同的。只需调用<code class="docutils literal notranslate"><span class="pre">paddle.load</span></code>接口加载训练格式的模型，再调用<code class="docutils literal notranslate"><span class="pre">set_state_dict</span></code>接口恢复模型训练中断时刻的状态。</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model_state_dict</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;lenet.pdparams&#39;</span><span class="p">)</span>
+<span class="n">opt_state_dict</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;lenet.pdopt&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">set_state_dict</span><span class="p">(</span><span class="n">model_state_dict</span><span class="p">)</span>
+<span class="n">optim</span><span class="o">.</span><span class="n">set_state_dict</span><span class="p">(</span><span class="n">opt_state_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>存储为预测部署模型：实际部署时，您需要使用预测格式的模型，预测格式模型相对训练格式模型而言，在拓扑上进行了裁剪，去除了预测不需要的算子。您可以参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/04_dygraph_to_static/input_spec_cn.html">InputSpec</a>来完成动转静功能。只需InputSpec标记模型的输入，调用<code class="docutils literal notranslate"><span class="pre">paddle.jit.to_static</span></code>和<code class="docutils literal notranslate"><span class="pre">paddle.jit.save</span></code>即可得到预测格式的模型。</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">to_static</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_spec</span><span class="o">=</span><span class="p">[</span><span class="n">InputSpec</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)])</span>
+<span class="n">paddle</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;inference_model/lenet&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="section-3">
+<h3>参考代码<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span>
+<span class="kn">import</span> <span class="nn">paddle.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">paddle.nn</span> <span class="kn">import</span> <span class="n">Layer</span>
+<span class="kn">from</span> <span class="nn">paddle.vision.datasets</span> <span class="kn">import</span> <span class="n">MNIST</span>
+<span class="kn">from</span> <span class="nn">paddle.metric</span> <span class="kn">import</span> <span class="n">Accuracy</span>
+<span class="kn">from</span> <span class="nn">paddle.nn</span> <span class="kn">import</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">MaxPool2D</span><span class="p">,</span> <span class="n">Linear</span>
+<span class="kn">from</span> <span class="nn">paddle.static</span> <span class="kn">import</span> <span class="n">InputSpec</span>
+<span class="kn">from</span> <span class="nn">paddle.jit</span> <span class="kn">import</span> <span class="n">to_static</span>
+<span class="kn">from</span> <span class="nn">paddle.vision.transforms</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+
+<span class="k">class</span> <span class="nc">LeNet</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LeNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                      <span class="n">out_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                      <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                      <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                      <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_pool1</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2D</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                      <span class="n">out_channels</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                      <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                      <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_pool2</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2D</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span>
+                                        <span class="n">out_features</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">84</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear3</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># x = x.reshape((-1, 1, 28, 28))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_pool1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_pool2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">start_axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop_axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">()):</span>
+            <span class="n">x_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">predicts</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">predicts</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+            <span class="c1"># calc loss</span>
+            <span class="n">acc</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">predicts</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">batch_id</span> <span class="o">%</span> <span class="mi">300</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;epoch: </span><span class="si">{}</span><span class="s2">, batch_id: </span><span class="si">{}</span><span class="s2">, loss is: </span><span class="si">{}</span><span class="s2">, acc is: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">epoch</span><span class="p">,</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">acc</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+            <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+            <span class="n">optim</span><span class="o">.</span><span class="n">clear_grad</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># paddle version</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+    <span class="c1"># prepare datasets</span>
+    <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">())</span>
+    <span class="n">test_dataset</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">())</span>
+
+    <span class="c1"># load dataset</span>
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
+                                        <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+                                        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># build network</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LeNet</span><span class="p">()</span>
+    <span class="c1"># prepare optimizer</span>
+    <span class="n">optim</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+                                  <span class="n">parameters</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+
+    <span class="c1"># train network</span>
+    <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="p">)</span>
+
+    <span class="c1"># save training format model</span>
+    <span class="n">paddle</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;lenet.pdparams&#39;</span><span class="p">)</span>
+    <span class="n">paddle</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">optim</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">&quot;lenet.pdopt&quot;</span><span class="p">)</span>
+
+    <span class="c1"># load training format model</span>
+    <span class="n">model_state_dict</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;lenet.pdparams&#39;</span><span class="p">)</span>
+    <span class="n">opt_state_dict</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;lenet.pdopt&#39;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">set_state_dict</span><span class="p">(</span><span class="n">model_state_dict</span><span class="p">)</span>
+    <span class="n">optim</span><span class="o">.</span><span class="n">set_state_dict</span><span class="p">(</span><span class="n">opt_state_dict</span><span class="p">)</span>
+
+    <span class="c1"># save inferencing format model</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">to_static</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                    <span class="n">input_spec</span><span class="o">=</span><span class="p">[</span><span class="n">InputSpec</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)])</span>
+    <span class="n">paddle</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;inference_model/lenet&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Paddle 2.0 默认保存的权重格式为 <code class="docutils literal notranslate"><span class="pre">*.pdiparams</span></code> 后缀的文件。若因特殊需求，希望沿用旧版本的分离权重方式，请参考以下示例进行另存为。Paddle 2.0 兼容支持这种旧格式推理部署模型的加载。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">paddle</span><span class="o">.</span><span class="n">enable_static</span><span class="p">()</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">CPUPlace</span><span class="p">()</span>
+    <span class="n">exe</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Executor</span><span class="p">(</span><span class="n">place</span><span class="p">)</span>
+
+    <span class="c1"># load combined params and model</span>
+    <span class="n">program</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">load_inference_model</span><span class="p">(</span>
+        <span class="n">path_prefix</span><span class="o">=</span><span class="s1">&#39;inference_model&#39;</span><span class="p">,</span>
+        <span class="n">executor</span><span class="o">=</span><span class="n">exe</span><span class="p">,</span>
+        <span class="n">model_filename</span><span class="o">=</span><span class="s1">&#39;lenet.pdmodel&#39;</span><span class="p">,</span>
+        <span class="n">params_filename</span><span class="o">=</span><span class="s1">&#39;lenet.pdiparams&#39;</span><span class="p">)</span>
+
+    <span class="c1"># save as separate persistables</span>
+    <span class="n">paddle</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">save_vars</span><span class="p">(</span>
+        <span class="n">executor</span><span class="o">=</span><span class="n">exe</span><span class="p">,</span>
+        <span class="n">dirname</span><span class="o">=</span><span class="s2">&quot;separate_persistables&quot;</span><span class="p">,</span>
+        <span class="n">main_program</span><span class="o">=</span><span class="n">program</span><span class="p">,</span>
+        <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicate</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">is_persistable</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="paddle-2-0-python">
+<h2>三、使用 Paddle 2.0 Python 接口预测部署<a class="headerlink" href="#paddle-2-0-python" title="Permalink to this headline">¶</a></h2>
+<p>我们使用存储好的预测部署模型，借助 Python 2.0 接口执行预测部署。</p>
+<section id="section-4">
+<h3>加载预测模型并进行预测配置<a class="headerlink" href="#section-4" title="Permalink to this headline">¶</a></h3>
+<p>首先，我们加载预测模型，并配置预测时的一些选项，根据配置创建预测引擎：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s2">&quot;inference_model/lenet/lenet.pdmodel&quot;</span><span class="p">,</span> <span class="s2">&quot;inference_model/lenet/lenet.pdiparams&quot;</span><span class="p">)</span> <span class="c1"># 通过模型和参数文件路径加载</span>
+<span class="n">config</span><span class="o">.</span><span class="n">disable_gpu</span><span class="p">()</span> <span class="c1"># 使用cpu预测</span>
+<span class="n">predictor</span> <span class="o">=</span> <span class="n">create_predictor</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="c1"># 根据预测配置创建预测引擎predictor</span>
+</pre></div>
+</div>
+<p>更多配置选项可以参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/05_inference_deployment/inference/python_infer_cn.html#config">官网文档</a>。</p>
+</section>
+<section id="section-5">
+<h3>设置输入<a class="headerlink" href="#section-5" title="Permalink to this headline">¶</a></h3>
+<p>我们先通过获取输入Tensor的名称，再根据名称获取到输入Tensor的句柄。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 获取输入变量名称</span>
+<span class="n">input_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_names</span><span class="p">()</span>
+<span class="n">input_handle</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_handle</span><span class="p">(</span><span class="n">input_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>下面我们准备输入数据，并将其拷贝至待预测的设备上。这里我们使用了随机数据，您在实际使用中可以将其换为需要预测的真实图片。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">### 设置输入</span>
+<span class="n">fake_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="n">input_handle</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">])</span>
+<span class="n">input_handle</span><span class="o">.</span><span class="n">copy_from_cpu</span><span class="p">(</span><span class="n">fake_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="section-6">
+<h3>运行预测<a class="headerlink" href="#section-6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="section-7">
+<h3>获取输出<a class="headerlink" href="#section-7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 获取输出变量名称</span>
+<span class="n">output_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_names</span><span class="p">()</span>
+<span class="n">output_handle</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_handle</span><span class="p">(</span><span class="n">output_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">output_data</span> <span class="o">=</span> <span class="n">output_handle</span><span class="o">.</span><span class="n">copy_to_cpu</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>获取输出句柄的方式与输入类似，我们最后获取到的输出是numpy.ndarray类型，方便使用numpy对其进行后续的处理。</p>
+</section>
+<section id="section-8">
+<h3>完整可运行代码<a class="headerlink" href="#section-8" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">paddle.inference</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span> <span class="nn">paddle.inference</span> <span class="kn">import</span> <span class="n">create_predictor</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s2">&quot;inference_model/lenet/lenet.pdmodel&quot;</span><span class="p">,</span> <span class="s2">&quot;inference_model/lenet/lenet.pdiparams&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">disable_gpu</span><span class="p">()</span>
+
+<span class="c1"># 创建PaddlePredictor</span>
+<span class="n">predictor</span> <span class="o">=</span> <span class="n">create_predictor</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># 获取输入的名称</span>
+<span class="n">input_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_names</span><span class="p">()</span>
+<span class="n">input_handle</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_handle</span><span class="p">(</span><span class="n">input_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># 设置输入</span>
+<span class="n">fake_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="n">input_handle</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">])</span>
+<span class="n">input_handle</span><span class="o">.</span><span class="n">copy_from_cpu</span><span class="p">(</span><span class="n">fake_input</span><span class="p">)</span>
+
+<span class="c1"># 运行predictor</span>
+<span class="n">predictor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># 获取输出</span>
+<span class="n">output_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_names</span><span class="p">()</span>
+<span class="n">output_handle</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_handle</span><span class="p">(</span><span class="n">output_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">output_data</span> <span class="o">=</span> <span class="n">output_handle</span><span class="o">.</span><span class="n">copy_to_cpu</span><span class="p">()</span> <span class="c1"># numpy.ndarray类型</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">output_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="paddle-2-0-c">
+<h2>四、使用 Paddle 2.0 C++ 接口预测部署<a class="headerlink" href="#paddle-2-0-c" title="Permalink to this headline">¶</a></h2>
+<p>我们将存储好的模型使用 Paddle 2.0 C++ 接口执行预测部署。</p>
+<section id="section-9">
+<h3>准备预测库<a class="headerlink" href="#section-9" title="Permalink to this headline">¶</a></h3>
+<p>首先，我们需要Paddle Inference预测库用于模型推理部署。这里下载2.0.0版本的用于x86 cpu的预测库：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://paddle-inference-lib.bj.bcebos.com/2.0.0-cpu-avx-mkl/paddle_inference.tgz
+</pre></div>
+</div>
+</section>
+<section id="section-10">
+<h3>下载预测样例包<a class="headerlink" href="#section-10" title="Permalink to this headline">¶</a></h3>
+<p>下载预测样例代码包：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://paddle-inference-dist.bj.bcebos.com/lenet_demo.tgz
+</pre></div>
+</div>
+<p>其中，<code class="docutils literal notranslate"><span class="pre">lenet_infer_test.cc</span></code>为预测脚本，<code class="docutils literal notranslate"><span class="pre">run.sh</span></code>为执行脚本。</p>
+</section>
+<section id="section-11">
+<h3>配置依赖库路径<a class="headerlink" href="#section-11" title="Permalink to this headline">¶</a></h3>
+<p>我们需要在执行脚本<code class="docutils literal notranslate"><span class="pre">run.sh</span></code>中，配置预测库的路径：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">LIB_DIR</span><span class="o">=</span>/path/to/paddle_inference
+</pre></div>
+</div>
+</section>
+<section id="section-12">
+<h3>加载预测模型并进行预测配置<a class="headerlink" href="#section-12" title="Permalink to this headline">¶</a></h3>
+<p>首先，我们加载预测模型，并配置预测时的一些选项，根据配置创建预测引擎：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Predictor</span><span class="o">&gt;</span> <span class="n">InitPredictor</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Config</span> <span class="n">config</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">FLAGS_model_dir</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">config</span><span class="p">.</span><span class="n">SetModel</span><span class="p">(</span><span class="n">FLAGS_model_dir</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">config</span><span class="p">.</span><span class="n">SetModel</span><span class="p">(</span><span class="n">FLAGS_model_file</span><span class="p">,</span> <span class="n">FLAGS_params_file</span><span class="p">);</span>
+  <span class="n">config</span><span class="p">.</span><span class="n">DisableGpu</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nf">CreatePredictor</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>这里设置使用CPU来进行预测，更多配置选项可以参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/05_inference_deployment/inference/native_infer.html#a-name-config-config-a">官网文档</a>。</p>
+</section>
+<section id="section-13">
+<h3>设置输入<a class="headerlink" href="#section-13" title="Permalink to this headline">¶</a></h3>
+<p>我们先通过获取输入Tensor的名称，再根据名称获取到输入Tensor的句柄：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">input</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="cp"># 获取输入变量名称</span>
+  <span class="k">auto</span> <span class="n">input_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetInputNames</span><span class="p">();</span>
+  <span class="k">auto</span> <span class="n">input_t</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetInputHandle</span><span class="p">(</span><span class="n">input_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="n">input_t</span><span class="o">-&gt;</span><span class="n">Reshape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">);</span>
+  <span class="n">input_t</span><span class="o">-&gt;</span><span class="n">CopyFromCpu</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>这里我们使用了全零数据，您在实际使用中可以将其换为需要预测的真实图片。</p>
+</section>
+<section id="section-14">
+<h3>运行预测<a class="headerlink" href="#section-14" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="section-15">
+<h3>获取输出<a class="headerlink" href="#section-15" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp"># 获取输出变量名称</span>
+  <span class="k">auto</span> <span class="n">output_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetOutputNames</span><span class="p">();</span>
+  <span class="k">auto</span> <span class="n">output_t</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetOutputHandle</span><span class="p">(</span><span class="n">output_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">output_shape</span> <span class="o">=</span> <span class="n">output_t</span><span class="o">-&gt;</span><span class="n">shape</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">out_num</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">output_shape</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">output_shape</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">std</span><span class="o">::</span><span class="n">multiplies</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">());</span>
+
+  <span class="n">out_data</span><span class="o">-&gt;</span><span class="n">resize</span><span class="p">(</span><span class="n">out_num</span><span class="p">);</span>
+  <span class="n">output_t</span><span class="o">-&gt;</span><span class="n">CopyToCpu</span><span class="p">(</span><span class="n">out_data</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>out_data即为所需输出，可以对其进行后续的分析和处理。</p>
+</section>
+<section id="section-16">
+<h3>执行预测<a class="headerlink" href="#section-16" title="Permalink to this headline">¶</a></h3>
+<p>配置好之后，在预测样例文件目录下，使用下列命令编译、执行预测样例。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sh run.sh
+./build/lenet_infer_test --model_file<span class="o">=</span>inference_model/lenet/lenet.pdmodel --params_file<span class="o">=</span>inference_model/lenet/lenet.pdiparams
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="faq.html" class="btn btn-neutral float-left" title="Paddle Inference FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

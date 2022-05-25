@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>动态数组结构体 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Config 方法" href="Config_index.html" />
+    <link rel="prev" title="枚举类型" href="Enum.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../c_api_index.html">C API 文档</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Enum.html">枚举类型</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">动态数组结构体</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#onedimarrayint32">OneDimArrayInt32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onedimarraysize">OneDimArraySize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onedimarraycstr">OneDimArrayCstr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#twodimarraysize">TwoDimArraySize</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Config_index.html">Config 方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Predictor.html">Predictor 方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tensor.html">Tensor 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../c_api_index.html">C API 文档</a> &raquo;</li>
+        
+      <li>动态数组结构体</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_reference/c_api_doc/Struct.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="section-1">
+<h1>动态数组结构体<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h1>
+<p>动态数组结构体是 Paddle Inference 为了兼顾效率和安全，创建的一组 C 结构体类型，用来进行上层和底层的数据交互。它的来源分为两种，一种是用户自己创建，这种情况由用户自己负责进行内存的回收。另外一种是来自于 Paddle Inference C api的返回值，这种情况需要用户显式地调用相应的 Destroy 函数进行对象的销毁。</p>
+<section id="onedimarrayint32">
+<h2>OneDimArrayInt32<a class="headerlink" href="#onedimarrayint32" title="Permalink to this headline">¶</a></h2>
+<p>OneDimArrayInt32 是 int32_t 类型的一维数组，结构体与 API 定义如下：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// OneDimArrayInt32 结构体定义</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">PD_OneDimArrayInt32</span> <span class="p">{</span>
+  <span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>   <span class="c1">// 数组长度</span>
+  <span class="kt">int32_t</span><span class="o">*</span> <span class="n">data</span><span class="p">;</span> <span class="c1">// 数组元素指针</span>
+<span class="p">}</span> <span class="n">PD_OneDimArrayInt32</span><span class="p">;</span>
+
+<span class="c1">// 销毁由 paddle inferecen C api 返回的 OneDimArrayInt32 对象</span>
+<span class="c1">// 参数：array - 需要销毁的 OneDimArrayInt32 对象指针</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_OneDimArrayInt32Destroy</span><span class="p">(</span><span class="n">PD_OneDimArrayInt32</span><span class="o">*</span> <span class="n">array</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="onedimarraysize">
+<h2>OneDimArraySize<a class="headerlink" href="#onedimarraysize" title="Permalink to this headline">¶</a></h2>
+<p>OneDimArraySize 是 size_t 类型的一维数组，结构体与 API 定义如下：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// OneDimArraySize 结构体定义</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">PD_OneDimArraySize</span> <span class="p">{</span>
+  <span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>   <span class="c1">// 数组长度</span>
+  <span class="kt">size_t</span><span class="o">*</span> <span class="n">data</span><span class="p">;</span>  <span class="c1">// 数组元素指针</span>
+<span class="p">}</span> <span class="n">PD_OneDimArraySize</span><span class="p">;</span>
+
+<span class="c1">// 销毁由 paddle inferecen C api 返回的 OneDimArraySize 对象</span>
+<span class="c1">// 参数：array - 需要销毁的 OneDimArraySize 对象指针</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_OneDimArraySizeDestroy</span><span class="p">(</span><span class="n">PD_OneDimArraySize</span><span class="o">*</span> <span class="n">array</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="onedimarraycstr">
+<h2>OneDimArrayCstr<a class="headerlink" href="#onedimarraycstr" title="Permalink to this headline">¶</a></h2>
+<p>OneDimArrayCstr 是 const char* 类型的一维数组，结构体与 API 定义如下：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// OneDimArrayCstr 结构体定义</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">PD_OneDimArrayCstr</span> <span class="p">{</span>
+  <span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>   <span class="c1">// 数组长度</span>
+  <span class="kt">char</span><span class="o">**</span> <span class="n">data</span><span class="p">;</span>   <span class="c1">// 数组元素指针</span>
+<span class="p">}</span> <span class="n">PD_OneDimArraySize</span><span class="p">;</span>
+
+<span class="c1">// 销毁由 paddle inferecen C api 返回的 OneDimArrayCstr 对象</span>
+<span class="c1">// 参数：array - 需要销毁的 OneDimArrayCstr 对象指针</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_OneDimArrayCstrDestroy</span><span class="p">(</span><span class="n">PD_OneDimArrayCstr</span><span class="o">*</span> <span class="n">array</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="twodimarraysize">
+<h2>TwoDimArraySize<a class="headerlink" href="#twodimarraysize" title="Permalink to this headline">¶</a></h2>
+<p>TwoDimArraySize 是 size_t 类型的二维数组，也可以理解为是<code class="docutils literal notranslate"><span class="pre">OneDimArraySize指针</span></code>类型的一维数组，结构体与 API 定义如下：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// TwoDimArraySize 结构体定义</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">PD_TwoDimArraySize</span> <span class="p">{</span>
+  <span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>   <span class="c1">// 数组长度</span>
+  <span class="n">PD_OneDimArraySize</span><span class="o">**</span> <span class="n">data</span><span class="p">;</span>  <span class="c1">// 数组元素指针</span>
+<span class="p">}</span> <span class="n">PD_TwoDimArraySize</span><span class="p">;</span>
+
+<span class="c1">// 销毁由 paddle inferecen C api 返回的 TwoDimArraySize 对象</span>
+<span class="c1">// 参数：array - 需要销毁的 TwoDimArraySize 对象指针</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_TwoDimArraySizeDestroy</span><span class="p">(</span><span class="n">PD_TwoDimArraySize</span><span class="o">*</span> <span class="n">array</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Config_index.html" class="btn btn-neutral float-right" title="Config 方法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Enum.html" class="btn btn-neutral float-left" title="枚举类型" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

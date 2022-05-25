@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. 使用 CPU 进行预测 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="4. 使用 GPU 进行预测" href="GPUConfig.html" />
+    <link rel="prev" title="2. 设置预测模型" href="ModelConfig.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../c_api_index.html">C API 文档</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Enum.html">枚举类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Struct.html">动态数组结构体</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Config_index.html">Config 方法</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Config.html">1. 创建 Config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelConfig.html">2. 设置预测模型</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3. 使用 CPU 进行预测</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cpu-1">3.1. CPU 设置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mkldnn">3.2. MKLDNN 设置</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="GPUConfig.html">4. 使用 GPU 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="XPUConfig.html">5. 使用 XPU 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ORTConfig.html">6. 使用 ONNXRuntime 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OptimConfig.html">7. 设置模型优化方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html">8. 启用内存优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#section-2">9. 设置缓存路径</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#fc-padding">10. FC Padding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#profile">11. Profile 设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#log">12. Log 设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#config">13. 查看config配置</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Predictor.html">Predictor 方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tensor.html">Tensor 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../c_api_index.html">C API 文档</a> &raquo;</li>
+        
+          <li><a href="../Config_index.html">Config 方法</a> &raquo;</li>
+        
+      <li><span class="section-number">3. </span>使用 CPU 进行预测</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/api_reference/c_api_doc/Config/CPUConfig.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="cpu">
+<h1><span class="section-number">3. </span>使用 CPU 进行预测<a class="headerlink" href="#cpu" title="Permalink to this headline">¶</a></h1>
+<p><strong>注意：</strong></p>
+<ol class="simple">
+<li><p>在 CPU 型号允许的情况下，进行预测库下载或编译试尽量使用带 AVX 和 MKL 的版本</p></li>
+<li><p>可以尝试使用 Intel 的 MKLDNN 进行 CPU 预测加速，默认 CPU 不启用 MKLDNN</p></li>
+<li><p>在 CPU 可用核心数足够时，可以通过设置 <code class="docutils literal notranslate"><span class="pre">PD_ConfigSetCpuMathLibraryNumThreads</span></code> 将线程数调高一些，默认线程数为 1</p></li>
+</ol>
+<section id="cpu-1">
+<h2><span class="section-number">3.1. </span>CPU 设置<a class="headerlink" href="#cpu-1" title="Permalink to this headline">¶</a></h2>
+<p>API定义如下：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 设置 CPU Blas 库计算线程数</span>
+<span class="c1">// 参数：config - Config 对象指针</span>
+<span class="c1">//      cpu_math_library_num_threads - blas库计算线程数</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_ConfigSetCpuMathLibraryNumThreads</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">cpu_math_library_num_threads</span><span class="p">);</span>
+
+<span class="c1">// 获取 CPU Blas 库计算线程数</span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">// 返回：int32_t - cpu blas 库计算线程数</span>
+<span class="kt">int32_t</span> <span class="nf">PD_ConfigGetCpuMathLibraryNumThreads</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>代码示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建 Config 对象</span>
+<span class="n">PD_Config</span><span class="o">*</span> <span class="n">config</span> <span class="o">=</span> <span class="n">PD_ConfigCreate</span><span class="p">();</span>
+
+<span class="c1">// 设置 CPU Blas 库线程数为 10</span>
+<span class="n">PD_ConfigSetCpuMathLibraryNumThreads</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// 通过 API 获取 CPU 信息</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;CPU Math Lib Thread Num is: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">PD_ConfigGetCpuMathLibraryNumThreads</span><span class="p">(</span><span class="n">config</span><span class="p">));</span>
+
+<span class="c1">// 销毁 Config 对象</span>
+<span class="n">PD_ConfigDestroy</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="mkldnn">
+<h2><span class="section-number">3.2. </span>MKLDNN 设置<a class="headerlink" href="#mkldnn" title="Permalink to this headline">¶</a></h2>
+<p><strong>注意：</strong></p>
+<ol class="simple">
+<li><p>启用 MKLDNN 的前提为已经使用 CPU 进行预测，否则启用 MKLDNN 无法生效</p></li>
+<li><p>启用 MKLDNN BF16 要求 CPU 型号可以支持 AVX512，否则无法启用 MKLDNN BF16</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PD_ConfigSetMkldnnCacheCapacity</span></code> 请参考 <a class="reference external" href="https://github.com/PaddlePaddle/FluidDoc/blob/develop/doc/fluid/design/mkldnn/caching/caching.md">MKLDNN cache设计文档</a></p></li>
+</ol>
+<p>API定义如下：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 启用 MKLDNN 进行预测加速</span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_ConfigEnableMKLDNN</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">);</span>
+
+<span class="c1">// 判断是否启用 MKLDNN </span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">// 返回：PD_Bool - 是否启用 MKLDNN</span>
+<span class="n">PD_Bool</span> <span class="nf">PD_ConfigMkldnnEnabled</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">);</span>
+
+<span class="c1">// 设置 MKLDNN 针对不同输入 shape 的 cache 容量大小</span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">//      capacity  - cache 容量大小</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_ConfigSetMkldnnCacheCapacity</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">capacity</span><span class="p">);</span>
+
+<span class="c1">// 指定使用 MKLDNN 加速的 OP 列表</span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">//      ops_num   - 使用 MKLDNN 加速的 OP 数量</span>
+<span class="c1">//      op_list   - 使用 MKLDNN 加速的 OP 列表</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_ConfigSetMkldnnOp</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">ops_num</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">**</span> <span class="n">op_list</span><span class="p">);</span>
+
+<span class="c1">// 启用 MKLDNN BFLOAT16</span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">PD_ConfigEnableMkldnnBfloat16</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">);</span>
+
+<span class="c1">// 判断是否启用 MKLDNN BFLOAT16</span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">// 返回：PD_Bool - 是否启用 MKLDNN BFLOAT16</span>
+<span class="n">PD_Bool</span> <span class="nf">PD_ConfigMkldnnBfloat16Enabled</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">);</span>
+
+<span class="c1">// 指定使用 MKLDNN BFLOAT16 加速的 OP 列表</span>
+<span class="c1">// 参数：pd_config - Config 对象指针</span>
+<span class="c1">//      ops_num   - 使用 MKLDNN BFLOAT16 加速的 OP 数量</span>
+<span class="c1">//      op_list   - 使用 MKLDNN BFLOAT16 加速的 OP 列表</span>
+<span class="c1">// 返回：None</span>
+<span class="n">PD_ConfigSetBfloat16Op</span><span class="p">(</span><span class="n">PD_Config</span><span class="o">*</span> <span class="n">pd_config</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">ops_num</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">**</span> <span class="n">op_list</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>代码示例 (1)：使用 MKLDNN 进行预测</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建 Config 对象</span>
+<span class="n">PD_Config</span><span class="o">*</span> <span class="n">config</span> <span class="o">=</span> <span class="n">PD_ConfigCreate</span><span class="p">();</span>
+
+<span class="c1">// 启用 MKLDNN 进行预测</span>
+<span class="n">PD_ConfigEnableMKLDNN</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="c1">// 通过 API 获取 MKLDNN 启用结果 - True</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Enable MKLDNN is: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">PD_MkldnnEnabled</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">?</span> <span class="s">&quot;True&quot;</span> <span class="o">:</span> <span class="s">&quot;False&quot;</span><span class="p">);</span>
+
+<span class="c1">// 设置 MKLDNN 的 cache 容量大小</span>
+<span class="n">PD_ConfigSetMkldnnCacheCapacity</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// 设置启用 MKLDNN 进行加速的 OP 列表</span>
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">op_list</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;softmax&quot;</span><span class="p">,</span> <span class="s">&quot;elementwise_add&quot;</span><span class="p">,</span> <span class="s">&quot;relu&quot;</span><span class="p">};</span>
+<span class="n">PD_ConfigSetMkldnnOp</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">op_list</span><span class="p">);</span>
+
+<span class="c1">// 销毁 Config 对象</span>
+<span class="n">PD_ConfigDestroy</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>代码示例 (2)：使用 MKLDNN BFLOAT16 进行预测</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建 Config 对象</span>
+<span class="n">PD_Config</span><span class="o">*</span> <span class="n">config</span> <span class="o">=</span> <span class="n">PD_ConfigCreate</span><span class="p">();</span>
+
+<span class="c1">// 启用 MKLDNN 进行预测</span>
+<span class="n">PD_ConfigEnableMKLDNN</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="c1">// 启用 MKLDNN BFLOAT16 进行预测</span>
+<span class="n">PD_EnableMkldnnBfloat16</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="c1">// 设置启用 MKLDNN BFLOAT16 进行加速的 OP 列表</span>
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">op_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;conv2d&quot;</span><span class="p">};</span>
+<span class="n">PD_ConfigSetBfloat16Op</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">op_list</span><span class="p">);</span>
+
+<span class="c1">// 通过 API 获取 MKLDNN 启用结果 - true</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Enable MKLDNN BF16 is: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">PD_ConfigMkldnnBfloat16Enabled</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">?</span> <span class="s">&quot;True&quot;</span> <span class="o">:</span> <span class="s">&quot;False&quot;</span><span class="p">);</span>
+
+<span class="c1">// 销毁 Config 对象</span>
+<span class="n">PD_ConfigDestroy</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="GPUConfig.html" class="btn btn-neutral float-right" title="4. 使用 GPU 进行预测" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ModelConfig.html" class="btn btn-neutral float-left" title="2. 设置预测模型" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

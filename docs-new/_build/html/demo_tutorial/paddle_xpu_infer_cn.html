@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>使用昆仑预测 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Linux上GPU预测部署示例" href="cuda_linux_demo.html" />
+    <link rel="prev" title="X86 Windows上预测部署示例" href="x86_windows_demo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">使用昆仑预测</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#section-2">编译注意事项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#section-3">使用介绍</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python-demo">Python demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>使用昆仑预测</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/demo_tutorial/paddle_xpu_infer_cn.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="section-1">
+<h1>使用昆仑预测<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h1>
+<p>百度的昆仑芯⽚是⼀款⾼性能的AI SoC芯⽚，⽀持推理和训练。昆仑芯⽚采⽤百度的先进AI架构，⾮常适合常⽤的深度学习和机器学习算法的云端计算需求，并能适配诸如⾃然语⾔处理、⼤规模语⾳识别、⾃动驾驶、⼤规模推荐等多种终端场景的计算需求。</p>
+<p>Paddle Inference集成了<a class="reference external" href="https://paddle-lite.readthedocs.io/zh/latest/demo_guides/baidu_xpu.html">Paddle-Lite预测引擎</a>在昆仑xpu上进行预测部署。</p>
+<section id="section-2">
+<h2>编译注意事项<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h2>
+<p>请确保编译的时候设置了WITH_LITE=ON，且XPU_SDK_ROOT设置了正确的路径。</p>
+</section>
+<section id="section-3">
+<h2>使用介绍<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h2>
+<p>在使用Predictor时，我们通过配置Config中的接口，在XPU上运行。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">-&gt;</span><span class="n">EnableLiteEngine</span><span class="p">(</span>
+    <span class="n">precision_mode</span><span class="o">=</span><span class="n">PrecisionType</span><span class="o">::</span><span class="n">kFloat32</span><span class="p">,</span>
+    <span class="n">zero_copy</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
+    <span class="n">passes_filter</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">ops_filter</span><span class="o">=</span><span class="p">{},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">precision_mode</span></code></strong>，类型：<code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span> <span class="pre">PrecisionType</span> <span class="pre">{kFloat32</span> <span class="pre">=</span> <span class="pre">0,</span> <span class="pre">kHalf,</span> <span class="pre">kInt8,};</span></code>, 默认值为<code class="docutils literal notranslate"><span class="pre">PrecisionType::kFloat32</span></code>。指定lite子图的运行精度。</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">zero_copy</span></code></strong>，类型：bool，lite子图与Paddle之间的数据传递是否是零拷贝模式。</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">passes_filter</span></code></strong>，类型：<code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::string&gt;</span></code>，默认为空，扩展借口，暂不使用。</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ops_filer</span></code></strong>，类型：<code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::string&gt;</span></code>，默认为空，显示指定哪些op不使用lite子图运行。</p></li>
+</ul>
+<p>Python接口如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">enable_lite_engine</span><span class="p">(</span>
+    <span class="n">precision_mode</span><span class="o">=</span><span class="n">PrecisionType</span><span class="o">.</span><span class="n">Float32</span><span class="p">,</span>
+    <span class="n">zero_copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">passes_filter</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">ops_filter</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<section id="python-demo">
+<h3>Python demo<a class="headerlink" href="#python-demo" title="Permalink to this headline">¶</a></h3>
+<p>因目前Paddle-Inference目前未将xpu sdk打包到whl包内，所以需要用户下载xpu sdk，并加入到环境变量中，之后会考虑解决该问题。</p>
+<p>下载<a class="reference external" href="https://paddle-inference-dist.bj.bcebos.com/inference_demo/xpu_tool_chain.tgz">xpu_tool_chain</a>，解压后将shlib加入到LD_LIBRARY_PATH</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="n">xzf</span> <span class="n">xpu_tool_chain</span><span class="o">.</span><span class="n">tgz</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/output/XTDK/shlib/:$PWD/output/XTDK/runtime/shlib/
+</pre></div>
+</div>
+<p>下载<a class="reference external" href="https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ResNet50.tar.gz">resnet50</a>模型，并解压，运行如下命令将会调用预测引擎</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python resnet50_subgraph.py --model_file ./ResNet50/model --params_file ./ResNet50/params
+</pre></div>
+</div>
+<p>resnet50_subgraph.py的内容是：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">paddle.inference</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">PrecisionType</span>
+<span class="kn">from</span> <span class="nn">paddle.inference</span> <span class="kn">import</span> <span class="n">create_predictor</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">set_config</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">predictor</span> <span class="o">=</span> <span class="n">create_predictor</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="n">input_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_names</span><span class="p">()</span>
+    <span class="n">input_hanlde</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_handle</span><span class="p">(</span><span class="n">input_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">fake_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    <span class="n">input_hanlde</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">])</span>
+    <span class="n">input_hanlde</span><span class="o">.</span><span class="n">copy_from_cpu</span><span class="p">(</span><span class="n">fake_input</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">warmup</span><span class="p">):</span>
+      <span class="n">predictor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">repeats</span><span class="p">):</span>
+      <span class="n">predictor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="n">output_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_names</span><span class="p">()</span>
+    <span class="n">output_handle</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_handle</span><span class="p">(</span><span class="n">output_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">output_data</span> <span class="o">=</span> <span class="n">output_handle</span><span class="o">.</span><span class="n">copy_to_cpu</span><span class="p">()</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">output_data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;time is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">end_time</span><span class="o">-</span><span class="n">start_time</span><span class="p">)</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">repeats</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--model_dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;model dir&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--model_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;model filename&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--params_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;parameter filename&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--batch_size&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;batch size&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--warmup&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;warmup&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--repeats&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;repeats&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--math_thread_num&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;math_thread_num&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">set_config</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">params_file</span><span class="p">)</span>
+    <span class="c1"># config.enable_lite_engine(PrecisionType.Float32, True)</span>
+    <span class="c1"># use lite xpu subgraph</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">enable_xpu</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+    <span class="c1"># use lite cuda subgraph</span>
+    <span class="c1"># config.enable_use_gpu(100, 0)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">set_cpu_math_library_num_threads</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">math_thread_num</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">config</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cuda_linux_demo.html" class="btn btn-neutral float-right" title="Linux上GPU预测部署示例" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="x86_windows_demo.html" class="btn btn-neutral float-left" title="X86 Windows上预测部署示例" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PaddlePassBuilder 类 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Predictor 类" href="Predictor.html" />
+    <link rel="prev" title="9. 启用内存优化" href="Config/OtherFunction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../cxx_api_index.html">C++ API 文档</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CreatePredictor.html">CreatePredictor 方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CreatePredictor.html#getversion">GetVersion 方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Config_index.html">Config 类</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PaddlePassBuilder 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Predictor.html">Predictor 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PredictorPool.html">PredictorPool 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tensor.html">Tensor 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Enum.html">枚举类型</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../cxx_api_index.html">C++ API 文档</a> &raquo;</li>
+        
+      <li>PaddlePassBuilder 类</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_reference/cxx_api_doc/PaddlePassBuilder.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="paddlepassbuilder">
+<h1>PaddlePassBuilder 类<a class="headerlink" href="#paddlepassbuilder" title="Permalink to this headline">¶</a></h1>
+<p><strong>注意：</strong> PaddlePassBuilder 对象通过 <code class="docutils literal notranslate"><span class="pre">Config</span></code> 的 <code class="docutils literal notranslate"><span class="pre">pass_builder</span></code> 方法进行获取。其中存在2个成员对象 AnalysisPasses 和 Passes,AnalysisPasses 独立于 Passes 之外，仅 <code class="docutils literal notranslate"><span class="pre">AppendAnalysisPass</span></code> 和 <code class="docutils literal notranslate"><span class="pre">AnalysisPasses</span></code> 两个 API 能对其进行修改和读取，其余 API 的操作对象都仅限于Passes。</p>
+<p>类及方法定义如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 设置 IR 图分析阶段的 passes</span>
+<span class="c1">// 参数：passes - IR 图分析阶段的 passes 的字符串列表</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">SetPasses</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">passes</span><span class="p">);</span>
+
+<span class="c1">// 在 Passes 末尾添加 pass</span>
+<span class="c1">// 参数：pass_type - 需要添加的 pass 字符串</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">AppendPass</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">pass_type</span><span class="p">);</span>
+
+<span class="c1">// 在 Passes 中的第 idx 位置插入 pass</span>
+<span class="c1">// 参数：idx - 插入的 index 位置</span>
+<span class="c1">//      pass_type - 需要插入的 pass 字符串</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">InsertPass</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">idx</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">pass_type</span><span class="p">);</span>
+
+<span class="c1">// 删除第 idx 位置的pass</span>
+<span class="c1">// 参数：idx - 删除的 index 位置</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">DeletePass</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">idx</span><span class="p">);</span>
+
+<span class="c1">// 删除字符串匹配为 pass_type 的 pass</span>
+<span class="c1">// 参数：pass_type - 需要删除的 pass 字符串</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">DeletePass</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">pass_type</span><span class="p">);</span>
+
+<span class="c1">// 清空所有 IR 优化中的 Passes</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">ClearPasses</span><span class="p">();</span>
+
+<span class="c1">// 启用Debug, 会在每一个 PASS 优化后生成当前计算图 DOT</span>
+<span class="c1">// 即在每一个 fuse pass 之后添加一个 graph_viz_pass 进行 pass 可视化</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">TurnOnDebug</span><span class="p">();</span>
+
+<span class="c1">// 获取 IR 图分析阶段的 Passes 中的可读信息</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：std::string - 所有 Passes 的可读信息</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">DebugString</span><span class="p">();</span>
+
+<span class="c1">// 获取 IR 图分析阶段的所有 Passes</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：std::vector&lt;std::string&gt; - 所有 Passes 字符串列表</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">AllPasses</span><span class="p">();</span>
+
+<span class="c1">// 添加 Analysis Pass</span>
+<span class="c1">// 参数：pass - 需要添加的 Analysis Pass 字符串表示</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">AppendAnalysisPass</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">pass</span><span class="p">);</span>
+
+<span class="c1">// 获取 IR 图分析阶段的所有 Analysis Passes</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：std::vector&lt;std::string&gt; - 所有 Analysis Passes 字符串列表</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">AnalysisPasses</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>自定义 IR Pass 代码示例：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 构造 Config 对象</span>
+<span class="n">paddle_infer</span><span class="o">::</span><span class="n">Config</span> <span class="n">config</span><span class="p">(</span><span class="n">FLAGS_infer_model</span><span class="p">);</span>
+
+<span class="c1">// 开启 IR 优化</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SwitchIrOptim</span><span class="p">();</span>
+
+<span class="c1">// 得到 pass_builder 对象</span>
+<span class="k">auto</span> <span class="n">pass_builder</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">pass_builder</span><span class="p">();</span>
+
+<span class="c1">// 获取 pass_builder 中的所有 Passes</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">all_passes</span> <span class="o">=</span> <span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">AllPasses</span><span class="p">();</span>
+
+<span class="c1">// all_passes 中返回结果如下:</span>
+<span class="c1">// simplify_with_basic_ops_pass</span>
+<span class="c1">// attention_lstm_fuse_pass</span>
+<span class="c1">// ...</span>
+<span class="c1">// runtime_context_cache_pass</span>
+
+<span class="c1">// 清空所有 Passes</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">ClearPasses</span><span class="p">();</span>
+<span class="c1">// 设置 Passes</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">SetPasses</span><span class="p">({</span><span class="s">&quot;attention_lstm_fuse_pass&quot;</span><span class="p">,</span> <span class="s">&quot;fc_gru_fuse_pass&quot;</span><span class="p">});</span>
+<span class="c1">// 在末尾处添加pass</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">AppendPass</span><span class="p">(</span><span class="s">&quot;fc_fuse_pass&quot;</span><span class="p">);</span>
+<span class="c1">// 删除 Passes</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">DeletePass</span><span class="p">(</span><span class="s">&quot;fc_fuse_pass&quot;</span><span class="p">);</span>
+<span class="c1">// 在 idx = 0 的位置添加 pass</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">InsertPass</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;fc_fuse_pass&quot;</span><span class="p">);</span>
+<span class="c1">// 删除 idx = 0 所在位置的 pass</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">DeletePass</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="c1">// 启用Debug, 会在每一个 PASS 优化后生成当前计算图 DOT</span>
+<span class="c1">// 即在每一个 pass 之后添加一个 graph_viz_pass</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">TurnOnDebug</span><span class="p">();</span>
+<span class="c1">// 获取 IR 图分析阶段的 Passes 中的可读信息</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">DebugString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="c1">// 运行以上代码得到的输出结果如下：</span>
+<span class="c1">//  - attention_lstm_fuse_pass</span>
+<span class="c1">//  - graph_viz_pass</span>
+<span class="c1">//  - fc_gru_fuse_pass</span>
+<span class="c1">//  - graph_viz_pass</span>
+</pre></div>
+</div>
+<p>对 Analysis Pass 进行操作和读取示例：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 构造 Config 对象</span>
+<span class="n">paddle_infer</span><span class="o">::</span><span class="n">Config</span> <span class="n">config</span><span class="p">(</span><span class="n">FLAGS_infer_model</span><span class="p">);</span>
+
+<span class="c1">// 开启 IR 优化</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SwitchIrOptim</span><span class="p">();</span>
+
+<span class="c1">// 得到 pass_builder 对象</span>
+<span class="k">auto</span> <span class="n">pass_builder</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">pass_builder</span><span class="p">();</span>
+
+<span class="c1">// 添加 analysis pass</span>
+<span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">AppendAnalysisPass</span><span class="p">(</span><span class="s">&quot;ir_analysis_pass&quot;</span><span class="p">);</span>
+
+<span class="c1">// 获取 pass_builder 中的所有 Analysis Passes</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">analysis_passes</span> <span class="o">=</span> <span class="n">pass_builder</span><span class="o">-&gt;</span><span class="n">AnalysisPasses</span><span class="p">();</span>
+
+<span class="c1">// analysis_passes 中返回结果如下:</span>
+<span class="c1">// ir_graph_build_pass</span>
+<span class="c1">// ir_graph_clean_pass</span>
+<span class="c1">// ...</span>
+<span class="c1">// ir_graph_to_program_pass</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Predictor.html" class="btn btn-neutral float-right" title="Predictor 类" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Config/OtherFunction.html" class="btn btn-neutral float-left" title="9. 启用内存优化" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

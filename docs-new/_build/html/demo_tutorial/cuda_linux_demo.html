@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Linux上GPU预测部署示例 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NV Jetson上预测部署示例" href="cuda_jetson_demo.html" />
+    <link rel="prev" title="使用昆仑预测" href="paddle_xpu_infer_cn.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linux上GPU预测部署示例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#c">1 C++预测部署示例</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-1">1.1 流程解析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section-2">1.1.1 准备预测库</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-3">1.1.2 准备预测模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-4">1.1.3 包含头文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config">1.1.4 设置Config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#predictor">1.1.5 创建Predictor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-5">1.1.6 设置输入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#predictor-1">1.1.7 执行Predictor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-6">1.1.8 获取输出</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#section-7">1.2 编译运行示例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section-8">1.2.1 编译示例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-9">1.2.2 运行示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#python">2 Python预测部署示例</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-10">2.1 流程解析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section-11">2.1.1 准备环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-12">2.1.2 准备预测模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-1">2.1.3 Python导入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config-1">2.1.4 设置Config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#predictor-2">2.1.5 创建Predictor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-13">2.1.6 设置输入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#predictor-3">2.1.7 执行Predictor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-14">2.1.8 获取输出</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#section-15">2.2 编译运行示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Linux上GPU预测部署示例</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/demo_tutorial/cuda_linux_demo.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="linuxgpu">
+<h1>Linux上GPU预测部署示例<a class="headerlink" href="#linuxgpu" title="Permalink to this headline">¶</a></h1>
+<section id="c">
+<h2>1 C++预测部署示例<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>
+<p>C++示例代码在<a class="reference external" href="https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/cuda_linux_demo">链接</a>，下面从<code class="docutils literal notranslate"><span class="pre">流程解析</span></code>和<code class="docutils literal notranslate"><span class="pre">编译运行示例</span></code>两方面介绍。</p>
+<section id="section-1">
+<h3>1.1 流程解析<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h3>
+<section id="section-2">
+<h4>1.1.1 准备预测库<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h4>
+<p>请参考<a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/build_and_install_lib_cn.html">推理库下载文档</a>下载Paddle C++预测库，名称中带有 <code class="docutils literal notranslate"><span class="pre">cuda</span></code> 的为用于GPU的预测库。</p>
+</section>
+<section id="section-3">
+<h4>1.1.2 准备预测模型<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h4>
+<p>使用Paddle训练结束后，得到预测模型，可以用于预测部署。</p>
+<p>本示例准备了mobilenet_v1预测模型，可以从<a class="reference external" href="https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz">链接</a>下载，或者wget下载。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
+</pre></div>
+</div>
+</section>
+<section id="section-4">
+<h4>1.1.3 包含头文件<a class="headerlink" href="#section-4" title="Permalink to this headline">¶</a></h4>
+<p>使用Paddle预测库，只需要包含 <code class="docutils literal notranslate"><span class="pre">paddle_inference_api.h</span></code> 头文件。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;paddle/include/paddle_inference_api.h&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+</section>
+<section id="config">
+<h4>1.1.4 设置Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h4>
+<p>根据预测部署的实际情况，设置Config，用于后续创建Predictor。</p>
+<p>Config默认是使用CPU预测，若要使用GPU预测，需要手动开启，设置运行的GPU卡号和分配的初始显存。可以设置开启TensorRT加速、开启IR优化、开启内存优化。使用Paddle-TensorRT相关说明和示例可以参考<a class="reference external" href="https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html">文档</a>。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">paddle_infer</span><span class="o">::</span><span class="n">Config</span> <span class="n">config</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">FLAGS_model_dir</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SetModel</span><span class="p">(</span><span class="n">FLAGS_model_file</span><span class="p">,</span> <span class="n">FLAGS_params_file</span><span class="p">);</span> <span class="c1">// Load combined model</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SetModel</span><span class="p">(</span><span class="n">FLAGS_model_dir</span><span class="p">);</span> <span class="c1">// Load no-combined model</span>
+<span class="p">}</span>
+<span class="n">config</span><span class="p">.</span><span class="n">EnableUseGpu</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SwitchIrOptim</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="n">config</span><span class="p">.</span><span class="n">EnableMemoryOptim</span><span class="p">();</span>
+<span class="n">config</span><span class="p">.</span><span class="n">EnableTensorRtEngine</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">30</span><span class="p">,</span> <span class="n">FLAGS_batch_size</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">PrecisionType</span><span class="o">::</span><span class="n">kFloat32</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="predictor">
+<h4>1.1.5 创建Predictor<a class="headerlink" href="#predictor" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">paddle_infer</span><span class="o">::</span><span class="n">Predictor</span><span class="o">&gt;</span> <span class="n">predictor</span> <span class="o">=</span> <span class="n">paddle_infer</span><span class="o">::</span><span class="n">CreatePredictor</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="section-5">
+<h4>1.1.6 设置输入<a class="headerlink" href="#section-5" title="Permalink to this headline">¶</a></h4>
+<p>从Predictor中获取输入的names和handle，然后设置输入数据。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">input_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetInputNames</span><span class="p">();</span>
+<span class="k">auto</span> <span class="n">input_t</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetInputHandle</span><span class="p">(</span><span class="n">input_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">input_shape</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">};</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">input_data</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">224</span> <span class="o">*</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">input_t</span><span class="o">-&gt;</span><span class="n">Reshape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">);</span>
+<span class="n">input_t</span><span class="o">-&gt;</span><span class="n">CopyFromCpu</span><span class="p">(</span><span class="n">input_data</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+</pre></div>
+</div>
+</section>
+<section id="predictor-1">
+<h4>1.1.7 执行Predictor<a class="headerlink" href="#predictor-1" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="section-6">
+<h4>1.1.8 获取输出<a class="headerlink" href="#section-6" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">output_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetOutputNames</span><span class="p">();</span>
+<span class="k">auto</span> <span class="n">output_t</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">-&gt;</span><span class="n">GetOutputHandle</span><span class="p">(</span><span class="n">output_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">output_shape</span> <span class="o">=</span> <span class="n">output_t</span><span class="o">-&gt;</span><span class="n">shape</span><span class="p">();</span>
+<span class="kt">int</span> <span class="n">out_num</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">output_shape</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">output_shape</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span>
+                              <span class="n">std</span><span class="o">::</span><span class="n">multiplies</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">());</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">out_data</span><span class="p">;</span>
+<span class="n">out_data</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">out_num</span><span class="p">);</span>
+<span class="n">output_t</span><span class="o">-&gt;</span><span class="n">CopyToCpu</span><span class="p">(</span><span class="n">out_data</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="section-7">
+<h3>1.2 编译运行示例<a class="headerlink" href="#section-7" title="Permalink to this headline">¶</a></h3>
+<section id="section-8">
+<h4>1.2.1 编译示例<a class="headerlink" href="#section-8" title="Permalink to this headline">¶</a></h4>
+<p>文件<code class="docutils literal notranslate"><span class="pre">model_test.cc</span></code> 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。<br />文件<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> 为编译构建文件。<br />脚本<code class="docutils literal notranslate"><span class="pre">run_impl.sh</span></code> 包含了第三方库、预编译库的信息配置。</p>
+<p>根据前面步骤下载Paddle预测库和mobilenetv1模型。</p>
+<p>打开 <code class="docutils literal notranslate"><span class="pre">run_impl.sh</span></code> 文件，设置 LIB_DIR 为下载的预测库路径，比如 <code class="docutils literal notranslate"><span class="pre">LIB_DIR=/work/Paddle/build/paddle_inference_install_dir</span></code>。</p>
+<p>运行 <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">run_impl.sh</span></code>， 会在当前目录下编译产生build目录。</p>
+</section>
+<section id="section-9">
+<h4>1.2.2 运行示例<a class="headerlink" href="#section-9" title="Permalink to this headline">¶</a></h4>
+<p>进入build目录，运行样例。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> build
+./model_test --model_dir<span class="o">=</span>mobilenetv1_fp32_dir
+</pre></div>
+</div>
+<p>运行结束后，程序会将模型结果打印到屏幕，说明运行成功。</p>
+</section>
+</section>
+</section>
+<section id="python">
+<h2>2 Python预测部署示例<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<p>Python预测部署示例代码在<a class="reference external" href="https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/cuda_linux_demo">链接</a>，下面从<code class="docutils literal notranslate"><span class="pre">流程解析</span></code>和<code class="docutils literal notranslate"><span class="pre">编译运行示例</span></code>两方面介绍。</p>
+<section id="section-10">
+<h3>2.1 流程解析<a class="headerlink" href="#section-10" title="Permalink to this headline">¶</a></h3>
+<section id="section-11">
+<h4>2.1.1 准备环境<a class="headerlink" href="#section-11" title="Permalink to this headline">¶</a></h4>
+<p>请参考<a class="reference external" href="https://www.paddlepaddle.org.cn/">飞桨官网</a>安装2.0及以上版本的paddlepaddle-gpu。</p>
+<p>Python安装opencv：<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">opencv-python</span></code>。</p>
+</section>
+<section id="section-12">
+<h4>2.1.2 准备预测模型<a class="headerlink" href="#section-12" title="Permalink to this headline">¶</a></h4>
+<p>使用Paddle训练结束后，得到预测模型，可以用于预测部署。</p>
+<p>本示例准备了mobilenet_v1预测模型，可以从<a class="reference external" href="https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz">链接</a>下载，或者wget下载。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
+tar zxf mobilenetv1_fp32.tar.gz
+</pre></div>
+</div>
+</section>
+<section id="python-1">
+<h4>2.1.3 Python导入<a class="headerlink" href="#python-1" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle.inference</span> <span class="k">as</span> <span class="nn">paddle_infer</span>
+</pre></div>
+</div>
+</section>
+<section id="config-1">
+<h4>2.1.4 设置Config<a class="headerlink" href="#config-1" title="Permalink to this headline">¶</a></h4>
+<p>根据预测部署的实际情况，设置Config，用于后续创建Predictor。</p>
+<p>Config默认是使用CPU预测，若要使用GPU预测，需要手动开启，设置运行的GPU卡号和分配的初始显存。可以设置开启TensorRT加速、开启IR优化、开启内存优化。使用Paddle-TensorRT相关说明和示例可以参考<a class="reference external" href="https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html">文档</a>。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># args 是解析的输入参数</span>
+<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">model_dir</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">paddle_infer</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">params_file</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">paddle_infer</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_dir</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">enable_use_gpu</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">switch_ir_optim</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">enable_memory_optim</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">enable_tensorrt_engine</span><span class="p">(</span><span class="n">workspace_size</span><span class="o">=</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">30</span><span class="p">,</span> <span class="n">precision_mode</span><span class="o">=</span><span class="n">paddle_infer</span><span class="o">.</span><span class="n">PrecisionType</span><span class="o">.</span><span class="n">Float32</span><span class="p">,</span><span class="n">max_batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_subgraph_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">use_static</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_calib_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="predictor-2">
+<h4>2.1.5 创建Predictor<a class="headerlink" href="#predictor-2" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span> <span class="o">=</span> <span class="n">paddle_infer</span><span class="o">.</span><span class="n">create_predictor</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="section-13">
+<h4>2.1.6 设置输入<a class="headerlink" href="#section-13" title="Permalink to this headline">¶</a></h4>
+<p>从Predictor中获取输入的names和handle，然后设置输入数据。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">img_path</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">input_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_names</span><span class="p">()</span>
+<span class="n">input_tensor</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_input_handle</span><span class="p">(</span><span class="n">input_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">input_tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">input_tensor</span><span class="o">.</span><span class="n">copy_from_cpu</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="predictor-3">
+<h4>2.1.7 执行Predictor<a class="headerlink" href="#predictor-3" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span><span class="o">.</span><span class="n">run</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="section-14">
+<h4>2.1.8 获取输出<a class="headerlink" href="#section-14" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output_names</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_names</span><span class="p">()</span>
+<span class="n">output_tensor</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">get_output_handle</span><span class="p">(</span><span class="n">output_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">output_data</span> <span class="o">=</span> <span class="n">output_tensor</span><span class="o">.</span><span class="n">copy_to_cpu</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="section-15">
+<h3>2.2 编译运行示例<a class="headerlink" href="#section-15" title="Permalink to this headline">¶</a></h3>
+<p>文件<code class="docutils literal notranslate"><span class="pre">img_preprocess.py</span></code>是对图像进行预处理。
+文件<code class="docutils literal notranslate"><span class="pre">model_test.py</span></code>是示例程序。</p>
+<p>参考前面步骤准备环境、下载预测模型。</p>
+<p>下载预测图片。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ILSVRC2012_val_00000247.jpeg
+</pre></div>
+</div>
+<p>执行预测命令。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">model_test</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">model_dir</span> <span class="n">mobilenetv1_fp32</span> <span class="o">--</span><span class="n">img_path</span> <span class="n">ILSVRC2012_val_00000247</span><span class="o">.</span><span class="n">jpeg</span>
+</pre></div>
+</div>
+<p>运行结束后，程序会将模型结果打印到屏幕，说明运行成功。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cuda_jetson_demo.html" class="btn btn-neutral float-right" title="NV Jetson上预测部署示例" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="paddle_xpu_infer_cn.html" class="btn btn-neutral float-left" title="使用昆仑预测" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

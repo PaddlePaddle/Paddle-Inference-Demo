@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Paddle Inference 简介 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="预测流程" href="../quick_start/workflow.html" />
+    <link rel="prev" title="飞桨推理产品简介" href="summary.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Paddle Inference 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#paddle-inference-1">Paddle Inference的高性能实现</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-1">内存/显存复用提升服务吞吐量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#op">细粒度OP横向纵向融合减少计算量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cpu-gpu-kernel">内置高性能的CPU/GPU Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tensorrtgpu">子图集成TensorRT加快GPU推理速度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paddle-lite">子图集成Paddle Lite轻量化推理引擎</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paddleslim">支持加载PaddleSlim量化压缩后的模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#paddle-inference-2">Paddle Inference的通用性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-2">主流软硬件环境兼容适配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-3">多语言环境丰富接口可灵活调用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Paddle Inference 简介</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/product_introduction/inference_intro.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="paddle-inference">
+<h1>Paddle Inference 简介<a class="headerlink" href="#paddle-inference" title="Permalink to this headline">¶</a></h1>
+<p>Paddle Inference 是飞桨的原生推理库， 作用于服务器端和云端，提供高性能的推理能力。</p>
+<p>由于能力直接基于飞桨的训练算子，因此Paddle Inference 可以通用支持飞桨训练出的所有模型。</p>
+<p>Paddle Inference 功能特性丰富，性能优异，针对不同平台不同的应用场景进行了深度的适配优化，做到高吞吐、低时延，保证了飞桨模型在服务器端即训即用，快速部署。</p>
+<section id="paddle-inference-1">
+<h2>Paddle Inference的高性能实现<a class="headerlink" href="#paddle-inference-1" title="Permalink to this headline">¶</a></h2>
+<section id="section-1">
+<h3>内存/显存复用提升服务吞吐量<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h3>
+<p>在推理初始化阶段，对模型中的OP输出Tensor 进行依赖分析，将两两互不依赖的Tensor在内存/显存空间上进行复用，进而增大计算并行量，提升服务吞吐量。</p>
+</section>
+<section id="op">
+<h3>细粒度OP横向纵向融合减少计算量<a class="headerlink" href="#op" title="Permalink to this headline">¶</a></h3>
+<p>在推理初始化阶段，按照已有的融合模式将模型中的多个OP融合成一个OP，减少了模型的计算量的同时，也减少了 Kernel Launch的次数，从而能提升推理性能。目前Paddle Inference支持的融合模式多达几十个。</p>
+</section>
+<section id="cpu-gpu-kernel">
+<h3>内置高性能的CPU/GPU Kernel<a class="headerlink" href="#cpu-gpu-kernel" title="Permalink to this headline">¶</a></h3>
+<p>内置同Intel、Nvidia共同打造的高性能kernel，保证了模型推理高性能的执行。</p>
+</section>
+<section id="tensorrtgpu">
+<h3>子图集成TensorRT加快GPU推理速度<a class="headerlink" href="#tensorrtgpu" title="Permalink to this headline">¶</a></h3>
+<p>Paddle Inference采用子图的形式集成TensorRT，针对GPU推理场景，TensorRT可对一些子图进行优化，包括OP的横向和纵向融合，过滤冗余的OP，并为OP自动选择最优的kernel，加快推理速度。</p>
+</section>
+<section id="paddle-lite">
+<h3>子图集成Paddle Lite轻量化推理引擎<a class="headerlink" href="#paddle-lite" title="Permalink to this headline">¶</a></h3>
+<p>Paddle Lite 是飞桨深度学习框架的一款轻量级、低框架开销的推理引擎，除了在移动端应用外，还可以使用服务器进行 Paddle Lite 推理。Paddle Inference采用子图的形式集成 Paddle Lite，以方便用户在服务器推理原有方式上稍加改动，即可开启 Paddle Lite 的推理能力，得到更快的推理速度。并且，使用 Paddle Lite 可支持在百度昆仑等高性能AI芯片上执行推理计算。</p>
+</section>
+<section id="paddleslim">
+<h3>支持加载PaddleSlim量化压缩后的模型<a class="headerlink" href="#paddleslim" title="Permalink to this headline">¶</a></h3>
+<p>PaddleSlim是飞桨深度学习模型压缩工具，Paddle Inference可联动PaddleSlim，支持加载量化、裁剪和蒸馏后的模型并部署，由此减小模型存储空间、减少计算占用内存、加快模型推理速度。其中在模型量化方面，Paddle Inference在X86 CPU上做了深度优化，常见分类模型的单线程性能可提升近3倍，ERNIE模型的单线程性能可提升2.68倍。</p>
+</section>
+</section>
+<section id="paddle-inference-2">
+<h2>Paddle Inference的通用性<a class="headerlink" href="#paddle-inference-2" title="Permalink to this headline">¶</a></h2>
+<section id="section-2">
+<h3>主流软硬件环境兼容适配<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h3>
+<p>支持服务器端X86 CPU、NVIDIA GPU芯片，兼容Linux/Mac/Windows系统。支持所有飞桨训练产出的模型，完全做到即训即用。</p>
+</section>
+<section id="section-3">
+<h3>多语言环境丰富接口可灵活调用<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h3>
+<p>支持 C++, Python, C, Golang，接口简单灵活，20行代码即可完成部署。对于其他语言，提供了 ABI 稳定的 C API, 用户可以很方便地扩展。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../quick_start/workflow.html" class="btn btn-neutral float-right" title="预测流程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="summary.html" class="btn btn-neutral float-left" title="飞桨推理产品简介" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
