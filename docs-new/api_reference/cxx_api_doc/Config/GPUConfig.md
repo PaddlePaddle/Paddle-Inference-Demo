@@ -178,10 +178,10 @@ API定义如下：
 //                           Int8(kInt8)
 //      use_static         - 若指定为 true，在初次运行程序退出Predictor析构的时候会将 TensorRT 的优
 //                           化信息进行序列化到磁盘上。下次运行时直接加载优化的序列化信息而不需要重新生
-//                           成，以加速启动时间（需要在同样的硬件和相同 TensorRT 版本的情况下）。
+//                           成，以加速启动时间（需要在同样的硬件和相同 TensorRT 版本的情况下）
 //      use_calib_mode     - 若要运行 TensorRT INT8 离线量化校准，需要将此选项设置为 true
 // 返回：None
-void EnableTensorRtEngine(int workspace_size = 1 << 28,
+void EnableTensorRtEngine(int workspace_size = 1 << 20,
                           int max_batch_size = 1, int min_subgraph_size = 3,
                           Precision precision = Precision::kFloat32,
                           bool use_static = false,
@@ -207,7 +207,18 @@ void SetTRTDynamicShapeInfo(
       std::map<std::string, std::vector<int>> optim_input_shape,
       bool disable_trt_plugin_fp16 = false);
 
-// 启用 TensorRT OSS 进行预测加速（示例代码 https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/ernie-varlen ）
+//
+// TensorRT 动态 shape 的自动推导，使用示例参考 https://github.com/PaddlePaddle/Paddle-Inference-Demo/blob/d6c1aac35fa8a02271c9433b0565ff0054a5a82b/c++/paddle-trt/tuned_dynamic_shape 
+// 参数： shape_range_info_path  - 统计生成的 shape 信息存储文件路径
+//       allow_build_at_runtime - 是否开启运行时重建 TensorRT 引擎功能，当设置为 true 时，输入 shape 
+//                                超过 tune 范围时会触发 TensorRT 重建。当设置为 false 时，输入 shape
+//                                超过 tune 范围时会引起推理出错
+// 返回：None
+void EnableTunedTensorRtDynamicShape(const std::string& shape_range_info_path,
+                                     bool allow_build_at_runtime = true);
+
+
+// 启用 TensorRT OSS 进行 ERNIE / BERT 预测加速（示例代码 https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/ernie-varlen ）
 // 参数：None
 // 返回：None
 void EnableTensorRtOSS();
@@ -266,7 +277,7 @@ paddle_infer::Config config("./model/mobilenet.pdmodel", "./model/mobilenet.pdip
 config.EnableUseGpu(100, 0);
 
 // 启用 TensorRT 进行预测加速 - Int8
-config.EnableTensorRtEngine(1 << 30, 1, 1,
+config.EnableTensorRtEngine(1 << 29, 1, 1,
                             paddle_infer::PrecisionType::kInt8, false, true);
 // 设置模型输入的动态 Shape 范围
 std::map<std::string, std::vector<int>> min_input_shape = {{"image", {1, 1, 3, 3}}};

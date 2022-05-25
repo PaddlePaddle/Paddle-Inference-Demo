@@ -1,6 +1,6 @@
 #  PredictorPool 类
 
-`PredictorPool` 对 `Predictor` 进行了简单的封装，通过传入config和thread的数目来完成初始化，在每个线程中，根据自己的线程id直接从池中取出对应的 `Predictor` 来完成预测过程。
+`PredictorPool` 对 `Predictor` 进行了简单的封装，通过传入 config 和 thread 的数目来完成初始化，在每个线程中，根据自己的线程 id 直接从池中取出对应的 `Predictor` 来完成预测过程。
 
 类及方法定义如下：
 
@@ -23,7 +23,7 @@ paddle.inference.PredictorPool.retrive(idx: int)
 import paddle.inference as paddle_infer
 
 # 创建 Config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 创建 PredictorPool
 pred_pool = paddle_infer.PredictorPool(config, 4)
