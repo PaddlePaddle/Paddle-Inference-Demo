@@ -27,6 +27,7 @@ WITH_MKL=ON
 WITH_GPU=ON
 WITH_ARM=OFF
 WITH_MIPS=OFF
+WITH_XPU=OFF
 USE_TENSORRT=OFF
 
 LIB_DIR=${work_path}/../lib/paddle_inference
@@ -49,7 +50,8 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DCUDA_LIB=${CUDA_LIB} \
   -DTENSORRT_ROOT=${TENSORRT_ROOT} \
   -DWITH_ARM=${WITH_ARM} \
-  -DWITH_MIPS=${WITH_MIPS}
+  -DWITH_MIPS=${WITH_MIPS} \
+  -DWITH_XPU=${WITH_XPU}
 
 if [ "$WITH_ARM" == "ON" ];then
   make TARGET=ARMV8 -j
