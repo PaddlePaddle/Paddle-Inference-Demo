@@ -1,10 +1,11 @@
 # 低精度或量化推理
 
-深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。Paddle Inference 的 GPU 原生推理支持 fp32、int8，fp16 精度目前处于实验阶段；采用 TensorRT 加速推理的方式可支持 fp32、fp16 以及 int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html)确保你的 GPU 硬件支持你使用的精度。
+深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。Paddle Inference 的 GPU 原生推理支持 fp32、int8，fp16 精度目前处于实验阶段；采用 TensorRT 加速推理的方式可支持 fp32、fp16 以及 int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html)确保您的 GPU 硬件支持您使用的精度。
 
 ## fp16 推理
 
-为使用 fp16 带来的性能提升，只需在指定 TensorRT 配置时，将 **precision_mode** 设为 **paddle_infer.PrecisionType.Float16**即可
+为使用 fp16 带来的性能提升，只需在指定 TensorRT 配置时，将 **precision_mode** 设为 **paddle_infer.PrecisionType.Float16**即可，示例如下：
+
 ```python
 	config.enable_tensorrt_engine(
 		workspace_size = 1<<30,
@@ -15,7 +16,7 @@
 
 ## Int8 量化推理
 
-使用 Int8 量化预测的流程可以分为两步：1）产出量化模型；2）加载量化模型进行推理。下面我们对使用Paddle Inference 进行 Int8 量化推理的完整流程进行详细介绍。
+使用 Int8 量化预测的流程可以分为两步：（1）产出量化模型。（2）加载量化模型进行推理。下面我们对使用Paddle Inference 进行 Int8 量化推理的完整流程进行详细介绍。
 
 **1. 产出量化模型**
 

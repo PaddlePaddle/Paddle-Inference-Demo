@@ -2,20 +2,20 @@
 
 ## 一：概要
 
-如果你的机器上已经安装 TensorRT 的话，那么你可以通过 API 启用 TensorRT 加速推理。
+如果您的机器上已经安装 TensorRT 的话，那么您可以通过 API 启用 TensorRT 加速推理。
 
 TensorRT 是一个高性能机器学习推理 SDK，专注于深度学习模型在 NVIDIA 硬件的快速高效的推理。PaddlePaddle 以子图方式集成了 TensorRT，将可用 TensorRT 加速的算子组成子图供给 TensorRT，以获取 TensorRT 加速的同时，保留 PaddlePaddle 即训即推的能力。在这篇文章中，我们会介绍如何使用 TensorRT 加速推理。
 
 
-当模型被 Paddle Inference 加载后，神经网络被表示为由变量和运算节点组成的计算图。在图分析阶段，Paddle Inference 会对模型图进行分析同时发现图中可以使用 TensorRT 优化的子图，并使用 TensorRT 节点替换它们。在模型的推理期间，如果遇到 TensorRT 节点，Paddle Infenrence 会调用 TensorRT 库对该节点进行优化，其他的节点调用 GPU 原生推理。TensorRT 除了有常见的 OP 融合以及显存/内存优化外，还针对性的对 OP 进行了优化加速实现，降低预测延迟，提升推理吞吐。
+当模型被 Paddle Inference 加载后，神经网络被表示为由变量和运算节点组成的计算图。在图分析阶段，Paddle Inference 会对模型进行分析同时发现图中可以使用 TensorRT 优化的子图，并使用 TensorRT 节点替换它们。在模型的推理期间，如果遇到 TensorRT 节点，Paddle Infenrence 会调用 TensorRT 库对该节点进行执行，其它节点调用 GPU 原生推理。TensorRT 除了有常见的 OP 融合以及显存/内存优化外，还针对性地对 OP 进行了优化加速实现，降低预测延迟，提升推理吞吐。
 
 如果您需要安装 [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-6x-download)，请参考 [TensorRT 文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html)。
 
 
 
-目前 Paddle Inference 支持 TensorRT 的静态 shape、动态 shape 两种运行方式。静态 shape 用于模型输入 shape 除 batch 维，其他维度信息不变的情况，静态 shape 模式下支持图像分类，分割，检测模型；动态 shape 可用于输入 size 任意变化的模型， 如动态 shape 的图像模型（FCN， Faster rcnn）、 NLP 的 Bert/Ernie 等模型，当然也包括静态 shape 支持的模型； 静态 shape 和动态 shape 都支持fp32、fp16、int8 等多种计算精度；支持服务器端GPU，如T4、A10， 也支持边缘端硬件，如 Jetson NX、 Jetson Nano、 Jetson TX2 等。 在边缘硬件上，除支持常规的 GPU 外，还可用 DLA 进行推理；也支持 RTX2080，3090 等游戏显卡。
+目前 Paddle Inference 支持 TensorRT 的静态 shape、动态 shape 两种运行方式。静态 shape 用于模型输入 shape 除 batch 维外，其他维度大小不变的情况，静态 shape 模式下支持图像分类，分割，检测模型；动态 shape 可用于输入 size 任意变化的模型， 如动态 shape 的图像模型（FCN， Faster rcnn）、 NLP 的 Bert/Ernie 等模型，当然也包括静态 shape 支持的模型。 静态 shape 和动态 shape 都支持fp32、fp16、int8 等多种计算精度。TensorRT 支持服务器端GPU，如T4、A10， 也支持边缘端硬件，如 Jetson NX、 Jetson Nano、 Jetson TX2 等。 在边缘硬件上，除支持常规的 GPU 外，还可用 DLA 进行推理，也支持 RTX2080，3090 等游戏显卡。
 
-用 TensorRT 首次推理时，TensorRT 需要进行各 OP 融合、显存复用、以及 OP 的 kernel 选择等，导致首帧耗时过长，Paddle Inference 开放了 TensorRT 序列化接口，用于将 TensorRT 分析的信息进行存储，在后续推理直接载入相关序列化信息，从而减少启动耗时。
+用 TensorRT 首次推理时，TensorRT 需要进行各 OP 融合、显存复用、以及 OP 的 kernel 选择等，导致首帧耗时过长。Paddle Inference 开放了 TensorRT 序列化接口，用于将 TensorRT 分析的信息进行存储，在后续推理直接载入相关序列化信息，从而减少启动耗时。
 
 ## 二：环境准备
 
@@ -29,12 +29,12 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 预测�
 **Note:**
 
 1. 从源码编译时，TensorRT 预测库目前仅支持使用 GPU 编译，且需要设置编译选项 TENSORRT_ROOT 为 TensorRT 所在的路径。
-2. Windows 支持需要 TensorRT 版本5.0以上。
-3. 使用 TensorRT 的动态 shape 输入功能要求 TensorRT 的版本在6.0以上。
+2. Windows 支持需要 TensorRT 版本 5.0 以上。
+3. 使用 TensorRT 的动态 shape 输入功能要求 TensorRT 的版本在 6.0 以上。
 
 
 
-## 三：API使用介绍
+## 三：API 使用介绍
 
 在上一节中，我们了解到 Paddle Inference 预测流程包含了以下六步：
 
@@ -45,7 +45,7 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 预测�
 - 执行 Predictor
 - 获取输出
 
-Paddle Inference 中启用 TensorRT 也是遵照这样的流程。我们先用一个简单的例子来介绍这一流程（我们假设您已经对Paddle Inference有一定的了解，如果您刚接触Paddle Inference，请访问[这里](https://paddleinference.paddlepaddle.org.cn/quick_start/workflow.html)， 对Paddle Inference有个初步认识。）：
+Paddle Inference 中启用 TensorRT 也是遵照这样的流程。我们先用一个简单的例子来介绍这一流程（我们假设您已经对Paddle Inference有一定的了解，如果您刚接触Paddle Inference，请访问[这里](https://paddleinference.paddlepaddle.org.cn/quick_start/workflow.html)， 对Paddle Inference有个初步认识）。
 
 
 ```python
@@ -92,7 +92,7 @@ Paddle Inference 中启用 TensorRT 也是遵照这样的流程。我们先用�
         print ("class index: ", np.argmax(result[0][0]))
 ```
 
-通过例子我们可以看出，我们通过 `enable_tensorrt_engine` 接口来打开 TensorRT 选项。
+通过例子可以看出，我们通过 `enable_tensorrt_engine` 接口来打开 TensorRT 选项。
 
 ```python
     config.enable_tensorrt_engine(workspace_size = 1 << 30, 
@@ -103,12 +103,12 @@ Paddle Inference 中启用 TensorRT 也是遵照这样的流程。我们先用�
 ```
 接下来让我们看下该接口中各个参数的作用:  
 
-- **workspace_size**，类型：int，默认值为1 << 30 （1G）。指定 TensorRT 使用的工作空间大小，TensorRT 会在该大小限制下筛选最优的kernel进行推理。
+- **workspace_size**，类型：int，默认值为1 << 30 （1G）。指定 TensorRT 使用的工作空间大小，TensorRT 会在该大小限制下筛选最优的 kernel 进行推理。
 - **max_batch_size**，类型：int，默认值为1。需要提前设置最大的batch大小，运行时batch大小不得超过此限定值。
 - **min_subgraph_size**，类型：int，默认值为3。Paddle Inference 是以以子图的形式接入 TensorRT 的，为了避免性能损失，当子图内部节点个数大于 min_subgraph_size 的时候，才会将此子图接入 TensorRT 运行。
-- **precision_mode**，类型：**paddle_infer.PrecisionType**, 默认值为 **paddle_infer.PrecisionType.Float32**。指定使用 TensorRT 的精度，支持FP32（Float32），FP16（Half），Int8（Int8）。若需要使用 TensorRT int8 离线量化校准，需设定precision为 **paddle_infer.PrecisionType.Int8** , 且设置 **use_calib_mode** 为 True。
-- **use_static**，类型：bool, 默认值为 False。如果指定为 True，在初次运行程序的时候会将 TensorRT 的优化信息进行序列化到磁盘上，下次运行时直接加载优化的序列化信息而不需要重新生成。
-- **use_calib_mode**，类型：bool, 默认值为False。若要运行 int8 离线量化校准，需要将此选项设置为 True。
+- **precision_mode**，类型：**paddle_infer.PrecisionType**， 默认值为 **paddle_infer.PrecisionType.Float32**。指定使用 TensorRT 的精度，支持FP32（Float32），FP16（Half），Int8（Int8）。若需要使用 TensorRT int8 离线量化校准，需设定 precision 为 **paddle_infer.PrecisionType.Int8** , 且设置 **use_calib_mode** 为 True。
+- **use_static**，类型：bool， 默认值为 False。如果指定为 True，在初次运行程序的时候会将 TensorRT 的优化信息进行序列化到磁盘上，下次运行时直接加载优化的序列化信息而不需要重新生成。
+- **use_calib_mode**，类型：bool， 默认值为 False。若要运行 int8 离线量化校准，需要将此选项设置为 True。
 
 
 ## 四：运行 Dynamic shape
@@ -130,15 +130,15 @@ Paddle Inference 中启用 TensorRT 也是遵照这样的流程。我们先用�
 	config.set_trt_dynamic_shape_info(min_input_shape, max_input_shape, opt_input_shape)
 ```
 
-从上述使用方式来看，在 `config.enable_tensorrt_engine` 接口的基础上，新加了一个 `config.set_trt_dynamic_shape_info` 的接口。"image"对应模型文件中输入的名称。
+从上述使用方式来看，在 `config.enable_tensorrt_engine` 接口的基础上，新加了一个 `config.set_trt_dynamic_shape_info` 的接口。“image” 对应模型文件中输入的名称。
 
-该接口用来设置模型输入的最小，最大，以及最优的输入 shape。 其中，最优的 shape 处于最小最大 shape 之间，在预测初始化期间，会根据opt shape对op选择最优的 kernel。   
+该接口用来设置模型输入的最小、最大、以及最优的输入 shape。 其中，最优的 shape 处于最小最大 shape 之间，在预测初始化期间，会根据opt shape对op选择最优的 kernel。   
 
-调用了 **config.set_trt_dynamic_shape_info** 接口，预测器会运行 TensorRT 子图的动态输入模式，运行期间可以接受最小，最大 shape 间的任意 shape 的输入数据。
+调用了 **config.set_trt_dynamic_shape_info** 接口，预测器会运行 TensorRT 子图的动态输入模式，运行期间可以接受最小、最大 shape 间的任意 shape 的输入数据。
 
 &emsp;
 
-Paddle Inference 还提供了另外一份使用动态 shape 方法，此接口不用明确指出输入 shape 范围，但需要准备一些数据来运行模型，以便于收集模型中 Tensor 的大小，使用接口如下。
+Paddle Inference 还提供了另外一份使用动态 shape 方法，此接口不用明确指出输入 shape 范围，但需要准备一些数据来运行模型，以便于收集模型中 Tensor 的大小，使用接口如下：
 
 ```python
     if args.tune:
