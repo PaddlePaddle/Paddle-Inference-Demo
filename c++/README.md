@@ -1,43 +1,30 @@
 # C++ 预测样例
 
-**如果您看到这个目录，我们会假设您已经对Paddle Inference有了一定的了解。**
+**如果您看到这个目录，我们会假设您已经对 Paddle Inference 有了一定的了解。**
 
-**如果您刚刚接触Paddle Inference不久，建议您[访问这里](https://paddle-inference.readthedocs.io/en/latest/#)对Paddle Inference做一个初步的认识。**
+**如果您刚刚接触 Paddle Inference 不久，建议您[访问这里](https://paddle-inference.readthedocs.io/en/latest/#)对 Paddle Inference 做一个初步的认识。**
 
-这个目录包含了图像中使用的分类，检测，以及NLP中Ernie/Bert模型测试样例，同时也包含了Paddle-TRT，多线程等测试样例。
-
-为了能够顺利运行样例，请您在环境中准备Paddle Inference C++预编译库。
-    
-**一：获取编译库：**
-
-- [官网下载](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html)。
-- 自行编译获取。
-
-**二：预编译lib目录结构介绍：**
-
-进入预编译库，目录结构为：
+本目录提供 Paddle Inference 各个功能的使用样例。目录结构及功能如下所示，您可以根据自己的需求选择合适的样例。
 
 ```
-├── CMakeCache.txt
-├── paddle
-├── third_party
-└── version.txt
+├── ascend310                     晟腾310 预测样例
+├── ipu                           ipu 预测样例
+├── cpu                           
+│   ├── resnet50                  单输入模型 Onednn/OnnxRuntime 预测样例   
+│   └── yolov3                    多输入模型 Onednn/OnnxRuntime 预测样例
+├── gpu
+│   ├── resnet50                  单输入模型 原生gpu/Trt_fp32/Trt_fp16/Trt_int8/Trt_dynamic_shape 预测样例
+│   ├── yolov3                    多输入模型 原生gpu/Trt_fp32/Trt_fp16/Trt_int8/Trt_dynamic_shape 预测样例
+│   ├── tuned_dynamic_shape       Trt_tuned_dynamic_shape 预测样例
+│   ├── ernie_varlen              ernie 变长预测样例
+│   ├── gpu_fp16                  gpu 混合精度推理 预测样例
+│   └── internal                  gpu 多流 预测样例
+├── advanced 
+│   ├── custom_operator           自定义算子 样例
+│   ├── share_external_data       share_external_data 预测样例
+│   ├── shrink_memory             shrink_memory单线程/多线程/多流 预测样例
+│   └── x86_gru_int8              slim_int8 预测样例
+├── mixed
+│   └── LIC2020                   LIC2020比赛 预测样例
+└── lib
 ```
-
-其中`paddle`目录包含了预编译库的头文件以及lib文件。   
-`third_party`包含了第三方依赖库的头文件以及lib文件。 
-
-`version.txt`包含了lib的相关描述信息，包括：
-
-	```
-	GIT COMMIT ID: 06897f7c4ee41295e6e9a0af2a68800a27804f6c
-	WITH_MKL: ON         # 是否带MKL
-	WITH_MKLDNN: OFF     # 是否带MKLDNN
-	WITH_GPU: ON         # 是否支持GPU
-	CUDA version: 10.1   # CUDA的版本
-	CUDNN version: v7。  # CUDNN版本
-	WITH_TENSORRT: ON    # 是否带TRT
-	```
-
-
-有了预编译库后我们开始进入各个目录进行样例测试吧～
