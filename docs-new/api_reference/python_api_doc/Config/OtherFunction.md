@@ -3,7 +3,7 @@
 API定义如下：
 
 ```python
-# 开启内存/显存复用，具体降低内存效果取决于模型结构。
+# 开启内存 / 显存复用，具体降低内存效果取决于模型结构
 # 参数：None
 # 返回：None
 paddle.inference.Config.enable_memory_optim()
@@ -16,20 +16,21 @@ paddle.inference.Config.enable_memory_optim()
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 开启 CPU 显存优化
 config.enable_memory_optim()
 
 # 启用 GPU 进行预测
 config.enable_use_gpu(100, 0)
+
 # 开启 GPU 显存优化
 config.enable_memory_optim()
 ```
 
 # 设置缓存路径
 
-**注意：** 如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `SetOptimCacheDir` 来设置缓存路径。
+**注意：** 如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `set_optim_cache_dir` 来设置缓存路径。
 
 API定义如下：
 
@@ -47,7 +48,7 @@ paddle.inference.Config.set_optim_cache_dir(opt_cache_dir: str)
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 设置缓存路径
 config.set_optim_cache_dir("./OptimCacheDir")
@@ -58,7 +59,7 @@ config.set_optim_cache_dir("./OptimCacheDir")
 API定义如下：
 
 ```python
-# 打开 Profile，运行结束后会打印所有 OP 的耗时占比。
+# 打开 Profile，运行结束后会打印所有 OP 的耗时占比
 # 参数：None
 # 返回：None
 paddle.inference.Config.enable_profile()
@@ -71,7 +72,7 @@ paddle.inference.Config.enable_profile()
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 打开 Profile
 config.enable_profile()
@@ -134,7 +135,7 @@ paddle.inference.Config.glog_info_disabled()
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 去除 Paddle Inference 运行中的 LOG
 config.disable_glog_info()
@@ -148,9 +149,9 @@ print("GLOG INFO is: {}".format(config.glog_info_disabled()))
 API定义如下：
 
 ```python
-# 返回config的配置信息
+# 返回 config 的配置信息
 # 参数：None
-# 返回：string - config配置信息
+# 返回：string - config 配置信息
 paddle.inference.Config.summary()
 ```
 

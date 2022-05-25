@@ -1,6 +1,6 @@
 # Predictor 类
 
-Paddle Inference的预测器，由 `create_predictor` 根据 `Config` 进行创建。用户可以根据Predictor提供的接口设置输入数据、执行模型预测、获取输出等。
+Paddle Inference的预测器，由 `create_predictor` 根据 `Config` 进行创建。用户可以根据 Predictor 提供的接口设置输入数据、执行模型预测、获取输出等。
 
 类及方法定义如下：
 
@@ -58,7 +58,7 @@ import numpy
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 根据 config 创建 predictor
 predictor = paddle_infer.create_predictor(config)
@@ -78,7 +78,7 @@ predictor.run()
 output_names = predictor.get_output_names()
 output_tensor = predictor.get_output_handle(output_names[0])
 
-# 释放中间Tensor
+# 释放中间 Tensor
 predictor.clear_intermediate_tensor()
 
 # 释放内存池中的所有临时 Tensor
