@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>预测示例 (C) &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="预测示例 (GO)" href="go_demo.html" />
+    <link rel="prev" title="预测示例 (Python)" href="python_demo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">预测示例 (C)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#c-1">运行 C 示例程序</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#c-2">1. 源码编译 C 预测库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-1">2. 准备预测部署模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-2">3. 准备预测部署程序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-3">4. 编译预测部署程序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-4">5. 执行预测程序</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#c-3">C 预测程序开发说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/cxx_api_index.html">C++ API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>预测示例 (C)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/quick_start/c_demo.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="c">
+<h1>预测示例 (C)<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h1>
+<p>本章节包含2部分内容：(1) <a class="reference external" href="#id1">运行 C 示例程序</a>；(2) <a class="reference external" href="#id7">C 预测程序开发说明</a>。</p>
+<section id="c-1">
+<h2>运行 C 示例程序<a class="headerlink" href="#c-1" title="Permalink to this headline">¶</a></h2>
+<section id="c-2">
+<h3>1. 源码编译 C 预测库<a class="headerlink" href="#c-2" title="Permalink to this headline">¶</a></h3>
+<p>Paddle Inference 的 C 预测库需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译</p>
+<ul class="simple">
+<li><p><a class="reference external" href="../user_guides/source_compile.html#ubuntu-18-04">安装与编译 Linux 预测库</a></p></li>
+<li><p><a class="reference external" href="../user_guides/source_compile.html#windows-10">安装与编译 Windows 预测库</a></p></li>
+</ul>
+<p>编译完成后，在编译目录下的 <code class="docutils literal notranslate"><span class="pre">paddle_inference_c_install_dir</span></code> 即为 C 预测库，目录结构如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>paddle_inference_c_install_dir
+├── paddle
+│   ├── include               C 预测库头文件目录
+│   │   └── pd_common.h
+│   │   └── pd_config.h
+│   │   └── pd_inference_api.h         C 预测库头文件
+│   │   └── pd_predictor.h
+│   │   └── pd_tensor.h
+│   │   └── pd_types.h
+│   │   └── pd_utils.h
+│   └── lib
+│       ├── libpaddle_inference_c.a          C 静态预测库文件
+│       └── libpaddle_inference_c.so         C 动态预测库文件
+├── third_party
+│   └── install                          第三方链接库和头文件
+│       ├── cryptopp
+│       ├── gflags
+│       ├── glog
+│       ├── mkldnn
+│       ├── mklml
+│       ├── protobuf
+│       └── xxhash
+└── version.txt                          版本信息与编译选项信息
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">version.txt</span></code> 文件中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号，如：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
+WITH_MKL: ON
+WITH_MKLDNN: ON
+WITH_GPU: ON
+CUDA version: <span class="m">9</span>.0
+CUDNN version: v7.6
+CXX compiler version: <span class="m">4</span>.8.5
+WITH_TENSORRT: ON
+TensorRT version: v6
+</pre></div>
+</div>
+</section>
+<section id="section-1">
+<h3>2. 准备预测部署模型<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h3>
+<p>下载 <a class="reference external" href="https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz">ResNet50</a> 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 <code class="docutils literal notranslate"><span class="pre">inference.pdmodel</span></code> 加载到模型可视化工具 Netron 中打开。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
+tar zxf resnet50.tgz
+
+<span class="c1"># 获得模型目录即文件如下</span>
+resnet50/
+├── inference.pdmodel
+├── inference.pdiparams.info
+└── inference.pdiparams
+</pre></div>
+</div>
+</section>
+<section id="section-2">
+<h3>3. 准备预测部署程序<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h3>
+<p>将以下代码保存为 <code class="docutils literal notranslate"><span class="pre">c_demo.c</span></code> 文件：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;pd_inference_api.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;memory.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;malloc.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// 创建 Config 对象</span>
+  <span class="n">PD_Config</span><span class="o">*</span> <span class="n">config</span> <span class="o">=</span> <span class="n">PD_ConfigCreate</span><span class="p">();</span>
+
+  <span class="c1">// 设置预测模型路径，即为本小节第2步中下载的模型</span>
+  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">model_path</span>  <span class="o">=</span> <span class="s">&quot;./resnet50/inference.pdmodel&quot;</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">params_path</span> <span class="o">=</span> <span class="s">&quot;./resnet50/inference.pdiparams&quot;</span><span class="p">;</span>
+  <span class="n">PD_ConfigSetModel</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">params_path</span><span class="p">);</span>
+  
+  <span class="c1">// 根据 Config 创建 Predictor, 并销毁 Config 对象</span>
+  <span class="n">PD_Predictor</span><span class="o">*</span> <span class="n">predictor</span> <span class="o">=</span> <span class="n">PD_PredictorCreate</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+  <span class="c1">// 准备输入数据</span>
+  <span class="kt">int32_t</span> <span class="n">input_shape</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">244</span><span class="p">,</span> <span class="mi">244</span><span class="p">};</span>
+  <span class="kt">float</span><span class="o">*</span> <span class="n">input_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">224</span> <span class="o">*</span> <span class="mi">224</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+  <span class="c1">// 获取输入 Tensor</span>
+  <span class="n">PD_OneDimArrayCstr</span><span class="o">*</span> <span class="n">input_names</span> <span class="o">=</span> <span class="n">PD_PredictorGetInputNames</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+  <span class="n">PD_Tensor</span><span class="o">*</span> <span class="n">input_tensor</span> <span class="o">=</span> <span class="n">PD_PredictorGetInputHandle</span><span class="p">(</span><span class="n">predictor</span><span class="p">,</span> <span class="n">input_names</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+  <span class="c1">// 设置输入 Tensor 的维度信息及数据</span>
+  <span class="n">PD_TensorReshape</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">);</span>
+  <span class="n">PD_TensorCopyFromCpuFloat</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="n">input_data</span><span class="p">);</span>
+
+  <span class="c1">// 执行预测</span>
+  <span class="n">PD_PredictorRun</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+
+  <span class="c1">// 获取预测输出 Tensor</span>
+  <span class="n">PD_OneDimArrayCstr</span><span class="o">*</span> <span class="n">output_names</span> <span class="o">=</span> <span class="n">PD_PredictorGetOutputNames</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+  <span class="n">PD_Tensor</span><span class="o">*</span> <span class="n">output_tensor</span> <span class="o">=</span> <span class="n">PD_PredictorGetOutputHandle</span><span class="p">(</span><span class="n">predictor</span><span class="p">,</span> <span class="n">output_names</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+  <span class="c1">// 获取预测输出 Tensor 信息</span>
+  <span class="n">PD_OneDimArrayInt32</span><span class="o">*</span> <span class="n">output_shape</span> <span class="o">=</span> <span class="n">PD_TensorGetShape</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">);</span>
+  <span class="kt">int32_t</span> <span class="n">out_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">output_shape</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">out_size</span> <span class="o">=</span> <span class="n">out_size</span> <span class="o">*</span> <span class="n">output_shape</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 打印输出 Tensor 信息</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Output Tensor Name: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">output_names</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Output Tensor Size: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">out_size</span><span class="p">);</span>
+
+  <span class="c1">// 获取预测输出 Tensor 数据</span>
+  <span class="kt">float</span><span class="o">*</span> <span class="n">out_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">out_size</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+  <span class="n">PD_TensorCopyToCpuFloat</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">,</span> <span class="n">out_data</span><span class="p">);</span>
+
+  <span class="c1">// 销毁相关对象， 回收相关内存</span>
+  <span class="n">free</span><span class="p">(</span><span class="n">out_data</span><span class="p">);</span>
+  <span class="n">PD_OneDimArrayInt32Destroy</span><span class="p">(</span><span class="n">output_shape</span><span class="p">);</span>
+  <span class="n">PD_TensorDestroy</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">);</span>
+  <span class="n">PD_OneDimArrayCstrDestroy</span><span class="p">(</span><span class="n">output_names</span><span class="p">);</span>
+  <span class="n">PD_TensorDestroy</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">);</span>
+  <span class="n">PD_OneDimArrayCstrDestroy</span><span class="p">(</span><span class="n">input_names</span><span class="p">);</span>
+  <span class="n">free</span><span class="p">(</span><span class="n">input_data</span><span class="p">);</span>
+  <span class="n">PD_PredictorDestroy</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="section-3">
+<h3>4. 编译预测部署程序<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h3>
+<p>将 <code class="docutils literal notranslate"><span class="pre">paddle_inference_c_install_dir/paddle/include</span></code> 目录下的所有头文件和动态库文件 <code class="docutils literal notranslate"><span class="pre">paddle_inference_c_install_dir/paddle/lib/libpaddle_inference_c.so</span></code> 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># GCC 编译命令</span>
+gcc c_demo.c libpaddle_inference_c.so -o c_demo_prog
+
+<span class="c1"># 编译完成之后生成 c_demo_prog 可执行文件，编译目录内容如下</span>
+c_demo_dir/
+│
+├── c_demo.c                 预测 C 源码程序，内容如本小节第3步所示
+├── c_demo_prog              编译后的预测可执行程序
+│
+├── pd_inference_api.h         C 预测库头文件
+├── pd_common.h
+├── pd_config.h
+├── pd_utils.h
+├── pd_predictor.h
+├── pd_tensor.h
+├── pd_types.h
+├── libpaddle_fluid_c.so     C 动态预测库文件
+│
+├── resnet50_model.tar.gz    本小节第2步中下载的预测模型
+└── resnet50                 本小节第2步中下载的预测模型解压后的模型文件
+    ├── inference.pdmodel
+    ├── inference.pdiparams.info
+    └── inference.pdiparams
+</pre></div>
+</div>
+</section>
+<section id="section-4">
+<h3>5. 执行预测程序<a class="headerlink" href="#section-4" title="Permalink to this headline">¶</a></h3>
+<p><strong>注意</strong>：需要先将动态库文件 <code class="docutils literal notranslate"><span class="pre">libpaddle_inference_c.so</span></code> 所在路径加入 <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code>，否则会出现无法找到库文件的错误。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 执行预测程序</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>:<span class="nv">$LD_LIBRARY_PATH</span>
+./c_demo_prog
+</pre></div>
+</div>
+<p>成功执行之后，得到的预测输出结果如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 程序输出结果如下</span>
+--- Running analysis <span class="o">[</span>ir_graph_build_pass<span class="o">]</span>
+--- Running analysis <span class="o">[</span>ir_graph_clean_pass<span class="o">]</span>
+--- Running analysis <span class="o">[</span>ir_analysis_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>simplify_with_basic_ops_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>layer_norm_fuse_pass<span class="o">]</span>
+---    Fused <span class="m">0</span> subgraphs into layer_norm op.
+--- Running IR pass <span class="o">[</span>attention_lstm_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>seqconv_eltadd_relu_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>seqpool_cvm_concat_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>mul_lstm_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>fc_gru_fuse_pass<span class="o">]</span>
+---    fused <span class="m">0</span> pairs of <span class="nb">fc</span> gru patterns
+--- Running IR pass <span class="o">[</span>mul_gru_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>seq_concat_fc_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>squeeze2_matmul_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>reshape2_matmul_fuse_pass<span class="o">]</span>
+WARNING: Logging before InitGoogleLogging<span class="o">()</span> is written to STDERR
+W1202 <span class="m">07</span>:16:22.473459  <span class="m">3803</span> op_compat_sensible_pass.cc:219<span class="o">]</span>  Check the Attr<span class="o">(</span>transpose_Y<span class="o">)</span> of Op<span class="o">(</span>matmul<span class="o">)</span> <span class="k">in</span> pass<span class="o">(</span>reshape2_matmul_fuse_pass<span class="o">)</span> failed!
+W1202 <span class="m">07</span>:16:22.473500  <span class="m">3803</span> map_matmul_to_mul_pass.cc:668<span class="o">]</span> Reshape2MatmulFusePass <span class="k">in</span> op compat failed.
+--- Running IR pass <span class="o">[</span>flatten2_matmul_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>map_matmul_v2_to_mul_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>map_matmul_v2_to_matmul_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>map_matmul_to_mul_pass<span class="o">]</span>
+I1202 <span class="m">07</span>:16:22.476769  <span class="m">3803</span> fuse_pass_base.cc:57<span class="o">]</span> ---  detected <span class="m">1</span> subgraphs
+--- Running IR pass <span class="o">[</span>fc_fuse_pass<span class="o">]</span>
+I1202 <span class="m">07</span>:16:22.478200  <span class="m">3803</span> fuse_pass_base.cc:57<span class="o">]</span> ---  detected <span class="m">1</span> subgraphs
+--- Running IR pass <span class="o">[</span>repeated_fc_relu_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>squared_mat_sub_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>conv_bn_fuse_pass<span class="o">]</span>
+I1202 <span class="m">07</span>:16:22.526548  <span class="m">3803</span> fuse_pass_base.cc:57<span class="o">]</span> ---  detected <span class="m">53</span> subgraphs
+--- Running IR pass <span class="o">[</span>conv_eltwiseadd_bn_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>conv_transpose_bn_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>conv_transpose_eltwiseadd_bn_fuse_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>is_test_pass<span class="o">]</span>
+--- Running IR pass <span class="o">[</span>runtime_context_cache_pass<span class="o">]</span>
+--- Running analysis <span class="o">[</span>ir_params_sync_among_devices_pass<span class="o">]</span>
+--- Running analysis <span class="o">[</span>adjust_cudnn_workspace_size_pass<span class="o">]</span>
+--- Running analysis <span class="o">[</span>inference_op_replace_pass<span class="o">]</span>
+--- Running analysis <span class="o">[</span>ir_graph_to_program_pass<span class="o">]</span>
+I1202 <span class="m">07</span>:16:22.576740  <span class="m">3803</span> analysis_predictor.cc:717<span class="o">]</span> <span class="o">=======</span> optimize <span class="nv">end</span> <span class="o">=======</span>
+I1202 <span class="m">07</span>:16:22.579823  <span class="m">3803</span> naive_executor.cc:98<span class="o">]</span> ---  skip <span class="o">[</span>feed<span class="o">]</span>, feed -&gt; inputs
+I1202 <span class="m">07</span>:16:22.581485  <span class="m">3803</span> naive_executor.cc:98<span class="o">]</span> ---  skip <span class="o">[</span>save_infer_model/scale_0.tmp_1<span class="o">]</span>, fetch -&gt; fetch
+Output Tensor Name: save_infer_model/scale_0.tmp_1
+Output Tensor Size: <span class="m">1000</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="c-3">
+<h2>C 预测程序开发说明<a class="headerlink" href="#c-3" title="Permalink to this headline">¶</a></h2>
+<p>使用 Paddle Inference 开发 C 预测程序仅需以下七个步骤：</p>
+<p>(1) 引用头文件</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;pd_inference_api.h&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>(2) 创建配置对象，并指定预测模型路径，详细可参考 <a class="reference internal" href="../api_reference/c_api_doc/Config_index.html"><span class="doc">C API 文档 - Config 方法</span></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建 Config 对象</span>
+<span class="n">PD_Config</span><span class="o">*</span> <span class="n">config</span> <span class="o">=</span> <span class="n">PD_ConfigCreate</span><span class="p">();</span>
+
+<span class="c1">// 设置预测模型路径，即为本小节第2步中下载的模型</span>
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">model_path</span>  <span class="o">=</span> <span class="s">&quot;./resnet50/inference.pdmodel&quot;</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">params_path</span> <span class="o">=</span> <span class="s">&quot;./resnet50/inference.pdiparams&quot;</span><span class="p">;</span>
+<span class="n">PD_ConfigSetModel</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">params_path</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(3) 根据Config创建预测对象，详细可参考 <a class="reference internal" href="../api_reference/c_api_doc/Predictor.html"><span class="doc">C API 文档 - Predictor 方法</span></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 根据 Config 创建 Predictor, 并销毁 Config 对象</span>
+<span class="n">PD_Predictor</span><span class="o">*</span> <span class="n">predictor</span> <span class="o">=</span> <span class="n">PD_PredictorCreate</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(4) 设置模型输入Tensor，详细可参考 <a class="reference internal" href="../api_reference/c_api_doc/Tensor.html"><span class="doc">C API 文档 - Tensor 方法</span></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 准备输入数据</span>
+<span class="kt">int32_t</span> <span class="n">input_shape</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">244</span><span class="p">,</span> <span class="mi">244</span><span class="p">};</span>
+<span class="kt">float</span><span class="o">*</span> <span class="n">input_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">224</span> <span class="o">*</span> <span class="mi">224</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="c1">// 获取输入 Tensor</span>
+<span class="n">PD_OneDimArrayCstr</span><span class="o">*</span> <span class="n">input_names</span> <span class="o">=</span> <span class="n">PD_PredictorGetInputNames</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+<span class="n">PD_Tensor</span><span class="o">*</span> <span class="n">input_tensor</span> <span class="o">=</span> <span class="n">PD_PredictorGetInputHandle</span><span class="p">(</span><span class="n">predictor</span><span class="p">,</span> <span class="n">input_names</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+<span class="c1">// 设置输入 Tensor 的维度信息及数据</span>
+<span class="n">PD_TensorReshape</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">);</span>
+<span class="n">PD_TensorCopyFromCpuFloat</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="n">input_data</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(5) 执行预测引擎，详细可参考 <a class="reference internal" href="../api_reference/c_api_doc/Predictor.html"><span class="doc">C API 文档 - Predictor 方法</span></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 执行预测</span>
+<span class="n">PD_PredictorRun</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(6) 获得预测结果，详细可参考 <a class="reference internal" href="../api_reference/c_api_doc/Tensor.html"><span class="doc">C API 文档 - Tensor 方法</span></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 获取预测输出 Tensor</span>
+<span class="n">PD_OneDimArrayCstr</span><span class="o">*</span> <span class="n">output_names</span> <span class="o">=</span> <span class="n">PD_PredictorGetOutputNames</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+<span class="n">PD_Tensor</span><span class="o">*</span> <span class="n">output_tensor</span> <span class="o">=</span> <span class="n">PD_PredictorGetOutputHandle</span><span class="p">(</span><span class="n">predictor</span><span class="p">,</span> <span class="n">output_names</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+<span class="c1">// 获取预测输出 Tensor 信息</span>
+<span class="n">PD_OneDimArrayInt32</span><span class="o">*</span> <span class="n">output_shape</span> <span class="o">=</span> <span class="n">PD_TensorGetShape</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">);</span>
+<span class="kt">int32_t</span> <span class="n">out_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">output_shape</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">out_size</span> <span class="o">=</span> <span class="n">out_size</span> <span class="o">*</span> <span class="n">output_shape</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// 打印输出 Tensor 信息</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Output Tensor Name: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">output_names</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Output Tensor Size: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">out_size</span><span class="p">);</span>
+
+<span class="c1">// 获取预测输出 Tensor 数据</span>
+<span class="kt">float</span><span class="o">*</span> <span class="n">out_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">out_size</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="n">PD_TensorCopyToCpuFloat</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">,</span> <span class="n">out_data</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(7) 销毁相关对象，回收相关内存</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 销毁相关对象， 回收相关内存</span>
+<span class="n">free</span><span class="p">(</span><span class="n">out_data</span><span class="p">);</span>
+<span class="n">PD_OneDimArrayInt32Destroy</span><span class="p">(</span><span class="n">output_shape</span><span class="p">);</span>
+<span class="n">PD_TensorDestroy</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">);</span>
+<span class="n">PD_OneDimArrayCstrDestroy</span><span class="p">(</span><span class="n">output_names</span><span class="p">);</span>
+<span class="n">PD_TensorDestroy</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">);</span>
+<span class="n">PD_OneDimArrayCstrDestroy</span><span class="p">(</span><span class="n">input_names</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">input_data</span><span class="p">);</span>
+<span class="n">PD_PredictorDestroy</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="go_demo.html" class="btn btn-neutral float-right" title="预测示例 (GO)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="python_demo.html" class="btn btn-neutral float-left" title="预测示例 (Python)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

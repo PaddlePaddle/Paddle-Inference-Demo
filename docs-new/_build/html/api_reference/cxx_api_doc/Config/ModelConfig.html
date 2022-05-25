@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. 设置预测模型 &mdash; Paddle-Inference  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="3. 使用 CPU 进行预测" href="CPUConfig.html" />
+    <link rel="prev" title="1. Config 构造函数" href="ConfigClass.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Paddle-Inference
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">产品介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../product_introduction/summary.html">飞桨推理产品简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../product_introduction/inference_intro.html">Paddle Inference 简介</a></li>
+</ul>
+<p><span class="caption-text">快速开始</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/workflow.html">预测流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/cpp_demo.html">预测示例 (C++)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/python_demo.html">预测示例 (Python)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/c_demo.html">预测示例 (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start/go_demo.html">预测示例 (GO)</a></li>
+</ul>
+<p><span class="caption-text">使用方法</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/source_compile.html">源码编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_ARM.html"><strong>飞腾/鲲鹏下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_SW.html"><strong>申威下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_ZHAOXIN.html"><strong>兆芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/compile_MIPS.html"><strong>龙芯下从源码编译</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/download_lib.html">下载安装Linux预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/download_lib.html#windows">下载安装Windows预测库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guides/download_lib.html#mac">下载安装Mac预测库</a></li>
+</ul>
+<p><span class="caption-text">性能调优</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimize/paddle_x86_cpu_int8.html">X86 CPU 上部署量化模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimize/paddle_x86_cpu_bf16.html">X86 CPU 上部署BF16预测</a></li>
+</ul>
+<p><span class="caption-text">工具</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/visual.html">模型可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/x2paddle.html">模型转换工具 X2Paddle</a></li>
+</ul>
+<p><span class="caption-text">硬件部署示例</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/x86_linux_demo.html">X86 Linux上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/x86_windows_demo.html">X86 Windows上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/paddle_xpu_infer_cn.html">使用昆仑预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/cuda_linux_demo.html">Linux上GPU预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/cuda_jetson_demo.html">NV Jetson上预测部署示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo_tutorial/cuda_windows_demo.html">Windows上GPU预测部署示例</a></li>
+</ul>
+<p><span class="caption-text">Benchmark</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../benchmark/benchmark.html">性能数据</a></li>
+</ul>
+<p><span class="caption-text">API 文档</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../cxx_api_index.html">C++ API 文档</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../CreatePredictor.html">CreatePredictor 方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../CreatePredictor.html#getversion">GetVersion 方法</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Config_index.html">Config 类</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ConfigClass.html">1. Config 构造函数</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">2. 设置预测模型</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#combined">2.1. 从文件中加载预测模型 - 非Combined模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#combined-1">2.2. 从文件中加载预测模型 -  Combined 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-2">2.3. 从内存中加载预测模型</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="CPUConfig.html">3. 使用 CPU 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GPUConfig.html">4. 使用 GPU 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="XPUConfig.html">5. 使用 XPU 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ORTConfig.html">6. 使用 ONNXRuntime 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="IPUConfig.html">7. 使用 IPU 进行预测</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OptimConfig.html">8. 设置模型优化方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html">9. 启用内存优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#section-2">10. 设置缓存路径</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#fc-padding">11. FC Padding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#profile">12. Profile 设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#log">13. Log 设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OtherFunction.html#config">14. 查看config配置</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../PaddlePassBuilder.html">PaddlePassBuilder 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Predictor.html">Predictor 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../PredictorPool.html">PredictorPool 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tensor.html">Tensor 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Enum.html">枚举类型</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_api_index.html">Python API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../c_api_index.html">C API 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../go_api_index.html">GO API 文档</a></li>
+</ul>
+<p><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faq.html">Paddle Inference FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/training_to_deployment.html">训练推理示例说明</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Paddle-Inference</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../cxx_api_index.html">C++ API 文档</a> &raquo;</li>
+        
+          <li><a href="../Config_index.html">Config 类</a> &raquo;</li>
+        
+      <li><span class="section-number">2. </span>设置预测模型</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/api_reference/cxx_api_doc/Config/ModelConfig.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="section-1">
+<h1><span class="section-number">2. </span>设置预测模型<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h1>
+<section id="combined">
+<h2><span class="section-number">2.1. </span>从文件中加载预测模型 - 非Combined模型<a class="headerlink" href="#combined" title="Permalink to this headline">¶</a></h2>
+<p>API定义如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 设置模型文件路径，当需要从磁盘加载非 Combined 模型时使用</span>
+<span class="c1">// 参数：model_dir - 模型文件夹路径</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">SetModel</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">model_dir</span><span class="p">);</span>
+
+<span class="c1">// 获取非combine模型的文件夹路径</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：string - 模型文件夹路径</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">model_dir</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>代码示例：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 字符串 model_dir 为非 Combined 模型文件夹路径</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">model_dir</span> <span class="o">=</span> <span class="s">&quot;../assets/models/mobilenet_v1&quot;</span><span class="p">;</span>
+
+<span class="c1">// 创建默认 Config 对象</span>
+<span class="n">paddle_infer</span><span class="o">::</span><span class="n">Config</span> <span class="n">config</span><span class="p">();</span>
+
+<span class="c1">// 通过 API 设置模型文件夹路径</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SetModel</span><span class="p">(</span><span class="n">model_dir</span><span class="p">);</span>
+
+<span class="c1">// 通过 API 获取 config 中的模型路径</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Model Path is: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">config</span><span class="p">.</span><span class="n">model_dir</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="c1">// 根据Config对象创建预测器对象</span>
+<span class="k">auto</span> <span class="n">predictor</span> <span class="o">=</span> <span class="n">paddle_infer</span><span class="o">::</span><span class="n">CreatePredictor</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="combined-1">
+<h2><span class="section-number">2.2. </span>从文件中加载预测模型 -  Combined 模型<a class="headerlink" href="#combined-1" title="Permalink to this headline">¶</a></h2>
+<p>API定义如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 设置模型文件路径，当需要从磁盘加载 Combined 模型时使用</span>
+<span class="c1">// 参数：prog_file_path - 模型文件路径</span>
+<span class="c1">//      params_file_path - 参数文件路径</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">SetModel</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">prog_file_path</span><span class="p">,</span>
+              <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">params_file_path</span><span class="p">);</span>
+
+<span class="c1">// 设置模型文件路径，当需要从磁盘加载 Combined 模型时使用。</span>
+<span class="c1">// 参数：x - 模型文件路径</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">SetProgFile</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">);</span>
+
+<span class="c1">// 设置参数文件路径，当需要从磁盘加载 Combined 模型时使用</span>
+<span class="c1">// 参数：x - 参数文件路径</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">SetParamsFile</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">);</span>
+
+<span class="c1">// 获取 Combined 模型的模型文件路径</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：string - 模型文件路径</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">prog_file</span><span class="p">();</span>
+
+<span class="c1">// 获取 Combined 模型的参数文件路径</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：string - 参数文件路径</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">params_file</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>代码示例：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 字符串 prog_file 为 Combined 模型的模型文件所在路径</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">prog_file</span> <span class="o">=</span> <span class="s">&quot;../assets/models/mobilenet_v1/__model__&quot;</span><span class="p">;</span>
+<span class="c1">// 字符串 params_file 为 Combined 模型的参数文件所在路径</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">params_file</span> <span class="o">=</span> <span class="s">&quot;../assets/models/mobilenet_v1/__params__&quot;</span><span class="p">;</span>
+
+<span class="c1">// 创建默认 Config 对象</span>
+<span class="n">paddle_infer</span><span class="o">::</span><span class="n">Config</span> <span class="n">config</span><span class="p">();</span>
+<span class="c1">// 通过 API 设置模型文件夹路径，</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SetModel</span><span class="p">(</span><span class="n">prog_file</span><span class="p">,</span> <span class="n">params_file</span><span class="p">);</span>
+<span class="c1">// 注意：SetModel API与以下2行代码等同</span>
+<span class="c1">// config.SetProgFile(prog_file);</span>
+<span class="c1">// config.SetParamsFile(params_file);</span>
+
+<span class="c1">// 通过 API 获取 config 中的模型文件和参数文件路径</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Model file path is: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">config</span><span class="p">.</span><span class="n">prog_file</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Model param path is: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">config</span><span class="p">.</span><span class="n">params_file</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="c1">// 根据 Config 对象创建预测器对象</span>
+<span class="k">auto</span> <span class="n">predictor</span> <span class="o">=</span> <span class="n">paddle_infer</span><span class="o">::</span><span class="n">CreatePredictor</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="section-2">
+<h2><span class="section-number">2.3. </span>从内存中加载预测模型<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h2>
+<p>API定义如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 从内存加载模型</span>
+<span class="c1">// 参数：prog_buffer - 内存中模型结构数据</span>
+<span class="c1">//      prog_buffer_size - 内存中模型结构数据的大小</span>
+<span class="c1">//      params_buffer - 内存中模型参数数据</span>
+<span class="c1">//      params_buffer_size - 内存中模型参数数据的大小</span>
+<span class="c1">// 返回：None</span>
+<span class="kt">void</span> <span class="nf">SetModelBuffer</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">prog_buffer</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">prog_buffer_size</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">params_buffer</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">params_buffer_size</span><span class="p">);</span>
+
+<span class="c1">// 判断是否从内存中加载模型</span>
+<span class="c1">// 参数：None</span>
+<span class="c1">// 返回：bool - 是否从内存中加载模型</span>
+<span class="kt">bool</span> <span class="nf">model_from_memory</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>代码示例：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 定义文件读取函数</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">read_file</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">ifstream</span> <span class="n">file</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">istreambuf_iterator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="n">file</span><span class="p">)),</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">istreambuf_iterator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="c1">// 设置模型文件和参数文件所在路径</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">prog_file</span> <span class="o">=</span> <span class="s">&quot;../assets/models/mobilenet_v1/__model__&quot;</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">params_file</span> <span class="o">=</span> <span class="s">&quot;../assets/models/mobilenet_v1/__params__&quot;</span><span class="p">;</span>
+
+<span class="c1">// 加载模型文件到内存</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">prog_str</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="n">prog_file</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">params_str</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="n">params_file</span><span class="p">);</span>
+
+<span class="c1">// 创建默认 Config 对象</span>
+<span class="n">paddle_infer</span><span class="o">::</span><span class="n">Config</span> <span class="n">config</span><span class="p">();</span>
+<span class="c1">// 从内存中加载模型</span>
+<span class="n">config</span><span class="p">.</span><span class="n">SetModelBuffer</span><span class="p">(</span><span class="n">prog_str</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">prog_str</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>
+                      <span class="n">params_str</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">params_str</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="c1">// 通过 API 获取 config 中 model_from_memory 的值</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Load model from memory is: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">config</span><span class="p">.</span><span class="n">model_from_memory</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="c1">// 根据 Confi 对象创建预测器对象</span>
+<span class="k">auto</span> <span class="n">predictor</span> <span class="o">=</span> <span class="n">paddle_infer</span><span class="o">::</span><span class="n">CreatePredictor</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CPUConfig.html" class="btn btn-neutral float-right" title="3. 使用 CPU 进行预测" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ConfigClass.html" class="btn btn-neutral float-left" title="1. Config 构造函数" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Paddle-Inference Developer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

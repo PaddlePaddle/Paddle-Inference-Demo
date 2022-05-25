@@ -91,4 +91,3 @@ Welcome to Paddle Inference's documentation!
 
   introduction/faq
   introduction/training_to_deployment
-
