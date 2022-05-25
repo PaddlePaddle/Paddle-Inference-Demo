@@ -51,7 +51,7 @@ VisualDL是飞桨可视化分析工具，以丰富的图表呈现训练参数变
 
 .. code:: python
 
-  visualdl --model model.pdmodel --port 8080
+	visualdl --model model.pdmodel --port 8080
 
 
 .. image:: https://user-images.githubusercontent.com/48054808/88621327-b664f280-d0d2-11ea-9e76-e3fcfeea4e57.png
