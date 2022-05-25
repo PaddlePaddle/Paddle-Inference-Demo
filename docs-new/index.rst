@@ -91,4 +91,9 @@ Welcome to Paddle Inference's documentation!
 
   introduction/faq
   introduction/training_to_deployment
+.. toctree::
+  :maxdepth: 1
+  :caption: Debug
 
+  debug/performance_analysis_profiler
+  debug/precision_tracing
