@@ -62,9 +62,11 @@ NVIDIA Nsight Systems 是一种系统级别的调优工具，能够对程序使�
 <p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_4.png"/></p>
 
 - TensorRT 以及 CUDA API 包含了 所有 GPU Kernel Launch 的过程。
+
 <p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_5.png"/></p>
+
 - 将左侧菜单栏展开，还会得到更加详细的 Kernel 计算占比以及多 Stream 使用情况。
-- 
+ 
 <p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_6.png"/></p>
 
 ### 2.3 Nsight Systems 分析技巧
