@@ -79,11 +79,9 @@ Caffe 模型转换
 --caffe_proto          **[可选]** 由caffe.proto编译成caffe_pb2.py文件的存放路径，当存在自定义Layer时使用，默认为None 
 --define_input_shape   **[可选]** For TensorFlow, 当指定该参数时，强制用户输入每个Placeholder的shape，见 `文档 <https://github.com/PaddlePaddle/X2Paddle/blob/develop/docs/inference_model_convertor/FAQ.md>`_ 
 --enable_code_optim    **[可选]** For PyTorch, 是否对生成代码进行优化，默认为True
---to_lite              **[可选]** 是否使用opt工具转成Paddle-Lite支持格式，默认为False
---lite_valid_places    **[可选]** 指定转换类型，可以同时指定多个backend(以逗号分隔)，opt将会自动选择最佳方式，默认为arm
---lite_model_type      **[可选]** 指定模型转化类型，目前支持两种类型：protobuf和naive_buffer，默认为naive_buffer
---disable_feedback     **[可选]** 是否关闭X2Paddle使用反馈；X2Paddle默认会统计用户在进行模型转换时的成功率，以及转换框架来源等信息，以便于帮忙X2Paddle根据用户需求进行迭代，不会上传用户的模型文件。如若不想参与反馈，可指定此参数为False即可
 =====================  =============================================================================
+
+更多参数可参考 `X2Paddle官网 <https://github.com/PaddlePaddle/X2Paddle#%E8%BD%AC%E6%8D%A2%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E>`_
 
 X2Paddle API
 >>>>>>>>>>>>>>
