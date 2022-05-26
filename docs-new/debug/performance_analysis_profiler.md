@@ -31,7 +31,6 @@ config.enable_profile()
 CPU 和 GPU 耗时较为准确，可作为性能分析的参考。我们可以通过分析各部分耗时来判断性能瓶颈是由 CPU 还是 GPU 导致，得到最大耗时对应的 OP，精确统计指定 C++ 代码的开销。
 
 <p align="center"><img width="800" src="../images/resnet_profile.png"/></p>
-![image](../images/resnet_profile.png)
 
 ## 2 NVIDIA Nsight Systems 性能分析工具
 NVIDIA Nsight Systems 是一种系统级别的调优工具，能够对程序使用到的 GPU、DLA、CPU、显存、线程等数据进行可视化，以帮助用户调查瓶颈，优化性能。 NVIDIA 官方提供了 [Nsight Systems 数据手册](https://docs.nvidia.com/nsight-systems/UserGuide/index.html)。
@@ -41,7 +40,7 @@ NVIDIA Nsight Systems 是一种系统级别的调优工具，能够对程序使�
 
 首先，需要在 [Nsight Systems 官网](https://developer.nvidia.com/nsight-systems) 下载对应 Linux 版本的安装包，执行安装命令即可完成安装。
 
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_1.png"/></p>
+<p align="center"><img width="800" src="../images/nsight_1.png"/></p>
 
 ```c++
  //.run 安装包
@@ -63,18 +62,20 @@ NVIDIA Nsight Systems 是一种系统级别的调优工具，能够对程序使�
 
 在 Mac / Windows 上安装好图形化查看界面 Nsight Host，打开生成的 .qdrep 文件，就可以查看运行的 timeline，可重点分析 CUDA HW、TensorRT 以及 CUDA API 这三部分。
 
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_3.png"/></p>
+<p align="center"><img width="800" src="../images/nsight_3.png"/></p>
 
 
 (1) CUDA HW 包含了所有运行的 GPU Kernel 计算单元。在界面中放大可以查看所有时间段，选中某次运行的时间段，Nsight Systems 会自动显示该时间段运行 kernel 的详细数据信息，包括执行时间、内存申请以及所在流等。
 
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_4.png"/></p>
+<p align="center"><img width="800" src="../images/nsight_4.png"/></p>
 
 (2) TensorRT 以及 CUDA API 包含了 所有 GPU Kernel Launch 的过程。
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_5.png"/></p>
+
+<p align="center"><img width="800" src="../images/nsight_5.png"/></p>
+
 (3) 将左侧菜单栏展开，还会得到更加详细的 Kernel 计算占比以及多 Stream 使用情况。
  
-<p align="center"><img width="800" src="https://raw.githubusercontent.com/PaddlePaddle/Paddle-Inference-Demo/master/docs-new/images/nsight_6.png"/></p>
+<p align="center"><img width="800" src="../images/nsight_6.png"/></p>
 
 ### 2.3 Nsight Systems 分析技巧
 
