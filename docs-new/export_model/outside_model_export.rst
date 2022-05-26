@@ -1,12 +1,13 @@
-模型转换工具 X2Paddle
+其他框架模型导出
 =====================
+
+Pytorch、ONNX、TensorFlow、Caffe模型，可以通过 X2Paddle 工具完成模型转换，转到 Paddle 模型后，即可使用 Paddle Inference 完成部署。
 
 `X2Paddle <https://github.com/PaddlePaddle/X2Paddle>`_ 是飞桨生态下的模型转换工具，致力于帮助你快速迁移其他深度学习框架至飞桨框架。目前支持 **推理模型的框架转换** 与 **PyTorch训练代码迁移** ，除此之外还提供了详细的不同框架间API对比文档，降低你上手飞桨核心的学习成本。
 
 目前X2Paddle支持的模型参考 `x2paddle_model_zoo <https://github.com/PaddlePaddle/X2Paddle/blob/develop/docs/introduction/x2paddle_model_zoo.md>`_ 。
 
-
-安装
+1.安装模型转换工具X2Padlde
 ---------------
 
 使用pip安装
@@ -23,10 +24,10 @@
 	cd X2Paddle
 	python setup.py install
 
-使用
+2.模型转换
 ------------
 
-PyTorch 模型转换
+2.1 Pytorch模型转换
 >>>>>>>>>>>>>>
 
 .. code-block:: python
@@ -44,21 +45,21 @@ PyTorch 模型转换
 
 **script** 模式以及更多细节可参考 `PyTorch模型转换文档 <https://github.com/PaddlePaddle/X2Paddle/blob/develop/docs/inference_model_convertor/pytorch2paddle.md>`_ 。
 
-ONNX 模型转换
+2.2 ONNX模型转换
 >>>>>>>>>>
 
 .. code:: shell
 
 	x2paddle --framework onnx --model onnx_model.onnx --save_dir pd_model
 
-TensorFlow 模型转换
+2.3 TensorFlow模型转换
 >>>>>>>>>>
 
 .. code:: shell
 
 	x2paddle --framework tensorflow --model model.pb --save_dir pd_model
 
-Caffe 模型转换
+2.4 Caffe模型转换
 >>>>>>>>>>>>>>
 
 .. code:: shell
@@ -87,11 +88,6 @@ X2Paddle API
 >>>>>>>>>>>>>>
 
 目前X2Paddle提供API方式转换模型，可参考 `X2PaddleAPI <https://github.com/PaddlePaddle/X2Paddle/blob/develop/docs/inference_model_convertor/x2paddle_api.md>`_
-
-一键转换Paddle-Lite支持格式
->>>>>>>>>>>>>>
-
-可参考 `使用X2paddle导出Padde-Lite支持格式 <https://github.com/PaddlePaddle/X2Paddle/blob/develop/docs/inference_model_convertor/convert2lite_api.md>`_
 
 转换结果说明
 --------------
