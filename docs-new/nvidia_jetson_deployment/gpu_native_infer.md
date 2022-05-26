@@ -2,8 +2,8 @@
 
 使用 GPU 原生推理前必须确保您的机器上已经安装了 CUDA 和 cuDNN，且需要知道它们的安装位置。
 
-使用 PaddlePaddle 训练结束后，得到预测模型，可以用于预测部署。
-本文准备了 mobilenet_v1 预测模型，可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz)下载，或者 wget 下载。
+使用 PaddlePaddle 训练结束后，得到推理模型，可以用于推理部署。
+本文准备了 mobilenet_v1 推理模型，可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz)下载，或者 wget 下载。
 
 ```shell
 wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
@@ -22,7 +22,7 @@ C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Dem
 
 (1) 包含头文件
 
-使用 Paddle Inference 预测库，只需包含 `paddle_inference_api.h`。
+使用 Paddle Inference 推理库，只需包含 `paddle_inference_api.h`。
 
 ```cpp
 #include "paddle/include/paddle_inference_api.h"
@@ -30,9 +30,9 @@ C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Dem
 
 (2) 设置 Config
 
-根据预测部署的实际情况，设置 Config，用于后续创建 Predictor。
+根据推理部署的实际情况，设置 Config，用于后续创建 Predictor。
 
-Config 默认用 CPU 预测，若要用 GPU 预测，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 的相关说明和示例可以参考[文档](https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html)。
+Config 默认用 CPU 推理，若要用 GPU，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 的相关说明和示例可以参考[文档](https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html)。
 
 ```cpp
 paddle_infer::Config config;
@@ -89,18 +89,18 @@ output_t->CopyToCpu(out_data.data());
 
 ### Linux/Ubuntu 部署示例
 
-请参考[下载安装 Ubuntu 预测库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 C++ 预测库，名称中带有 `cuda` 的为用于 GPU 的预测库。以 `manylinux_cuda11.2_cudnn8.2_avx_mkl_trt8_gcc8.2`为例，它要求您的系统上安装 CUDA 版本为11.2，cuDNN 版本为8.2， TensorRT 版本为8.x， gcc 版本为8.2，当然，如果您的上述版本不能完全对应，那么或许也是可以的。注意，如果您的机器上没有安装 TensorRT，您仍然可以下载这个库，只不过模型就只能用 GPU 原生推理，而不能使用 TensorRT 加速。
+请参考[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 C++ 推理库，名称中带有 `cuda` 的为用于 GPU 的推理库。以 `manylinux_cuda11.2_cudnn8.2_avx_mkl_trt8_gcc8.2`为例，它要求您的系统上安装 CUDA 版本为11.2，cuDNN 版本为8.2， TensorRT 版本为8.x， gcc 版本为8.2，当然，如果您的上述版本不能完全对应，那么或许也是可以的。注意，如果您的机器上没有安装 TensorRT，您仍然可以下载这个库，只不过模型就只能用 GPU 原生推理，而不能使用 TensorRT 加速。
 
 
 下面介绍示例代码在 Linux/Ubuntu 下的编译和执行。
 您需要关心下面四个文件即可，首先进入 C++ 示例代码的目录。
-文件`model_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定修改）。    
+文件`model_test.cc` 为推理的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定修改）。    
 文件`../lib/CMakeLists.txt` 为编译构建文件，
 脚本 `compile.sh` 为编译脚本，它将复制`../lib/CMakeLists.txt`到当前目录，并编译生成可执行文件。
 脚本`run.sh` 下载模型，并运行可执行程序。
 
-先要把您下载好的Paddle Inference预测库放到`Paddle-Inference-Demo/c++/lib`中，然后在 `compile.sh` 里面进行如下设置。
-如果您不想使用 TensorRT 或机器上没有安装TensorRT，那您要记得把`USE_TENSORRT`置为`OFF`。`LIB_DIR`就是您的Paddle Inference预测库的放置路径，`CUDNN_LIB`、`CUDA_LIB`、`TENSORRT_ROOT`分别为您的CUDNN的库路径，CUDA的库路径，以及TensorRT的根目录。
+先要把您下载好的 Paddle Inference 推理库放到`Paddle-Inference-Demo/c++/lib`中，然后在 `compile.sh` 里面进行如下设置。
+如果您不想使用 TensorRT 或机器上没有安装 TensorRT，那您要记得把`USE_TENSORRT`置为`OFF`。`LIB_DIR`就是您的 Paddle Inference 推理库的放置路径，`CUDNN_LIB`、`CUDA_LIB`、`TENSORRT_ROOT`分别为您的 cuDNN 的库路径，CUDA 的库路径，以及 TensorRT 的根目录。
 
 ```shell
 WITH_MKL=ON
@@ -124,11 +124,11 @@ bash run.sh
 
 ### Windows 上 GPU 原生推理部署示例
 
-请参考[下载安装 Windows 预测库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)下载 C++ 预测库。
+请参考[下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)下载 C++ 推理库。
 
 在 Windows上 部署示例的话，您需要下面几个图形界面的操作，此时您只需要关注两个文件即可。
 
-文件`model_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
+文件`model_test.cc` 为推理的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
 文件`../lib/CMakeLists.txt` 为编译构建文件，请把它手动复制到和`model_test.cc`相同目录。
 
 打开 cmake-gui 程序生成vs工程：
@@ -141,7 +141,7 @@ bash run.sh
 
 ![win_x86_cpu_cmake_2](./images/win_x86_cpu_cmake_2.png)
 
-- 设置 CMake Options，点击 Add Entry，新增 PADDLE_LIB、CMAKE_BUILD_TYPE、DEMO_NAME等选项。具体配置项如下图所示，其中 PADDLE_LIB 为您下载的预测库路径。
+- 设置 CMake Options，点击 Add Entry，新增 PADDLE_LIB、CMAKE_BUILD_TYPE、DEMO_NAME等选项。具体配置项如下图所示，其中 PADDLE_LIB 为您下载的推理库路径。
 
 ![win_x86_cpu_cmake_3](./images/win_x86_cpu_cmake_3.png)
 
@@ -169,7 +169,7 @@ bash run.sh
 
 ## 2 Python 示例
 
-请从[下载安装 Ubuntu 预测库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 Python whl 包并安装，名称中带有 `cuda` 的为用于 GPU 的预测库。
+请从[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 Python whl 包并安装，名称中带有 `cuda` 的为用于 GPU 的推理库。
 
 此示例需要您在 Python 里安装 opencv，命令为`python -m pip install opencv-python`。
 
@@ -192,10 +192,10 @@ from paddle.inference import PrecisionType
 
 （2）设置 Config
 
-根据预测部署的实际情况，设置 Config ，用于后续创建 Predictor。
+根据推理部署的实际情况，设置 Config ，用于后续创建 Predictor。
 
 
-Config 默认用 CPU 预测，若要用 GPU 预测，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 相关说明和示例可以参考[文档](https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html)。
+Config 默认用 CPU 推理，若要用 GPU 推理，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 相关说明和示例可以参考[文档](https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html)。
 
 ```python
 # args 是解析的输入参数
@@ -256,4 +256,3 @@ output_data = output_tensor.copy_to_cpu()
 
 在 Linux/Ubuntu 下您只需要执行`bash run.sh`，就可以看到程序被执行。运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
 Windows 下，您需要手动下载模型，然后执行`run.sh` 里面的 Python 命令即可。
-
