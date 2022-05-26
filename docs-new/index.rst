@@ -31,6 +31,9 @@ Welcome to Paddle Inference's documentation!
   :name: sec-user-guides
   
   user_guides/source_compile
+  user_guides/source_compile_under_Linux
+  user_guides/source_compile_under_Windows
+  user_guides/source_compile_under_MacOs
   user_guides/compile_ARM
   user_guides/compile_SW
   user_guides/compile_ZHAOXIN
