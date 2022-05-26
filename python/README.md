@@ -1,6 +1,6 @@
 # Python 预测样例
 
-**如果您看到这个目录，我们会假设您已经对Paddle Inference有了一定的了解。如果您刚刚接触Paddle Inference不久，建议您[访问这里](https://paddle-inference.readthedocs.io/en/latest/#)对Paddle Inference做一个初步的认识。**
+**如果您看到这个目录，我们会假设您已经对 Paddle Inference 有了一定的了解。如果您刚刚接触 Paddle Inference 不久，建议您[访问这里](https://paddle-inference.readthedocs.io/en/latest/#)对 Paddle Inference 做一个初步的认识。**
 
 本目录提供 Paddle Inference 各个功能的使用样例。目录结构及功能如下所示，您可以根据自己的需求选择合适的样例。
 
