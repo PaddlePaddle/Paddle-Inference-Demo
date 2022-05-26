@@ -28,6 +28,7 @@ config.enable_profile()
 
 (6) Ratio，Total 时间占比
 
+
 CPU 和 GPU 耗时较为准确，可作为性能分析的参考。我们可以通过分析各部分耗时来判断性能瓶颈是由 CPU 还是 GPU 导致，得到最大耗时对应的 OP，精确统计指定 C++ 代码的开销。
 
 <p align="center"><img width="800" src="../images/resnet_profile.png"/></p>
