@@ -76,6 +76,16 @@ Welcome to Paddle Inference's documentation!
 
 .. toctree::
   :maxdepth: 1
+  :caption: 系统调优
+  :name: sec-tune
+
+  performance_tuning/tune_overview
+  performance_tuning/mix_precision
+  performance_tuning/multi_stream
+  performance_tuning/concurrency
+
+.. toctree::
+  :maxdepth: 1
   :caption: API 文档
   :name: sec-api-reference
 
