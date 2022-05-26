@@ -111,7 +111,7 @@ Paddle Inference 中启用 TensorRT 也是遵照这样的流程。我们先用�
 - **use_calib_mode**，类型：bool， 默认值为 False。若要运行 int8 离线量化校准，需要将此选项设置为 True。
 
 
-对于 Jetson 系列硬件上，除了可将模型运行在 GPU 上，Paddle Inference 还开放了启用指定都 DLA 进行模型推理的接口，默认启动第 0 个 DLA：
+对于 Jetson 系列硬件上，除了可将模型运行在 GPU 上，Paddle Inference 还开放了启用指定的 DLA 进行模型推理的接口，默认启动第 0 个 DLA：
 
 ```shell
 // python API
