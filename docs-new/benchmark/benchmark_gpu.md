@@ -5,7 +5,7 @@
 - 测试模型
 	- MobileNetV1
 	- MobileNetV2
-	- ResNet101
+	- ResNet50
 	- mask_rcnn_r50_vd_fpn_1x_coco
 	- ssdlite_mobilenet_v1_300_coco
 	- yolov3_darknet53_270e_coco
@@ -41,12 +41,12 @@
 |	MobileNetV2	|	fp32	|	1	|	1.1125	|
 |	MobileNetV2	|	fp32	|	2	|	1.6682	|
 |	MobileNetV2	|	fp32	|	4	|	2.819	|
-|	ResNet101	|	fp16	|	1	|	2.1345	|
-|	ResNet101	|	fp16	|	2	|	2.9835	|
-|	ResNet101	|	fp16	|	4	|	4.9308	|
-|	ResNet101	|	fp32	|	1	|	6.3175	|
-|	ResNet101	|	fp32	|	2	|	9.251	|
-|	ResNet101	|	fp32	|	4	|	16.7459	|
+|	ResNet50	|	fp16	|	1	|	1.3045	|
+|	ResNet50	|	fp16	|	2	|	1.8964	|
+|	ResNet50	|	fp16	|	4	|	3.1821	|
+|	ResNet50	|	fp32	|	1	|	3.5244	|
+|	ResNet50	|	fp32	|	2	|	5.2147	|
+|	ResNet50	|	fp32	|	4	|	9.3702	|
 |	SwinTransformer_base_patch4_window12_384	|	fp16	|	1	|	23.0886	|
 |	SwinTransformer_base_patch4_window12_384	|	fp16	|	2	|	42.2748	|
 |	SwinTransformer_base_patch4_window12_384	|	fp16	|	4	|	87.3252	|
