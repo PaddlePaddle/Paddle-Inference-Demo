@@ -6,7 +6,7 @@
 - [1. fp16 推理](#1)
 - [2. Int8 量化推理](#2)
 
-## 1. fp16 推理
+## <h2 id="1">1. fp16 推理</h2>
 
 为使用 fp16 带来的性能提升，只需在指定 TensorRT 配置时，将 **precision_mode** 设为 **paddle_infer.PrecisionType.Half**即可，示例如下：
 
@@ -18,7 +18,7 @@
 		use_static=False, use_calib_mode=False)
 ```
 
-## 2. Int8 量化推理
+## <h2 id="2">2. Int8 量化推理</h2>
 
 使用 Int8 量化推理的流程可以分为两步：（1）产出量化模型。（2）加载量化模型进行推理。下面我们对使用Paddle Inference 进行 Int8 量化推理的完整流程进行详细介绍。
 
