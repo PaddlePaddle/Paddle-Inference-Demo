@@ -5,6 +5,10 @@
 - [3. API 使用介绍](#3)
 - [4. 运行 Dynamic shape](#4)
 - [5. Paddle Inference 适配 TensorRT 原理介绍](#5)
+- [GPU TensorRT 加速推理的完整示例链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c++/cuda_linux_demo)
+- Dynamic shape 示例的完整代码
+  - [Python](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/paddle_trt) 。
+  - [C++](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt) 。
 
 ## <h2 id="1">1. 概要</h2>
 
@@ -13,9 +17,6 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 
 当模型被 Paddle Inference 加载后，神经网络被表示为由变量和运算节点组成的计算图。在图分析阶段，Paddle Inference 会对模型进行分析同时发现图中可以使用 TensorRT 优化的子图，并使用 TensorRT 节点替换它们。在模型的推理期间，如果遇到 TensorRT 节点，Paddle Infenrence 会调用 TensorRT 对该节点进行执行，其它节点调用 GPU 原生推理。TensorRT 除了有常见的 OP 融合以及显存/内存优化外，还针对性地对 OP 进行了优化加速实现，降低推理延迟，提升推理吞吐。
 
-如果您需要安装 [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-6x-download)，请参考 [TensorRT 文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html)。
-
-
 
 目前 Paddle Inference 支持 TensorRT 的静态 shape、动态 shape 两种运行方式。静态 shape 用于模型输入 shape 除 batch 维外，其他维度大小不变的情况，静态 shape 模式下支持图像分类，分割，检测模型；动态 shape 可用于输入 size 任意变化的模型， 如动态 shape 的图像模型（FCN， Faster rcnn）、 NLP 的 Bert/Ernie 等模型，当然也包括静态 shape 支持的模型。 静态 shape 和动态 shape 都支持fp32、fp16、int8 等多种计算精度。TensorRT 支持服务器端GPU，如T4、A10， 也支持边缘端硬件，如 Jetson NX、 Jetson Nano、 Jetson TX2 等。 在边缘硬件上，除支持常规的 GPU 外，还可用 DLA 进行推理，也支持 RTX2080，3090 等游戏显卡。
 
@@ -23,7 +24,15 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 
 ## <h2 id="2">2. 环境准备</h2>
 
-如果您的机器上已经安装 TensorRT 的话，那么您可以通过 API 启用 TensorRT 加速推理。
+在 GPU 下使用 TensorRT 加速推理，需要安装 CUDA、cuDNN、TensorRT 和对应版本的 Paddle Inference 预编译包。
+关于这几个软件的安装版本，请参考如下建议（原因：CUDA、cuDNN、TensorRT 版本众多，且有严格的版本对应关系）：
+
+- 电脑上 CUDA、cuDNN、TensorRT 都还没安装的开发者，建议参考 Paddle Inference 提供的预编译包信息，去安装对应版本的CUDA、cuDNN、TensorRT。
+- 电脑上已安装 CUDA、cuDNN，但没有安装TensorRT，建议参考Paddle Inference提供的cuda、cudnn的对应版本的TensorRT版本去安装TensorRT。
+- 电脑上已安装 CUDA、cuDNN、TensorRT的开发者，去下载对应版本的 Paddle Inference 预编译包。
+  - 如果 Paddle Inference 预编译包没有对应版本的，一种方式是按照 Paddle Inference 提供的预编译包信息重新安装CUDA、cuDNN、TensorRT，一种是自己源码编译对对应电脑上 CUDA、cuDNN、TensorRT 版本的 Paddle Inference 预编译包。从工程难易程度，建议选择第一种方案。
+
+如果您需要安装 [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-6x-download)，请参考 [TensorRT 文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html)。
 
 Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载，其均支持 TensorRT 加速推理，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.html)。
 
@@ -40,9 +49,10 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理�
 
 
 
+
 ## <h2 id="3">3, API 使用介绍</h2>
 
-在上一节中，我们了解到 Paddle Inference 推理流程包含了以下六步：
+在[上一节](./gpu_native_infer.md)中，我们了解到 Paddle Inference 推理流程包含了以下六步：
 
 - 导入包
 - 设置 Config

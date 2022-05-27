@@ -5,6 +5,7 @@
 
 - [1. fp16 推理](#1)
 - [2. Int8 量化推理](#2)
+- [Int8 量化推理的完整 demo](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt)
 
 ## <h2 id="1">1. fp16 推理</h2>
 
@@ -67,8 +68,6 @@ b. 使用模型压缩工具库 PaddleSlim 产出量化模型。PaddleSlim 支持
       use_static=False, use_calib_mode=True)
 ```
 
-完整 demo 请参考[这里](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E5%8A%A0%E8%BD%BD%E6%A0%A1%E5%87%86%E8%A1%A8%E6%89%A7%E8%A1%8Cint8%E9%A2%84%E6%B5%8B)
-
 若使用的量化模型为 PaddleSlim 量化产出的，需要将 **use_calib_mode** 设为 **False** ：
 
 ```python
@@ -79,4 +78,4 @@ b. 使用模型压缩工具库 PaddleSlim 产出量化模型。PaddleSlim 支持
       use_static=False, use_calib_mode=False)
 ```
 
-完整 demo 请参考[这里](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt/README.md#%E4%B8%89%E4%BD%BF%E7%94%A8trt-%E5%8A%A0%E8%BD%BDpaddleslim-int8%E9%87%8F%E5%8C%96%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B)
+Int8 量化推理的完整 demo 请参考[这里](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt)
