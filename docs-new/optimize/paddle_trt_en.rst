@@ -1,6 +1,7 @@
 Using the Paddle-TensorRT Repository for Inference
 ================
 
+
 NVIDIA TensorRT is an SDK for high-performance deep learning inference. It can lower the latency of the inference applications and improve their throughput. PaddlePaddle integrates TensorRT with subgraph design, so we can use the TensorRT module to enhance the performance of the Paddle model during the inference process. In this article, we will walk through how to use the subgraph module of Paddle-TRT to accelerate the inference. 
 
 If you need to install `TensorRT <https://developer.nvidia.com/nvidia-tensorrt-6x-download>`_, please refer to the `TensorRT document <https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html>`_.
@@ -8,87 +9,27 @@ If you need to install `TensorRT <https://developer.nvidia.com/nvidia-tensorrt-6
 Overview
 ----------------
 
-After the model is loaded, the neural network can be represented as a computing graph consisting of variables and computing nodes. If the TensorRT subgraph mode is turned on, Paddle will analyze the computing graph, find out subgraphs that can be optimized by TensorRT there in the analysis, and replace them with TensorRT nodes. During inference, if encountering TensorRT nodes, Paddle will accelerate this node with TensorRT where other nodes were executed with the original implementation of Paddle. Besides the common optimization methods like the operator (OP) fusion, device memory optimization, TensorRT also contains the accelerated OP implementation to lower the inference latency and improve the throughput. 
+After the model is loaded, the neural network can be represented as a computing graph composed of variables and operation nodes. When the TRT subgraph mode is turned on, paddle will detect that the subgraph which can be optimized by TensorRT in the model during the graph analysis phase and replace it with TensorRT nodes. During the model inference, if a tensorrt node is encountered, paddle will call the tensorrt library to infer the node, and other nodes will call the native implementation of paddle.
 
-Currently, Paddle-TRT supports the static shape mode and the dynamic shape mode. Tasks like image classification, segmentation, and object detection are supported in the static mode. Inference acceleration under FP16 and Int8 are also supported. In the dynamic mode, in addition to the CV models (FCN, Faster R-CNN), NLP models (BERT, ERNIE, etc.) are also supported.
+At present,  TensorRT subgraph pattern supports two operation modes: static shape and dynamic shape. Static shape is mainly used when the input size of the model is unchanged except for the batch dimension; Dynamic shape can be used to  the models in which the dims of inputs  may change arbitraryly, such as NLP, OCR and other domain models. Of course, it also includes models supported by static shape; Both static shape and dynamic shape support fp32, fp16, int8 and other calculation precision; The TensorRT subgraph pattern supports server-side GPUs, such as T4 and A10, and edge side hardware, such as Jetson NX, Jetson Nano, Jetson TX2 and so on, in addition to supporting conventional GPU, DLA can also be used for reasoning; It also supports game graphics cards such as RTX2080、RTX3090;
 
-**Capabilities of Paddle-TRT：**
 
-**1）Static shape：**
+When using TensorRT for the first time, TensorRT will consume a long time to perform OP fusion, device memory reuse, and optimal kernel selection . Paddle Inference opens the serialization interface to store the information analyzed by TensorRT, and directly loads the relevant serialization information in the subsequent inference to reduce the startup time;
 
-Supported models：
-
-===============  ===============  =============
- Classification    Detection       Segmentation  
- Models            Models          Models
-===============  ===============  =============
-Mobilenetv1        yolov3             ICNET
-Resnet50           SSD                UNet
-Vgg16              Mask-rcnn          FCN
-Resnext            Faster-rcnn
-AlexNet            Cascade-rcnn
-Se-ResNext         Retinanet
-GoogLeNet          Mobilenet-SSD
-DPN
-===============  ===============  =============
-
-.. |check| raw:: html
-
-    <input checked=""  type="checkbox">
-
-.. |check_| raw:: html
-
-    <input checked=""  disabled="" type="checkbox">
-
-.. |uncheck| raw:: html
-
-    <input type="checkbox">
-
-.. |uncheck_| raw:: html
-
-    <input disabled="" type="checkbox">
-
-Fp16: |check|
-
-Calib Int8: |check|
-
-Serialize optimized information: |check|
-
-Load the PaddleSlim Int8 model: |check|
-
-**2）Dynamic shape：**
-
-Supported models：
-
-===========  =====
-   Images     NLP
-===========  =====
-FCN          Bert
-Faster_RCNN  Ernie
-===========  =====
-
-Fp16: |check|
-
-Calib Int8: |uncheck|
-
-Serialize optimized information: |uncheck|
-
-Load the PaddleSlim Int8 model: |uncheck|
 
 **Note:**
 
 1. During the compilation of the source code, the TensorRT inference repository only supports GPU compilation, and TENSORRT_ROOT is required to be set to the path of TensorRT. 
-2. Only TensorRT versions above 5.0 are supported by Windows.
-3. The version of TRT  should be above 6.0 if the input of the dynamic shape uses Paddle-TRT.
+2. Only TensorRT versions above 7.0 are supported.
 
 I. Environment Preparation
 -------------
 
-To use the functions of Paddle-TRT, the runtime environment of Paddle containing TRT is required. There are three ways to get prepared: 
+To use TensorRT, there are three ways to prepare the runtime environment of Paddle: 
 
 1）Using pip to install a whl file under linux
 
-Download a whl file with the consistent environment and trt from `whl list <https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release>`_, and install it using pip. 
+Download a whl file with the consistent environment and TensorRT from `whl list <https://www.paddlepaddle.org.cn/documentation/docs/zh/install/Tables.html#whl-release>`_, and install it using pip. 
 
 2）Using the docker
 
