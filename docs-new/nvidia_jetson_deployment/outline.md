@@ -13,4 +13,9 @@ GPU TensorRT 加速推理需要借助于 TensorRT，TensorRT 是一个针对 NVI
 
 第二部分介绍如何使用 TensorRT 加速模型推理，根据示例代码介绍启用 TensorRT 加速的 API、 保存优化后的模型降低首帧耗时、支持动态 shape 的 API 等内容。还会介绍 Paddle Inference 接入 TensorRT 的原理。
 
-第三部分介绍 Paddle Inference 对低精度和量化推理的支持。
+第三部分介绍 Paddle Inference 使用 TensorRT情况下，实现对低精度和量化推理的支持。
+
+
+- [GPU 原生推理](./gpu_native_infer.md.md)
+- [GPU TensorRT 加速推理(NV-GPU/Jetson)](./gpu_trt_infer.md)
+- [GPU TensorRT 低精度或量化推理](./gpu_fp16_int8.md.md)
