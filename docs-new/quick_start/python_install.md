@@ -5,11 +5,11 @@
 ## 环境准备
 
 - Python: 3.6 / 3.7 / 3.8 / 3.9
-- cuda 10.1 / cuda 10.2 / cuda 11.0 / cuda 11.2, cudnn7.6+, tensorrt （仅在使用 gpu 版本的预测库时需要）
+- CUDA 10.1 / CUDA 10.2 / CUDA 11.0 / CUDA 11.2, cuDNN7.6+, tensorrt （仅在使用 gpu 版本的预测库时需要）
 
-（您可参考 nvidia 官方文档了解 cuda 和 cudnn 的安装流程和配置方法，请见 [cuda](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cudnn](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，版本对应关系如下表所示)
+（您可参考 nvidia 官方文档了解 CUDA 和 cuDNN 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，版本对应关系如下表所示)
 
-|CUDA 版本|cudnn 版本| TensorRt 版本|
+|CUDA 版本|cuDNN 版本| TensorRt 版本|
 |---|---|---|
 |10.1|7.6|6|
 |10.2|7.6|7|
