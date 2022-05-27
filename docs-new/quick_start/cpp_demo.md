@@ -6,7 +6,7 @@
 
 ### 1. 下载预编译 C++ 预测库
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.html)。
+Paddle Inference 提供了 Linux/Windows/MacOS 平台的官方 Release 预测库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.html)。
 
 - [下载安装 Linux 预测库](../user_guides/download_lib.html#linux)
 - [下载安装 Windows 预测库](../user_guides/download_lib.html#windows)
