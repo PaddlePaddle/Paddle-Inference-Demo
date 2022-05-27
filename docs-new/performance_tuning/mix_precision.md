@@ -18,7 +18,7 @@
 - FP16可以充分利用英伟达Volta、Turing、Ampere架构GPU提供的Tensor Cores技术。在相同的GPU硬件上，Tensor Cores的FP16计算吞吐量是FP32的8倍。
 
 ## 三、使用 Paddle Inference 进行混合精度推理
-使用 Paddle Inference 提供的 API，能够开启自动混合精度推理选项，在相关 OP 的计算过程中，根据一定规则，自动选择 FP32 或者 FP16 计算。
+使用 Paddle Inference 提供的 API，能够开启自动混合精度推理选项，在相关 OP 的计算过程中，根据内置的优化规则，自动选择 FP32 或者 FP16 计算。
 
 ### 3.1 如何开启混合精度推理选项
 
@@ -32,7 +32,9 @@
   exp_enable_use_gpu_fp16()
   ```
 
-详细分别参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
+可以在上述 API 接口中传入 OP 名称参数列表，来排除不支持 FP16 计算的 OP 使用混合精度推理。
+
+详细API介绍，分别参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
 ### 3.2 混合精度推理使用示例
 
 - C++ 示例如下
