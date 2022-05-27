@@ -77,4 +77,4 @@
 
 ## 用户群
 
-.[](../images/user_qq.png)
+.[](../images/user_qq.png){:width="112px" height="142px"}
