@@ -9,7 +9,7 @@
 
 （您可参考 nvidia 官方文档了解 CUDA 和 cuDNN 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，版本对应关系如下表所示)
 
-|CUDA 版本|cuDNN 版本| TensorRt 版本|
+|CUDA 版本|cuDNN 版本| TensorRT 版本|
 |---|---|---|
 |10.1|7.6|6|
 |10.2|7.6|7|
