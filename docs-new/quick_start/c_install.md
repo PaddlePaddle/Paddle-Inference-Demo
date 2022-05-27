@@ -7,11 +7,11 @@
 - G++ 8.2
 - CMake 3.0+
 - Visual Studio 2015 Update 3 （仅在使用 Windows 版本的预测库时需要，根据 Paddle 预测库所使用的 VS 版本选择，请参考 [Visual Studio 不同版本二进制兼容性](https://docs.microsoft.com/zh-cn/cpp/porting/binary-compat-2015-2017?view=msvc-170&viewFallbackFrom=vs-2019) )
-- cuda 10.1 / cuda 10.2 / cuda 11.0 / cuda 11.2, cudnn7.6+, tensorrt （仅在使用 gpu 版本的预测库时需要）
+- CUDA 10.1 / CUDA 10.2 / CUDA 11.0 / CUDA 11.2, cuDNN7.6+, TensorRT （仅在使用 gpu 版本的预测库时需要）
 
-（您可参考 nvidia 官方文档了解 cuda 和 cudnn 的安装流程和配置方法，请见 [cuda](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cudnn](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，版本对应关系如下表所示)
+（您可参考 nvidia 官方文档了解 CUDA 和 cuDNN 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，版本对应关系如下表所示)
 
-|CUDA 版本|cudnn 版本| TensorRt 版本|
+|CUDA 版本|cuDNN 版本| TensorRt 版本|
 |---|---|---|
 |10.1|7.6|6|
 |10.2|7.6|7|
@@ -24,7 +24,7 @@ Paddle Inference 提供了 Linux/Windows/MacOS 平台的官方 Release 预测库
 
 - [下载安装 Linux C 预测库](../user_guides/download_lib.html#id1)
 
-|硬件后端| 是否打开avx | 数学库   | gcc版本 | cuda/cudnn版本 |预测库(2.3.0版本)|
+|硬件后端| 是否打开avx | 数学库   | gcc版本 | CUDA/cuDNN版本 |预测库(2.3.0版本)|
 |----------|----------|----------|----------|:---------|:--------------|
 |CPU|是| mkl      |8.2|-|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/CPU/gcc8.2_avx_mkl/paddle_inference_c.tgz)|
 |CPU|是|mkl|5.4|-|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/CPU/gcc5.4_avx_mkl/paddle_inference_c.tgz)|
@@ -32,22 +32,22 @@ Paddle Inference 提供了 Linux/Windows/MacOS 平台的官方 Release 预测库
 |CPU|否|openblas|5.4| - |[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/CPU/gcc5.4_avx_openblas/paddle_inference_c.tgz)|
 |CPU|否|openblas|8.2| - |[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/CPU/gcc8.2_openblas/paddle_inference_c.tgz)|
 |CPU|否|openblas|5.4|-|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/CPU/gcc5.4_openblas/paddle_inference_c.tgz)|
-|GPU|是|是|8.2|cuda10.1\cudnn7.6\trt6|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
-|GPU|是|是|5.4|cuda10.1\cudnn7.6\trt6|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
-|GPU|是|是|5.4|cuda10.2\cudnn7.6\trt6|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.2_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
+|GPU|是|是|8.2|CUDA10.1\cu7.6\trt6|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
+|GPU|是|是|5.4|CUDA10.1\cu7.6\trt6|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.1_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
+|GPU|是|是|5.4|CUDA10.2\cu7.6\trt6|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.2_cudnn7.6.5_trt6.0.1.5/paddle_inference_c.tgz)|
 
 
 - [下载安装 Windows C 预测库](../user_guides/download_lib.html#id3)
 
-| 硬件后端 |是否打开avx | 数学库  |     编译器版本     | cuda/cudnn版本  |预测库(2.3.0版本)   |
+| 硬件后端 |是否打开avx | 数学库  |     编译器版本     | CUDA/cuDNN版本  |预测库(2.3.0版本)   |
 |----------|:--------|:---------|:--------------|:---------|:-----------------|
 | CPU |是 |mkl|  MSVC 2017 | - | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/CPU/x86-64_vs2017_avx_mkl/paddle_inference_c.zip)|
 | CPU |是 |openblas| MSVC 2017 | - | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/CPU/x86-64_vs2017_avx_openblas/paddle_inference_c.zip)|
-| GPU |是 |mkl | MSVC 2017| cuda10.1\cudnn7.6\no_trt | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddle_inference_c_notrt.zip) |
-| GPU |是 |mkl| MSVC 2017|cuda10.1\cudnn7.6\trt6|[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddle_inference_c.zip)|
-| GPU |是 |mkl | MSVC 2017 |cuda10.2\cudnn7.6\trt7| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7/paddle_inference_c.zip) |
-| GPU |是 |mkl | MSVC 2017 |cuda11.0\cudnn8.0\trt7| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddle_inference_c.zip) |
-| GPU |是 |mkl | MSVC 2017 |cuda11.2\cudnn8.2\trt8| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8/paddle_inference_c.zip) |
+| GPU |是 |mkl | MSVC 2017|CUDA10.1\cuDNN7.6\no_trt | [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddle_inference_c_notrt.zip) |
+| GPU |是 |mkl| MSVC 2017|CUDA10.1\cuDNN7.6\trt6|[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.1_cudnn7/paddle_inference_c.zip)|
+| GPU |是 |mkl | MSVC 2017 |CUDA10.2\cuDNN7.6\trt7| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda10.2_cudnn7/paddle_inference_c.zip) |
+| GPU |是 |mkl | MSVC 2017 |CUDA11.0\cuDNN8.0\trt7| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.0_cudnn8/paddle_inference_c.zip) |
+| GPU |是 |mkl | MSVC 2017 |CUDA11.2\cuDNN8.2\trt8| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Windows/GPU/x86-64_vs2017_avx_mkl_cuda11.2_cudnn8/paddle_inference_c.zip) |
 
 - [下载安装 MacOs C 预测库](../user_guides/download_lib.html#id6)
 
@@ -85,7 +85,7 @@ paddle_inference_c_install_dir
 
 Include目录下包括了使用飞桨预测库需要的头文件，lib目录下包括了生成的静态库和动态库，third_party目录下包括了预测库依赖的其它库文件。
 
-其中 `version.txt` 文件中记录了该预测库的版本信息，包括 Git Commit ID、使用 OpenBlas 或 MKL 数学库、CUDA/CUDNN 版本号，如：
+其中 `version.txt` 文件中记录了该预测库的版本信息，包括 Git Commit ID、使用 OpenBlas 或 MKL 数学库、CUDA/cuDNN 版本号，如：
 
 ```bash
 GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
@@ -93,7 +93,7 @@ WITH_MKL: ON
 WITH_MKLDNN: ON
 WITH_GPU: ON
 CUDA version: 9.0
-CUDNN version: v7.6
+cuDNN version: v7.6
 CXX compiler version: 4.8.5
 WITH_TENSORRT: ON
 TensorRT version: v6
