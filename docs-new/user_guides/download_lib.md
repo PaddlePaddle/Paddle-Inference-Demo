@@ -34,7 +34,7 @@
 |Jetpack4.6.1: nv-jetson-cuda10.2-cudnn8.2-trt8.2(xavier)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/Jetson/jetpack4.6.1_gcc7.5/xavier/paddle_inference_install_dir.tgz)|
 
 
-## C预测库
+## C 预测库
 
 - 预编译包使用方式见：[C 推理部署](../quick_start/c_install)
 
@@ -83,8 +83,6 @@
 
 
 # 下载安装 Windows 预测库
-
-**请确认您的 Visual Studio 版本与下载链接对应的版本完全一致，目前暂不保证在其它 Visual Studio 版本的可用性**
 
 环境硬件配置：
 
@@ -140,10 +138,9 @@
 
 - 预编译包使用方式见：[C++ 推理部署](../quick_start/cpp_install)
 
-| 版本说明       |预测库(2.3.0版本)   |
-|:---------|:----------------|
-|cpu_avx_openblas|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_install_dir.tgz)|
-
+|硬件后端 |是否打开avx |数学库 |预测库(2.3.0版本)   |
+|----------|----------|----------|:----------------|
+|CPU |是 |openblas |[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.3.0/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_install_dir.tgz)|
 
 ## C 预测库
 
