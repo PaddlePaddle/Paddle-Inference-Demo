@@ -67,9 +67,9 @@
 |	deeplabv3p_resnet50	|	fp32	|	4	|	266.9613	|
 |	mask_rcnn_r50_vd_fpn_1x_coco	|	fp16	|	1	|	40.6577	|
 |	mask_rcnn_r50_vd_fpn_1x_coco	|	fp32	|	1	|	101.93	|
-|	yolov3_darknet53_270e_coco_upload	|	fp16	|	1	|	20.6326	|
-|	yolov3_darknet53_270e_coco_upload	|	fp16	|	2	|	41.5202	|
-|	yolov3_darknet53_270e_coco_upload	|	fp16	|	4	|	80.3059	|
-|	yolov3_darknet53_270e_coco_upload	|	fp32	|	1	|	44.1216	|
-|	yolov3_darknet53_270e_coco_upload	|	fp32	|	2	|	85.4666	|
-|	yolov3_darknet53_270e_coco_upload	|	fp32	|	4	|	183.9448	|
+|	yolov3_darknet53_270e_coco	|	fp16	|	1	|	20.6326	|
+|	yolov3_darknet53_270e_coco	|	fp16	|	2	|	41.5202	|
+|	yolov3_darknet53_270e_coco	|	fp16	|	4	|	80.3059	|
+|	yolov3_darknet53_270e_coco	|	fp32	|	1	|	44.1216	|
+|	yolov3_darknet53_270e_coco	|	fp32	|	2	|	85.4666	|
+|	yolov3_darknet53_270e_coco	|	fp32	|	4	|	183.9448	|
