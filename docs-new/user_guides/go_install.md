@@ -1,6 +1,6 @@
 # Go 推理部署
 
-本文主要介绍 Paddle Inferrence Go API 的安装。主要分为以下三个章节：环境准备，安装步骤，和验证安装。
+本文主要介绍 Paddle Inference Go API 的安装。主要分为以下三个章节：环境准备，安装步骤和验证安装。
 
 ## Paddle Inference 集成 Golang 的方式
 
@@ -46,8 +46,6 @@ go version
 
 Paddle Inference C 库的目录结构如下所示：
 
-编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 C 预测库，目录结构如下：
-
 ```bash
 paddle_inference_c_install_dir
 ├── paddle
@@ -74,7 +72,7 @@ paddle_inference_c_install_dir
 └── version.txt                          版本信息与编译选项信息
 ```
 
-其中 `version.txt` 文件中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号，如：
+其中 `version.txt` 文件中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/cuDNN 版本号，如：
 
 ```bash
 GIT COMMIT ID: 47fa64004362b1d7d63048016911e62dc1d84f45
@@ -132,5 +130,5 @@ bash test.sh
 
 # Demo 示例
 
-Golang Demo 示例见 [Paddle-Inference-Demo](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/go)
+Golang Demo 示例见 [Paddle-Inference-Demo](https://github.com/PaddlePaddle/Paddle/tree/v2.3.0/paddle/fluid/inference/goapi)
 
