@@ -5,7 +5,7 @@
 - 测试模型
 	- MobileNetV1
 	- MobileNetV2
-	- ResNet101
+	- ResNet50
 	- bert
 	- ViT_base_patch32_384
   	- ssdlite_mobilenet_v1_300_coco
@@ -34,12 +34,12 @@
 |	MobileNetV2	|	2	|	True	|	fp32	|	25.7693	|
 |	MobileNetV2	|	4	|	False	|	fp32	|	175.4801	|
 |	MobileNetV2	|	4	|	True	|	fp32	|	49.5933	|
-|	ResNet101	|	1	|	False	|	fp32	|	209.7689	|
-|	ResNet101	|	1	|	True	|	fp32	|	138.5197	|
-|	ResNet101	|	2	|	False	|	fp32	|	411.6655	|
-|	ResNet101	|	2	|	True	|	fp32	|	267.575	|
-|	ResNet101	|	4	|	False	|	fp32	|	821.0667	|
-|	ResNet101	|	4	|	True	|	fp32	|	498.7897	|
+|	ResNet50	|	1	|	False	|	fp32	|	123.8814	|
+|	ResNet50	|	1	|	True	|	fp32	|	73.7028	|
+|	ResNet50	|	2	|	False	|	fp32	|	232.9871	|
+|	ResNet50	|	2	|	True	|	fp32	|	159.2116	|
+|	ResNet50	|	4	|	False	|	fp32	|	494.5854	|
+|	ResNet50	|	4	|	True	|	fp32	|	289.705	|
 |	ViT_base_patch32_384	|	1	|	False	|	fp32	|	365.7941	|
 |	ViT_base_patch32_384	|	1	|	True	|	fp32	|	326.9727	|
 |	ViT_base_patch32_384	|	2	|	False	|	fp32	|	646.3851	|
