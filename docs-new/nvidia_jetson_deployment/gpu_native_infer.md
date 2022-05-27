@@ -11,7 +11,13 @@ wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp
 
 下面分别介绍在 Linux/Ubuntu 操作系统下和 Windows 操作系统下用 GPU 原生推理的 C++ 和 Python 示例。
 
-## 1 C++ 示例
+
+- [1. C++ 示例](#1)
+  - [Linux/Ubuntu 部署示例](#1.1)
+  - [Windows 部署示例](#1.2)
+- [2. Python 示例](#2)
+
+## 1. C++ 示例
 
 C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/cuda_linux_demo)，你可以将此仓库全部克隆下来留着使用。下面从先介绍 Paddle Inference C++ API 的使用流程，然后介绍在 Linux/Ubuntu 系统下和 Windows 系统下编译和执行此示例代码。
 
@@ -122,7 +128,7 @@ bash run.sh
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
 
-### Windows 上 GPU 原生推理部署示例
+### Windows 部署示例
 
 请参考[下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)下载 C++ 推理库。
 
@@ -167,7 +173,7 @@ bash run.sh
 ![win_x86_cpu_vs_4](./images/win_x86_cpu_vs_4.png)
 
 
-## 2 Python 示例
+## 2. Python 示例
 
 请从[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 Python whl 包并安装，名称中带有 `cuda` 的为用于 GPU 的推理库。
 
