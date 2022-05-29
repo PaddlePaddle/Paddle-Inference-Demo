@@ -18,13 +18,13 @@ Paddle Inference 支持基于申威 CPU 的推理部署, 当前仅支持通过�
 
 ```bash
 # 拉取镜像
-docker pull registry.baidubce.com/device/paddle-dev:kylinv10-sw64-gcc83
+docker pull registry.baidubce.com/device/paddle-cpu:kylinv10-sw64-gcc83
 
 # 启动容器
 docker run -it --name paddle-dev -v `pwd`:/workspace \
      --network=host --shm-size=128G --workdir=/workspace \
      --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-     registry.baidubce.com/device/paddle-dev:kylinv10-sw64-gcc83 /bin/bash
+     registry.baidubce.com/device/paddle-cpu:kylinv10-sw64-gcc83 /bin/bash
 ```
 
 **第二步：** 下载 Paddle 源码并编译，CMAKE 编译选项含义请参见[编译选项表](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html)
