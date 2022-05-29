@@ -11,93 +11,59 @@ X86 CPU部署量化模型的步骤：
 * 转换量化模型：将量化模型转换成最终部署的量化模型
 * 部署量化模型：使用Paddle Inference预测库部署量化模型
 
-## 2 图像分类INT8模型在 Xeon(R) 6271 上的精度和性能
+## 2. Performance speedup of Clas, Detection, NLP mdoels on Intel(R) Xeon(R) Gold 6271 with oneDNN INT8**
 
->**图像分类INT8模型在 Intel(R) Xeon(R) Gold 6271 上精度**
+|  Models/FPS  | FP32 oneDNN (img/s) | INT8 (img/s) | Ratio (INT8/FP32) |
+| :----------: | :-----------------: | :----------: | :---------------: |
+| MobileNet-V1 |        74.05        |    216.36    |       2.92        |
+| MobileNet-V2 |        88.60        |    205.84    |       2.32        |
+|  ResNet101   |        7.20         |    26.48     |       3.68        |
+|   ResNet50   |        13.23        |    50.02     |       3.78        |
+|    VGG16     |        3.47         |    10.67     |       3.07        |
+|    VGG19     |        2.83         |     9.09     |       3.21        |
 
-|     Model    | FP32 Top1 Accuracy | INT8 Top1 Accuracy | Top1 Diff | FP32 Top5 Accuracy | INT8 Top5 Accuracy | Top5 Diff |
-|:------------:|:------------------:|:------------------:|:---------:|:------------------:|:------------------:|:---------:|
-| MobileNet-V1 |       70.78%       |       70.74%       |   -0.04%  |       89.69%       |       89.43%       |   -0.26%  |
-| MobileNet-V2 |       71.90%       |       72.21%       |   0.31%   |       90.56%       |       90.62%       |   0.06%   |
-|   ResNet101  |       77.50%       |       77.60%       |   0.10%   |       93.58%       |       93.55%       |   -0.03%  |
-|   ResNet50   |       76.63%       |       76.50%       |   -0.13%  |       93.10%       |       92.98%       |   -0.12%  |
-|     VGG16    |       72.08%       |       71.74%       |   -0.34%  |       90.63%       |       89.71%       |   -0.92%  |
-|     VGG19    |       72.57%       |       72.12%       |   -0.45%  |       90.84%       |       90.15%       |   -0.69%  |
+| Models/Latency(ms)           | FP32 OneDNN(ms) | QAT INT8(ms) | Ratio (INT8/FP32) |
+| ---------------------------- | --------------- | ------------ | :---------------: |
+| Faster-rcnn-r50-fpn 1 thread | 7363.18         | 2951.93      |       2.49        |
+| Retinanet-fpn 1 thread       | 3378.63         | 1403.64      |       2.41        |
+| Yolov3_darknet 1 thread      | 2095.00         | 1146.00      |       1.83        |
+| Yolov3_mobilenet 1 thread    | 1017.00         | 215.00       |       4.73        |
+| Ernie 1 thread               | 237.21          | 79.26        |       2.99        |
+| Ernie 20 threads             | 22.08           | 12.57        |       1.76        |
 
->**图像分类INT8模型在 Intel(R) Xeon(R) Gold 6271 单核上性能**
+| Bert QPS | Native FP32 | oneDNN FP32 | oneDNN INT8 | oneDNN INT8/oneDNN FP32 | oneDNN INT8/Native FP32 |
+| :------: | :---------: | :---------: | :---------: | :---------------------: | :---------------------: |
+| thread 1 |   313.53    |   280.13    |   128.82    |          2.17           |          2.43           |
+| thread 6 |    98.05    |    55.25    |    30.16    |          1.83           |          3.25           |
 
-|     Model    | FP32 (images/s) | INT8 (images/s) | Ratio (INT8/FP32) |
-|:------------:|:---------------:|:---------------:|:-----------------:|
-| MobileNet-V1 |      74.05      |      216.36     |        2.92       |
-| MobileNet-V2 |      88.60      |      205.84     |        2.32       |
-|   ResNet101  |       7.20      |      26.48      |        3.68       |
-|   ResNet50   |      13.23      |      50.02      |        3.78       |
-|     VGG16    |       3.47      |      10.67      |        3.07       |
-|     VGG19    |       2.83      |       9.09      |        3.21       |
-
-## 物体检测模型量化在 Xeon(R) 6271 上的精度和性能
-
->**物体检测模型量化在 Intel(R) Xeon(R) Gold 6271 上精度**
-
->**物体检测模型量化在 Intel(R) Xeon(R) Gold 6271 单核上性能**
-
-| CLX Faster RCNN (1 thread) | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT)  |
-|----------------------------|--------------|----------|---------------------|
-| TIME [ms per batch image]  | 7363.18      | 2951.93  | 2.49                |
-
-| CLX Retinanet (1 thread)   | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT INT8 )  |
-|----------------------------|--------------|----------|---------------------------|
-| TIME [ms per batch image]  | 3378.63      | 1403.64  | 2.41                      |
-
-| CLX Yolov3_darknet (1 thread)   | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT INT8 )  |
-|----------------------------|--------------|----------|---------------------------|
-| TIME [ms per batch image]  |       |   |                       |
-
-| CLX Yolov3_mobile (1 thread)   | FP32 OneDNN  | QAT INT8 | Ratio (FP32/ (QAT INT8 )  |
-|----------------------------|--------------|----------|---------------------------|
-| TIME [ms per batch image]  |       |   |                       |
-
-
-## 自然语言处理INT8模型 Ernie, Bert, GRU, LSTM 模型在 Xeon(R) 6271 上的性能和精度
-
->**自然语言处理INT8模型 Ernie, Bert, GRU, LSTM 模型在 Xeon(R) 6271 上的性能**
-
-|     Ernie Latency      | FP32 Latency (ms) | INT8 Latency (ms) | Ratio (FP32/INT8) |
-| :--------------: | :---------------: | :---------------: | :---------------: |
-|  Ernie 1 thread  |      237.21       |       79.26       |       2.99X       |
-| Ernie 20 threads |       22.08       |       12.57       |       1.76X       |
-
-| Bert QPS on 6271 | Native FP32 | oneDNN FP32 | oneDNN INT8 | oneDNN INT8/oneDNN FP32 | oneDNN INT8/Native FP32 |
-|:---------------------:|:-------------:|:-------------:|:-------------:|:---------:|:--------------:|
-| thread 1 | 313.53    | 280.13      | 128.82      |   **2.17X** |    **2.43X**                     |
-| thread 6| 98.05       | 55.25       | 30.16       |   1.83X |     3.25X                   |
-
-| GRU Performance (QPS)              | Naive FP32 | INT88 | Int8/Native FP32 |
-| ------------------------------ | ---------- | ----- | ---------------- |
-| GRU bs 1, thread 1             | 1108       | 1393  | 1.26             |
-| GRU repeat 1, bs 50, thread 1  | 2175       | 3199  | 1.47             |
-| GRU repeat 10, bs 50, thread 1 | 2165       | 3334  | 1.54             |
+| LAC GRU Performance (QPS)          | Naive FP32 | INT8 | Int8/Native FP32 |
+| ---------------------------------- | ---------- | ---- | ---------------- |
+| LAC GRU bs 1, thread 1             | 1108       | 1393 | 1.26             |
+| LAC GRU repeat 1, bs 50, thread 1  | 2175       | 3199 | 1.47             |
+| LAC GRU repeat 10, bs 50, thread 1 | 2165       | 3334 | 1.54             |
 
 | LSTM Performance (QPS) |  FP32   |  INT8   | INT8 /FP32 |
-| :---------------: | :-----: | :-----: | :--------: |
-|   LSTM 1 thread   | 4895.65 | 7190.55 |    1.47    |
-|  LSTM 4 threads   | 6370.86 | 7942.51 |    1.25    |
+| :--------------------: | :-----: | :-----: | :--------: |
+|     LSTM 1 thread      | 4895.65 | 7190.55 |    1.47    |
+|     LSTM 4 threads     | 6370.86 | 7942.51 |    1.25    |
 
+## 3. Accuracy of Clas, Detection, NLP mdoels FP32/INT8 on Intel(R) Xeon(R) Gold 6271**
 
->**自然语言处理INT8模型 Ernie, Bert, GRU, LSTM 模型在 Xeon(R) 6271 上的精度**
+|    Model     | FP32 Top1 Accuracy | INT8 Top1 Accuracy | Top1 Diff | FP32 Top5 Accuracy | INT8 Top5 Accuracy | Top5 Diff |
+| :----------: | :----------------: | :----------------: | :-------: | :----------------: | :----------------: | :-------: |
+| MobileNet-V1 |       70.78%       |       70.74%       |  -0.04%   |       89.69%       |       89.43%       |  -0.26%   |
+| MobileNet-V2 |       71.90%       |       72.21%       |   0.31%   |       90.56%       |       90.62%       |   0.06%   |
+|  ResNet101   |       77.50%       |       77.60%       |   0.10%   |       93.58%       |       93.55%       |  -0.03%   |
+|   ResNet50   |       76.63%       |       76.50%       |  -0.13%   |       93.10%       |       92.98%       |  -0.12%   |
+|    VGG16     |       72.08%       |       71.74%       |  -0.34%   |       90.63%       |       89.71%       |  -0.92%   |
+|    VGG19     |       72.57%       |       72.12%       |  -0.45%   |       90.84%       |       90.15%       |  -0.69%   |
 
-|  Ernie   | FP32 Accuracy | INT8 Accuracy | Accuracy Diff |
-| :------: | :-----------: | :-----------: | :-----------: |
-| accuracy |    80.20%     |    79.44%     |    -0.76%     |
-
-| LAC (GRU) | FP32    | INT8    | Accuracy diff |
-| --------- | ------- | ------- | ------------- |
-| accuracy  | 0.89326 | 0.89323 | -0.00007      |
-
-|  LSTM   | FP32  | INT8  |
-| :-----: | :---: | :---: |
-| HX_ACC  | 0.933 | 0.925 |
-| CTC_ACC | 0.999 | 1.000 |
+|     Accuracy     | FP32 Accuracy | INT8 Accuracy | Accuracy Diff |
+| :--------------: | :-----------: | :-----------: | :-----------: |
+|  Ernie accuracy  |    80.20%     |    79.44%     |    -0.76%     |
+| LAC GRU accuracy |    0.89326    |    0.89323    |    -0.007%    |
+|   LSTM HX_ACC    |     0.933     |     0.925     |     -0.8%     |
+|   LSTM CTC_ACC   |     0.999     |     1.000     |     +0.1%     |
 
 
 **Note:**
