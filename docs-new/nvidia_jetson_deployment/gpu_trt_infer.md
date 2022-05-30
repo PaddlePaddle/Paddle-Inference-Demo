@@ -32,7 +32,7 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 - 电脑上已安装 CUDA、cuDNN、TensorRT的开发者，去下载对应版本的 Paddle Inference 预编译包。
   - 如果 Paddle Inference 预编译包没有对应版本的，一种方式是按照 Paddle Inference 提供的预编译包信息重新安装CUDA、cuDNN、TensorRT，一种是自己源码编译对对应电脑上 CUDA、cuDNN、TensorRT 版本的 Paddle Inference 预编译包。从工程难易程度，建议选择第一种方案。
 
-如果您需要安装 [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-6x-download)，请参考 [TensorRT 文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-install-guide/index.html)。
+如果您需要安装 [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-8x-download)，请参考 [TensorRT 文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-801/install-guide/index.html)。
 
 Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载，其均支持 TensorRT 加速推理，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.html)。
 
