@@ -12,7 +12,7 @@ bfloat16 (Brain float Point, BF16)浮点格式是一种计算机内存中占用1
 
 ## 安装Paddle
 
-参考[Paddle官网Inference章节](https://www.paddlepaddle.org.cn/inference/product_introduction/inference_intro.html)，安装Paddle Inference最新CPU版本。
+参考[Paddle官网Inference章节](https://www.paddlepaddle.org.cn/inference/product_introduction/inference_intro.html)，安装Paddle Inference最新CPU版本(如果已经安装Paddle训练框架，无需在安装Paddle Inference)。
 
 ## 检查机器
 
