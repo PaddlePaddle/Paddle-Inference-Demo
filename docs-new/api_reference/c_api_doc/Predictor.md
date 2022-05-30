@@ -1,15 +1,15 @@
 # Predictor 方法
 
-Paddle Inference 的预测器，由 `PD_PredictorCreate` 根据 `Config` 进行创建。用户可以根据 Predictor 提供的接口设置输入数据、执行模型预测、获取输出等。
+Paddle Inference 的推理器，由 `PD_PredictorCreate` 根据 `Config` 进行创建。用户可以根据 Predictor 提供的接口设置输入数据、执行模型推理、获取输出等。
 
 ## 创建 Predictor
 
 API定义如下：
 
 ```c
-// 根据 Config 构建预测执行对象 Predictor, 并销毁传入的Config对象
+// 根据 Config 构建推理执行对象 Predictor, 并销毁传入的 Config 对象
 // 参数：pd_config - 用于构建 Predictor 的配置信息
-// 返回：PD_Predictor* - 预测对象指针
+// 返回：PD_Predictor* - 推理对象指针
 PD_Predictor* PD_PredictorCreate(PD_Config* pd_config);
 
 // 根据 已有的 Predictor 对象克隆一个新的 Predictor 对象
@@ -29,7 +29,7 @@ void PD_PredictorDestroy(PD_Predictor* pd_predictor);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 设置预测模型路径，这里为 Combined 模型
+// 设置推理模型路径
 const char* model_path  = "./model/inference.pdmodel";  
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
@@ -58,7 +58,7 @@ PD_OneDimArrayCstr* PD_PredictorGetInputNames(PD_Predictor* pd_predictor);
 
 // 获取输入 Tensor 数量
 // 参数：pd_predictor - Predictor 对象指针
-// 返回：size_t - Predictor 的输入 tensor 数量。
+// 返回：size_t - Predictor 的输入 Tensor 数量。
 size_t PD_PredictorGetInputNum(PD_Predictor* pd_predictor);
 
 // 根据名称获取输入 Tensor 的句柄
@@ -75,7 +75,7 @@ PD_Tensor* PD_PredictorGetInputHandle(PD_Predictor* pd_predictor, const char* na
 PD_OneDimArrayCstr* PD_PredictorGetOutputNames(PD_Predictor* pd_predictor);
 
 // 获取输出 Tensor 数量
-// 参数：pd_predictor - Predictor 输出tensor数量。
+// 参数：pd_predictor - Predictor 输出 Tensor 数量。
 size_t PD_PredictorGetOutputNum(PD_Predictor* pd_predictor);
 
 // 根据名称获取输出 Tensor 的句柄
@@ -92,7 +92,7 @@ PD_Tensor* PD_PredictorGetOutputHandle(PD_Predictor* pd_predictor, const char* n
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 设置预测模型路径，这里为 Combined 模型
+// 设置推理模型路径
 const char* model_path  = "./model/inference.pdmodel";  
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
@@ -100,7 +100,7 @@ PD_ConfigSetModel(config, model_path, params_path);
 // 根据 Config 创建 Predictor, 并销毁 Config 对象
 PD_Predictor* predictor = PD_PredictorCreate(config);
 
-// 获取输入 tensor 的数量和名称
+// 获取输入 Tensor 的数量和名称
 PD_OneDimArrayCstr* input_names = PD_PredictorGetInputNames(predictor);
 printf("Input tensor number is: %d\n", input_names->size);
 for(size_t index = 0; index < input_names->size; ++index) {
@@ -128,14 +128,14 @@ PD_OneDimArrayCstrDestroy(input_names);
 PD_PredictorDestroy(predictor);
 ```
 
-## 执行预测
+## 执行推理
 
 API 定义如下：
 
 ```c
-// 执行模型预测，需要在设置输入Tensor数据后调用
+// 执行模型推理，需要在设置输入 Tensor 数据后调用
 // 参数：pd_predictor - Predictor 对象指针
-// 返回：PD_Bool - 执行预测是否成功
+// 返回：PD_Bool - 执行推理是否成功
 PD_Bool PD_PredictorRun(PD_Predictor* pd_predictor);
 ```
 
@@ -145,7 +145,7 @@ PD_Bool PD_PredictorRun(PD_Predictor* pd_predictor);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 设置预测模型路径，这里为 Combined 模型
+// 设置推理模型路径
 const char* model_path  = "./model/inference.pdmodel";  
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
@@ -163,10 +163,10 @@ PD_Tensor* input_tensor = PD_PredictorGetInputHandle(predictor, input_names->dat
 PD_TensorReshape(input_tensor, 4, input_shape);
 PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 
-// 执行预测
+// 执行推理
 PD_PredictorRun(pd_predictor);
 
-// 获取预测输出 Tensor
+// 获取推理输出 Tensor
 PD_OneDimArrayCstr* output_names = PD_PredictorGetOutputNames(predictor);
 PD_Tensor* output_tensor = PD_PredictorGetOutputHandle(predictor, output_names->data[0]);
 
