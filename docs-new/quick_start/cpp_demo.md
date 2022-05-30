@@ -73,9 +73,9 @@ Paddle-Inference-Demo/c++/resnet50/
 
 ```bash
 # 根据预编译库中的 version.txt 信息判断是否将以下三个标记打开
-WITH_MKL=ON       
-WITH_GPU=ON         
-USE_TENSORRT=OFF
+WITH_MKL=ON        // 使用 MKL 计算库
+WITH_GPU=ON        // 使用 GPU
+USE_TENSORRT=OFF   // 使用 TensorRt
 
 # 配置预测库的根目录，即为本章节第1步中下载/编译的 C++ 预测库，可重命名为 paddle_inference 后置于 ../lib 目录下
 LIB_DIR=${work_path}/../lib/paddle_inference
