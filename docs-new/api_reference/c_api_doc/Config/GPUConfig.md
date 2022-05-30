@@ -146,7 +146,7 @@ void PD_ConfigSetTrtDynamicShapeInfo(PD_Config* pd_config,
 // 返回：None
 void PD_ConfigEnableTensorRtOSS(PD_Config* pd_config);
 
-// 启用 TensorRT OSS 进行 ERNIE / BERT 预测加速（原理及使用方法 https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/ernie-varlen ）
+// 判断是否启用 TensorRT OSS
 // 参数：pd_config - Config 对象指针
 // 返回：PD_Bool - 是否启用 TensorRT OSS
 PD_Bool PD_ConfigTensorRtOssEnabled(PD_Config* pd_config);
