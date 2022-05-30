@@ -20,7 +20,7 @@ Paddle Inference 支持基于 Graphcore IPU 的推理部署, 当前仅支持通�
 
 ```bash
 # 拉取镜像
-docker pull registry.baidubce.com/device/paddle-ipu:ubuntu18-x86_64
+docker pull registry.baidubce.com/device/paddle-ipu:poplar251
 
 # 启动容器，注意这里的参数，如shm-size, device等均需配置
 export IPUOF_CONFIG_PATH=/opt/ipuof.conf
@@ -29,7 +29,7 @@ docker run -it --name paddle-dev -v `pwd`:/workspace \
      --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
      --cap-add=IPC_LOCK --device=/dev/infiniband/ --ipc=host \
      -v ${IPUOF_CONFIG_PATH}:/ipuof.conf -e IPUOF_CONFIG_PATH=/ipuof.conf \
-     registry.baidubce.com/device/paddle-ipu:ubuntu18-x86_64 /bin/bash
+     registry.baidubce.com/device/paddle-ipu:poplar251 /bin/bash
 
 # 容器内检查设备情况
 gc-monitor
