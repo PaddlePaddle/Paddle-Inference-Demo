@@ -82,7 +82,7 @@ Welcome to Paddle Inference's documentation!
   performance_tuning/tune_overview
   performance_tuning/mix_precision
   performance_tuning/multi_stream
-  performance_tuning/concurrency
+  performance_tuning/multi_thread
 
 .. toctree::
   :maxdepth: 1
