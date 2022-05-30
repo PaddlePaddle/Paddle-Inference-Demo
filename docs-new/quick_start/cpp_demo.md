@@ -93,7 +93,7 @@ bash compile.sh
 
 ### 3. 执行预测程序
 
-**注意**：Paddle Inference 提供下载的 C++ 预测库对应的 GCC 版本与您电脑中 GCC 版本需要一致，如果不一致可能出现未知错误。
+**注意**：Paddle Inference 提供下载的 C++ 预测库对应的 GCC 版本与您电脑中 GCC 版本需要一致或兼容，如果不兼容可能出现未知错误。
 
 运行脚本 `run.sh` 执行预测程序。
 
