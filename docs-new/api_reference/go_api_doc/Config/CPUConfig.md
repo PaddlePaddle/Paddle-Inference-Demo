@@ -1,7 +1,7 @@
 # 使用 CPU 进行预测
 
 **注意：**
-1. 在 CPU 型号允许的情况下，进行预测库下载或编译试尽量使用带 AVX 和 MKL 的版本
+1. 在 CPU 型号允许的情况下，进行预测库下载或编译试尽量使用带 AVX 或 MKL 的版本
 2. 可以尝试使用 Intel 的 MKLDNN 进行 CPU 预测加速，默认 CPU 不启用 MKLDNN
 3. 在 CPU 可用核心数足够时，可以通过设置 `SetCpuMathLibraryNumThreads` 将线程数调高一些，默认线程数为 1
 
@@ -10,14 +10,14 @@
 API定义如下：
 
 ```go
-// 设置 CPU Blas 库计算线程数
-// 参数：mathThreadsNum - blas库计算线程数
+// 设置 CPU 加速库计算线程数
+// 参数：mathThreadsNum - CPU 加速库计算线程数
 // 返回：None
 func (config *Config) SetCpuMathLibraryNumThreads(mathThreadsNum int32)
 
-// 获取 CPU Blas 库计算线程数
+// 获取 CPU 加速库计算线程数
 // 参数：无
-// 返回：int - cpu blas 库计算线程数
+// 返回：int - CPU 加速库计算线程数
 func (config *Config) CpuMathLibraryNumThreads() int32
 ```
 
@@ -34,7 +34,7 @@ func main() {
     // 创建 Config 对象
     config := paddle.NewConfig()
 
-    // 设置预测模型路径，这里为非 Combined 模型
+    // 设置预测模型路径
     config.SetCpuMathLibraryNumThreads(10)
 
     // 输出模型路径
