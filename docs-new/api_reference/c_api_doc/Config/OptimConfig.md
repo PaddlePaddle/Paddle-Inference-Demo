@@ -20,6 +20,12 @@ PD_Bool PD_ConfigIrOptim(PD_Config* pd_config);
 //      x         - 是否打印 IR，默认关闭
 // 返回：None
 void PD_ConfigSwitchIrDebug(PD_Config* pd_config, PD_Bool x);
+
+// 删除图分析阶段指定的 PASS
+// 参数：pd_config - Config 对象指针
+//      pass_name - 要删除的 PASS 名称
+// 返回：None
+void PD_DeletePass(PD_AnalysisConfig* config, char* pass_name);
 ```
 
 代码示例：
@@ -37,6 +43,8 @@ PD_ConfigSetModel(config, model_path, params_path);
 PD_ConfigSwitchIrOptim(config, TRUE);
 // 开启 IR 打印
 PD_ConfigSwitchIrDebug(config, TRUE);
+// 删除 PASS fc_fuse_pass
+PD_DeletePass(config, "fc_fuse_pass");
 
 // 通过 API 获取 IR 优化是否开启 - True
 printf("IR Optim is: %s\n", PD_ConfigIrOptim(config) ? "True" : "False");
