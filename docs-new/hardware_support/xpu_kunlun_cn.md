@@ -21,13 +21,13 @@ Paddle Inference 支持基于昆仑 XPU 的推理部署, 当前仅支持通过�
 
 ```bash
 # 拉取镜像
-docker pull registry.baidubce.com/device/paddle-dev:xpu-x86_64
+docker pull registry.baidubce.com/device/paddle-xpu:ubuntu18-x86_64-gcc82
 
 # 启动容器，注意这里需要添加参数 --privileged，否则无法在容器内查看设备
 docker run -it --name paddle-dev -v `pwd`:/workspace \
            --shm-size=128G --network=host --privileged \
            --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-           registry.baidubce.com/device/paddle-dev:xpu-x86_64 /bin/bash
+           registry.baidubce.com/device/paddle-xpu:ubuntu18-x86_64-gcc82 /bin/bash
 
 # 容器内检查设备情况
 xpu_smi
@@ -74,13 +74,13 @@ make -j$(nproc)
 
 ```bash
 # 拉取镜像
-docker pull registry.baidubce.com/device/paddle-dev:xpu-aarch64
+docker pull registry.baidubce.com/device/paddle-xpu:kylinv10-aarch64-gcc73
 
 # 启动容器，注意这里需要添加参数 --privileged，否则无法在容器内查看设备
 docker run -it --name paddle-dev -v `pwd`:/workspace \
-           --shm-size=128G --network=host --privileged \
-           --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-           registry.baidubce.com/device/paddle-dev:xpu-aarch64 /bin/bash
+       --shm-size=128G --network=host --privileged \
+       --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+       registry.baidubce.com/device/paddle-xpu:kylinv10-aarch64-gcc73 /bin/bash
 
 # 容器内检查设备情况
 xpu_smi
@@ -113,8 +113,8 @@ mkdir build && cd build
 
 # 执行cmake
 cmake .. -DPY_VERSION=3 -DPYTHON_EXECUTABLE=`which python3` -DWITH_XPU=ON \
-         -DON_INFER=ON -DWITH_TESTING=OFF -DWITH_XBYAK=OFF \
-         -DWITH_ARM=ON -DWITH_AARCH64=ON
+         -DON_INFER=ON -DWITH_TESTING=OFF -DWITH_XBYAK=OFF -DWITH_ARM=ON \
+         -DWITH_AARCH64=ON -DCMAKE_CXX_FLAGS="-Wno-error -w"
 
 # 使用以下命令来编译
 make TARGET=ARMV8 -j$(nproc)

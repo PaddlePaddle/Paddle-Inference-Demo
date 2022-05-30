@@ -19,16 +19,16 @@ Paddle Inference 支持基于 AMD GPU / 海光 DCU 的推理部署, 当前仅支
 
 ```bash
 # 拉取镜像 - ROCm 4.0.1 对应 Hygon DCU Z100 芯片
-docker pull registry.baidubce.com/device/paddle-dev:rocm4.0.1
+docker pull registry.baidubce.com/device/paddle-dcu:rocm4.0.1
 # 拉取镜像 - ROCm 4.5.2 对应 AMD GPU MI100 芯片
-docker pull registry.baidubce.com/device/paddle-dev:rocm4.5.2
+docker pull registry.baidubce.com/device/paddle-dcu:rocm4.5.2
 
 # 启动容器，注意这里的参数，如shm-size, device等均需配置，请根据芯片型号修改这里的镜像名称
 docker run -it --name paddle-dev -v `pwd`:/workspace \
            --shm-size=128G --network=host --workdir=/workspace \
            --device=/dev/kfd --device=/dev/dri --group-add video \
            --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-           registry.baidubce.com/device/paddle-dev:rocm4.0.1 /bin/bash
+           registry.baidubce.com/device/paddle-dcu:rocm4.0.1 /bin/bash
 
 # 容器内检查设备情况
 rocm-smi
