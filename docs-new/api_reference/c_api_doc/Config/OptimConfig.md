@@ -28,7 +28,7 @@ void PD_ConfigSwitchIrDebug(PD_Config* pd_config, PD_Bool x);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 设置预测模型路径，这里为 Combined 模型
+// 设置预测模型路径
 const char* model_path  = "./model/inference.pdmodel";  
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
@@ -80,11 +80,11 @@ API定义如下：
 // 启用 Lite 子图
 // 参数：pd_config         - Config 对象指针
 //      precision         - Lite 子图的运行精度
-//      zero_copy         - 启用 zero_copy，lite 子图与 paddle inference 之间共享数据
-//      passes_filter_num - 设置 lite 子图的 pass 数量
-//      passes_filter     - 设置 lite 子图的 pass 名称
-//      ops_filter_num    - 设置不使用 lite 子图运行的 op 数量
-//      ops_filter        - 设置不使用 lite 子图运行的 op
+//      zero_copy         - 启用 zero_copy，Lite 子图与 Paddle Inference 之间共享数据
+//      passes_filter_num - 设置 Lite 子图的 PASS 数量
+//      passes_filter     - 设置 Lite 子图的 PASS 名称
+//      ops_filter_num    - 设置不使用 Lite 子图运行的 OP 数量
+//      ops_filter        - 设置不使用 Lite 子图运行的 OP
 // 返回：None
 void PD_ConfigEnableLiteEngine(PD_Config* pd_config,
                                PD_PrecisionType precision,
@@ -106,7 +106,7 @@ PD_Bool PD_ConfigLiteEngineEnabled(PD_Config* pd_config);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100MB, Deivce_ID 为 0
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 Lite 子图
