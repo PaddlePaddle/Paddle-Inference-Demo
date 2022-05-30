@@ -23,6 +23,7 @@ DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_bool(use_gpu, false, "use gpu.");
 DEFINE_bool(use_gpu_fp16, false, "use gpu fp16.");
 DEFINE_bool(use_xpu, false, "use xpu");
+DEFINE_bool(use_ipu, false, "use ipu");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -46,6 +47,8 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.Exp_EnableUseGpuFp16();
   } else if (FLAGS_use_xpu) {
     config.EnableXpu();
+  } else if (FLAGS_use_ipu) {
+    config.EnableIpu();
   } else {
     config.EnableMKLDNN();
   }
