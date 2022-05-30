@@ -4,7 +4,7 @@ Paddle Inference 支持基于 AMD GPU / 海光 DCU 的推理部署, 当前仅支
 
 ## 系统要求
 
-当前 Paddle Inference 支持昆仑 XPU 在如下环境下的源码编译和安装部署：
+当前 Paddle Inference 支持 AMD GPU / 海光 DCU 在如下环境下的源码编译和安装部署：
 
 | 芯片型号 | 操作系统 | SDK 版本 |
 | ---- | ---- | ---- |
