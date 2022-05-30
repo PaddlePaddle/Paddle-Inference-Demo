@@ -75,7 +75,6 @@ PD_ConfigDestroy(config);
 
 在使用MKL时，启动此配置项可能会对模型推理性能有提升（[参考PR描述](https://github.com/PaddlePaddle/Paddle/pull/20972)）。
 
-
 API定义如下：
 
 ```c++
