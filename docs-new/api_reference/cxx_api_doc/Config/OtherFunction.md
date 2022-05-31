@@ -18,7 +18,7 @@ bool enable_memory_optim() const;
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.pdiparams");
 
 // 开启 CPU 显存优化
 config.EnableMemoryOptim();
@@ -35,7 +35,8 @@ std::cout << "GPU Mem Optim is: " << config.enable_memory_optim() << std::endl;
 
 # 设置缓存路径
 
-**注意：** 如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `SetOptimCacheDir` 来设置缓存路径。
+**注意：** 
+如果当前使用的为 TensorRT INT8 且设置从内存中加载模型，则必须通过 `SetOptimCacheDir` 来设置缓存路径。
 
 
 API定义如下：
@@ -51,13 +52,15 @@ void SetOptimCacheDir(const std::string& opt_cache_dir);
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config();
 
 // 设置缓存路径
-config.SetOptimCacheDir(FLAGS_infer_model + "/OptimCacheDir");
+config.SetOptimCacheDir("./model/OptimCacheDir");
 ```
 
 # FC Padding
+
+在使用MKL时，启动此配置项可能会对模型推理性能有提升（[参考PR描述](https://github.com/PaddlePaddle/Paddle/pull/20972)）。
 
 API定义如下：
 
@@ -77,7 +80,7 @@ bool use_fc_padding() const;
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.iparams");
 
 // 禁用 FC Padding
 config.DisableFCPadding();
@@ -106,7 +109,7 @@ bool profile_enabled() const;
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.iparams");
 
 // 打开 Profile
 config.EnableProfile();
@@ -169,7 +172,7 @@ bool glog_info_disabled() const;
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.iparams");
 
 // 去除 Paddle Inference 运行中的 LOG
 config.DisableGlogInfo();
@@ -183,13 +186,13 @@ std::cout << "GLOG INFO is: " << config.glog_info_disabled() << std::endl;
 API定义如下：
 
 ```c++
-// 返回config的配置信息
+// 返回 config 的配置信息
 // 参数：None
-// 返回：string - config配置信息
+// 返回：string - config 配置信息
 std::string Summary();
 ```
 
-调用Summary()的输出如下所示：
+调用 Summary() 的输出如下所示：
 ```
 +-------------------------------+----------------------------------+
 | Option                        | Value                            |

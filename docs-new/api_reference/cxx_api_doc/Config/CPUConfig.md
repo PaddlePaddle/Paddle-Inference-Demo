@@ -10,14 +10,14 @@
 API定义如下：
 
 ```c++
-// 设置 CPU Blas 库计算线程数
-// 参数：cpu_math_library_num_threads - blas库计算线程数
+// 设置 CPU 加速库计算线程数
+// 参数：cpu_math_library_num_threads - CPU 加速库计算线程数
 // 返回：None
 void SetCpuMathLibraryNumThreads(int cpu_math_library_num_threads);
 
-// 获取 CPU Blas 库计算线程数
+// 获取 CPU 加速库计算线程数
 // 参数：None
-// 返回：int - cpu blas库计算线程数。
+// 返回：int - CPU 加速库计算线程数
 int cpu_math_library_num_threads() const;
 ```
 
@@ -27,12 +27,12 @@ int cpu_math_library_num_threads() const;
 // 创建默认 Config 对象
 paddle_infer::Config config();
 
-// 设置 CPU Blas 库线程数为 10
+// 设置 CPU 加速库线程数为 10
 config.SetCpuMathLibraryNumThreads(10);
 
 // 通过 API 获取 CPU 信息
 int num_thread = config.cpu_math_library_num_threads();
-std::cout << "CPU blas thread number is: " << num_thread << std::endl; // 10
+std::cout << "CPU thread number is: " << num_thread << std::endl; // 10
 ```
 
 ## MKLDNN 设置
@@ -40,7 +40,7 @@ std::cout << "CPU blas thread number is: " << num_thread << std::endl; // 10
 **注意：** 
 1. 启用 MKLDNN 的前提为已经使用 CPU 进行预测，否则启用 MKLDNN 无法生效
 2. 启用 MKLDNN BF16 要求 CPU 型号可以支持 AVX512，否则无法启用 MKLDNN BF16
-3. `SetMkldnnCacheCapacity` 请参考 <a class="reference external" href="https://github.com/PaddlePaddle/FluidDoc/blob/develop/doc/fluid/design/mkldnn/caching/caching.md">MKLDNN cache设计文档</a>
+3. `SetMkldnnCacheCapacity` 请参考 <a class="reference external" href="https://github.com/PaddlePaddle/docs/blob/923d0dc161e54b424b8b163b6ff72c73ef10a43f/docs/design/mkldnn/caching/caching.md">MKLDNN cache设计文档</a>
 
 API定义如下：
 
@@ -95,7 +95,8 @@ void SetBfloat16Op(std::unordered_set<std::string> op_list);
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config(FLAGS_infer_model + "/mobilenet.pdmodel",
+                            FLAGS_infer_model + "/mobilenet.pdiparams");
 
 // 启用 MKLDNN 进行预测
 config.EnableMKLDNN();
@@ -114,7 +115,8 @@ config.SetMKLDNNOp(op_list);
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config(FLAGS_infer_model + "/mobilenet.pdmodel",
+                            FLAGS_infer_model + "/mobilenet.pdiparams");
 
 // 启用 MKLDNN 进行预测
 config.EnableMKLDNN();
@@ -132,7 +134,8 @@ std::cout << "Enable MKLDNN BF16 is: " << config.mkldnn_bfloat16_enabled() << st
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config(FLAGS_infer_model + "/mobilenet.pdmodel",
+                            FLAGS_infer_model + "/mobilenet.pdiparams");
 
 // 启用 MKLDNN 进行预测
 config.EnableMKLDNN();
