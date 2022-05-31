@@ -14,8 +14,6 @@ Paddle Inference 支持基于 华为昇腾 NPU 的推理部署, 当前仅支持�
 
 **环境准备：** 请根据[编译依赖表](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html)准备符合版本要求的依赖库，推荐使用飞桨官方镜像，或者根据 [CANN 文档](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/deploy504alpha5) 来准备相应的运行环境。
 
-### X86_64 编译安装
-
 **第一步：** 从飞桨镜像库拉取编译镜像，启动容器并在容器内检查设备情况
 
 ```bash
@@ -68,68 +66,12 @@ cmake .. -DPY_VERSION=3.7 -DPYTHON_EXECUTABLE=`which python3` -DON_INFER=ON \
 make -j$(nproc)
 ```
 
-### Aarch64 编译安装
-
-**第一步：** 从飞桨镜像库拉取编译镜像，启动容器并在容器内检查设备情况
-
-```bash
-# 拉取镜像
-docker pull registry.baidubce.com/device/paddle-npu:cann504-aarch64-gcc75
-
-# 启动容器，注意这里的参数 --device，容器仅映射设备ID为2到3的2张NPU卡，如需映射其他卡相应增改设备ID号即可
-docker run -it --name paddle-dev -v `pwd`:/workspace  \
-       --workdir=/workspace --pids-limit 409600 \
-       --privileged --network=host --shm-size=128G \
-       -v /usr/local/Ascend/driver:/usr/local/Ascend/driver \
-       -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
-       -v /usr/local/dcmi:/usr/local/dcmi \
-       registry.baidubce.com/device/paddle-npu:cann504-aarch64-gcc75 /bin/bash
-
-# 容器内检查设备情况
-npu-smi info
-# 预期获得如下输出结果
-+-------------------------------------------------------------------------------------------+
-| npu-smi 21.0.4                   Version: 21.0.4                                          |
-+----------------------+---------------+----------------------------------------------------+
-| NPU   Name           | Health        | Power(W)    Temp(C)           Hugepages-Usage(page)|
-| Chip                 | Bus-Id        | AICore(%)   Memory-Usage(MB)  HBM-Usage(MB)        |
-+======================+===============+====================================================+
-| 0     910A           | OK            | 70.9        42                15   / 15            |
-| 0                    | 0000:C1:00.0  | 0           839  / 15170      1    / 32768         |
-+======================+===============+====================================================+
-| 1     910A           | OK            | 67.2        36                15   / 15            |
-| 0                    | 0000:81:00.0  | 0           1274 / 15171      1    / 32768         |
-+======================+===============+====================================================+
-```
-
-**第二步**：下载Paddle源码并编译，CMAKE编译选项含义请参见[编译选项表](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html#Compile)
-
-```bash
-# 下载源码，默认 develop 分支
-git clone https://github.com/PaddlePaddle/Paddle.git
-cd Paddle
-
-# 创建编译目录
-mkdir build && cd build
-
-# 执行cmake
-cmake .. -DPY_VERSION=3.7 -DPYTHON_EXECUTABLE=`which python3` -DON_INFER=ON \
-         -DWITH_ASCEND=OFF -DWITH_ASCEND_CL=ON -DWITH_ASCEND_INT64=ON  \
-         -DWITH_ASCEND_CXX11=ON -DWITH_TESTING=OFF -DWITH_ARM=ON \
-         -DCMAKE_CXX_FLAGS="-Wno-error -w"
-
-# 使用以下命令来编译
-make TARGET=ARMV8 -j$(nproc)
-```
-
-### 编译后检查
-
-编译完成之后，请检查编译目录下的 Python whl 包 和 C++ 预测库是否正确生成。以 Aarch64 环境为例，生成的的目录结构如下所示：
+**第三步：** 编译完成之后，请检查编译目录下的 Python whl 包 和 C++ 预测库是否正确生成
 
 ```bash
 # 检查编译目录下的 Python whl 包
 Paddle/build/python/dist/
-└── paddlepaddle_npu-0.0.0-cp37-cp37m-linux_aarch64.whl
+└── paddlepaddle_npu-0.0.0-cp37-cp37m-linux_x86_64.whl
 
 # 检查编译目录下的 C++ 预测库，目录结构如下
 Paddle/build/paddle_inference_install_dir
@@ -155,7 +97,8 @@ Paddle/build/paddle_inference_install_dir
 │   │   ├── cryptopp
 │   │   ├── gflags
 │   │   ├── glog
-│   │   ├── openblas
+│   │   ├── mkldnn
+│   │   ├── mklml
 │   │   ├── protobuf
 │   │   ├── utf8proc
 │   │   └── xxhash
@@ -166,15 +109,13 @@ Paddle/build/paddle_inference_install_dir
 
 ## 安装部署
 
-本章节以 Aarch64 环境为例说明 Paddle Inference Demo 的安装部署示例：
-
 ### Python 安装部署
 
 请参考以下步骤执行 Python 安装部署示例程序：
 
 ```bash
 # 1) 安装源码编译生成的 Python whl 包
-python3 -m pip install -U paddlepaddle_npu-0.0.0-cp37-cp37m-linux_aarch64.whl
+python3 -m pip install -U paddlepaddle_npu-0.0.0-cp37-cp37m-linux_x86_64.whl
 
 # 2) 进行简单功能的健康检查
 python3 -c "import paddle; paddle.utils.run_check()"
@@ -227,9 +168,7 @@ wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.
 tar xzf resnet50.tgz
 
 # 4) 修改 compile.sh 编译文件，需根据 C++ 预测库的 version.txt 信息对以下内容进行修改
-WITH_MKL=OFF # 这里如果是 X86_64 环境，则改为 ON
 WITH_GPU=OFF
-WITH_ARM=ON # 这里如果是 X86_64 环境，则改为 OFF
 WITH_NPU=ON
 ASCEND_LIB=/usr/local/Ascend # 这里请根据实际 CANN 安装路径修改
 
