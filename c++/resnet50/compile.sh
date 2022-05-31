@@ -39,6 +39,9 @@ TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 WITH_ROCM=OFF
 ROCM_LIB=/opt/rocm/lib
 
+WITH_NPU=OFF
+ASCEND_DIR=/usr/local/Ascend
+
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \
   -DDEMO_NAME=${DEMO_NAME} \
@@ -53,7 +56,9 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_ARM=${WITH_ARM} \
   -DWITH_MIPS=${WITH_MIPS} \
   -DWITH_SW=${WITH_SW} \
-  -DWITH_XPU=${WITH_XPU}
+  -DWITH_XPU=${WITH_XPU} \
+  -DWITH_NPU=${WITH_NPU} \
+  -DASCEND_DIR=${ASCEND_DIR}
 
 if [ "$WITH_ARM" == "ON" ];then
   make TARGET=ARMV8 -j
