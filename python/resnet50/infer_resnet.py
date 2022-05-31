@@ -26,6 +26,8 @@ def init_predictor(args):
         config.set_cpu_math_library_num_threads(4)
     elif args.use_xpu:
         config.enable_xpu()
+    elif args.use_npu:
+        config.enable_npu()
     elif args.use_ipu:
         config.enable_ipu()
     else:
@@ -98,6 +100,10 @@ def parse_args():
                         type=int,
                         default=0,
                         help="Whether use xpu.")
+    parser.add_argument("--use_npu",
+                        type=int,
+                        default=0,
+                        help="Whether use npu.")
     parser.add_argument("--use_ipu",
                         type=int,
                         default=0,
