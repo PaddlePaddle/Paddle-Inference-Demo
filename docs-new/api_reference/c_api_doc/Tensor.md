@@ -4,7 +4,7 @@ Tensor 是 Paddle Inference 的数据组织形式，用于对底层数据进行�
 
 **注意：** 应使用 `PD_PredictorGetInputHandle` 和 `PD_PredictorGetOutputHandle` 接口获取输入输出 `Tensor`。
 
-Tensor 相关的API定义如下：
+Tensor 相关的 API 定义如下：
 
 ```c
 // 设置 Tensor 的维度信息
@@ -96,7 +96,7 @@ void PD_TensorDestroy(__pd_take PD_Tensor* pd_tensor);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 设置预测模型路径，这里为 Combined 模型
+// 设置推理模型路径
 const char* model_path  = "./model/inference.pdmodel";  
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
@@ -125,10 +125,10 @@ memcpy(data_ptr, input_data, 1 * 3 * 224 * 224 * sizeof(float));
 //  方式2: 通过 CopyFromCpu 设置输入数据
 PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 
-// 执行预测
+// 执行推理
 PD_PredictorRun(pd_predictor);
 
-// 获取预测输出 Tensor
+// 获取推理输出 Tensor
 PD_OneDimArrayCstr* output_names = PD_PredictorGetOutputNames(predictor);
 PD_Tensor* output_tensor = PD_PredictorGetOutputHandle(predictor, output_names->data[0]);
 
