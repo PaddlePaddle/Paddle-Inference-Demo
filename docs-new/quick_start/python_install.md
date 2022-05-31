@@ -39,12 +39,19 @@ python3 -m pip install paddlepaddle-gpu==2.3.0.post110 -f https://www.paddlepadd
 
 ## 验证安装
 
+### 静态验证方式
+
 安装完成后，可以使用 python3 进入python解释器，输入以下指令，出现 `Your Paddle Fluid is installed successfully! ` ，说明安装成功。
 
 ```python
 import paddle.fluid as fluid
 fluid.install_check.run_check()
 ```
+
+### 动态验证方式
+
+您可以编写应用代码并测试结果。请参考 [预测示例(Python)](../quick_start/python_demo) 一节。
+
 
 ## 开始使用
 
