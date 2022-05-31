@@ -144,9 +144,9 @@ func main() {
 API定义如下：
 
 ```go
-// 返回config的配置信息
+// 返回 Config 的配置信息
 // 参数：None
-// 返回：string - config配置信息
+// 返回：string - Config 的配置信息
 func (config *Config) Summary() string
 ```
 

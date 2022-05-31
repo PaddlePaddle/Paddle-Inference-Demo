@@ -9,11 +9,11 @@ Tensor 的API定义如下：
 ```go
 // 获取 Tensor 维度信息
 // 参数：无
-// 返回：[]int32 - 包含 Tensor 维度信息的int数组
+// 返回：[]int32 - 包含 Tensor 维度信息的 int 数组
 func (tensor *Tensor) Shape() []int32
 
 // 设置 Tensor 维度信息
-// 参数：shape - 包含维度信息的int数组
+// 参数：shape - 包含维度信息的 int 数组
 // 返回：None
 func (tensor *Tensor) Reshape(shape []int32)
 
@@ -51,11 +51,10 @@ func main() {
     // 创建 AnalysisConfig 对象
     config := pd.NewConfig()
 
-    // 设置预测模型路径，这里为非 Combined 模型
-    config.SetModel("data/mobilenet_v1", "")
-    // config.SetModel("data/model/__model__", "data/model/__params__")
+    // 设置推理模型路径
+    config.SetModel("./model/resnet.pdmodel", "./model/resnet.pdiparams")
 
-    // 根据 Config 构建预测执行对象 Predictor
+    // 根据 Config 构建推理执行对象 Predictor
     predictor := pd.NewPredictor(config)
 
     // 获取输入输出 Tensor 信息
@@ -77,7 +76,7 @@ func main() {
     input.Reshape([]int32{1, 3, 224, 224})
     input.CopyFromCpu(inputData)
 
-    // 执行预测
+    // 执行推理
     predictor.Run()
 
     // 获取输出 Tensor
