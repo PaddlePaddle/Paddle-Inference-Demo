@@ -36,7 +36,7 @@ config.EnableONNXRuntime();
 // 通过 API 获取 ONNXRuntime 信息
 std::cout << "Use ONNXRuntime is: " << config.use_onnxruntime() << std::endl; // true
 
-// 开启ONNXRuntime优化
+// 开启 ONNXRuntime 优化
 config.EnableORTOptimization();
 
 // 设置 ONNXRuntime 算子计算线程数为 10
