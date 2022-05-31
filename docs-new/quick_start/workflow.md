@@ -8,6 +8,8 @@ Paddle Inference 原生支持由 [PaddlePaddle](https://github.com/PaddlePaddle/
 
 如果您手中的模型是由诸如 TensorFlow、PyTorch 等框架产出的，那么您可以使用 [X2Paddle](https://github.com/PaddlePaddle/X2Paddle) 工具将模型转换为 PadddlePaddle 格式。
 
+可以使用[模型可视化工具](../export_model/visual_model.rst)来查看您的模型结构，以确认符合组网预期。
+
 ## 二. 准备环境
 
 ### 1) Python 环境
