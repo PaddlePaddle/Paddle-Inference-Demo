@@ -20,6 +20,9 @@ Welcome to Paddle Inference's documentation!
   :name: sec-quick-start
 
   quick_start/workflow
+  quick_start/cpp_install
+  quick_start/python_install
+  quick_start/c_install
   quick_start/cpp_demo
   quick_start/python_demo
   quick_start/c_demo
@@ -49,11 +52,13 @@ Welcome to Paddle Inference's documentation!
 
 .. toctree::
   :maxdepth: 1
-  :caption: 工具 
-  :name: sec-tools
+  :caption: 模型导出
+  :name: sec-export-model
   
-  tools/visual
-  tools/x2paddle
+  export_model/README
+  export_model/paddle_model_export
+  export_model/outside_model_export
+  export_model/visual_model
 
 .. toctree::
   :maxdepth: 1
@@ -72,7 +77,8 @@ Welcome to Paddle Inference's documentation!
   :caption: Benchmark
   :name: sec-benchmark
   
-  benchmark/benchmark
+  benchmark/benchmark_cpu
+  benchmark/benchmark_gpu
 
 .. toctree::
   :maxdepth: 1
@@ -91,4 +97,11 @@ Welcome to Paddle Inference's documentation!
 
   introduction/faq
   introduction/training_to_deployment
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Debug
+
+  debug/performance_analysis_profiler
+  debug/precision_tracing
 

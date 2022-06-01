@@ -2,7 +2,7 @@
 
 **注意：**
 1. Config 默认使用 CPU 进行预测，需要通过 `EnableUseGpu` 来启用 GPU 预测
-2. 可以尝试启用 CUDNN 和 TensorRT 进行 GPU 预测加速
+2. 可以尝试启用 TensorRT 进行 GPU 预测加速
 
 ## GPU 设置
 
@@ -10,8 +10,8 @@ API定义如下：
 
 ```go
 // 启用 GPU 进行预测
-// 参数：memorySize - 初始化分配的gpu显存，以MB为单位
-//      deviceId - 设备id
+// 参数：memorySize - 初始化分配的 GPU 显存，以 MB 为单位
+//      deviceId - 设备 id
 // 返回：None
 func (config *Config) EnableUseGpu(memorySize uint64, deviceId int32)
 
@@ -25,9 +25,9 @@ func (config *Config) DisableGpu()
 // 返回：bool - 是否启用 GPU 
 func (config *Config) UseGpu() bool
 
-// 获取 GPU 的device id
+// 获取 GPU 的 device id
 // 参数：无
-// 返回：int -  GPU 的device id
+// 返回：int -  GPU 的 device id
 func (config *Config) GpuDeviceId() int32
 
 // 获取 GPU 的初始显存大小
@@ -54,7 +54,7 @@ func main() {
     // 创建 Config 对象
     config := pd.NewConfig()
   
-    // 启用 GPU 进行预测 - 初始化 GPU 显存 100M, DeivceID 为 0
+    // 启用 GPU 进行预测 - 初始化 GPU 显存 100MB, DeivceID 为 0
     config.EnableUseGpu(100, 0)
   
     // 通过 API 获取 GPU 信息
@@ -123,7 +123,7 @@ func main() {
     // 创建 Config 对象
     config := pd.NewConfig()
   
-    // 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+    // 启用 GPU 进行预测 - 初始化 GPU 显存 100MB, Deivce_ID 为 0
     config.EnableUseGpu(100, 0)
 
     // 启用 TensorRT 进行预测加速 - FP32

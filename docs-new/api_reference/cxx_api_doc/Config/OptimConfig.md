@@ -2,7 +2,7 @@
 
 ## IR 优化
 
-**注意：** 关于自定义 IR 优化 Pass，请参考 [PaddlePassBuilder 类](../PaddlePassBuilder)
+**注意：** 关于自定义 IR 优化 Pass，请参考 [PaddlePassBuilder API 文档](../PaddlePassBuilder)
 
 API定义如下：
 
@@ -24,7 +24,7 @@ void SwitchIrDebug(int x = true);
 
 // 返回 pass_builder，用来自定义图分析阶段选择的 IR
 // 参数：None
-// 返回：PassStrategy - pass_builder对象
+// 返回：PassStrategy - pass_builder 对象
 PassStrategy* pass_builder() const;
 ```
 
@@ -32,7 +32,7 @@ PassStrategy* pass_builder() const;
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_model_dir);
+paddle_infer::Config config("./model/resnet50.pdmodel", "./model/resnet50.pdiparams");
 
 // 开启 IR 优化
 config.SwitchIrOptim();
@@ -47,7 +47,7 @@ pass_builder->DeletePass("fc_fuse_pass");
 // 通过 API 获取 IR 优化是否开启 - true
 std::cout << "IR Optim is: " << config.ir_optim() << std::endl;
 
-// 根据Config对象创建预测器对象
+// 根据 Config 对象创建预测器对象
 auto predictor = paddle_infer::CreatePredictor(config);
 ```
 
@@ -77,7 +77,7 @@ auto predictor = paddle_infer::CreatePredictor(config);
 ## Lite 子图
 
 ```c++ 
-// 启用 Lite 子图
+// 启用 Lite 子图，以使用 XPU / NPU 推理加速
 // 参数：precision_mode - Lite 子图的运行精度，默认为 FP32
 //      zero_copy      - 启用 zero_copy，lite 子图与 paddle inference 之间共享数据
 //      Passes_filter  - 设置 lite 子图的 pass
@@ -100,7 +100,7 @@ bool lite_engine_enabled() const;
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_model_dir);
+paddle_infer::Config config("./model/resnet50.pdmodel", "./model/resnet50.pdiparams");
 
 config.EnableUseGpu(100, 0);
 config.EnableLiteEngine(paddle_infer::PrecisionType::kFloat32);

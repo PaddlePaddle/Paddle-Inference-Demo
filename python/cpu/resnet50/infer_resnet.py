@@ -24,6 +24,12 @@ def init_predictor(args):
         config.enable_onnxruntime()
         config.enable_ort_optimization()
         config.set_cpu_math_library_num_threads(4)
+    elif args.use_xpu:
+        config.enable_xpu()
+    elif args.use_npu:
+        config.enable_npu()
+    elif args.use_ipu:
+        config.enable_ipu()
     else:
         # If not specific mkldnn, you can set the blas thread.
         # The thread num should not be greater than the number of cores in the CPU.
@@ -90,6 +96,18 @@ def parse_args():
                         type=int,
                         default=0,
                         help="Whether use onnxruntime.")
+    parser.add_argument("--use_xpu",
+                        type=int,
+                        default=0,
+                        help="Whether use xpu.")
+    parser.add_argument("--use_npu",
+                        type=int,
+                        default=0,
+                        help="Whether use npu.")
+    parser.add_argument("--use_ipu",
+                        type=int,
+                        default=0,
+                        help="Whether use ipu.")
     return parser.parse_args()
 
 
