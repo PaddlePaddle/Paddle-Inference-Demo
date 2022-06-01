@@ -72,7 +72,8 @@ Welcome to Paddle Inference's documentation!
   :caption: Benchmark
   :name: sec-benchmark
   
-  benchmark/benchmark
+  benchmark/benchmark_cpu
+  benchmark/benchmark_gpu
 
 .. toctree::
   :maxdepth: 1
@@ -91,4 +92,11 @@ Welcome to Paddle Inference's documentation!
 
   introduction/faq
   introduction/training_to_deployment
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Debug
+
+  debug/performance_analysis_profiler
+  debug/precision_tracing
 

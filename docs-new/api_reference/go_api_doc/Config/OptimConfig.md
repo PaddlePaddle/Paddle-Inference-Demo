@@ -37,8 +37,8 @@ func main() {
     // 创建 Config 对象
     config := pd.NewConfig()
 
-    // 设置预测模型路径，这里为非 Combined 模型
-    config.SetModel("data/model/__model__", "data/model/__params__")
+    // 设置预测模型路径
+    config.SetModel("./model/resnet.pdmodel", "./model/resnet.pdiparams")
 
     // 开启 IR 优化
     config.SwitchIrOptim(true);
@@ -47,9 +47,6 @@ func main() {
 
     // 通过 API 获取 IR 优化是否开启 - true
     fmt.Println("IR Optim is: ", config.IrOptim())
-
-    // 通过 config 去除 fc_fuse_pass
-    // config.DeletePass("fc_fuse_pass")
 
     // 根据 Config 创建 Predictor
     predictor := paddle.NewPredictor(config)

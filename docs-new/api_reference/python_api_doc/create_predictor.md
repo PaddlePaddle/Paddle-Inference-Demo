@@ -16,7 +16,7 @@ paddle.inference.create_predictor(config: Config)
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 根据 config 创建 predictor
 predictor = paddle_infer.create_predictor(config)

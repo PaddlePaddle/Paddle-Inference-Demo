@@ -2,7 +2,7 @@
 
 ## DataType
 
-`DataType`定义了`Tensor`的数据类型，由传入`Tensor`的numpy数组类型确定。
+`DataType` 定义了 `Tensor` 的数据类型，由传入 `Tensor` 的 numpy 数组类型确定。
 
 ```python
 # DataType 枚举定义
@@ -55,12 +55,12 @@ PrecisionType 中包括以下成员:
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
-# 启用 GPU, 初始化100M显存，使用gpu id为0
+# 启用 GPU, 初始化 100 MB 显存，使用 gpu id 为 0
 config.enable_use_gpu(100, 0)
 
 # 开启 TensorRT 预测，精度为 FP32，开启 INT8 离线量化校准
-config.enable_tensorrt_engine(precision_mode=paddle_infer.PrecisionType.Float32,
-                              use_calib_mode=True)
+config.enable_tensorrt_engine(precision_mode = paddle_infer.PrecisionType.Float32,
+                              use_calib_mode = True)
 ```

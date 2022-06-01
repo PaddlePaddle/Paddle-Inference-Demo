@@ -23,6 +23,12 @@ void EnableXpu(int l3_workspace_size = 0xfffc00, bool locked = false,
 // 创建 Config 对象
 paddle_infer::Config config(FLAGS_model_dir);
 
+// 开启 Lite 子图引擎
+config.EnableLiteEngine();
+
 // 启用 XPU，并设置 l3 cache 大小为 10M
 config.EnableXpu(10*1024*1024);
 ```
+
+**注意事项：**
+Xpu 推理依赖 Lite 子图引擎，配置需开启 EnableLiteEngine，API 文档参考[设置模型优化方法](./OptimConfig)。
