@@ -130,7 +130,7 @@ I1202 06:53:18.979828  3411 resnet50_test.cc:88] 900 : 1.52393e-30
 
 ## C++ 预测程序开发说明
 
-使用 Paddle Inference 开发 C++ 预测程序仅需以下五个步骤：
+我们提供了大量的 [C++ 预测示例](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B), 使用 Paddle Inference 开发 C++ 预测程序仅需以下五个步骤：
 
 
 (1) 引用头文件
