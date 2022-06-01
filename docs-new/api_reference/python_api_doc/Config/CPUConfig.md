@@ -10,14 +10,14 @@
 API定义如下：
 
 ```python
-# 设置 CPU Blas 库计算线程数
-# 参数：cpu_math_library_num_threads - blas库计算线程数
+# 设置 CPU 加速库计算线程数
+# 参数：cpu_math_library_num_threads - CPU 加速库计算线程数
 # 返回：None
 paddle.inference.Config.set_cpu_math_library_num_threads(cpu_math_library_num_threads: int)
 
-# 获取 CPU Blas 库计算线程数
+# 获取 CPU 加速库计算线程数
 # 参数：None
-# 返回：int - cpu blas库计算线程数
+# 返回：int - CPU 加速库计算线程数
 paddle.inference.Config.cpu_math_library_num_threads()
 ```
 
@@ -30,10 +30,10 @@ import paddle.inference as paddle_infer
 # 创建 config
 config = paddle_infer.Config()
 
-# 设置 CPU Blas 库线程数为 10
+# 设置 CPU 加速库线程数为 10
 config.set_cpu_math_library_num_threads(10)
 
-# 通过 API 获取 CPU 信息 - 10
+# 通过 API 获取 CPU 加速库线程数 - 10
 print(config.cpu_math_library_num_threads())
 ```
 
@@ -42,7 +42,7 @@ print(config.cpu_math_library_num_threads())
 **注意：** 
 1. 启用 MKLDNN 的前提为已经使用 CPU 进行预测，否则启用 MKLDNN 无法生效
 2. 启用 MKLDNN BF16 要求 CPU 型号可以支持 AVX512，否则无法启用 MKLDNN BF16
-3. `set_mkldnn_cache_capacity` 请参考 <a class="reference external" href="https://github.com/PaddlePaddle/FluidDoc/blob/develop/doc/fluid/design/mkldnn/caching/caching.md">MKLDNN cache设计文档</a>
+3. `set_mkldnn_cache_capacity` 请参考 <a class="reference external" href="https://github.com/PaddlePaddle/docs/blob/923d0dc161e54b424b8b163b6ff72c73ef10a43f/docs/design/mkldnn/caching/caching.md">MKLDNN cache设计文档</a>
 
 API定义如下：
 
@@ -90,7 +90,7 @@ paddle.inference.Config.enable_mkldnn_int8(op_list: Set[str])
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet.pdmodel", "./mobilenet.pdiparams")
 
 # 启用 MKLDNN 进行预测
 config.enable_mkldnn()
@@ -112,7 +112,7 @@ config.set_mkldnn_op({"softmax", "elementwise_add", "relu"})
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet.pdmodel", "./mobilenet.pdiparams")
 
 # 启用 MKLDNN 进行预测
 config.enable_mkldnn()
@@ -131,7 +131,7 @@ config.set_bfloat16_op({"conv2d"})
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet.pdmodel", "./mobilenet.pdiparams")
 
 # 启用 MKLDNN 进行预测
 config.enable_mkldnn()

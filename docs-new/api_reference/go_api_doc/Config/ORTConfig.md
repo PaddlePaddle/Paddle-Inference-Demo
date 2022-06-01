@@ -1,15 +1,15 @@
 
-# 使用 ONNXRuntime 进行预测
+# 使用 ONNXRuntime 进行推理
 
 API定义如下：
 
 ```go
-// 启用 ONNXRuntime 进行预测
+// 启用 ONNXRuntime 进行推理
 // 参数：None
 // 返回：None
 func (config *Config) EnableONNXRuntime()
 
-// 禁用 ONNXRuntime 进行预测
+// 禁用 ONNXRuntime 进行推理
 // 参数：None
 // 返回：None
 func (config *Config) DisableONNXRuntime();
@@ -19,7 +19,7 @@ func (config *Config) DisableONNXRuntime();
 // 返回：bool - 是否启用 ONNXRuntime 
 func (config *Config) ONNXRuntimeEnabled() bool;
 
-// 启用 ONNXRuntime 预测时开启优化
+// 启用 ONNXRuntime 推理时开启优化
 // 参数：None
 // 返回：None
 func (config *Config) EnableORTOptimization();
@@ -38,7 +38,7 @@ func main() {
     // 创建 Config 对象
     config := pd.NewConfig()
 
-    // 启用 ONNXRuntime 进行预测
+    // 启用 ONNXRuntime 进行推理
     config.EnableONNXRuntime()
   
     // 通过 API 获取 ONNXRuntime 信息
@@ -47,7 +47,7 @@ func main() {
     // 开启ONNXRuntime优化
     config.EnableORTOptimization();
 
-    // 禁用 ONNXRuntime 进行预测
+    // 禁用 ONNXRuntime 进行推理
     config.DisableONNXRuntime()
   
     // 通过 API 获取 ONNXRuntime 信息
