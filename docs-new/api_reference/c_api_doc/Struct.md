@@ -13,7 +13,7 @@ typedef struct PD_OneDimArrayInt32 {
   int32_t* data; // 数组元素指针
 } PD_OneDimArrayInt32;
 
-// 销毁由 paddle inferecen C api 返回的 OneDimArrayInt32 对象
+// 销毁由 paddle inferecen C API 返回的 OneDimArrayInt32 对象
 // 参数：array - 需要销毁的 OneDimArrayInt32 对象指针
 // 返回：None
 void PD_OneDimArrayInt32Destroy(PD_OneDimArrayInt32* array);
@@ -30,7 +30,7 @@ typedef struct PD_OneDimArraySize {
   size_t* data;  // 数组元素指针
 } PD_OneDimArraySize;
 
-// 销毁由 paddle inferecen C api 返回的 OneDimArraySize 对象
+// 销毁由 paddle inferecen C API 返回的 OneDimArraySize 对象
 // 参数：array - 需要销毁的 OneDimArraySize 对象指针
 // 返回：None
 void PD_OneDimArraySizeDestroy(PD_OneDimArraySize* array);
@@ -47,7 +47,7 @@ typedef struct PD_OneDimArrayCstr {
   char** data;   // 数组元素指针
 } PD_OneDimArraySize;
 
-// 销毁由 paddle inferecen C api 返回的 OneDimArrayCstr 对象
+// 销毁由 paddle inferecen C API 返回的 OneDimArrayCstr 对象
 // 参数：array - 需要销毁的 OneDimArrayCstr 对象指针
 // 返回：None
 void PD_OneDimArrayCstrDestroy(PD_OneDimArrayCstr* array);
@@ -64,7 +64,7 @@ typedef struct PD_TwoDimArraySize {
   PD_OneDimArraySize** data;  // 数组元素指针
 } PD_TwoDimArraySize;
 
-// 销毁由 paddle inferecen C api 返回的 TwoDimArraySize 对象
+// 销毁由 paddle inferecen C API 返回的 TwoDimArraySize 对象
 // 参数：array - 需要销毁的 TwoDimArraySize 对象指针
 // 返回：None
 void PD_TwoDimArraySizeDestroy(PD_TwoDimArraySize* array);

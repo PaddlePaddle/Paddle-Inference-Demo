@@ -2,7 +2,7 @@
 
 ## DataType
 
-DataType为模型中Tensor的数据精度，默认值为 `FLOAT32`。枚举变量与 API 定义如下：
+DataType 为模型中 Tensor 的数据精度，默认值为 `FLOAT32`。枚举变量与 API 定义如下：
 
 ```c++
 // DataType 枚举类型定义
@@ -11,6 +11,8 @@ enum DataType {
   INT64,
   INT32,
   UINT8,
+  INT8,
+  FLOAT16,
 };
 
 // 获取各个 DataType 对应的字节数
@@ -32,7 +34,7 @@ std::cout << paddle_infer::GetNumBytesOfDataType(data_type) << std::endl;
 
 ## PrecisionType
 
-PrecisionType设置模型的运行精度，默认值为 `kFloat32(float32)`。枚举变量定义如下：
+PrecisionType 设置模型的运行精度，默认值为 `kFloat32(float32)`。枚举变量定义如下：
 
 ```c++
 // PrecisionType 枚举类型定义
@@ -47,35 +49,34 @@ enum class PrecisionType {
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.pdiparams");
 
 // 启用 GPU 进行预测
 config.EnableUseGpu(100, 0);
 
 // 启用 TensorRT 进行预测加速 - FP16
-config.EnableTensorRtEngine(1 << 20, 1, 3, 
+config.EnableTensorRtEngine(1 << 28, 1, 3, 
                             paddle_infer::PrecisionType::kHalf, false, false);
 ```
 
 
 ## PlaceType
 
-PlaceType为目标设备硬件类型，用户可以根据应用场景选择硬件平台类型。枚举变量定义如下：
+PlaceType 为目标设备硬件类型，用户可以根据应用场景选择硬件平台类型。枚举变量定义如下：
 
 ```c++
 // PlaceType 枚举类型定义
-enum class PlaceType { kUNK = -1, kCPU, kGPU };
+enum class PlaceType { kUNK = -1, kCPU, kGPU, kXPU, kNPU, kIPU, kCUSTOM };
 ```
 
 代码示例：
 
 ```c++
 // 创建 Config 对象
-paddle_infer::Config config;
+paddle_infer::Config config("./mobilenet.pdmodel", "./mobilenet.pdiparams");
 
 // 启用 GPU 预测
 config.EnableUseGpu(100, 0);
-config.SetModel(model_dir);
 
 // 创建 Predictor
 auto predictor = paddle_infer::CreatePredictor(config);

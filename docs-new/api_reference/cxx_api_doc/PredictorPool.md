@@ -1,11 +1,11 @@
 #  PredictorPool 类
 
-`PredictorPool` 对 `Predictor` 进行了简单的封装，通过传入config和thread的数目来完成初始化，在每个线程中，根据自己的线程id直接从池中取出对应的 `Predictor` 来完成预测过程。
+`PredictorPool` 对 `Predictor` 进行了简单的封装，通过传入 config 和 thread 的数目来完成初始化，在每个线程中，根据自己的线程 id 直接从池中取出对应的 `Predictor` 来完成预测过程。
 
-构造函数和API定义如下：
+构造函数和 API 定义如下：
 
 ```c++
-// PredictorPool构造函数
+// PredictorPool 构造函数
 // 参数：config - Config 对象
 //      size - Predictor 对象数量
 PredictorPool(const Config& config, size_t size = 1);
@@ -20,7 +20,7 @@ Predictor* Retrive(size_t idx);
 
 ```c++
 // 构造 Config 对象
-paddle_infer::Config config(FLAGS_infer_model);
+paddle_infer::Config config("./resnet.pdmodel", "./resnet.pdiparams");
 // 启用 GPU 预测
 config.EnableUseGpu(100, 0);
 

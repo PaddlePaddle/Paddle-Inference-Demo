@@ -10,14 +10,14 @@
 API定义如下：
 
 ```go
-// 设置 CPU Blas 库计算线程数
-// 参数：mathThreadsNum - blas库计算线程数
+// 设置 CPU 加速库计算线程数
+// 参数：mathThreadsNum - CPU 加速库计算线程数
 // 返回：None
 func (config *Config) SetCpuMathLibraryNumThreads(mathThreadsNum int32)
 
-// 获取 CPU Blas 库计算线程数
+// 获取 CPU 加速库计算线程数
 // 参数：无
-// 返回：int - cpu blas 库计算线程数
+// 返回：int - CPU 加速库计算线程数
 func (config *Config) CpuMathLibraryNumThreads() int32
 ```
 
@@ -34,7 +34,7 @@ func main() {
     // 创建 Config 对象
     config := paddle.NewConfig()
 
-    // 设置预测模型路径，这里为非 Combined 模型
+    // 设置预测模型路径
     config.SetCpuMathLibraryNumThreads(10)
 
     // 输出模型路径

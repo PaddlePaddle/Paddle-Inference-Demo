@@ -25,6 +25,10 @@ DEMO_NAME=resnet50_test
 
 WITH_MKL=ON
 WITH_GPU=OFF
+WITH_ARM=OFF
+WITH_MIPS=OFF
+WITH_SW=OFF
+WITH_XPU=OFF
 USE_TENSORRT=OFF
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
@@ -34,6 +38,9 @@ TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 
 WITH_ROCM=OFF
 ROCM_LIB=/opt/rocm/lib
+
+WITH_NPU=OFF
+ASCEND_DIR=/usr/local/Ascend
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \
@@ -45,6 +52,17 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DROCM_LIB=${ROCM_LIB} \
   -DCUDNN_LIB=${CUDNN_LIB} \
   -DCUDA_LIB=${CUDA_LIB} \
-  -DTENSORRT_ROOT=${TENSORRT_ROOT}
+  -DTENSORRT_ROOT=${TENSORRT_ROOT} \
+  -DWITH_ARM=${WITH_ARM} \
+  -DWITH_MIPS=${WITH_MIPS} \
+  -DWITH_SW=${WITH_SW} \
+  -DWITH_XPU=${WITH_XPU} \
+  -DWITH_NPU=${WITH_NPU} \
+  -DASCEND_DIR=${ASCEND_DIR}
 
-make -j
+if [ "$WITH_ARM" == "ON" ];then
+  make TARGET=ARMV8 -j
+else
+  make -j
+fi
+
