@@ -1,6 +1,6 @@
 #  Tensor 类
 
-Tensor是Paddle Inference的数据组织形式，用于对底层数据进行封装并提供接口对数据进行操作，包括设置Shape、数据、LoD信息等。
+Tensor 是 Paddle Inference 的数据组织形式，用于对底层数据进行封装并提供接口对数据进行操作，包括设置 Shape、数据、LoD 信息等。
 
 **注意：** 应使用 `Predictor` 的 `get_input_handle` 和 `get_output_handle` 接口获取输入输出 `Tensor`。
 
@@ -16,7 +16,7 @@ class paddle.inference.Tensor
 paddle.inference.Tensor.reshape(shape: numpy.ndarray|List[int])
 
 # 从 CPU 获取数据，设置到 Tensor 内部
-# 参数：data - CPU 数据 - 支持float, int32, int64
+# 参数：data - CPU 数据 - 支持 float, int32, int64
 # 返回：None
 paddle.inference.Tensor.copy_from_cpu(data: numpy.ndarray)
 
@@ -55,7 +55,7 @@ import numpy
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 根据 config 创建 predictor
 predictor = paddle_infer.create_predictor(config)

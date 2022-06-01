@@ -1,15 +1,15 @@
 # Predictor 方法
 
-Paddle Inference 的预测器，由 `NewPredictor` 根据 `Config` 进行创建。用户可以根据 Predictor 提供的接口设置输入数据、执行模型预测、获取输出等。
+Paddle Inference 的推理器，由 `NewPredictor` 根据 `Config` 进行创建。用户可以根据 Predictor 提供的接口设置输入数据、执行模型推理、获取输出等。
 
 ## 创建 Predictor
 
 API定义如下：
 
 ```go
-// 根据 Config 构建预测执行对象 Predictor
+// 根据 Config 构建推理执行对象 Predictor
 // 参数: config - 用于构建 Predictor 的配置信息
-// 返回: *Predictor - 预测对象指针
+// 返回: *Predictor - 推理对象指针
 func NewPredictor(config *Config) *Predictor
 ```
 
@@ -26,17 +26,17 @@ func main() {
     // 创建 Config 对象
     config := pd.NewConfig()
 
-    // 设置预测模型路径，这里为非 Combined 模型
-    config.SetModelDir("data/mobilenet_v1")
+    // 设置推理模型路径
+    config.SetModel("./model/resnet.pdmodel", "./model/resnet.pdiparams")
 
-    // 根据 Config 构建预测执行对象 Predictor
+    // 根据 Config 构建推理执行对象 Predictor
     predictor := pd.NewPredictor(config)
 
     fmt.Printf("%T\n", predictor)
 }
 ```
 
-## 输入输出与执行预测
+## 输入输出与执行推理
 
 API 定义如下：
 
@@ -71,7 +71,7 @@ func (p *Predictor) GetInputHandle(name string) *Tensor
 // 返回：*Tensor - 输出 handle
 func (p *Predictor) GetOutputHandle(name string) *Tensor
 
-// 执行预测
+// 执行推理
 // 参数：无
 // 返回：None
 func (p *Predictor) Run()
@@ -100,11 +100,10 @@ func main() {
     // 创建 Config 对象
     config := pd.NewConfig()
 
-    // 设置预测模型路径，这里为非 Combined 模型
-    config.SetModel("data/mobilenet_v1", "")
-    // config.SetModel("data/model/__model__", "data/model/__params__")
+    // 设置推理模型路径
+    config.SetModel("./model/resnet.pdmodel", "./model/resnet.pdiparams")
 
-    // 根据 Config 构建预测执行对象 Predictor
+    // 根据 Config 构建推理执行对象 Predictor
     predictor := pd.NewPredictor(config)
 
     // 获取输入输出 Tensor 信息
@@ -124,7 +123,7 @@ func main() {
     input.Reshape([]int32{1, 3, 224, 224})
     input.CopyFromCpu(inputData)
 
-    // 执行预测
+    // 执行推理
     predictor.Run()
 
     // 获取输出 Tensor

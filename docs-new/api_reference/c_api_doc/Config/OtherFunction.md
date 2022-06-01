@@ -25,7 +25,7 @@ PD_ConfigEnableMemoryOptim(config);
 // 通过 API 获取 CPU 是否已经开启内存优化 - True
 printf("CPU Mem Optim is: %s\n", PD_ConfigMemoryOptimEnabled(config) ? "True" : "False");
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100MB, Deivce_ID 为 0
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 开启 GPU 显存优化
@@ -59,19 +59,21 @@ void PD_ConfigSetOptimCacheDir(PD_Config* pd_config, const char* opt_cache_dir);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 设置预测模型路径，这里为 Combined 模型
+// 设置预测模型路径
 const char* model_path  = "./model/inference.pdmodel";  
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
 
 // 设置缓存路径
-PD_ConfigSetOptimCacheDir(config,"./model/OptimCacheDir");
+PD_ConfigSetOptimCacheDir(config, "./model/OptimCacheDir");
 
 // 销毁 Config 对象
 PD_ConfigDestroy(config);
 ```
 
 # FC Padding
+
+在使用MKL时，启动此配置项可能会对模型推理性能有提升（[参考PR描述](https://github.com/PaddlePaddle/Paddle/pull/20972)）。
 
 API定义如下：
 
@@ -208,7 +210,7 @@ API定义如下：
 ```c++
 // 返回config的配置信息
 // 参数：pd_config - Config 对象指针
-// 返回：const char* - config配置信息，注意用户需释放该指针。
+// 返回：const char* - Config 配置信息，注意用户需释放该指针。
 const char* PD_ConfigSummary(PD_Config* pd_config);
 ```
 

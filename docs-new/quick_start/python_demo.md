@@ -6,7 +6,7 @@
 
 ### 1. 安装 Python 预测库
 
-请参照 [官方主页-快速安装](https://www.paddlepaddle.org.cn/install/quick) 页面进行自行安装或编译，当前支持 pip/conda 安装，docker镜像 以及源码编译等多种方式来准备 Paddle Inference 开发环境。
+请参照 [官方主页-快速安装](https://www.paddlepaddle.org.cn/install/quick) 页面进行自行安装或编译，当前支持 pip/conda 安装，docker 镜像以及源码编译等多种方式来准备 Paddle Inference 开发环境。
 
 ### 2. 准备预测部署模型
 
@@ -52,7 +52,7 @@ def main():
     input_handle.reshape([args.batch_size, 3, 318, 318])
     input_handle.copy_from_cpu(fake_input)
 
-    # 运行predictor
+    # 运行 predictor
     predictor.run()
 
     # 获取输出
@@ -90,7 +90,7 @@ Output data shape is (2, 1000)
 
 ## Python 预测程序开发说明
 
-使用 Paddle Inference 开发 Python 预测程序仅需以下五个步骤：
+我们提供了大量的 [Python 预测示例](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python), 使用 Paddle Inference 开发 Python 预测程序仅需以下五个步骤：
 
 
 (1) 引用 paddle inference 预测库
@@ -106,7 +106,7 @@ import paddle.inference as paddle_infer
 config = paddle_infer.Config(args.model_file, args.params_file)
 ```
 
-(3) 根据Config创建预测对象，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
+(3) 根据 Config 创建预测对象，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
 
 ```python
 predictor = paddle_infer.create_predictor(config)
