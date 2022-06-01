@@ -93,7 +93,7 @@ wget https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/
 执行预测命令。
 
 ```
-python model_test.py --model_dir mobilenetv1_fp32 --img_path ILSVRC2012_val_00000247.jpeg
+python model_test.py --model_file=./mobilenetv1/inference.pdmodel --params_file=./mobilenetv1/inference.pdiparams --img_path ILSVRC2012_val_00000247.jpeg
 ``
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
