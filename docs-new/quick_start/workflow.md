@@ -4,9 +4,9 @@
 
 ## 一. 准备模型
 
-Paddle Inference 原生支持由 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) 深度学习框架训练产出的推理模型。PaddlePaddle 用于推理的模型分别可通过 `paddle.jit.save` (动态图) 与 `paddle.static.save_inference_model` (静态图) 或 `paddle.Model().save` (高层API) 保存下来。更详细的说明请参考[这里](https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/beginner/model_save_load_cn.html)。
+Paddle Inference 原生支持由 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) 深度学习框架训练产出的推理模型。PaddlePaddle 用于推理的模型分别可通过 `paddle.jit.save` (动态图) 与 `paddle.static.save_inference_model` (静态图) 或 `paddle.Model().save` (高层API) 保存下来。如果您手中的模型是由诸如 TensorFlow、PyTorch 等框架产出的，那么您可以使用 X2Paddle 工具将模型转换为 PadddlePaddle 格式。
 
-如果您手中的模型是由诸如 TensorFlow、PyTorch 等框架产出的，那么您可以使用 [X2Paddle](https://github.com/PaddlePaddle/X2Paddle) 工具将模型转换为 PadddlePaddle 格式。
+更详细的模型导出说明请参考[模型导出文档](../export_model/README)。
 
 可以使用[模型可视化工具](../export_model/visual_model.rst)来查看您的模型结构，以确认符合组网预期。
 
