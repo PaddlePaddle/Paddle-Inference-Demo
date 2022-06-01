@@ -4,7 +4,7 @@ ResNet50 样例展示了单输入模型在 GPU 下的推理过程。运行步骤
 
 ## 一：准备环境
 
-请您在环境中安装2.0或以上版本的Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
+请您在环境中安装2.0或以上版本的 Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
 
 
 ## 二：下载模型以及测试数据
@@ -37,7 +37,7 @@ ResNet50 样例展示了单输入模型在 GPU 下的推理过程。运行步骤
 ```shell
 python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams 
 ```
-### 使用 GPU混合精度推理 运行样例
+### 使用 GPU 混合精度推理 运行样例
 
 ```shell
 python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --run_mode=gpu_fp16 

@@ -4,7 +4,7 @@ YOLOv3 样例展示了单输入模型在 GPU 下的推理过程。运行步骤�
 
 ## 一：准备环境
 
-请您在环境中安装2.0或以上版本的Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
+请您在环境中安装2.0或以上版本的 Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
 
 ## 二：下载模型以及测试数据
 
@@ -38,7 +38,7 @@ tar xzf yolov3_r50vd_dcn_270e_coco.tgz
 ```shell
 python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__
 ```
-### 使用 GPU混合精度推理 运行样例
+### 使用 GPU 混合精度推理 运行样例
 
 ```shell
 python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --run_mode=gpu_fp16 
