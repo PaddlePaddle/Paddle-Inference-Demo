@@ -11,6 +11,7 @@
 using paddle_infer::Config;
 using paddle_infer::Predictor;
 using paddle_infer::CreatePredictor;
+using paddle_infer::PrecisionType;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
@@ -18,7 +19,7 @@ DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
-DEFINE_string(run_mode, "trt_fp32", "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
+DEFINE_string(run_mode, "paddle_gpu", "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_bool(use_dynamic_shape, false, "use trt dynaminc shape.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());

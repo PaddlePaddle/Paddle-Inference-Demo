@@ -10,19 +10,19 @@
 ├── ascend310                     晟腾310 预测样例
 ├── ipu                           ipu 预测样例
 ├── cpu                           
-│   ├── resnet50                  单输入模型 Onednn/OnnxRuntime 预测样例   
-│   └── yolov3                    多输入模型 Onednn/OnnxRuntime 预测样例
+│   ├── resnet50                  单输入模型 oneDNN/OnnxRuntime 预测样例   
+│   └── yolov3                    多输入模型 oneDNN/OnnxRuntime 预测样例
 ├── gpu
 │   ├── resnet50                  单输入模型 原生gpu/Trt_fp32/Trt_fp16/Trt_int8/Trt_dynamic_shape 预测样例
 │   ├── yolov3                    多输入模型 原生gpu/Trt_fp32/Trt_fp16/Trt_int8/Trt_dynamic_shape 预测样例
 │   ├── tuned_dynamic_shape       Trt_tuned_dynamic_shape 预测样例
 │   ├── ernie_varlen              ernie 变长预测样例
 │   ├── gpu_fp16                  gpu 混合精度推理 预测样例
-│   └── internal                  gpu 多流 预测样例
+│   └── multi_stream              gpu 多流 预测样例
 ├── advanced 
 │   ├── custom_operator           自定义算子 样例
 │   ├── share_external_data       share_external_data 预测样例
-│   ├── shrink_memory             shrink_memory单线程/多线程/多流 预测样例
+│   ├── multi_thread              多线程 预测样例
 │   └── x86_gru_int8              slim_int8 预测样例
 ├── mixed
 │   └── LIC2020                   LIC2020比赛 预测样例

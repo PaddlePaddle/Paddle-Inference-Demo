@@ -21,13 +21,13 @@ ResNet50 样例展示了单输入模型在 GPU 下的推理过程。运行步骤
 
 编译前，需要根据自己的环境修改 `compile.sh` 中的相关代码配置依赖库：
 ```shell
-# 编译的 demo 名称，resnet50_test 或 resnet50_share_data
+# 编译的 demo 名称
 DEMO_NAME=resnet50_test
 
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
 WITH_MKL=ON
 WITH_GPU=ON
-USE_TENSORRT=OFF
+USE_TENSORRT=ON
 
 # 配置预测库的根目录
 LIB_DIR=${work_path}/../lib/paddle_inference
@@ -35,7 +35,7 @@ LIB_DIR=${work_path}/../lib/paddle_inference
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/TensorRT-7.2.3.4
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 ```
 
 运行 `bash compile.sh` 编译样例。

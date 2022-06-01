@@ -1,6 +1,6 @@
-# 运行C++ Ernie变长输入样例
+# 运行 C++ Ernie 变长输入样例
 
-## 一：获取Ernie模型
+## 一：获取 Ernie 模型
 
 点击[链接](http://paddle-inference-dist.bj.bcebos.com/tensorrt_test/ernie_model_4.tar.gz)下载模型， 如果你想获取更多的**Ernie模型信息**，请访问[这里](https://www.paddlepaddle.org.cn/paddle/ernie)。
 当前Paddle Inference支持ernie的以下两种输入方式，变长输入性能更佳，本示例是变长输入的使用示例，输入方式一可以参考[单测代码](https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/fluid/inference/tests/api/trt_dynamic_shape_ernie_test.cc)。 

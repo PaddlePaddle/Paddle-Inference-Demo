@@ -1,8 +1,8 @@
-# 运行Paddle-IPU进行ResNet50图像分类样例
+# 运行 Paddle-IPU 进行 ResNet50 图像分类样例
 
-该文档为使用Paddle-IPU预测在ResNet50分类模型上的实践demo。
+该文档为使用 Paddle-IPU 预测在 ResNet50 分类模型上的实践 demo。
 
-## 获取paddle_inference预测库
+## 获取 Paddle Inference 预测库
 
 通过源码编译的方式安装，源码编译方式参考官网文档，注意这里cmake编译时打开`-DON_INFER=ON`,在编译目录下得到`paddle_inference_install_dir`，将其存储到`Paddle-Inference-Demo/c++/lib`目录，并更名为`paddle_inference`，lib目录结构如下所示
 
@@ -42,7 +42,7 @@ Paddle-Inference-Demo/c++/lib/
 ```
 
 
-## 获取Resnet50模型
+## 获取 Resnet50 模型
 
 点击[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz)下载模型。如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleClas)。
 ### **样例编译**
@@ -51,7 +51,7 @@ Paddle-Inference-Demo/c++/lib/
 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
 脚本`run.sh` 一键运行脚本。
 
-编译Resnet50样例，我们首先需要对脚本`compile.sh` 文件中的配置进行修改。
+编译 Resnet50 样例，我们首先需要对脚本 `compile.sh` 文件中的配置进行修改。
 
 1）**修改`compile.sh`**
 

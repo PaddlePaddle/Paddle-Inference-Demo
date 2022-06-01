@@ -33,7 +33,7 @@ USE_TENSORRT=ON
 LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/TensorRT-7.2.3.4
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \

@@ -1,8 +1,8 @@
-# 子图运行ASCEND-310 
+# 子图运行 ASCEND-310 
 
-## 获取paddle_inference预测库
+## 获取 Paddle Inference 预测库
 
-下载paddle_inference预测库并解压存储到`Paddle-Inference-Demo/c++/lib`目录，lib目录结构如下所示
+下载 Paddle Inference预测库并解压存储到 `Paddle-Inference-Demo/c++/lib` 目录，lib 目录结构如下所示
 
 ```
 Paddle-Inference-Demo/c++/lib/
@@ -37,7 +37,7 @@ Paddle-Inference-Demo/c++/lib/
 ```
 
 
-## 获取mobilenet_v1_fp32_224模型
+## 获取 mobilenet_v1_fp32_224 模型
 
 点击[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/ascend310_clas_assets.tgz)下载模型。如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleClas)。
 ### **编译样例**
@@ -52,7 +52,7 @@ Paddle-Inference-Demo/c++/lib/
 
 ```shell
 # 配置预测库的根目录
-LIB_DIR=${work_path}/../../lib/paddle_inference
+LIB_DIR=${work_path}/../../../lib/paddle_inference
 ```
 
 运行 `bash compile.sh`， 会在目录下产生build目录。

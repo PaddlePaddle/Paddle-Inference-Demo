@@ -14,4 +14,4 @@ if [ ! -d resnet50 ]; then
 fi
 
 # 3. run
-./build/resnet50_share_data --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
+./build/multi_stream_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --thread_num=2

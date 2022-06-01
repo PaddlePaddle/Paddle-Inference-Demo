@@ -29,7 +29,7 @@ tar xzf yolov3_r50vd_dcn_270e_coco.tgz
 
 ## 四：运行样例
 
-### 使用 Onednn 运行样例
+### 使用 oneDNN 运行样例
 
 ```shell
 ./build/yolov3_test --model_file yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file yolov3_r50vd_dcn_270e_coco/model.pdiparams

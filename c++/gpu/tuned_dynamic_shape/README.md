@@ -1,10 +1,10 @@
-# 使用Paddle-TRT TunedDynamicShape能力
+# 使用 Paddle-TRT TunedDynamicShape 能力
 
-该文档为使用Paddle-TRT TunedDynamicShape的实践demo。如果您刚接触Paddle-TRT，推荐先访问[这里](https://paddle-inference.readthedocs.io/en/latest/optimize/paddle_trt.html)对Paddle-TRT有个初步认识。
+该文档为使用 Paddle-TRT TunedDynamicShape 的实践 demo。如果您刚接触 Paddle-TRT，推荐先访问[这里](https://paddle-inference.readthedocs.io/en/latest/optimize/paddle_trt.html)对 Paddle-TRT 有个初步认识。
 
-## 获取paddle_inference预测库
+## 获取 Paddle Inference 预测库
 
-下载paddle_inference预测库并解压存储到`Paddle-Inference-Demo/c++/lib`目录，lib目录结构如下所示
+下载 Paddle Inference 预测库并解压存储到 `Paddle-Inference-Demo/c++/lib` 目录，lib 目录结构如下所示
 
 ```
 Paddle-Inference-Demo/c++/lib/
@@ -49,13 +49,13 @@ Paddle-Inference-Demo/c++/lib/
 - `bert.cc`
 - `compile.sh` 包含了第三方库、预编译库的信息配置。
 
-## PaddleClas模型示例
+## PaddleClas 模型示例
 
 [PaddleClas](https://github.com/PaddlePaddle/PaddleClas)是飞桨的图像识别套件，是为工业界和学术界所准备的一个图像识别任务的工具集，助力使用者训练出更好的视觉模型和应用落地。
 
-### 获取PaddleClas模型
+### 获取 PaddleClas 模型
 
-您可以参考PaddleClas的[文档](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.2/docs/zh_CN/inference.md)来获取其提供的预测格式模型，此处，只列出部分模型的获取及转换方式。
+您可以参考 PaddleClas 的[文档](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.2/docs/zh_CN/inference.md)来获取其提供的预测格式模型，此处，只列出部分模型的获取及转换方式。
 
 ```
 git clone https://github.com/PaddlePaddle/PaddleClas.git
@@ -96,9 +96,9 @@ python tools/export_model.py -c ppcls/configs/ImageNet/DeiT/DeiT_base_patch16_22
 预测格式模型均存储在`inference_model`目录下，为方便后续测试，将`inference_model`软链到`Paddle-Inference-Demo/c++/paddle-trt/tuned_dynamic_shape`目录下。
 
 
-### TunedDynamicShape测试
+### TunedDynamicShape 测试
 
-首先，您需要编译单测（请注意您可能需要对compile.sh中的配置信息进行修改），在build目录下产出可执行文件`clas`
+首先，您需要编译单测（请注意您可能需要对 compile.sh 中的配置信息进行修改），在 build 目录下产出可执行文件 `clas`
 
 ```
 sh compile.sh clas
@@ -178,13 +178,13 @@ sh compile.sh clas
 ./build/clas --model_file inference_model/DeiT_base_patch16_224/inference.pdmodel --params_file inference_model/DeiT_base_patch16_224/inference.pdiparams --hs="224" --ws="224"--no_seen_hs="224" --no_seen_ws="224" --tuned_dynamic_shape --serialize
 ```
 
-## PaddleDetection模型示例
+## PaddleDetection 模型示例
 
 [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)是飞桨的目标检测开发套件，模块化地实现了多种主流目标检测算法，提供了丰富的数据增强策略、网络模块组件（如骨干网络）、损失函数等，并集成了模型压缩和跨平台高性能部署能力。
 
-### 获取PaddleDetection模型
+### 获取 PaddleDetection 模型
 
-您可以参考PaddleDetection的[模型导出教程](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.1/deploy/EXPORT_MODEL.md)来获取其提供的预测格式模型，此处，只列出部分模型的获取及转换方式。
+您可以参考 PaddleDetection 的[模型导出教程](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.1/deploy/EXPORT_MODEL.md)来获取其提供的预测格式模型，此处，只列出部分模型的获取及转换方式。
 
 ```
 git clone https://github.com/PaddlePaddle/PaddleDetection.git
@@ -214,7 +214,7 @@ python tools/export_model.py -c configs/ssd/ssd_mobilenet_v1_300_120e_voc.yml --
 
 ### TunedDynamicShape测试
 
-首先，您需要编译单测（请注意您可能需要对compile.sh中的配置信息进行修改），在build目录下产出可执行文件`detect`
+首先，您需要编译单测（请注意您可能需要对 compile.sh 中的配置信息进行修改），在 build 目录下产出可执行文件 `detect`
 
 ```
 sh compile.sh detect
@@ -270,13 +270,13 @@ sh compile.sh detect
 ./build/detect --model_file inference_model/mask_rcnn_r50_vd_fpn_2x_coco/model.pdmodel --params_file inference_model/mask_rcnn_r50_vd_fpn_2x_coco/model.pdiparams --hs="608" --ws="608" --no_seen_hs="416" --no_seen_ws="416" --tuned_dynamic_shape --serialize
 ```
 
-## PaddleOCR模型测试
+## PaddleOCR 模型测试
 
 [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)是一套丰富、领先、且实用的OCR工具库，助力使用者训练出更好的模型，并应用落地。
 
-### 获取PaddleOCR模型
+### 获取 PaddleOCR 模型
 
-您可以从PaddleOCR的[模型列表](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/README_ch.md)中直接获取其提供的预测格式模型。
+您可以从 PaddleOCR 的[模型列表](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/README_ch.md)中直接获取其提供的预测格式模型。
 
 ```
 mkdir ocr_inference_model && cd ocr_inference_model
@@ -297,10 +297,10 @@ wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_in
 tar xf ch_ppocr_server_v2.0_rec_infer.tar
 ```
 
-### TunedDynamicShape测试
+### TunedDynamicShape 测试
 
-首先，您需要编译单测（请注意您可能需要对compile.sh中的配置信息进行修改），在build目录下产出可执行文件`ocr`
-
+首先，您需要编译单测（请注意您可能需要对 compile.sh 中的配置信息进行修改），在 build 目录下产出可执行文件 `ocr`
+ 
 ```shell
 # ocr det模型测试
 sh compile.sh ocr_det
@@ -336,11 +336,11 @@ sh compile.sh ocr_rec
 
 
 
-## PaddleNLP模型测试
+## PaddleNLP 模型测试
 
 [PaddleNLP](https://github.com/PaddlePaddle/PaddleNLP)是飞桨生态的文本领域核心库，具备易用的文本领域API，多场景的应用示例、和高性能分布式训练三大特点，旨在提升开发者文本领域的开发效率，并提供基于飞桨2.0核心框架的NLP任务最佳实践。
 
-### 获取PaddleNLP模型
+### 获取 PaddleNLP 模型
 
 详情请参考[文档](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/examples/text_classification/pretrained_models)
 
