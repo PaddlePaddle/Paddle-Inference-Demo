@@ -10,8 +10,8 @@
 │   ├── multi_thread              多线程 预测样例
 │   └── custom_operator           自定义算子 样例      
 ├── cpu
-│   ├── resnet50                  单输入模型 Onednn/OnnxRuntime 预测样例
-│   └── yolov3                    多输入模型 Onednn/OnnxRuntime 预测样例
+│   ├── resnet50                  单输入模型 oneDNN/OnnxRuntime 预测样例
+│   └── yolov3                    多输入模型 oneDNN/OnnxRuntime 预测样例
 ├── gpu
 │   ├── resnet50                  单输入模型 原生gpu/gpu混合精度推理/Trt_fp32/Trt_fp16/Trt_int8/Trt_dynamic_shape 预测样例
 │   ├── yolov3                    多输入模型 原生gpu/gpu混合精度推理/Trt_fp32/Trt_fp16/Trt_int8/Trt_dynamic_shape 预测样例

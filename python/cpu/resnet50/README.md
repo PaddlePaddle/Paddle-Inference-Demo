@@ -32,7 +32,7 @@ ResNet50 样例展示了单输入模型在 CPU 下的推理过程。运行步骤
 - 文件`img_preprocess.py`包含了图像的预处理。    
 - 文件`infer_resnet.py` 包含了创建predictor，读取示例图片，预测，获取输出的等功能。
 
-### 使用 Onednn 运行样例
+### 使用 oneDNN 运行样例
 
 ```
 python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams

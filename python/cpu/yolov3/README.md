@@ -3,7 +3,7 @@
 
 ## 一：准备环境
 
-请您在环境中安装2.0或以上版本的Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
+请您在环境中安装2.0或以上版本的 Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
 
 
 ## 二：下载模型以及测试数据
@@ -36,7 +36,7 @@ tar xzf yolov3_r50vd_dcn_270e_coco.tgz
 - 文件`utils.py`包含了图像的预处理等帮助函数。
 - 文件`infer_yolov3.py` 包含了创建predictor，读取示例图片，预测，获取输出的等功能。
 
-### 使用 Onednn 运行样例
+### 使用 oneDNN 运行样例
 
 ```
 python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ 

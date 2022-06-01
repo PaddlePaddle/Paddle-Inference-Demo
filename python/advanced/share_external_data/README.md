@@ -1,10 +1,10 @@
 # 运行 Share_external_data 预测样例
 
-本样例使用 ResNet50 模型展示 `share_external_data`接口 的使用方法。运行步骤如下：
+本样例使用 ResNet50 模型展示 `share_external_data` 接口的使用方法。运行步骤如下：
 
 ## 一：准备环境
 
-请您在环境中安装2.0或以上版本的Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
+请您在环境中安装2.0或以上版本的 Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
 
 
 ## 二：下载模型以及测试数据
