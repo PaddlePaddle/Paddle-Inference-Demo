@@ -16,10 +16,10 @@
 |gpu/tuned_dynamic_shape|Trt_tuned_dynamic_shape 预测样例|
 |gpu/ernie_varlen|ernie 变长预测样例|
 |gpu/gpu_fp16|gpu 混合精度推理 预测样例|
-|gpu/internal|gpu 多流 预测样例|
+|gpu/multi_stream|gpu 多流 预测样例|
 |advanced/custom_operator|自定义算子 样例|
 |advanced/share_external_data|share_external_data 预测样例|
-|advanced/shrink_memory|shrink_memory单线程/多线程预测样例|
+|advanced/multi_thread|多线程预测样例|
 |advanced/x86_gru_int8|slim_int8 预测样例|
 |mixed/LIC2020|LIC2020比赛 预测样例|
 
