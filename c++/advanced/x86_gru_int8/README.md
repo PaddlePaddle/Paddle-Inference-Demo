@@ -56,7 +56,7 @@ python2 my_reader.py \
 修改参数：
 - **test_data：** tsv格式测试数据。如果需要测试性能，官方下载的1000例的可能太小，测试性能建议复制到10000例，因为oneDNN 使用cache存储，数据太少性能不突出。
 
-### 1.4 设置Config
+### 1.4 设置 Config
 
 根据预测部署的实际情况，设置Config。Config默认是使用CPU预测，设置开启MKLDNN加速、设置CPU的线程数、开启IR优化、开启内存优化。
 

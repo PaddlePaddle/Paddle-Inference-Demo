@@ -1,6 +1,6 @@
-# 运行 ResNet50 图像分类样例
+# 运行 GPU 多流预测样例
 
-ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 的推理过程。运行步骤如下：
+GPU 多流预测样例以 ResNet50 为例展示了 GPU 多流推理过程。运行步骤如下：
 
 ## 一：获取 Paddle Inference 预测库
 
@@ -15,22 +15,35 @@ ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 
 
 ## 三：编译样例
  
-- 文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有 opencv 或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
-- 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。  
+- 文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
+- 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
 - 脚本`run.sh` 为一键运行脚本。
+
+编译前，需要根据自己的环境修改 `compile.sh` 中的相关代码配置依赖库：
+```shell
+# 编译的 demo 名称
+DEMO_NAME=multi_stream_test
+
+# 根据预编译库中的version.txt信息判断是否将以下三个标记打开
+WITH_MKL=ON
+WITH_GPU=ON
+USE_TENSORRT=ON
+
+# 配置预测库的根目录
+LIB_DIR=${work_path}/../../lib/paddle_inference
+
+# 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
+CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
+CUDA_LIB=/usr/local/cuda/lib64
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
+```
 
 运行 `bash compile.sh` 编译样例。
 
 ## 四：运行样例
 
-### 使用 oneDNN 运行样例
 ```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
-```
-
-### 使用 OnnxRuntime 运行样例
-```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_ort=1
+./build/multi_stream_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --thread_num=2
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。

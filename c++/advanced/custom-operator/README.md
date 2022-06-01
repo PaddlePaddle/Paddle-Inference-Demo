@@ -32,7 +32,7 @@ LIB_DIR=${work_path}/../lib/paddle_inference
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/TensorRT-7.0.0.11
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 ```
 
 运行 `bash compile.sh`， 会在目录下产生build目录。

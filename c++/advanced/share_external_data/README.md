@@ -21,13 +21,13 @@ ShareExternalData 样例展示了在 CPU 和 GPU 下使用 `ShareExternalData` �
 
 编译前，需要根据自己的环境修改 `compile.sh` 中的相关代码配置依赖库：
 ```shell
-# 编译的 demo 名称，resnet50_test 或 resnet50_share_data
+# 编译的 demo 名称
 DEMO_NAME=resnet50_test
 
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
 WITH_MKL=ON
 WITH_GPU=ON
-USE_TENSORRT=OFF
+USE_TENSORRT=ON
 
 # 配置预测库的根目录
 LIB_DIR=${work_path}/../lib/paddle_inference
@@ -35,7 +35,7 @@ LIB_DIR=${work_path}/../lib/paddle_inference
 # 如果上述的WITH_GPU 或 USE_TENSORRT设为ON，请设置对应的CUDA， CUDNN， TENSORRT的路径。
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/TensorRT-7.2.3.4
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 ```
 
 运行 `bash compile.sh` 编译样例。
@@ -45,13 +45,13 @@ TENSORRT_ROOT=/usr/local/TensorRT-7.2.3.4
 ### 运行 CPU 样例
 
 ```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
+./build/resnet50_share_data --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
 ```
 
 ### 运行 GPU 样例
 
 ```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_gpu=1
+./build/resnet50_share_data --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_gpu=1
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。

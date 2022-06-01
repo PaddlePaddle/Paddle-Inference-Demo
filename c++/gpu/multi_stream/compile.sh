@@ -20,17 +20,20 @@ mkdir -p build
 cd build
 rm -rf *
 
-# same with the single_thread_test, multi_thread_test or thread_local_test
-DEMO_NAME=single_thread_test
+# same with the multi_stream_test.cc
+DEMO_NAME=multi_stream_test
 
 WITH_MKL=ON
 WITH_GPU=ON
-USE_TENSORRT=OFF
+USE_TENSORRT=ON
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/TensorRT-7.2.3.4
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
+
+WITH_ROCM=OFF
+ROCM_LIB=/opt/rocm/lib
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \
@@ -38,6 +41,8 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_GPU=${WITH_GPU} \
   -DWITH_STATIC_LIB=OFF \
   -DUSE_TENSORRT=${USE_TENSORRT} \
+  -DWITH_ROCM=${WITH_ROCM} \
+  -DROCM_LIB=${ROCM_LIB} \
   -DCUDNN_LIB=${CUDNN_LIB} \
   -DCUDA_LIB=${CUDA_LIB} \
   -DTENSORRT_ROOT=${TENSORRT_ROOT}

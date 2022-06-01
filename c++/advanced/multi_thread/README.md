@@ -1,6 +1,6 @@
-# 运行 ResNet50 图像分类样例
+# 运行多线程预测样例
 
-ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 的推理过程。运行步骤如下：
+多线程预测样例以 ResNet50 为例展示了多线程推理过程。运行步骤如下：
 
 ## 一：获取 Paddle Inference 预测库
 
@@ -25,12 +25,7 @@ ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 
 
 ### 使用 oneDNN 运行样例
 ```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
-```
-
-### 使用 OnnxRuntime 运行样例
-```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_ort=1
+./build/multi_thread_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --thread_num=2
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
