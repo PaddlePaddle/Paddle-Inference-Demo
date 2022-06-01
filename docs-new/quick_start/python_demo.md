@@ -90,7 +90,7 @@ Output data shape is (2, 1000)
 
 ## Python 预测程序开发说明
 
-使用 Paddle Inference 开发 Python 预测程序仅需以下五个步骤：
+我们提供了大量的 [Python 预测示例](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python), 使用 Paddle Inference 开发 Python 预测程序仅需以下五个步骤：
 
 
 (1) 引用 paddle inference 预测库
