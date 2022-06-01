@@ -1,6 +1,6 @@
 # 混合精度推理
 
-混合精度推理是通过混合使用单精度（FP32）和半精度（FP16）来加速神经网络推理过程。相较于使用单精度（FP32）进行推理，能减少内存使用和存取，推理更大的网络，同时又能保证模型推理精度持平。
+混合精度推理是通过混合使用单精度（FP32）和半精度（FP16）来加速神经网络推理过程。相较于使用单精度（FP32）进行推理，既能能减少内存/显存占用，推理更大的网络，又能降低显存访问和计算耗时开销，在保证模型推理精度持平的情形下，提升推理效率。
 
 ## 一、半精度浮点类型 FP16
 
@@ -22,6 +22,7 @@
 
 ### 3.1 如何开启混合精度推理选项
 
+#### 3.1.1 GPU 原生推理使用混合精度
 - C++ Config 选项
   ```
   Exp_EnableUseGpuFp16(std::unordered_set<std::string> gpu_fp16_disabled_op_types_)
@@ -35,8 +36,40 @@
 可以在上述 API 接口中传入 OP 名称参数列表，来排除不支持 FP16 计算的 OP 使用混合精度推理。
 
 详细API介绍，分别参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
+
+#### 3.1.2 TensorRT 推理使用混合精度
+为了使用TensorRT 利用半精度进行混合精度推理，需将制定精度类型参数设定为半精度。
+- C++ Config 选项
+  
+  将以下接口中精度类型参数```precision```，设定为```Precision::kFloat32```。
+  
+  ```
+  void EnableTensorRtEngine(int workspace_size = 1 << 20,
+                          int max_batch_size = 1, int min_subgraph_size = 3,
+                          Precision precision = Precision::kFloat32,
+                          bool use_static = false,
+                          bool use_calib_mode = true);
+  ```
+
+- Python Config 选项
+  
+  将以下接口中精度类型参数```precision_mode```，设定为```paddle_infer.PrecisionType.Half```。
+  ```python
+  enable_tensorrt_engine(workspace_size: int = 1 << 20,
+                        max_batch_size: int,
+                        min_subgraph_size: int,
+                        precision_mode: PrecisionType,
+                        use_static: bool,
+                        use_calib_mode: bool)
+  ```
+
+详细API介绍，分别参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
+
 ### 3.2 混合精度推理使用示例
 
+以下分别介绍 GPU 原生、TensorRT 混合精度推理示例，完整示例可参考。
+
+#### 3.2.1 GPU 原生混合精度推理示例
 - C++ 示例如下
   ```
   paddle_infer::Config config;
@@ -46,11 +79,12 @@
     config.SetModel(FLAGS_model_dir); // Load no-combined model
   }
   config.EnableUseGpu(1000, 0);
-  config.Exp_EnableUseGpuFp16()();
+  config.Exp_EnableUseGpuFp16();
   config.SwitchIrOptim(true);
 
   auto predictor = paddle_infer::CreatePredictor(config);
   ```
+  完整示例见[Paddle-Inference-Demo/c++/gpu/gpu_fp16](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c++/gpu/gpu_fp16)
 - Python 示例如下
   ```
   if args.model_dir == "":
@@ -63,6 +97,42 @@
 
   predictor = create_predictor(config)
   ```
+  完整示例见[Paddle-Inference-Demo/python/gpu/resnet50](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/gpu/resnet50)
+  
+  #### 3.2.2 TensorRT 混合精度推理示例
+
+  - C++ 示例如下
+  ```
+  paddle_infer::Config config;
+  if (FLAGS_model_dir == "") {
+    config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
+  } else {
+    config.SetModel(FLAGS_model_dir); // Load no-combined model
+  }
+  config.EnableUseGpu(1000, 0);
+  config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
+                                PrecisionType::kHalf, false, false);
+  config.SwitchIrOptim(true);
+
+  auto predictor = paddle_infer::CreatePredictor(config);
+  ```
+- Python 示例如下
+  ```
+  if args.model_dir == "":
+    config = Config(args.model_file, args.params_file)
+  else:
+    config = Config(args.model_dir)
+  config.enable_use_gpu(1000, 0)
+  config.enable_tensorrt_engine(
+		workspace_size = 1<<30,
+		max_batch_size=1, min_subgraph_size=5,
+		precision_mode=paddle_infer.PrecisionType.Half,
+		use_static=False, use_calib_mode=False)
+  config.switch_ir_optim(True)
+
+  predictor = create_predictor(config)
+  ```
+
 
 ## 四、混合精度推理性能优化
 Paddle Inference 混合精度推理性能的根本原因是：利用 Tensor Core 来加速 FP16 下的``matmul``和``conv``运算，为了获得最佳的加速效果，Tensor Core 对矩阵乘和卷积运算有一定的使用约束，约束如下：
