@@ -1,12 +1,13 @@
-## 运行Resnet50图像分类样例
+# 运行 Resnet50 图像分类样例
 
+ResNet50 样例展示了单输入模型在 CPU 下的推理过程。运行步骤如下：
 
-### 一：准备环境
+## 一：准备环境
 
 请您在环境中安装2.0或以上版本的Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。
 
 
-### 二：下载模型以及测试数据
+## 二：下载模型以及测试数据
 
 
 1）**获取预测模型**
@@ -26,21 +27,26 @@
 <p>
 
 
-### 三：运行预测
+## 三：运行预测
 
-文件`img_preprocess.py`包含了图像的预处理。    
-文件`infer_resnet.py` 包含了创建predictor，读取示例图片，预测，获取输出的等功能。
+- 文件`img_preprocess.py`包含了图像的预处理。    
+- 文件`infer_resnet.py` 包含了创建predictor，读取示例图片，预测，获取输出的等功能。
 
-运行：
+### 使用 oneDNN 运行样例
+
 ```
-python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --use_gpu=1
+python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams
+```
+
+### 使用 OnnxRuntime 运行样例
+
+```
+python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --use_onnxruntime=1
 ```
 
 运行的结果为： ('class index: ', 13)。
 13表示图片的类别。我们通过imagenet [类别映射表](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a)， 可以找到对应的类别，即junco, snowbird，由此说明我们的分类器分类正确。
 
-**提示**: 如果想使用onnxruntime后端，可以在python运行命令中传入`--use_onnxruntime=1`参数
-
-### 相关链接
+## 相关链接
 - [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/python_api_index.html)
 
