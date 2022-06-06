@@ -5,7 +5,7 @@
 
 模型结构文件（*.pdmodel文件），顾名思义，存储了模型的拓扑结构，其中包括模型中各种OP的计算顺序以及OP的详细信息。很多时候，我们希望能够将这些模型的结构以及内部信息可视化，方便我们进行模型分析。Paddle生态开发了VisualDL来进行网络结构可视化工作。接下来将会通过两种方式来讲述如何对Paddle 预测模型进行可视化。
 
-安装可视化公户VisualDL
+安装可视化工具VisualDL
 >>>>>>>>>>>>>>
 
 使用pip安装
@@ -49,4 +49,4 @@
 .. image:: https://user-images.githubusercontent.com/48054808/88621327-b664f280-d0d2-11ea-9e76-e3fcfeea4e57.png
 
 
-更多具体细节可参考 `**VisualDL使用指南** <https://github.com/PaddlePaddle/VisualDL/blob/develop/docs/components/README_CN.md>_ `
+更多具体细节可参考 `VisualDL使用指南 <https://github.com/PaddlePaddle/VisualDL/blob/develop/docs/components/README_CN.md>`_
