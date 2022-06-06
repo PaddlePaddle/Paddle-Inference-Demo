@@ -1,16 +1,28 @@
-# 预测示例 (Python)
+# 推理示例 (Python)
 
-本章节包含2部分内容：(1) [运行 Python 示例程序](#id1)；(2) [Python 预测程序开发说明](#id6)。
+本章节包含2部分内容,
+- [运行 Python 示例程序](#id1)
+- [Python 推理程序开发说明](#id2)
 
 ## 运行 Python 示例程序
 
-### 1. 安装 Python 预测库
+在此环节中，共包含以下4个步骤，
+- 环境准备
+- 模型准备
+- 推理代码
+- 执行程序
 
-请参照 [官方主页-快速安装](https://www.paddlepaddle.org.cn/install/quick) 页面进行自行安装或编译，当前支持 pip/conda 安装，docker 镜像以及源码编译等多种方式来准备 Paddle Inference 开发环境。
+### 1. 环境准备
 
-### 2. 准备预测部署模型
+Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库wheel包下载，如果使用的是以上平台，推荐通过以下链接直接下载，或者也可以参考[源码编译](../user_guides/source_compile.html)文档自行编译。
 
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 加载到模型可视化工具 Netron 中打开。
+- [下载安装 Linux 推理库](../user_guides/download_lib.html#linux)
+- [下载安装 Windows 推理库](../user_guides/download_lib.html#windows)
+- [下载安装 Mac 推理库](../user_guides/download_lib.html#mac)
+
+### 2. 模型准备
+
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 加载到模型可视化工具 Netron 中打开。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
@@ -23,7 +35,7 @@ resnet50/
 └── inference.pdiparams
 ```
 
-### 3. 准备预测部署程序
+### 3. 推理代码
 
 将以下代码保存为 `python_demo.py` 文件：
 
@@ -31,7 +43,7 @@ resnet50/
 import argparse
 import numpy as np
 
-# 引用 paddle inference 预测库
+# 引用 paddle inference 推理库
 import paddle.inference as paddle_infer
 
 def main():
@@ -52,7 +64,7 @@ def main():
     input_handle.reshape([args.batch_size, 3, 318, 318])
     input_handle.copy_from_cpu(fake_input)
 
-    # 运行 predictor
+    # 运行predictor
     predictor.run()
 
     # 获取输出
@@ -73,14 +85,14 @@ if __name__ == "__main__":
     main()
 ```
 
-### 4. 执行预测程序
+### 4. 执行程序
 
 ```bash
 # 参数输入为本章节第2步中下载的 ResNet50 模型
 python python_demo.py --model_file ./resnet50/inference.pdmodel --params_file ./resnet50/inference.pdiparams --batch_size 2
 ```
 
-成功执行之后，得到的预测输出结果如下：
+成功执行之后，得到的推理输出结果如下：
 
 ```bash
 # 程序输出结果如下
@@ -88,12 +100,12 @@ Output data size is 2000
 Output data shape is (2, 1000)
 ```
 
-## Python 预测程序开发说明
+## Python 推理程序开发说明
 
-我们提供了大量的 [Python 预测示例](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python), 使用 Paddle Inference 开发 Python 预测程序仅需以下五个步骤：
+使用 Paddle Inference 开发 Python 推理程序仅需以下五个步骤：
 
 
-(1) 引用 paddle inference 预测库
+(1) 引用 paddle inference 推理库
 
 ```python
 import paddle.inference as paddle_infer
@@ -102,11 +114,11 @@ import paddle.inference as paddle_infer
 (2) 创建配置对象，并根据需求配置，详细可参考 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
 
 ```python
-# 创建 config，并设置预测模型路径
+# 创建 config，并设置推理模型路径
 config = paddle_infer.Config(args.model_file, args.params_file)
 ```
 
-(3) 根据 Config 创建预测对象，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
+(3) 根据Config创建推理对象，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
 
 ```python
 predictor = paddle_infer.create_predictor(config)
@@ -125,13 +137,13 @@ input_handle.reshape([args.batch_size, 3, 318, 318])
 input_handle.copy_from_cpu(fake_input)
 ```
 
-(5) 执行预测，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
+(5) 执行推理，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
 
 ```python
 predictor.run()
 ```
 
-(5) 获得预测结果，详细可参考 [Python API 文档 - Tensor](../api_reference/python_api_doc/Tensor)
+(5) 获得推理结果，详细可参考 [Python API 文档 - Tensor](../api_reference/python_api_doc/Tensor)
 
 ```python
 output_names = predictor.get_output_names()
