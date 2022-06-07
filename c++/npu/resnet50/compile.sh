@@ -25,18 +25,18 @@ DEMO_NAME=resnet50_test
 
 WITH_MKL=ON
 WITH_ARM=OFF
-WITH_MIPS=OFF
-WITH_SW=OFF
+WITH_NPU=ON
+ASCEND_DIR=/usr/local/Ascend
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
-  -DDEMO_NAME=${DEMO_NAME} \  
   -DWITH_MKL=${WITH_MKL} \
   -DWITH_ARM=${WITH_ARM} \
-  -DWITH_MIPS=${WITH_MIPS} \
-  -DWITH_SW=${WITH_SW} \
-  -DWITH_STATIC_LIB=OFF
+  -DDEMO_NAME=${DEMO_NAME} \
+  -DWITH_NPU=${WITH_NPU} \
+  -DASCEND_DIR=${ASCEND_DIR} \
+  -DWITH_STATIC_LIB=OFF 
 
 if [ "$WITH_ARM" == "ON" ];then
   make TARGET=ARMV8 -j
