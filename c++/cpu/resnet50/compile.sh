@@ -2,7 +2,7 @@
 set +x
 set -e
 
-work_path=$(dirname $(readlink -f $0))
+work_path=${PWD}
 
 # 1. check paddle_inference exists
 if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
@@ -23,7 +23,7 @@ rm -rf *
 # same with the resnet50_test.cc
 DEMO_NAME=resnet50_test
 
-WITH_MKL=ON
+WITH_MKL=OFF
 WITH_GPU=OFF
 WITH_ARM=OFF
 WITH_MIPS=OFF
