@@ -1,61 +1,26 @@
-# 预测示例 (C)
+# 推理示例 (C)
 
-本章节包含2部分内容：(1) [运行 C 示例程序](#id1)；(2) [C 预测程序开发说明](#id7)。
+本章节包含2部分内容,
+- [运行 C 示例程序](#id1)
+- [C 推理程序开发说明](#id2)
+
+注意本章节文档和代码仅适用于Linux系统。
 
 ## 运行 C 示例程序
 
-### 1. 源码编译 C 预测库
+在此环节中，共包含以下5个步骤，
+- 环境准备
+- 模型准备
+- 推理代码
+- 编译代码
+- 执行程序
 
-Paddle Inference 的 C 预测库需要以源码编译的方式进行获取，请参照以下两个文档进行源码编译
+### 1. 环境准备
+Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载, 用户需根据开发环境和硬件自行下载安装，具体可参阅 [C 推理环境安装](./c_install.md)。
 
-- [安装与编译 Linux 预测库](../user_guides/source_compile.html#ubuntu-18-04)
-- [安装与编译 Windows 预测库](../user_guides/source_compile.html#windows-10)
+### 2. 模型准备
 
-编译完成后，在编译目录下的 `paddle_inference_c_install_dir` 即为 C 预测库，目录结构如下：
-
-```bash
-paddle_inference_c_install_dir
-├── paddle
-│   ├── include               C 预测库头文件目录
-│   │   └── pd_common.h
-│   │   └── pd_config.h
-│   │   └── pd_inference_api.h         C 预测库头文件
-│   │   └── pd_predictor.h
-│   │   └── pd_tensor.h
-│   │   └── pd_types.h
-│   │   └── pd_utils.h
-│   └── lib
-│       ├── libpaddle_inference_c.a          C 静态预测库文件
-│       └── libpaddle_inference_c.so         C 动态预测库文件
-├── third_party
-│   └── install                          第三方链接库和头文件
-│       ├── cryptopp
-│       ├── gflags
-│       ├── glog
-│       ├── mkldnn
-│       ├── mklml
-│       ├── protobuf
-│       └── xxhash
-└── version.txt                          版本信息与编译选项信息
-```
-
-其中 `version.txt` 文件中记录了该预测库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号，如：
-
-```bash
-GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
-WITH_MKL: ON
-WITH_MKLDNN: ON
-WITH_GPU: ON
-CUDA version: 9.0
-CUDNN version: v7.6
-CXX compiler version: 4.8.5
-WITH_TENSORRT: ON
-TensorRT version: v6
-```
-
-### 2. 准备预测部署模型
-
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 预测格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 加载到模型可视化工具 Netron 中打开。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 加载到模型可视化工具 Netron 中打开。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
@@ -68,7 +33,7 @@ resnet50/
 └── inference.pdiparams
 ```
 
-### 3. 准备预测部署程序
+### 3. 推理代码
 
 将以下代码保存为 `c_demo.c` 文件：
 
@@ -81,7 +46,7 @@ int main() {
   // 创建 Config 对象
   PD_Config* config = PD_ConfigCreate();
 
-  // 设置预测模型路径，即为本小节第2步中下载的模型
+  // 设置推理模型路径，即为本小节第2步中下载的模型
   const char* model_path  = "./resnet50/inference.pdmodel";
   const char* params_path = "./resnet50/inference.pdiparams";
   PD_ConfigSetModel(config, model_path, params_path);
@@ -101,14 +66,14 @@ int main() {
   PD_TensorReshape(input_tensor, 4, input_shape);
   PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 
-  // 执行预测
+  // 执行推理
   PD_PredictorRun(predictor);
 
-  // 获取预测输出 Tensor
+  // 获取推理输出 Tensor
   PD_OneDimArrayCstr* output_names = PD_PredictorGetOutputNames(predictor);
   PD_Tensor* output_tensor = PD_PredictorGetOutputHandle(predictor, output_names->data[0]);
 
-  // 获取预测输出 Tensor 信息
+  // 获取推理输出 Tensor 信息
   PD_OneDimArrayInt32* output_shape = PD_TensorGetShape(output_tensor);
   int32_t out_size = 1;
   for (size_t i = 0; i < output_shape->size; ++i) {
@@ -119,7 +84,7 @@ int main() {
   printf("Output Tensor Name: %s\n", output_names->data[0]);
   printf("Output Tensor Size: %d\n", out_size);
 
-  // 获取预测输出 Tensor 数据
+  // 获取推理输出 Tensor 数据
   float* out_data = (float*)malloc(out_size * sizeof(float));
   PD_TensorCopyToCpuFloat(output_tensor, out_data);
 
@@ -138,47 +103,41 @@ int main() {
 }
 ```
 
-### 4. 编译预测部署程序
+### 4. 编译代码
 
-将 `paddle_inference_c_install_dir/paddle/include` 目录下的所有头文件和动态库文件 `paddle_inference_c_install_dir/paddle/lib/libpaddle_inference_c.so` 拷贝到与预测源码同一目录，然后使用 GCC 进行编译：
+将 `paddle_inference_c/paddle/include` 目录下的所有头文件和动态库文件 `paddle_inference_c_install_dir/paddle/lib/libpaddle_inference_c.so` 拷贝到与推理源码同一目录，然后使用 GCC 进行编译：
+将如下动态库文件拷贝到与推理源码同一目录，然后使用 gcc 进行编译，
+- paddle_inference_c/third_party/install/paddle2onnx/lib/libpaddle2onnx.so
+- paddle_inference_c/third_party/install/onnxruntime/lib/libonnxruntime.so.1.10.0
+- paddle_inference_c/third_party/install/mklml/lib/libmklml_intel.so
+- paddle_inference_c/third_party/install/mklml/lib/libiomp5.so
+- paddle_inference_c/third_party/install/mkldnn/lib/libdnnl.so.2
+- paddle_inference_c/paddle/lib/libpaddle_inference_c.so
 
 ```bash
-# GCC 编译命令
-gcc c_demo.c libpaddle_inference_c.so -o c_demo_prog
+# 拷贝所有的动态库到编译路径
+find paddle_inference_c/ -name "*.so*" | xargs -i cp {} .
 
-# 编译完成之后生成 c_demo_prog 可执行文件，编译目录内容如下
-c_demo_dir/
-│
-├── c_demo.c                 预测 C 源码程序，内容如本小节第3步所示
-├── c_demo_prog              编译后的预测可执行程序
-│
-├── pd_inference_api.h         C 预测库头文件
-├── pd_common.h
-├── pd_config.h
-├── pd_utils.h
-├── pd_predictor.h
-├── pd_tensor.h
-├── pd_types.h
-├── libpaddle_fluid_c.so     C 动态预测库文件
-│
-├── resnet50_model.tar.gz    本小节第2步中下载的预测模型
-└── resnet50                 本小节第2步中下载的预测模型解压后的模型文件
-    ├── inference.pdmodel
-    ├── inference.pdiparams.info
-    └── inference.pdiparams
+# GCC 编译命令
+gcc c_demo.c -Ipaddle_inference_c/paddle/include \
+    libpaddle2onnx.so libonnxruntime.so.1.10.0 \
+    libiomp5.so libdnnl.so.2 libpaddle_inference_c.so \
+    -o c_demo_prog
 ```
 
-### 5. 执行预测程序
+编译完成之后在当前目录生成 c_demo_prog 可执行文件
 
-**注意**：需要先将动态库文件 `libpaddle_inference_c.so` 所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
+### 5. 执行程序
+
+**注意**：需要先将动态库文件所在路径加入 `LD_LIBRARY_PATH`，否则会出现无法找到库文件的错误。
 
 ```bash
-# 执行预测程序
-export LD_LIBRARY_PATH=`pwd`:$LD_LIBRARY_PATH
+# 执行推理程序
+export LD_LIBRARY_PATH=${PWD}:${LD_LIBRARY_PATH}
 ./c_demo_prog
 ```
 
-成功执行之后，得到的预测输出结果如下：
+成功执行之后，得到的推理输出结果如下：
 
 ```bash
 # 程序输出结果如下
@@ -228,9 +187,9 @@ Output Tensor Name: save_infer_model/scale_0.tmp_1
 Output Tensor Size: 1000
 ```
 
-## C 预测程序开发说明
+## C 推理程序开发说明
 
-使用 Paddle Inference 开发 C 预测程序仅需以下七个步骤：
+使用 Paddle Inference 开发 C 推理程序仅需以下七个步骤：
 
 
 (1) 引用头文件
@@ -239,18 +198,18 @@ Output Tensor Size: 1000
 #include "pd_inference_api.h"
 ```
 
-(2) 创建配置对象，并指定预测模型路径，详细可参考 [C API 文档 - Config 方法](../api_reference/c_api_doc/Config_index)
+(2) 创建配置对象，并指定推理模型路径，详细可参考 [C API 文档 - Config 方法](../api_reference/c_api_doc/Config_index)
 
 ```c
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 设置预测模型路径，即为本小节第2步中下载的模型
+// 设置推理模型路径，即为本小节第2步中下载的模型
 const char* model_path  = "./resnet50/inference.pdmodel";
 const char* params_path = "./resnet50/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
 ```
-(3) 根据Config创建预测对象，详细可参考 [C API 文档 - Predictor 方法](../api_reference/c_api_doc/Predictor)
+(3) 根据Config创建推理对象，详细可参考 [C API 文档 - Predictor 方法](../api_reference/c_api_doc/Predictor)
 
 ```c
 // 根据 Config 创建 Predictor, 并销毁 Config 对象
@@ -272,20 +231,20 @@ PD_TensorReshape(input_tensor, 4, input_shape);
 PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 ```
 
-(5) 执行预测引擎，详细可参考 [C API 文档 - Predictor 方法](../api_reference/c_api_doc/Predictor)
+(5) 执行推理引擎，详细可参考 [C API 文档 - Predictor 方法](../api_reference/c_api_doc/Predictor)
 
 ```c
-// 执行预测
+// 执行推理
 PD_PredictorRun(predictor);
 ```
-(6) 获得预测结果，详细可参考 [C API 文档 - Tensor 方法](../api_reference/c_api_doc/Tensor)
+(6) 获得推理结果，详细可参考 [C API 文档 - Tensor 方法](../api_reference/c_api_doc/Tensor)
 
 ```c
-// 获取预测输出 Tensor
+// 获取推理输出 Tensor
 PD_OneDimArrayCstr* output_names = PD_PredictorGetOutputNames(predictor);
 PD_Tensor* output_tensor = PD_PredictorGetOutputHandle(predictor, output_names->data[0]);
 
-// 获取预测输出 Tensor 信息
+// 获取推理输出 Tensor 信息
 PD_OneDimArrayInt32* output_shape = PD_TensorGetShape(output_tensor);
 int32_t out_size = 1;
 for (size_t i = 0; i < output_shape->size; ++i) {
@@ -296,7 +255,7 @@ for (size_t i = 0; i < output_shape->size; ++i) {
 printf("Output Tensor Name: %s\n", output_names->data[0]);
 printf("Output Tensor Size: %d\n", out_size);
 
-// 获取预测输出 Tensor 数据
+// 获取推理输出 Tensor 数据
 float* out_data = (float*)malloc(out_size * sizeof(float));
 PD_TensorCopyToCpuFloat(output_tensor, out_data);
 ```
@@ -314,3 +273,5 @@ PD_OneDimArrayCstrDestroy(input_names);
 free(input_data);
 PD_PredictorDestroy(predictor);
 ```
+
+至此 Paddle Inference 推理已跑通，如果想更进一步学习 Paddle Inference，可以根据硬件情况选择学习 GPU 推理、CPU 推理、进阶使用等章节。
