@@ -1,6 +1,6 @@
 # 推理示例 (Python)
 
-本章节包含2部分内容,
+本章节包含2部分内容, 
 - [运行 Python 示例程序](#id1)
 - [Python 推理程序开发说明](#id2)
 
@@ -14,11 +14,8 @@
 
 ### 1. 环境准备
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库wheel包下载，如果使用的是以上平台，推荐通过以下链接直接下载，或者也可以参考[源码编译](../user_guides/source_compile.html)文档自行编译。
+Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库wheel包，用户需根据开发环境和硬件自行下载安装，具体可参阅[Python推理环境安装](./python_install.md)。
 
-- [下载安装 Linux 推理库](../user_guides/download_lib.html#linux)
-- [下载安装 Windows 推理库](../user_guides/download_lib.html#windows)
-- [下载安装 Mac 推理库](../user_guides/download_lib.html#mac)
 
 ### 2. 模型准备
 
@@ -150,3 +147,5 @@ output_names = predictor.get_output_names()
 output_handle = predictor.get_output_handle(output_names[0])
 output_data = output_handle.copy_to_cpu() # numpy.ndarray类型
 ```
+
+至此 Paddle Inference 推理已跑通，如果想更进一步学习 Paddle Inference，可以根据硬件情况选择学习 GPU 推理、CPU 推理、进阶使用等章节。

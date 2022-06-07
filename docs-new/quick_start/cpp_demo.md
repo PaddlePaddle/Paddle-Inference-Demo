@@ -1,8 +1,10 @@
 # 推理示例 (C++)
 
-本章节包含2部分内容
+本章节包含2部分内容,
 - [运行 C++ 示例程序](#id1)
 - [C++ 推理程序开发说明](#id2)
+
+注意本章节文档和代码仅适用于Linux系统。
 
 ## 运行 C++ 示例程序
 
@@ -15,63 +17,7 @@
 
 ### 1. 环境准备 
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS/Jetson 平台的官方 Release 推理库下载，如果使用的是以上平台，推荐通过以下链接直接下载，或者也可以参考[源码编译](../user_guides/source_compile.html)文档自行编译。
-
-- [下载安装 Linux 推理库](../user_guides/download_lib.html#linux)
-- [下载安装 Windows 推理库](../user_guides/download_lib.html#windows)
-- [下载安装 Mac 推理库](../user_guides/download_lib.html#mac)
-
-下载完成并解压之后，目录下的 `paddle_inference_install_dir` 即为 C++ 推理库，目录结构如下：
-
-```bash
-paddle_inference
-├── CMakeCache.txt
-├── paddle
-│   ├── include                              C++ 推理库头文件目录
-│   │   ├── crypto
-│   │   ├── experimental
-│   │   ├── internal
-│   │   ├── paddle_analysis_config.h
-│   │   ├── paddle_api.h
-│   │   ├── paddle_infer_contrib.h
-│   │   ├── paddle_infer_declare.h
-│   │   ├── paddle_inference_api.h           C++ 推理库头文件
-│   │   ├── paddle_mkldnn_quantizer_config.h
-│   │   ├── paddle_pass_builder.h
-│   │   └── paddle_tensor.h
-│   └── lib
-│       ├── libpaddle_inference.a
-│       └── libpaddle_inference.so
-├── third_party                              第三方链接库和头文件
-│   ├── install
-│   │   ├── cryptopp
-│   │   ├── gflags
-│   │   ├── glog
-│   │   ├── mkldnn
-│   │   ├── mklml
-│   │   ├── onnxruntime
-│   │   ├── paddle2onnx
-│   │   ├── protobuf
-│   │   ├── utf8proc
-│   │   └── xxhash
-│   └── threadpool
-│       └── ThreadPool.h
-└── version.txt
-```
-
-其中 `version.txt` 文件中记录了该推理库的版本信息，包括 Git Commit ID、使用 OpenBlas 或 MKL 数学库、CUDA/CUDNN 版本号，如：
-
-```bash
-GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
-WITH_MKL: ON
-WITH_MKLDNN: ON
-WITH_GPU: ON
-CUDA version: 9.0
-CUDNN version: v7.6
-CXX compiler version: 4.8.5
-WITH_TENSORRT: ON
-TensorRT version: v6
-```
+Paddle Inference 提供了 Ubuntu/Windows/MacOS/Jetson 平台的官方 Release 推理库，用户需根据开发环境和硬件自行下载安装，具体可参阅[C++推理环境安装](./cpp_install.md)。
 
 ### 2. 模型准备
 
@@ -107,7 +53,7 @@ Paddle-Inference-Demo/c++/resnet50/
 ### 4. 编译代码
 
 在编译前，
-- 将**第1步环境准备**下载解压后的预测库`paddle_inference`目录拷贝至`Paddle-Inference-Demo/c++/lib`目录下
+- 将**第1步环境准备**下载解压后的预测库`paddle_inference`目录(如解压后的目录名称不同，也需重命名为`paddle_inference`)拷贝至`Paddle-Inference-Demo/c++/lib`目录下
 - 将**第2步模型准备**下载解压后的模型目录`resnet50`目录拷贝至`Paddle-Inference-Demo/c++/cpu/resnet50`目录下
 
 执行如下命令进行编译
@@ -238,3 +184,5 @@ std::vector<float> output_data;
 output_data.resize(output_size);
 output_tensor->CopyToCpu(output_data.data());
 ```
+
+至此 Paddle Inference 推理已跑通，如果想更进一步学习 Paddle Inference，可以根据硬件情况选择学习 GPU 推理、CPU 推理、进阶使用等章节。

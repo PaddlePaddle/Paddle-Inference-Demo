@@ -4,6 +4,8 @@
 - [运行 GO 示例程序](#id1)
 - [GO 推理程序开发说明](#id2)
 
+注意本章节文档和代码仅适用于Linux系统。
+
 ## 运行 GO 示例程序
 
 在此环节中，共包含以下5个步骤，
@@ -16,57 +18,8 @@
 
 ### 1. 环境准备
 
-go语言推理需要下载Paddle Inference的 C 预编译推理库。Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载，如果使用的是以上平台，推荐通过以下链接直接下载，或者也可以参考[源码编译](../user_guides/source_compile.html)文档自行编译。
-
-- [下载安装 Linux 推理库](../user_guides/download_lib.html#linux)
-- [下载安装 Windows 推理库](../user_guides/download_lib.html#windows)
-- [下载安装 Mac 推理库](../user_guides/download_lib.html#mac)
-
-下载完成并解压后，目录下的 `paddle_inference_c` 即为 C 推理库，目录结构如下：
-
-```bash
-paddle_inference_c
-├── paddle
-│   ├── include                         C 推理库头文件目录
-│   │   ├── pd_common.h
-│   │   ├── pd_config.h
-│   │   ├── pd_inference_api.h          C 推理头文件
-│   │   ├── pd_predictor.h
-│   │   ├── pd_tensor.h
-│   │   ├── pd_types.h
-│   │   └── pd_utils.h
-│   └── lib
-│       ├── libpaddle_inference_c.a     C 静态推理库文件
-│       └── libpaddle_inference_c.so    C 动态推理库文件
-├── third_party
-│   └── install                         第三方链接库和头文件
-│       ├── cryptopp
-│       ├── gflags
-│       ├── glog
-│       ├── mkldnn
-│       ├── mklml
-│       ├── onnxruntime
-│       ├── paddle2onnx
-│       ├── protobuf
-│       ├── utf8proc
-│       └── xxhash
-└── version.txt
-```
-
-其中 `version.txt` 文件中记录了该推理库的版本信息，包括Git Commit ID、使用OpenBlas或MKL数学库、CUDA/CUDNN版本号，如：
-
-```bash
-GIT COMMIT ID: 1bf4836580951b6fd50495339a7a75b77bf539f6
-WITH_MKL: ON
-WITH_MKLDNN: ON
-WITH_GPU: ON
-CUDA version: 9.0
-CUDNN version: v7.6
-CXX compiler version: 4.8.5
-WITH_TENSORRT: ON
-TensorRT version: v6
-```
-
+go 语言推理需要下载Paddle Inference的 C 预编译推理库。Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载，用户需根据开发环境和硬件自行下载安装，具体可参阅 [C 推理环境安装](./c_install.md)。
+ 
 执行推理程序之前需要完成以下几个步骤
 
 1. 使用`go get`获取golang paddle api，`go` 的版本需要大于等于 `1.15`
