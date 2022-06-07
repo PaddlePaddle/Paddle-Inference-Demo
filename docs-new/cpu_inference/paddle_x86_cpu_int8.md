@@ -148,7 +148,7 @@ predictor = create_predictor(config)
 |  Ernie 1 thread  |      237.21       |       79.26       |       2.99X       |
 | Ernie 20 threads |       22.08       |       12.57       |       1.76X       |
 
-| GRU Performance (QPS)              | Naive FP32 | INT88 | Int8/Native FP32 |
+| GRU Performance (QPS)              | Naive FP32 | INT8 | Int8/Native FP32 |
 | ------------------------------ | ---------- | ----- | ---------------- |
 | GRU bs 1, thread 1             | 1108       | 1393  | 1.26             |
 | GRU repeat 1, bs 50, thread 1  | 2175       | 3199  | 1.47             |

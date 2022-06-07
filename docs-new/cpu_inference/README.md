@@ -3,15 +3,15 @@
 <!-- omit in toc -->
 ## 目录
 - [CPU原生推理](#cpu原生推理)
-- [MKLDNN推理加速](#mkldnn推理加速)
+- [oneDNN推理加速](#onednn推理加速)
 - [ONNX Runtime推理](#onnx-runtime推理)
 
 <!-- omit in toc -->
 ## 简介
 
-Paddle Inference在CPU上有：原生CPU、MKLDNN和ONNX Runtime后端三种推理方式。还支持量化和低精度推理，加快模型推理速度。
+Paddle Inference在CPU上有：原生CPU、oneDNN和ONNX Runtime后端三种推理方式。还支持量化和低精度推理，加快模型推理速度。
 
-本文档主要介绍使用Paddle Inference原生CPU、MKLDNN和ONNX Runtime后端进行推理时，如何调用API进行配置。详细代码请参考:[X86 Linux上预测部署示例](../demo_tutorial/x86_linux_demo)和[X86 Windows上预测部署示例](../demo_tutorial/x86_windows_demo)
+本文档主要介绍使用Paddle Inference原生CPU、oneDNN和ONNX Runtime后端进行推理时，如何调用API进行配置。详细代码请参考:[X86 Linux上预测部署示例](../demo_tutorial/x86_linux_demo)和[X86 Windows上预测部署示例](../demo_tutorial/x86_windows_demo)
 
 ## CPU原生推理
 
@@ -53,9 +53,9 @@ config.set_cpu_math_library_num_threads(10)
 print(config.cpu_math_library_num_threads())
 ```
 
-## MKLDNN推理加速
+## oneDNN推理加速
 
-MKLDNN(现OneDNN)是由英特尔开发的开源深度学习软件包，支持神经网络在CPU上的高性能计算，在Paddle Inference中可通过一行配置打开MKLDNN加速。
+oneDNN(原MKL-DNN)是由英特尔开发的开源深度学习软件包，支持神经网络在CPU上的高性能计算，在Paddle Inference中可通过一行配置打开oneDNN加速。
 
 <!-- omit in toc -->
 ### 配置文件开发说明
@@ -68,15 +68,18 @@ paddle_infer::Config config;
 // 设置预测模型路径
 config.SetModel(FLAGS_model_file, FLAGS_params_file);
 
-// 启用 MKLDNN 进行预测
+// 启用 oneDNN 进行预测
 config.EnableMKLDNN();
 
-// 通过 API 获取 MKLDNN 启用结果 - true
-std::cout << "Enable MKLDNN is: " << config.mkldnn_enabled() << std::endl;
+// 通过 API 获取 oneDNN 启用结果 - true
+std::cout << "Enable oneDNN is: " << config.mkldnn_enabled() << std::endl;
 
-// 设置 MKLDNN 的 cache 容量大小
+// 设置 oneDNN 的 cache 数量
+// 当动态shape推理时，能缓存n个最新输入shape对应的oneDNN配置，减少shape变换时重新生成配置带来的开销
 config.SetMkldnnCacheCapacity(1);
 ```
+
+`SetMkldnnCacheCapacity`缓存机制的详细介绍: [官网文档](https://github.com/PaddlePaddle/docs/blob/develop/docs/design/mkldnn/caching/caching.md)
 
 python示例:
 ```python
@@ -95,9 +98,11 @@ config.enable_mkldnn()
 # 通过 API 获取 MKLDNN 启用结果 - true
 print(config.mkldnn_enabled())
 
-# 设置 MKLDNN 的 cache 容量大小
+# 设置 oneDNN 的 cache 数量
+# 当动态shape推理时，能缓存n个最新输入shape对应的oneDNN配置，减少shape变换时重新生配置带来的开销
 config.set_mkldnn_cache_capacity(1)
 ```
+
 
 ## ONNX Runtime推理
 
