@@ -5,7 +5,6 @@ set -e
 work_path=${PWD}
 
 # 1. check paddle_inference exists
-echo "${work_path}/../../lib/paddle_inference"
 if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
   echo "Please download paddle_inference lib and move it in Paddle-Inference-Demo/lib"
   exit 1
