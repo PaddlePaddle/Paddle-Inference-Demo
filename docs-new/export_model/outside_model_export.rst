@@ -5,8 +5,6 @@ Pytorch、ONNX、TensorFlow、Caffe模型，可以通过 X2Paddle 工具完成�
 
 `X2Paddle <https://github.com/PaddlePaddle/X2Paddle>`_ 是飞桨生态下的模型转换工具，致力于帮助你快速迁移其他深度学习框架至飞桨框架。目前支持 **推理模型的框架转换** 与 **PyTorch训练代码迁移** ，除此之外还提供了详细的不同框架间API对比文档，降低你上手飞桨核心的学习成本。
 
-目前X2Paddle支持的模型参考 `x2paddle_model_zoo <https://github.com/PaddlePaddle/X2Paddle/blob/develop/docs/introduction/x2paddle_model_zoo.md>`_ 。
-
 1.安装模型转换工具X2Padlde
 ---------------
 
