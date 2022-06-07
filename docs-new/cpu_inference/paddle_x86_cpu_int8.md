@@ -138,6 +138,8 @@ predictor = create_predictor(config)
 |     VGG16    |       3.47      |      10.67      |        3.07       |
 |     VGG19    |       2.83      |       9.09      |        3.21       |
 
+- `Accuracy`: 准确率
+- `images/s`: 每秒推理的图片数量
 
 ### 自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的性能和精度
 
@@ -159,6 +161,8 @@ predictor = create_predictor(config)
 |   LSTM 1 thread   | 4895.65 | 7190.55 |    1.47    |
 |  LSTM 4 threads   | 6370.86 | 7942.51 |    1.25    |
 
+- `ms`: 毫秒
+- `QPS`: 每秒执行的推理次数
 
 >**自然语言处理INT8模型 Ernie, GRU, LSTM 模型在 Xeon(R) 6271 上的精度**
 
