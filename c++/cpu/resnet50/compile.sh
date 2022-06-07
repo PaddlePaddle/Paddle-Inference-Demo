@@ -2,9 +2,10 @@
 set +x
 set -e
 
-work_path=$(dirname $(readlink -f $0))
+work_path=${PWD}
 
 # 1. check paddle_inference exists
+echo "${work_path}/../../lib/paddle_inference"
 if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
   echo "Please download paddle_inference lib and move it in Paddle-Inference-Demo/lib"
   exit 1
@@ -23,7 +24,7 @@ rm -rf *
 # same with the resnet50_test.cc
 DEMO_NAME=resnet50_test
 
-WITH_MKL=ON
+WITH_MKL=OFF
 WITH_GPU=OFF
 WITH_ARM=OFF
 WITH_MIPS=OFF
