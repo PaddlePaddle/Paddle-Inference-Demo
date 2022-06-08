@@ -26,7 +26,7 @@ Paddle Inference为飞桨核心框架推理引擎。Paddle Inference功能特性
 |    示例名称   |   功能概述  | 
 | :---- | :---- | 
 |ascend310 |[晟腾310 预测样例](../../c++/ascend310/)|
-|IPU |[IPU 预测样例](../../c++/IPU/)|
+|IPU |[IPU 预测样例](../../c++/ipu/)|
 |cpu/resnet50  |[单输入模型 oneDnn/ONNXRuntime 预测样例](../../c++/cpu/resnet50/)|
 |cpu/yolov3|[多输入模型 oneDnn/ONNXRuntime 预测样例](../../c++/cpu/yolov3/)|
 |gpu/resnet50|[单输入模型 原生GPU/TensorRT_fp32/TensorRT_fp16/TensorRT_int8/TensorRT_dynamic_shape 预测样例](../../c++/gpu/resnet50/)|
@@ -35,10 +35,10 @@ Paddle Inference为飞桨核心框架推理引擎。Paddle Inference功能特性
 |gpu/ernie_varlen|[ernie 变长预测样例](../../c++/gpu/ernie-varlen/)|
 |gpu/gpu_fp16|[GPU 混合精度推理 预测样例](../../c++/gpu/gpu_fp16/)|
 |gpu/multi_stream|[GPU 多流 预测样例](../../c++/gpu/multi_stream/)|
-|advanced/custom_operator|[自定义算子 样例](../../c++/advanced/custom_operator/)|
+|advanced/custom_operator|[自定义算子 样例](../../c++/advanced/custom-operator/)|
 |advanced/share_external_data|[share_external_data 预测样例](../../c++/advanced/share_external_data/)|
 |advanced/multi_thread|[多线程预测样例](../../c++/advanced/multi_thread/)|
-|advanced/x86_gru_int8|[slim_int8 预测样例](../../c++/advanced/custom-operator/ ../../c++/advanced/x86_gru_int8/)|
+|advanced/x86_gru_int8|[slim_int8 预测样例](../../c++/advanced/x86_gru_int8/)|
 |mixed/LIC2020|[LIC2020比赛 预测样例](../../c++/mixed/LIC2020/)|
 
 
