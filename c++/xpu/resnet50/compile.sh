@@ -2,7 +2,7 @@
 set +x
 set -e
 
-work_path=${PWD}
+work_path=$(dirname $(readlink -f $0))
 
 # 1. check paddle_inference exists
 if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
@@ -23,20 +23,17 @@ rm -rf *
 # same with the resnet50_test.cc
 DEMO_NAME=resnet50_test
 
-WITH_MKL=OFF
-WITH_GPU=OFF
+WITH_MKL=ON
 WITH_ARM=OFF
-WITH_MIPS=OFF
-WITH_SW=OFF
+WITH_XPU=ON
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
-  -DDEMO_NAME=${DEMO_NAME} \  
   -DWITH_MKL=${WITH_MKL} \
   -DWITH_ARM=${WITH_ARM} \
-  -DWITH_MIPS=${WITH_MIPS} \
-  -DWITH_SW=${WITH_SW} \
+  -DDEMO_NAME=${DEMO_NAME} \
+  -DWITH_XPU=${WITH_XPU} \
   -DWITH_STATIC_LIB=OFF
 
 if [ "$WITH_ARM" == "ON" ];then

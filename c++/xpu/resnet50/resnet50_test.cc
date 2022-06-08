@@ -11,6 +11,7 @@
 using paddle_infer::Config;
 using paddle_infer::Predictor;
 using paddle_infer::CreatePredictor;
+using paddle_infer::PrecisionType;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
@@ -18,7 +19,6 @@ DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
-DEFINE_bool(use_ipu, false, "use ipu.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -35,12 +35,9 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.SetModel(FLAGS_model_dir);
   }
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
-  if (FLAGS_use_ipu) {
-    // ipu_device_num                   
-    config.EnableIpu(1);
-  } else {
-    config.EnableMKLDNN();
-  }
+
+  // Enable Kunlun XPU
+  config.EnableXpu();
 
   // Open the memory optim.
   config.EnableMemoryOptim();
@@ -78,7 +75,6 @@ void run(Predictor *predictor, const std::vector<float> &input,
 int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = InitPredictor();
-  LOG(INFO) << "batch_size::" << FLAGS_batch_size;
   std::vector<int> input_shape = {FLAGS_batch_size, 3, 224, 224};
   std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
   for (size_t i = 0; i < input_data.size(); ++i)
