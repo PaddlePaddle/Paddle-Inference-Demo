@@ -10,7 +10,7 @@
 
 ### 1、使用 PredictorPool 的多线程实现
 
-Paddle Inference 提供了 Predictor 线程池的封装，用户可以使用该内置接口，完成 Predictor 自动创建与初始化。 PredictorPool 负责管理 Predictor 的创建与销毁，节省用户开发成本。PredictorPool 的使用方式详细见[](../api_reference/cxx_api_doc/PredictorPool)。
+Paddle Inference 提供了 Predictor 线程池的封装，用户可以使用该内置接口，完成 Predictor 自动创建与初始化。 PredictorPool 负责管理 Predictor 的创建与销毁，节省用户开发成本。PredictorPool 的使用方式详细见[PredictorPool 类](../api_reference/cxx_api_doc/PredictorPool)。
 - 1、创建Predictor Pool
   ```
   paddle_infer::services::PredictorPool pred_pool(config, thread_num);
