@@ -7,7 +7,7 @@
 
 |    示例名称   |   功能概述  | 
 | :---- | :---- | 
-|ascend310 |晟腾310 预测样例 |
+|ascend310 |[晟腾310 预测样例](../../c++/ascend310/)|
 |ipu |ipu 预测样例|
 |cpu/resnet50  |单输入模型 Onednn/OnnxRuntime 预测样例 |
 |cpu/yolov3|多输入模型 Onednn/OnnxRuntime 预测样例|
