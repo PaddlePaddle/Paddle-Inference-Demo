@@ -42,3 +42,7 @@ PaddleSlim 是飞桨深度学习模型压缩工具，Paddle Inference 可联动 
 
 支持 C++, Python, C, Golang，接口简单灵活，20行代码即可完成部署。对于其他语言，提供了 ABI 稳定的 C API, 用户可以很方便地扩展。
 
+## 用户群
+
+![](../images/user_qq.png)
+
