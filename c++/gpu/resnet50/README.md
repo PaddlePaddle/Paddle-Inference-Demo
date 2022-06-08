@@ -48,21 +48,21 @@ TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 ./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
 ```
 
-### 使用 Trt Fp32 运行样例
+### 使用 TensorRT Fp32 运行样例
 
 ```shell
 ./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_fp32
 ```
 
-### 使用 Trt Fp16 运行样例
+### 使用 TensorRT Fp16 运行样例
 
 ```shell
 ./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_fp16
 ```
 
-### 使用 Trt Int8 运行样例
+### 使用 TensorRT Int8 离线量化预测运行样例
 
-在使用 Trt In8 运行样例时，相同的运行命令需要执行两次。
+在使用 TensorRT In8 离线量化预测运行样例时，相同的运行命令需要执行两次。第一次执行生成量化校准表，第二次加载校准表执行 Int8 预测。需要注意的是 TensorRT Int8 离线量化预测使用的仍然是 ResNet50 FP32 模型，是通过校准表中包含的量化 scale 在运行时将 FP32 转为 Int8 从而加速预测的。
 
 #### 生成量化校准表
 
@@ -83,7 +83,7 @@ I0623 08:41:14.419198 107053 analysis_predictor.cc:793] Generating TRT Calibrati
 #### 加载校准表执行预测
 
 ```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_int8
+./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_int8 --use_calib=true
 ```
 
 加载校准表预测的log：
@@ -92,7 +92,16 @@ I0623 08:40:27.217701 107040 tensorrt_subgraph_pass.cc:258] RUN Paddle TRT int8 
 I0623 08:40:27.217834 107040 tensorrt_subgraph_pass.cc:321] Prepare TRT engine (Optimize model structure, Select OP kernel etc). This process may cost a lot of time.
 ```
 
-### 使用 Trt dynamic shape 运行样例（以 Fp32 为例）
+### 使用 TensorRT 加载 PaddleSlim Int8 量化模型预测
+这里，我们首先下载 [ResNet50 PaddleSlim量化模型](https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ResNet50_quant.tar.gz)。
+
+与加载离线量化校准表执行 Int8 预测的区别是，PaddleSlim 量化模型已经将 scale 保存在模型 op 的属性中，这里我们就不再需要校准表了，所以在运行样例时将 `use_calib` 配置为 false。
+
+```shell
+./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_int8 --use_calib=false
+```
+
+### 使用 TensorRT dynamic shape 运行样例（以 Fp32 为例）
 ```shell
 ./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1
 ```
