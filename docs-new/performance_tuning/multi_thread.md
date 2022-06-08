@@ -1,33 +1,28 @@
 # 多线程并发推理
 
-单线程的推理服务，往往由于无法实现较高QPS，而导致GPU利用率过低。利用多线程实现并发推理，能提高推理服务的吞吐量，实现推理服务的优化。
+单线程的推理服务，往往由于无法实现较高 QPS，而导致 GPU 利用率过低。利用多线程实现并发推理，能提高推理服务的吞吐量，实现推理服务的优化。
 
 ## 利用多线程来实现并发推理
-
+以下介绍两种使用方式，一种是通过 PredictorPool 提供的线程池封装，实现多线程；另外一种是用户自己创建 Predictor，通过 Clone 拷贝 Predictor 来共享权重，实现多线程。两种方式性能上无差异，用户可根据自己开发习惯选择其中一种。为了降低开发难度和节省用户开发成本，推荐用户使用以下示例中第1种方式。
 ## 使用示例
 
 下面的示例以C++为例。
 
-### 多线程实现
-- 1、创建Predictor
-```
-  auto main_predictor = paddle_infer::CreatePredictor(config);
-```
+### 1、使用 PredictorPool 的多线程实现
+
+Paddle Inference 提供了 Predictor 线程池的封装，用户可以使用该内置接口，完成 Predictor 自动创建与初始化。 PredictorPool 负责管理 Predictor 的创建与销毁，节省用户开发成本。PredictorPool 的使用方式详细见[](../api_reference/cxx_api_doc/PredictorPool)。
+- 1、创建Predictor Pool
+  ```
+  paddle_infer::services::PredictorPool pred_pool(config, thread_num);
+  ```
 - 2、创建多个推理线程并执行
-```
-  std::vector<decltype(main_predictor)> predictors;
-
-  for (int i = 0; i < FLAGS_thread_num - 1; ++i) {
-    predictors.emplace_back(std::move(main_predictor->Clone()));
-  }
-  predictors.emplace_back(std::move(main_predictor));
-
+  ```
   std::vector<std::thread> threads;
   auto begin = time();
   for (int i = 0; i < FLAGS_thread_num; ++i) {
-    threads.emplace_back(Run, predictors[i], i);
+    threads.emplace_back(Run, pred_pool.Retrive(i), i);
   }
-```
+  ```
 Run() 为线程执行函数，以下代码片段供参考。
 ```
   void Run(std::shared_ptr<Predictor> predictor, int thread_id) {
@@ -68,23 +63,27 @@ Run() 为线程执行函数，以下代码片段供参考。
   }
 }
 ```
-
-### 使用PredictorPool的多线程实现
-
-Paddle Inference提供了Predictor线程池的封装。
-- 1、创建Predictor Pool
-  ```
-  paddle_infer::services::PredictorPool pred_pool(config, thread_num);
-  ```
+### 2、用户自己管理 Predictor 进行多线程实现
+- 1、创建Predictor
+```
+  auto main_predictor = paddle_infer::CreatePredictor(config);
+```
 - 2、创建多个推理线程并执行
-  ```
+```
+  std::vector<decltype(main_predictor)> predictors;
+
+  for (int i = 0; i < FLAGS_thread_num - 1; ++i) {
+    predictors.emplace_back(std::move(main_predictor->Clone()));
+  }
+  predictors.emplace_back(std::move(main_predictor));
+
   std::vector<std::thread> threads;
   auto begin = time();
   for (int i = 0; i < FLAGS_thread_num; ++i) {
-    threads.emplace_back(Run, pred_pool.Retrive(i), i);
+    threads.emplace_back(Run, predictors[i], i);
   }
-  ```
-  Run() 为线程执行函数，同上。
+```
+ Run() 为线程执行函数，同上。
 
   ## 多线程并发推理测试
   - 测试环境

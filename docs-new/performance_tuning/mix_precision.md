@@ -73,11 +73,7 @@
 - C++ 示例如下
   ```
   paddle_infer::Config config;
-  if (FLAGS_model_dir == "") {
-    config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
-  } else {
-    config.SetModel(FLAGS_model_dir); // Load no-combined model
-  }
+  config.SetModel(FLAGS_model_file, FLAGS_params_file);
   config.EnableUseGpu(1000, 0);
   config.Exp_EnableUseGpuFp16();
   config.SwitchIrOptim(true);
@@ -87,10 +83,7 @@
   完整示例见[Paddle-Inference-Demo/c++/gpu/gpu_fp16](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c++/gpu/gpu_fp16)
 - Python 示例如下
   ```
-  if args.model_dir == "":
-    config = Config(args.model_file, args.params_file)
-  else:
-    config = Config(args.model_dir)
+  config = Config(args.model_file, args.params_file)
   config.enable_use_gpu(1000, 0)
   config.exp_enable_use_gpu_fp16()
   config.switch_ir_optim(True)
@@ -104,11 +97,7 @@
   - C++ 示例如下
   ```
   paddle_infer::Config config;
-  if (FLAGS_model_dir == "") {
-    config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
-  } else {
-    config.SetModel(FLAGS_model_dir); // Load no-combined model
-  }
+  config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
   config.EnableUseGpu(1000, 0);
   config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
                                 PrecisionType::kHalf, false, false);
@@ -118,10 +107,7 @@
   ```
 - Python 示例如下
   ```
-  if args.model_dir == "":
-    config = Config(args.model_file, args.params_file)
-  else:
-    config = Config(args.model_dir)
+  config = Config(args.model_file, args.params_file)
   config.enable_use_gpu(1000, 0)
   config.enable_tensorrt_engine(
 		workspace_size = 1<<30,
