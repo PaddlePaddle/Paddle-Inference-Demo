@@ -107,7 +107,7 @@ python3 -c "import paddle; paddle.utils.run_check()"
 
 # 3) 下载 Paddle-Inference-Demo 示例代码，并进入 Python 代码目录
 git clone https://github.com/PaddlePaddle/Paddle-Inference-Demo.git
-cd Paddle-Inference-Demo/python/resnet50
+cd Paddle-Inference-Demo/python/cpu/resnet50
 
 # 4) 下载推理模型
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
@@ -142,7 +142,7 @@ Paddle-Inference-Demo/c++/lib/
     └── version.txt
 
 # 3) 进入 C++ 示例代码目录，下载推理模型
-cd Paddle-Inference-Demo/c++/resnet50/
+cd Paddle-Inference-Demo/c++/cpu/resnet50/
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
 tar xzf resnet50.tgz
 
