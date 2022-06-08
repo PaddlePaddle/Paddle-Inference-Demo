@@ -31,7 +31,7 @@ WITH_SW=OFF
 LIB_DIR=${work_path}/../../lib/paddle_inference
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
-  -DDEMO_NAME=${DEMO_NAME} \  
+  -DDEMO_NAME=${DEMO_NAME} \
   -DWITH_MKL=${WITH_MKL} \
   -DWITH_ARM=${WITH_ARM} \
   -DWITH_MIPS=${WITH_MIPS} \
