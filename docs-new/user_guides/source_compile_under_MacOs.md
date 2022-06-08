@@ -17,7 +17,7 @@
 	1. Docker源码编译(目前仅支持 mac x86)
 	2. 本机源码编译
 
-### 使用 docker 编译（目前仅支持 mac x86）
+### 使用 docker 编译（目前仅支持 x86）
 
 [Docker](https://docs.docker.com/install/) 是一个开源的应用容器引擎。使用 Docker，既可以将 Paddle Inference 的安装&使用与系统环境隔离，也可以与主机共享 GPU、网络等资源
 
@@ -94,11 +94,6 @@ mkdir build && cd build
 pip3.7 install protobuf==3.1.0
 ```
 注意：以上用 Python3.7 命令来举例，如您的 Python 版本为3.6/3.8/3.9/3.10，请将上述命令中的 pip3.7 改成对应的版本。
-
-安装 patchelf，PatchELF 是一个小而实用的程序，用于修改 ELF 可执行文件的动态链接器和 RPATH。
-```shell
-apt install patchelf
-```
 
 **10. 执行 cmake：**
 
@@ -211,7 +206,7 @@ a. 这里特别说明一下 CMake 的安装：
 CMake 我们支持 3.15 以上版本,推荐使用 CMake3.16, 请从 [CMake官方网站](https://cmake.org/files/v3.16/cmake-3.16.0-Darwin-x86_64.dmg)下载 CMake 镜像并安装
 
 
-b. 如果您不想使用系统默认的 blas 而希望使用自己安装的 OpenBLAS 请参见 [FAQ](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/FAQ.html/#OPENBLAS)
+b. 如果您希望使用自己安装的 OpenBLAS 请 1）设置环境变量`OPENBLAS_ROOT`为您安装的 OpenBLAS 的路径；2）设置cmake编译选项`-DWITH_SYSTEM_BLAS=OFF`。
 
 **5. 将 PaddlePaddle 的源码 clone 在当下目录下的 Paddle 的文件夹中，并进入 Padde 目录下：**
 ```shell
