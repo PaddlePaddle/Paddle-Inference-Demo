@@ -14,4 +14,4 @@ if [ ! -d resnet50 ]; then
 fi
 
 # 3. run
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_ipu true
+./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
