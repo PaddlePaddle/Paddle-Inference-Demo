@@ -75,6 +75,4 @@
  - X86 推理支持动态图量化模型。
  - NVIDIA GPU 推理支持动态图量化模型。
 
-## 用户群
 
-.[](../images/user_qq.png){:width="112px" height="142px"}

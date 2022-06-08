@@ -1,18 +1,18 @@
-# MacOS 下从源码编译
+# macOS 下从源码编译
 
 ## 环境准备
 
-  MacOS 版本 10.x/11.x/12.x (64 bit) (不支持 GPU 版本)
+  macOS 版本 10.x/11.x/12.x (64 bit) (不支持 GPU 版本)
 
   Python 版本 3.6/3.7/3.8/3.9/3.10 (64 bit)
 
 ## 选择 CPU/GPU
 
-目前仅支持在 MacOS 环境下编译安装 CPU 版本的 Paddle Inference
+目前仅支持在 macOS 环境下编译安装 CPU 版本的 Paddle Inference
 
 ## 安装步骤
 
-在 MacOS 的系统下有 2 种编译方式，推荐使用 Docker 编译。 Docker 环境中已预装好编译 Paddle 需要的各种依赖，相较本机编译环境更简单。
+在 macOS 的系统下有 2 种编译方式，推荐使用 Docker 编译。 Docker 环境中已预装好编译 Paddle 需要的各种依赖，相较本机编译环境更简单。
 
 	1. Docker源码编译(目前仅支持 mac x86)
 	2. 本机源码编译
@@ -83,7 +83,7 @@ git checkout release/2.3
 ```
 
 **8. 创建并进入 /paddle/build 路径下：**
-```shel
+```shell
 mkdir build && cd build
 ```
 
@@ -102,7 +102,7 @@ apt install patchelf
 
 **10. 执行 cmake：**
 
-对于需要编译 CPU 版本 PaddlePaddle 的用户（我们目前不支持 MacOS 下 GPU 版本 PaddlePaddle 的编译）：
+对于需要编译 CPU 版本 PaddlePaddle 的用户（我们目前不支持 macOS 下 GPU 版本 PaddlePaddle 的编译）：
 ```shell
 cmake .. -DPY_VERSION=3.7 -DWITH_TESTING=OFF -DWITH_MKL=ON -DWITH_GPU=OFF -DON_INFER=ON
 ```
@@ -161,7 +161,7 @@ uname -m
 
 **2. 安装 Python 以及 pip：**
 
-  建议不要使用 MacOS 中自带 Python，使用 python [官方下载](https://www.python.org/downloads/mac-osx/) python3.6.x、python3.7.x、python3.8、python3.9、python3.10), pip以及其他的依赖，这将会使您高效编译
+  建议不要使用 macOS 中自带 Python，使用 python [官方下载](https://www.python.org/downloads/mac-osx/) python3.6.x、python3.7.x、python3.8、python3.9、python3.10), pip以及其他的依赖，这将会使您高效编译
 
 
 **3. (Only For Python3 )设置 Python 相关的环境变量:**
@@ -199,19 +199,19 @@ export DYLD_LIBRARY_PATH=[python-ld-path]
 ```
 （这里 [python-ld-path] 为 [python-bin-path] 的上一级目录)
 
-g. (可选）如果您是在 MacOS 10.14 上编译 PaddlePaddle，请保证您已经安装了[对应版本](http://developer.apple.com/download)的 Xcode。
+g. (可选）如果您是在 macOS 10.14 上编译 PaddlePaddle，请保证您已经安装了[对应版本](http://developer.apple.com/download)的 Xcode。
 
 
 **4. 执行编译前请您确认您的环境中安装有编译依赖表中提到的相关[依赖](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html#bianyiyilaibiao)，否则我们强烈推荐使用 [Homebrew](https://brew.sh/) 安装相关依赖。**
 
-  MacOS 下如果您未自行修改或安装过“编译依赖表”中提到的依赖，则仅需要使用 pip 安装 PyYAML, numpy，protobuf，wheel，使用 homebrew 安装 wget，swig, unrar，另外安装 cmake 即可
+  macOS 下如果您未自行修改或安装过“编译依赖表”中提到的依赖，则仅需要使用 pip 安装 PyYAML, numpy，protobuf，wheel，使用 homebrew 安装 wget，swig, unrar，另外安装 cmake 即可
 
 a. 这里特别说明一下 CMake 的安装：
 
 CMake 我们支持 3.15 以上版本,推荐使用 CMake3.16, 请从 [CMake官方网站](https://cmake.org/files/v3.16/cmake-3.16.0-Darwin-x86_64.dmg)下载 CMake 镜像并安装
 
 
-b. 如果您不想使用系统默认的 blas 而希望使用自己安装的 OPENBLAS 请参见 [FAQ](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/FAQ.html/#OPENBLAS)
+b. 如果您不想使用系统默认的 blas 而希望使用自己安装的 OpenBLAS 请参见 [FAQ](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/FAQ.html/#OPENBLAS)
 
 **5. 将 PaddlePaddle 的源码 clone 在当下目录下的 Paddle 的文件夹中，并进入 Padde 目录下：**
 ```shell
