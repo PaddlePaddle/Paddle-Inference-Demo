@@ -1,9 +1,5 @@
 # Windows 下从源码编译 
 
-在 Windows 系统下提供 1 种编译方式：
-
-	本机编译
-
 ## 环境准备
 
 	Windows 7/8/10 专业版/企业版 (64 bit)
@@ -13,11 +9,11 @@
 ## 选择CPU/GPU
 
 	如果你的计算机硬件没有 NVIDIA GPU，请编译 CPU 版本的 Paddle Inference 预测库
-	如果你的计算机硬件有 NVIDIA GPU，推荐编译 GPU 版本的 Paddle Inference 预测库，建议安装 CUDA 10.1/10.2/11.0/11.1/11.2
+	如果你的计算机硬件有 NVIDIA GPU，推荐编译 GPU 版本的 Paddle Inference 预测库，建议安装 CUDA 10.2/11.0/11.1/11.2
 
 ## 本机编译过程
 
-### 1. 安装必要的工具 cmake, git, python, Visual studio 2017：
+**1. 安装必要的工具 cmake, git, python, Visual studio 2017：**
 
 - cmake：建议安装 CMake3.17 版本, 官网下载[链接](https://cmake.org/files/v3.17/cmake-3.17.0-win64-x64.msi)。安装时注意勾选 `Add CMake to the system PATH for all users`，将 CMake 添加到环境变量中。
 
@@ -27,7 +23,7 @@
 
 - Visual studio 2017：官网[链接](https://visualstudio.microsoft.com/zh-hans/vs/older-downloads/#visual-studio-2017-and-other-products)，需要登录后下载，建议下载 Community 社区版。在安装时需要在工作负荷一栏中勾选 使用 `C++ 的桌面开发` 和 `通用 Windows 平台开发`，并在语言包一栏中选择 `英语`。
 
-### 2. 在 Windows 桌面下方的搜索栏中搜索 `x64 Native Tools Command Prompt for VS 2017` 或 `适用于 VS 2017 的 x64 本机工具命令提示符`，右键以管理员身份打开终端。之后的命令均在该终端中执行。
+**2. 在 Windows 桌面下方的搜索栏中搜索 `x64 Native Tools Command Prompt for VS 2017` 或 `适用于 VS 2017 的 x64 本机工具命令提示符`，右键以管理员身份打开终端。之后的命令均在该终端中执行。**
 
 **3.使用 pip 命令安装 Python 依赖：**
 
@@ -35,11 +31,11 @@
 
 安装 numpy, protobuf, wheel, ninja
 ```shell
-	pip3 install numpy protobuf wheel ninja
+pip3 install numpy protobuf wheel ninja
 ```
 
 **4. 创建编译 Paddle 的文件夹（例如 D:\workspace），进入该目录并下载源码：**
-```shell
+```
 mkdir D:\workspace && cd /d D:\workspace
 git clone https://github.com/PaddlePaddle/Paddle.git
 cd Paddle
@@ -66,8 +62,8 @@ cmake .. -GNinja -DWITH_GPU=OFF  -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=O
 cmake .. -GNinja -DWITH_GPU=ON  -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=ON -DWITH_TESTING=OFF -DON_INFER=ON
 ```
 使用 TensorRT：
-如果想使用 TensorRT 进行推理，首先需要下载 [TensorRT GA build](https://developer.nvidia.com/nvidia-tensorrt-8x-download), 
-下载解压后，在 cmake 中开启 WITH_TENSORRT， 并通过 TENSORRT_ROOT 指定刚刚解压的 TensorRT_lib 的路径。假设下载的 TensorRT lib 解压
+如果想使用 TensorRT 进行推理，首先需要下载并解压[TensorRT](https://developer.nvidia.com/tensorrt), 
+在 cmake 中开启 WITH_TENSORRT， 并通过 TENSORRT_ROOT 指定刚刚解压的 TensorRT 路径。假设下载的 TensorRT lib 解压
 到 D 盘目录下， cmake 编译指令如下：
 ```shell
 cmake .. -GNinja -DWITH_GPU=ON  -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=ON -DWITH_TESTING=OFF -DON_INFER=ON -DWITH_TENSORRT=ON -DTENSORRT_ROOT="D:/TensorRT"
