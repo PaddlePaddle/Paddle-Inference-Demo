@@ -27,7 +27,7 @@ ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 
 mkdir build && cd build
 
 # 执行cmake指令, 其中 PADDLE_LIB 的路径要改为预测库所在的路径
-cmake .. -G "Visual Studio 16 2019" -A x64 -DWITH_MKL=ON -DDEMO_NAME=resnet50_test -DWITH_ONNXRUNTIME=ON -DCMAKE_BUILD_TYPE=Release  -DWITH_STATIC_LIB=OFF -DPADDLE_LIB=path/to/paddle_inference
+cmake .. -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DWITH_MKL=ON -DDEMO_NAME=resnet50_test -DWITH_ONNXRUNTIME=ON -DWITH_STATIC_LIB=OFF -DPADDLE_LIB=path/to/paddle_inference
 
 # 执行编译
 msbuild cpp_inference_demo.sln /m /p:Configuration=Release /p:Platform=x64
