@@ -10,36 +10,38 @@ ResNet50 样例展示了单输入模型在 AMD GPU 和 海光 DCU 下的推理�
 
 ```bash
 Paddle-Inference-Demo/c++/lib/
-├── CMakeCache.txt
-├── paddle
-│   ├── include                                    # C++ 预测库头文件目录
-│   │   ├── crypto
-│   │   ├── experimental
-│   │   ├── internal
-│   │   ├── paddle_analysis_config.h
-│   │   ├── paddle_api.h
-│   │   ├── paddle_infer_contrib.h
-│   │   ├── paddle_infer_declare.h
-│   │   ├── paddle_inference_api.h                 # C++ 预测库头文件
-│   │   ├── paddle_mkldnn_quantizer_config.h
-│   │   ├── paddle_pass_builder.h
-│   │   └── paddle_tensor.h
-│   └── lib
-│       ├── libpaddle_inference.a                  # C++ 静态预测库文件
-│       └── libpaddle_inference.so                 # C++ 动态态预测库文件
-├── third_party
-│   ├── install                                    # 第三方链接库和头文件
-│   │   ├── cryptopp
-│   │   ├── gflags
-│   │   ├── glog
-│   │   ├── mkldnn
-│   │   ├── mklml
-│   │   ├── protobuf
-│   │   ├── utf8proc
-│   │   └── xxhash
-│   └── threadpool
-│       └── ThreadPool.h
-└── version.txt                                    # 预测库版本信息
+├── CMakeLists.txt
+└── paddle_inference
+    ├── CMakeCache.txt
+    ├── paddle
+    │   ├── include                                    # C++ 预测库头文件目录
+    │   │   ├── crypto
+    │   │   ├── experimental
+    │   │   ├── internal
+    │   │   ├── paddle_analysis_config.h
+    │   │   ├── paddle_api.h
+    │   │   ├── paddle_infer_contrib.h
+    │   │   ├── paddle_infer_declare.h
+    │   │   ├── paddle_inference_api.h                 # C++ 预测库头文件
+    │   │   ├── paddle_mkldnn_quantizer_config.h
+    │   │   ├── paddle_pass_builder.h
+    │   │   └── paddle_tensor.h
+    │   └── lib
+    │       ├── libpaddle_inference.a                  # C++ 静态预测库文件
+    │       └── libpaddle_inference.so                 # C++ 动态态预测库文件
+    ├── third_party
+    │   ├── install                                    # 第三方链接库和头文件
+    │   │   ├── cryptopp
+    │   │   ├── gflags
+    │   │   ├── glog
+    │   │   ├── mkldnn
+    │   │   ├── mklml
+    │   │   ├── protobuf
+    │   │   ├── utf8proc
+    │   │   └── xxhash
+    │   └── threadpool
+    │       └── ThreadPool.h
+    └── version.txt                                    # 预测库版本信息
 ```
 
 ## 二：获取 Resnet50 模型
@@ -56,8 +58,8 @@ Paddle-Inference-Demo/c++/lib/
 
 ```bash
 # 根据预编译库中的version.txt信息判断是否将以下标记打开
-WITH_MKL=ON
-WITH_ARM=OFF
+WITH_MKL=ON  # 这里如果是 Aarch64 环境，则改为 OFF
+WITH_ARM=OFF # 这里如果是 Aarch64 环境，则改为 ON
 WITH_ROCM=ON
 ROCM_LIB=/opt/rocm/lib # 这里请根据实际情况修改，目录下需存在 libamdhip64.so 库
 ```

@@ -10,36 +10,38 @@ ResNet50 样例展示了单输入模型在昆仑 XPU 下的推理过程。运行
 
 ```bash
 Paddle-Inference-Demo/c++/lib/
-├── CMakeCache.txt
-├── paddle
-│   ├── include                                    # C++ 预测库头文件目录
-│   │   ├── crypto
-│   │   ├── experimental
-│   │   ├── internal
-│   │   ├── paddle_analysis_config.h
-│   │   ├── paddle_api.h
-│   │   ├── paddle_infer_contrib.h
-│   │   ├── paddle_infer_declare.h
-│   │   ├── paddle_inference_api.h                 # C++ 预测库头文件
-│   │   ├── paddle_mkldnn_quantizer_config.h
-│   │   ├── paddle_pass_builder.h
-│   │   └── paddle_tensor.h
-│   └── lib
-│       ├── libpaddle_inference.a                  # C++ 静态预测库文件
-│       └── libpaddle_inference.so                 # C++ 动态态预测库文件
-├── third_party
-│   ├── install                                    # 第三方链接库和头文件
-│   │   ├── cryptopp
-│   │   ├── gflags
-│   │   ├── glog
-│   │   ├── mkldnn
-│   │   ├── mklml
-│   │   ├── protobuf
-│   │   ├── utf8proc
-│   │   └── xxhash
-│   └── threadpool
-│       └── ThreadPool.h
-└── version.txt                                    # 预测库版本信息
+├── CMakeLists.txt
+└── paddle_inference
+    ├── CMakeCache.txt
+    ├── paddle
+    │   ├── include                                    # C++ 预测库头文件目录
+    │   │   ├── crypto
+    │   │   ├── experimental
+    │   │   ├── internal
+    │   │   ├── paddle_analysis_config.h
+    │   │   ├── paddle_api.h
+    │   │   ├── paddle_infer_contrib.h
+    │   │   ├── paddle_infer_declare.h
+    │   │   ├── paddle_inference_api.h                 # C++ 预测库头文件
+    │   │   ├── paddle_mkldnn_quantizer_config.h
+    │   │   ├── paddle_pass_builder.h
+    │   │   └── paddle_tensor.h
+    │   └── lib
+    │       ├── libpaddle_inference.a                  # C++ 静态预测库文件
+    │       └── libpaddle_inference.so                 # C++ 动态态预测库文件
+    ├── third_party
+    │   ├── install
+    │   │   ├── cryptopp
+    │   │   ├── gflags
+    │   │   ├── glog
+    │   │   ├── openblas
+    │   │   ├── protobuf
+    │   │   ├── utf8proc
+    │   │   ├── xpu
+    │   │   └── xxhash
+    │   └── threadpool
+    │       └── ThreadPool.h
+    └── version.txt                                    # 预测库版本信息
 ```
 
 ## 二：获取 Resnet50 模型
@@ -56,8 +58,8 @@ Paddle-Inference-Demo/c++/lib/
 
 ```bash
 # 根据预编译库中的version.txt信息判断是否将以下标记打开
-WITH_MKL=ON
-WITH_ARM=OFF
+WITH_MKL=ON  # 这里如果是 Aarch64 环境，则改为 OFF
+WITH_ARM=OFF # 这里如果是 Aarch64 环境，则改为 ON
 WITH_XPU=ON
 ```
 
@@ -71,12 +73,14 @@ WITH_XPU=ON
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功，预期得到如下的输出结果：
 
 ```bash
-I0525 18:17:23.383029 22394 resnet50_test.cc:76] run avg time is 151.992 ms
-I0525 18:17:23.383116 22394 resnet50_test.cc:113] 0 : 0
-I0525 18:17:23.383133 22394 resnet50_test.cc:113] 100 : 2.04164e-37
+W0525 20:56:43.035851 95178 xpu_context.cc:89] Please NOTE: xpu device: 0
+W0525 20:56:43.035950 95178 device_context.cc:310] Please NOTE: xpu device: 0
+I0525 20:56:43.083045 95178 resnet50_test.cc:79] run avg time is 46.773 ms
+I0525 20:56:43.083097 95178 resnet50_test.cc:116] 0 : 6.93194e-15
+I0525 20:56:43.083169 95178 resnet50_test.cc:116] 100 : 6.93194e-15
 ... ...
-I0525 18:17:23.383301 22394 resnet50_test.cc:113] 800 : 3.85254e-25
-I0525 18:17:23.383309 22394 resnet50_test.cc:113] 900 : 1.52393e-30
+I0525 20:56:43.083432 95178 resnet50_test.cc:116] 800 : 6.93194e-15
+I0525 20:56:43.083436 95178 resnet50_test.cc:116] 900 : 6.93194e-15
 ```
 
 ## 更多链接

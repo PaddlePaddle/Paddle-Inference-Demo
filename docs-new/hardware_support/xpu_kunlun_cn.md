@@ -185,7 +185,7 @@ python3 -c "import paddle; paddle.utils.run_check()"
 
 # 3) 下载 Paddle-Inference-Demo 示例代码，并进入 Python 代码目录
 git clone https://github.com/PaddlePaddle/Paddle-Inference-Demo.git
-cd Paddle-Inference-Demo/python/resnet50
+cd Paddle-Inference-Demo/python/xpu/resnet50
 
 # 4) 下载推理模型
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
@@ -194,9 +194,8 @@ tar xzf resnet50.tgz
 # 5) 准备预测图片
 wget https://paddle-inference-dist.bj.bcebos.com/inference_demo/python/resnet50/ILSVRC2012_val_00000247.jpeg
 
-# 6) 运行 Python 预测程序，注意这里需要设置 --use_xpu=1
-python3 infer_resnet.py --model_file=./resnet50/inference.pdmodel \
-                        --params_file=./resnet50/inference.pdiparams --use_xpu=1
+# 6) 运行 Python 预测程序
+python3 infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams
 # 预期得到如下输出结果
 # class index:  13
 ```
@@ -221,22 +220,20 @@ Paddle-Inference-Demo/c++/lib/
     └── version.txt
 
 # 3) 进入 C++ 示例代码目录，下载推理模型
-cd Paddle-Inference-Demo/c++/resnet50/
+cd Paddle-Inference-Demo/c++/xpu/resnet50/
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
 tar xzf resnet50.tgz
 
 # 4) 修改 compile.sh 编译文件，需根据 C++ 预测库的 version.txt 信息对以下的几处内容进行修改
-WITH_MKL=OFF # 这里如果是 X86_64 环境，则改为 ON
-WITH_GPU=OFF
-WITH_ARM=ON # 这里如果是 X86_64 环境，则改为 OFF
+WITH_MKL=ON  # 这里如果是 Aarch64 环境，则改为 OFF
+WITH_ARM=OFF # 这里如果是 Aarch64 环境，则改为 ON
 WITH_XPU=ON
 
 # 5) 执行编译，编译完成之后在 build 下生成 resnet50_test 可执行文件
 ./compile.sh
 
-# 6) 运行 C++ 预测程序，注意这里需要设置 --use_xpu
-./build/resnet50_test --model_file resnet50/inference.pdmodel \
-                      --params_file resnet50/inference.pdiparams --use_xpu
+# 6) 运行 C++ 预测程序
+./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams
 # 预期得到如下输出结果
 # W0525 20:56:43.035851 95178 xpu_context.cc:89] Please NOTE: xpu device: 0
 # W0525 20:56:43.035950 95178 device_context.cc:310] Please NOTE: xpu device: 0
