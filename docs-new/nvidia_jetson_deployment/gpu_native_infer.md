@@ -17,7 +17,9 @@ wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.
   - [Windows 部署示例](#1.2)
 - [2. Python 示例](#2)
 
-## <h2 id="1">1. C++ 示例</h2>
+<a name="1"></a>
+
+## 1. C++ 示例
 
 C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50)，你可以将此仓库全部克隆下来留着使用。下面从先介绍 Paddle Inference C++ API 的使用流程，然后介绍在 Linux/Ubuntu 系统下和 Windows 系统下编译和执行此示例代码。
 
@@ -88,8 +90,9 @@ std::vector<float> out_data;
 out_data.resize(out_num);
 output_t->CopyToCpu(out_data.data());
 ```
+<a name="1.1"></a>
 
-### <h3 id="1.1">Linux/Ubuntu 部署示例</h3>
+### Linux/Ubuntu 部署示例
 
 请参考[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 C++ 推理库，名称中带有 `cuda` 的为用于 GPU 的推理库。以 `manylinux_cuda11.2_cudnn8.2_avx_mkl_trt8_gcc8.2`为例，它要求您的系统上安装 CUDA 版本为11.2，cuDNN 版本为8.2， TensorRT 版本为8.x， gcc 版本为8.2，当然，如果您的上述版本不能完全对应，那么或许也是可以的。注意，如果您的机器上没有安装 TensorRT，您仍然可以下载这个库，只不过模型就只能用 GPU 原生推理，而不能使用 TensorRT 加速。
 
@@ -124,7 +127,9 @@ bash run.sh
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
 
-### <h3 id="1.2">Windows 部署示例</h3>
+<a name="1.2"></a>
+
+### Windows 部署示例
 
 请参考[下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)下载 C++ 推理库。
 
@@ -168,8 +173,9 @@ bash run.sh
 
 ![win_x86_cpu_vs_4](./images/win_x86_cpu_vs_4.png)
 
+<a name="2"></a>
 
-## <h2 id="2">2. Python 示例</h2>
+## 2. Python 示例
 
 请从[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 Python whl 包并安装，名称中带有 `cuda` 的为用于 GPU 的推理库。
 
