@@ -40,7 +40,7 @@ a. 使用 TensorRT 自带的 Int8 离线量化校准功能。首先基于训练�
 ```
 准备 500 张左右的真实输入数据，在上述配置下，运行模型。（ TensorRT 会统计模型中每个 tensor 值的范围信息，并将其记录到校准表中，运行结束后，会将校准表写入模型目录下的 `_opt_cache` 目录中）。
 
-如果想要了解使用 TensorRT 自带 Int8 离线量化校准功能生成校准表的完整代码，请参考[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/blob/master/c%2B%2B/paddle-trt/trt_gen_calib_table_test.cc)。
+如果想要了解使用 TensorRT 自带 Int8 离线量化校准功能生成校准表的完整代码，请参考[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50)。
 
 b. 使用模型压缩工具库 PaddleSlim 产出量化模型。PaddleSlim 支持离线量化和在线量化功能，其中，离线量化与TensorRT 离线量化校准原理相似；在线量化又称量化训练(Quantization Aware Training, QAT)，是基于较多数据（如>=5000张图片）对预训练模型进行重新训练，使用模拟量化的思想，在训练阶段更新权重，实现减小量化误差的方法。使用PaddleSlim产出量化模型可以参考文档：
   
