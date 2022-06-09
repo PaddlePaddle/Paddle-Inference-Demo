@@ -1,6 +1,10 @@
-# 运行 ResNet50 图像分类样例
+# Linux 运行 ResNet50 图像分类样例
 
-ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 的推理过程。运行步骤如下：
+ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 的推理过程。
+
+Windows 运行请看文档: [Windows 运行 ResNet50 图像分类样例](Windows.md)
+
+Linux运行步骤如下：
 
 ## 一：获取 Paddle Inference 预测库
 
