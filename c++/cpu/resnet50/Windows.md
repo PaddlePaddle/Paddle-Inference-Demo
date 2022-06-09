@@ -16,7 +16,7 @@ ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 
 ## 三：编译样例
 
 文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有 opencv 或其他方式进行数据读取的需求，需要对程序进行一定的修改）
-
+test
 ### 1. 编译准备
 需要先将`Paddle-Inference-Demo/c++/lib`下的`CMakeLists.txt`拷贝至本目录
 

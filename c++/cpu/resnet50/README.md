@@ -46,7 +46,7 @@ WITH_SW=OFF   # 在申威 CPU 下运行，则修改为ON
 ```shell
 ./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_ort=1
 ```
-
+test
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
 
 ## 更多链接
