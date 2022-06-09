@@ -3,10 +3,10 @@
 使用 GPU 原生推理前必须确保您的机器上已经安装了 CUDA 和 cuDNN，且需要知道它们的安装位置。
 
 使用 PaddlePaddle 训练结束后，得到推理模型，可以用于推理部署。
-本文准备了 mobilenet_v1 推理模型，可以从[链接](https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz)下载，或者 wget 下载。
+本文准备了 resnet50 推理模型，可以从[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz)下载，或者 wget 下载。
 
 ```shell
-wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp32.tar.gz
+wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
 ```
 
 下面分别介绍在 Linux/Ubuntu 操作系统下和 Windows 操作系统下用 GPU 原生推理的 C++ 和 Python 示例。
@@ -19,12 +19,12 @@ wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp
 
 ## <h2 id="1">1. C++ 示例</h2>
 
-C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/cuda_linux_demo)，你可以将此仓库全部克隆下来留着使用。下面从先介绍 Paddle Inference C++ API 的使用流程，然后介绍在 Linux/Ubuntu 系统下和 Windows 系统下编译和执行此示例代码。
+C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50)，你可以将此仓库全部克隆下来留着使用。下面从先介绍 Paddle Inference C++ API 的使用流程，然后介绍在 Linux/Ubuntu 系统下和 Windows 系统下编译和执行此示例代码。
 
 &emsp;
 
 使用 Paddle Inference C++ API 的典型过程包含下面六个步骤。
-完整代码在示例中的`model_test.cc`。
+完整代码在示例中的`resnet50_test.cc`。
 
 (1) 包含头文件
 
@@ -100,9 +100,9 @@ output_t->CopyToCpu(out_data.data());
 
 下面介绍示例代码在 Linux/Ubuntu 下的编译和执行。
 您需要关心下面四个文件即可，首先进入 C++ 示例代码的目录。
-文件`model_test.cc` 为推理的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定修改）。    
-文件`../lib/CMakeLists.txt` 为编译构建文件，
-脚本 `compile.sh` 为编译脚本，它将复制`../lib/CMakeLists.txt`到当前目录，并编译生成可执行文件。
+文件`resnet50_test.cc` 为推理的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定修改）。    
+文件`Paddle-Inference-Demo/c++/lib` 为编译构建文件，
+脚本 `compile.sh` 为编译脚本，它将复制`Paddle-Inference-Demo/c++/lib`到当前目录，并编译生成可执行文件。
 脚本`run.sh` 下载模型，并运行可执行程序。
 
 先要把您下载好的 Paddle Inference 推理库放到`Paddle-Inference-Demo/c++/lib`中，然后在 `compile.sh` 里面进行如下设置。
@@ -113,10 +113,10 @@ WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=OFF
 
-LIB_DIR=${work_path}/../lib/paddle_inference
+LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
-TENSORRT_ROOT=/usr/local/tensorrt
+TENSORRT_ROOT=/usr/local/TensorRT-7.1.3.4
 ```
 
 最后只需两个命令即可完成编译和执行。
@@ -134,8 +134,8 @@ bash run.sh
 
 在 Windows上 部署示例的话，您需要下面几个图形界面的操作，此时您只需要关注两个文件即可。
 
-文件`model_test.cc` 为推理的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
-文件`../lib/CMakeLists.txt` 为编译构建文件，请把它手动复制到和`model_test.cc`相同目录。
+文件`resnet50_test.cc` 为推理的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
+文件`Paddle-Inference-Demo/c++/lib/CMakeLists.txt` 为编译构建文件，请把它手动复制到和`resnet50_test.cc`相同目录。
 
 打开 cmake-gui 程序生成vs工程：
 
@@ -147,7 +147,7 @@ bash run.sh
 
 ![win_x86_cpu_cmake_2](./images/win_x86_cpu_cmake_2.png)
 
-- 设置 CMake Options，点击 Add Entry，新增 PADDLE_LIB、CMAKE_BUILD_TYPE、DEMO_NAME等选项。具体配置项如下图所示，其中 PADDLE_LIB 为您下载的推理库路径。
+- 设置 CMake Options，点击 Add Entry，新增 PADDLE_LIB、CMAKE_BUILD_TYPE、DEMO_NAME等选项。具体配置项如下图所示，其中 PADDLE_LIB 为您下载的推理库路径，DEMO_NAME 设置为`.cc`文件的文件名。
 
 ![win_x86_cpu_cmake_3](./images/win_x86_cpu_cmake_3.png)
 
@@ -181,12 +181,12 @@ bash run.sh
 
 
 
-Python 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/cuda_linux_demo)，下面从先介绍 Paddle Inference Python API 的使用流程，然后介绍在 Linux/Ubuntu 系统下和 Windows 系统下编译和执行此示例代码。
+Python 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/gpu/resnet50)，下面从先介绍 Paddle Inference Python API 的使用流程，然后介绍在 Linux/Ubuntu 系统下和 Windows 系统下编译和执行此示例代码。
 
 &emsp;
 
 使用 Paddle Inference Python API 的典型过程包含下面六个步骤。
-完整代码在示例中的`model_test.py`。
+完整代码在示例中的`infer_resnet.py`。
 
 （1） Python 导入
 
@@ -257,7 +257,7 @@ output_data = output_tensor.copy_to_cpu()
 下面介绍请参考示例代码的编译和执行。
 您需要关心如下三个文件，首先进入 Python 示例代码的目录。
 文件`img_preprocess.py`是对图像进行预处理。
-文件`model_test.py`是示例程序。
+文件`infer_resnet.py`是示例程序。
 脚本 `run.sh`负责下载模型和执行示例程序。
 
 在 Linux/Ubuntu 下您只需要执行`bash run.sh`，就可以看到程序被执行。运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
