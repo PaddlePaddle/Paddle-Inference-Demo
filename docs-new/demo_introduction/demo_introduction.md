@@ -17,6 +17,8 @@
 |gpu/ernie_varlen|[ernie 变长预测样例](../../c++/gpu/ernie-varlen/)|
 |gpu/gpu_fp16|[GPU 混合精度推理 预测样例](../../c++/gpu/gpu_fp16/)|
 |gpu/multi_stream|[GPU 多流 预测样例](../../c++/gpu/multi_stream/)|
+|gpu/pinned_memory|[Pinned Memory 预测样例](../../c++/gpu/pinned_memory/)|
+|gpu/managed_memory|[Managed Memory 预测样例](../../c++/gpu/managed_memory/)|
 |advanced/custom_operator|[自定义算子 样例](../../c++/advanced/custom-operator/)|
 |advanced/share_external_data|[share_external_data 预测样例](../../c++/advanced/share_external_data/)|
 |advanced/multi_thread|[多线程预测样例](../../c++/advanced/multi_thread/)|
