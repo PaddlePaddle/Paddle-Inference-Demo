@@ -23,7 +23,8 @@ rm -rf *
 # same with the resnet50_test.cc
 DEMO_NAME=resnet50_test
 
-WITH_MKL=OFF
+WITH_MKL=ON
+WITH_ONNXRUNTIME=ON
 WITH_ARM=OFF
 WITH_MIPS=OFF
 WITH_SW=OFF
@@ -33,6 +34,7 @@ LIB_DIR=${work_path}/../../lib/paddle_inference
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DDEMO_NAME=${DEMO_NAME} \
   -DWITH_MKL=${WITH_MKL} \
+  -DWITH_ONNXRUNTIME=${WITH_ONNXRUNTIME} \
   -DWITH_ARM=${WITH_ARM} \
   -DWITH_MIPS=${WITH_MIPS} \
   -DWITH_SW=${WITH_SW} \
