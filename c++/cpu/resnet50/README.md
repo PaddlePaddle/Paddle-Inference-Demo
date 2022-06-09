@@ -23,6 +23,16 @@ Linux运行步骤如下：
 - 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。  
 - 脚本`run.sh` 为一键运行脚本。
 
+编译前，需要根据自己的环境修改 `compile.sh` 中的相关代码配置依赖库：
+
+```bash
+# 根据预编译库中的version.txt信息判断是否将以下标记打开
+WITH_MKL=OFF
+WITH_ARM=OFF  # 在飞腾/鲲鹏 CPU 下运行，则修改为ON
+WITH_MIPS=OFF # 在龙芯 CPU 下运行，则修改为ON
+WITH_SW=OFF   # 在申威 CPU 下运行，则修改为ON
+```
+
 运行 `bash compile.sh` 编译样例。
 
 ## 四：运行样例

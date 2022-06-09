@@ -5,14 +5,14 @@ set -e
 work_path=$(dirname $(readlink -f $0))
 
 # 1. check paddle_inference exists
-if [ ! -d "${work_path}/../lib/paddle_inference" ]; then
-  echo "Please move paddle_inference lib in Paddle-Inference-Demo/lib"
+if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
+  echo "Please download paddle_inference lib and move it in Paddle-Inference-Demo/lib"
   exit 1
 fi
 
 # 2. check CMakeLists exists
 if [ ! -f "${work_path}/CMakeLists.txt" ]; then
-  cp -a "${work_path}/../lib/CMakeLists.txt" "${work_path}/"
+  cp -a "${work_path}/../../lib/CMakeLists.txt" "${work_path}/"
 fi
 
 # 3. compile
@@ -24,12 +24,18 @@ rm -rf *
 DEMO_NAME=resnet50_test
 
 WITH_MKL=ON
+WITH_ARM=OFF
 
-LIB_DIR=${work_path}/../lib/paddle_inference
+LIB_DIR=${work_path}/../../lib/paddle_inference
 
 cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \
+  -DWITH_ARM=${WITH_ARM} \
   -DDEMO_NAME=${DEMO_NAME} \
   -DWITH_STATIC_LIB=OFF 
 
-make -j
+if [ "$WITH_ARM" == "ON" ];then
+  make TARGET=ARMV8 -j
+else
+  make -j
+fi
