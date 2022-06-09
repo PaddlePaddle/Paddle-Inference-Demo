@@ -1,15 +1,15 @@
 # GPU TensorRT 低精度或量化推理
 
-深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。Paddle Inference 的 GPU 原生推理仅支持 fp32，fp16 精度目前处于实验阶段；采用 TensorRT 加速推理的方式可支持 fp32、fp16 以及 int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#hardware-precision-matrix)确保您的 GPU 硬件支持您使用的精度。
+深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。Paddle Inference 的 GPU 原生推理仅支持 Fp32，Fp16 精度目前处于实验阶段；采用 TensorRT 加速推理的方式可支持 Fp32、Fp16 以及 Int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#hardware-precision-matrix)确保您的 GPU 硬件支持您使用的精度。
 
 
-- [1. fp16 推理](#1)
+- [1. Fp16 推理](#1)
 - [2. Int8 量化推理](#2)
-- [Int8 量化推理的完整 demo](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt)
+- [Int8 量化推理的完整 demo](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50)
 
-## <h2 id="1">1. fp16 推理</h2>
+## <h2 id="1">1. Fp16 推理</h2>
 
-为使用 fp16 带来的性能提升，只需在指定 TensorRT 配置时，将 **precision_mode** 设为 **paddle_infer.PrecisionType.Half**即可，示例如下：
+为使用 Fp16 带来的性能提升，只需在指定 TensorRT 配置时，将 **precision_mode** 设为 **paddle_infer.PrecisionType.Half**即可，示例如下：
 
 ```python
 	config.enable_tensorrt_engine(
@@ -27,7 +27,7 @@
 
 目前，我们支持通过两种方式产出量化模型：
 
-a. 使用 TensorRT 自带的 Int8 离线量化校准功能。首先基于训练好的 FP32 模型和少量校准数据（如 500～1000 张图片）生成校准表（Calibration table）。然后推理时，加载 FP32 模型和此校准表即可使用 Int8 精度推理。生成校准表的方法如下：
+a. 使用 TensorRT 自带的 Int8 离线量化校准功能。首先基于训练好的 Fp32 模型和少量校准数据（如 500～1000 张图片）生成校准表（Calibration table）。然后推理时，加载 Fp32 模型和此校准表即可使用 Int8 精度推理。生成校准表的方法如下：
 
   - 指定 TensorRT 配置时，将 **precision_mode** 设为 **paddle_infer.PrecisionType.Int8** 并且设置 **use_calib_mode** 为 **True**。
 
@@ -78,4 +78,4 @@ b. 使用模型压缩工具库 PaddleSlim 产出量化模型。PaddleSlim 支持
       use_static=False, use_calib_mode=False)
 ```
 
-Int8 量化推理的完整 demo 请参考[这里](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt)
+Int8 量化推理的完整 demo 请参考[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50)。
