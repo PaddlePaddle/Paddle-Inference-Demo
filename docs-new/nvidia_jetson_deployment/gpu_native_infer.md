@@ -42,11 +42,7 @@ Config 默认用 CPU 推理，若要用 GPU，需手动开启，设置分配的�
 
 ```cpp
 paddle_infer::Config config;
-if (FLAGS_model_dir == "") {
 config.SetModel(FLAGS_model_file, FLAGS_params_file); // Load combined model
-} else {
-config.SetModel(FLAGS_model_dir); // Load no-combined model
-}
 config.EnableUseGpu(500, 0);
 config.SwitchIrOptim(true);
 config.EnableMemoryOptim();
@@ -206,10 +202,7 @@ Config 默认用 CPU 推理，若要用 GPU 推理，需手动开启，设置分
 ```python
 # args 是解析的输入参数
 # Init config
-if args.model_dir == "":
-    config = Config(args.model_file, args.params_file)
-else:
-    config = Config(args.model_dir)
+config = Config(args.model_file, args.params_file)
 config.enable_use_gpu(500, 0)
 config.switch_ir_optim()
 config.enable_memory_optim()
