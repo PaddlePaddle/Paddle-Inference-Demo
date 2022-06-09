@@ -1,4 +1,4 @@
-# 推理示例 (C++)
+# 快速上手C++推理
 
 本章节包含2部分内容,
 - [运行 C++ 示例程序](#id1)
@@ -21,7 +21,7 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS/Jetson 平台的官方 Release �
 
 ### 2. 模型准备
 
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可将 `inference.pdmodel` 加载到模型可视化工具 Netron 中打开。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可参考[模型结构可视化文档](../export_model/visual_model.html)。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
