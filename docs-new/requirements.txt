@@ -2,4 +2,4 @@ recommonmark
 sphinx==3.5.2
 sphinx_markdown_tables==0.0.15
 sphinx_rtd_theme==0.5.2
-Jinja2<3.1
+jinja2<3.1
