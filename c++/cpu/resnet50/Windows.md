@@ -48,7 +48,7 @@ msbuild cpp_inference_demo.sln /m /p:Configuration=Release /p:Platform=x64
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
-
+test
 ## 更多链接
 - [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/latest/introduction/quick_start.html)
 - [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/cxx_api_index.html)

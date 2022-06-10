@@ -45,3 +45,4 @@ if [ "$WITH_ARM" == "ON" ];then
 else
   make -j
 fi
+test
