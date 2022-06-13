@@ -20,7 +20,8 @@ paddle.inference.Tensor.reshape(shape: numpy.ndarray|List[int])
 # 返回：None
 paddle.inference.Tensor.copy_from_cpu(data: numpy.ndarray)
 
-# 从 Tensor 中获取数据到 CPU
+# 从 Tensor 中获取数据到 CPU，该接口内含同步等待 GPU 运行结束，当 Predictor 
+#    运行在 GPU 硬件时，在 CPU 线程下对该 API 调用进行计时是不准确的
 # 参数：None
 # 返回：numpy.ndarray - CPU 数据
 paddle.inference.Tensor.copy_to_cpu()
