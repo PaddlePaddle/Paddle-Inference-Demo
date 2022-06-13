@@ -162,7 +162,7 @@ int main(int argc, char **argv) {
 2. 对存在LoD信息的模型，如BERT, ERNIE等NLP模型，必须使用动态 Shape
 3. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)。当前开始OSS只对ERNIE/BERT模型加速效果（[示例代码](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/ernie-varlen)）。
 
-更多 TensorRT 详细信息，请参考 [使用Paddle-TensorRT库预测](../../../optimize/paddle_trt)。
+更多 TensorRT 详细信息，请参考 [使用Paddle-TensorRT库预测](../../../guides/nv_gpu_infer/gpu_trt_infer)。
 
 API定义如下：
 

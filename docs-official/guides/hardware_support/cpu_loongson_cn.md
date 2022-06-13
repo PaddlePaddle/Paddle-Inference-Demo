@@ -12,7 +12,9 @@ Paddle Inference 支持基于龙芯 CPU 的推理部署, 当前仅支持通过�
 
 ## 源码编译
 
-**环境准备：** 请根据[编译依赖表](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html)准备符合版本要求的依赖库。麒麟操作系统请参考[麒麟技术文档](https://eco.kylinos.cn/document/science.html)，Loongnix请参考[龙芯开源社区](http://www.loongnix.cn/zh/)。
+**环境准备：** 请根据[编译依赖表](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html)准备符合版本要求的依赖库。  
+麒麟操作系统请参考[麒麟技术文档](https://eco.kylinos.cn/document/science.html)  
+Loongnix请参考[龙芯开源社区](http://www.loongnix.cn/zh/)。
 
 **第一步：** 下载 Paddle 源码并编译，CMAKE 编译选项含义请参见[编译选项表](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/Tables.html)
 

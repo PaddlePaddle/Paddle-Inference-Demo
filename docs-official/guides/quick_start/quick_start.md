@@ -15,7 +15,7 @@ Paddle Inference内置在Paddle框架中，但根据不同的部署需求，您�
 - 如您是直接通过`pip install paddlepaddle`，则已支持CPU（包括MKLDNN加速）部署；  
 - 如您是直接通过`pip install paddlepaddle-gpu`安装，则已支持CPU(包括MKLDNN加速）、GPU部署
 
-如您有其它部署需求，如TensorRT、ONNXRuntime后端的使用，Jetson环境部署，以及C++/C等其它编程语言部署，请在[Paddle Inference预编译预测库](download_lib.md)页面自行下载, 或参考[源码编译](source_compile.md)页面编译安装。
+如您有其它部署需求，如TensorRT、ONNXRuntime后端的使用，Jetson环境部署，以及C++/C等其它编程语言部署，请在[Paddle Inference预编译预测库](../install/download_lib.md)页面自行下载, 或参考[源码编译](../install/compile/index_compile.md)页面编译安装。
 
 ## 二、模型部署
 

@@ -17,7 +17,7 @@
 
 ### 1. 环境准备 
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS/Jetson 平台的官方 Release 推理库，用户需根据开发环境和硬件自行下载安装，具体可参阅[C++推理环境安装](./cpp_install.md)。
+Paddle Inference 提供了 Ubuntu/Windows/MacOS/Jetson 平台的官方 Release 推理库，用户需根据开发环境和硬件自行下载安装，具体可参阅[C++推理环境安装](../install/cpp_install.md)。
 
 ### 2. 模型准备
 

@@ -18,7 +18,7 @@
 
 ### 1. 环境准备
 
-go 语言推理需要下载Paddle Inference的 C 预编译推理库。Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载，用户需根据开发环境和硬件自行下载安装，具体可参阅 [C 推理环境安装](./c_install.md)。
+go 语言推理需要下载Paddle Inference的 C 预编译推理库。Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载，用户需根据开发环境和硬件自行下载安装，具体可参阅 [C 推理环境安装](../install/c_install.md)。
  
 执行推理程序之前需要完成以下几个步骤
 

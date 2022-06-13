@@ -94,7 +94,7 @@ output_t->CopyToCpu(out_data.data());
 
 ### Linux/Ubuntu 部署示例
 
-请参考[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 C++ 推理库，名称中带有 `cuda` 的为用于 GPU 的推理库。以 `manylinux_cuda11.2_cudnn8.2_avx_mkl_trt8_gcc8.2`为例，它要求您的系统上安装 CUDA 版本为11.2，cuDNN 版本为8.2， TensorRT 版本为8.x， gcc 版本为8.2，当然，如果您的上述版本不能完全对应，那么或许也是可以的。注意，如果您的机器上没有安装 TensorRT，您仍然可以下载这个库，只不过模型就只能用 GPU 原生推理，而不能使用 TensorRT 加速。
+请参考[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/install/download_lib.html#linux)下载 C++ 推理库，名称中带有 `cuda` 的为用于 GPU 的推理库。以 `manylinux_cuda11.2_cudnn8.2_avx_mkl_trt8_gcc8.2`为例，它要求您的系统上安装 CUDA 版本为11.2，cuDNN 版本为8.2， TensorRT 版本为8.x， gcc 版本为8.2，当然，如果您的上述版本不能完全对应，那么或许也是可以的。注意，如果您的机器上没有安装 TensorRT，您仍然可以下载这个库，只不过模型就只能用 GPU 原生推理，而不能使用 TensorRT 加速。
 
 
 下面介绍示例代码在 Linux/Ubuntu 下的编译和执行。
@@ -131,7 +131,7 @@ bash run.sh
 
 ### Windows 部署示例
 
-请参考[下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)下载 C++ 推理库。
+请参考[下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/install/download_lib.html#windows)下载 C++ 推理库。
 
 在 Windows上 部署示例的话，您需要下面几个图形界面的操作，此时您只需要关注两个文件即可。
 
@@ -177,7 +177,7 @@ bash run.sh
 
 ## 2. Python 示例
 
-请从[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)下载 Python whl 包并安装，名称中带有 `cuda` 的为用于 GPU 的推理库。
+请从[下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/install/download_lib.html#linux)下载 Python whl 包并安装，名称中带有 `cuda` 的为用于 GPU 的推理库。
 
 此示例需要您在 Python 里安装 opencv，命令为`python -m pip install opencv-python`。
 

@@ -32,12 +32,12 @@ python3 -m pip install paddlepaddle-gpu==2.3.0.post110 -f https://www.paddlepadd
 
 ### 方式二：下载 whl 包（可选 TensorRT）到本地，然后通过 pip 工具安装
 
-- [下载安装 Linux Python installer](../user_guides/download_lib.html#python)
-- [下载安装 Windows Python installer](../user_guides/download_lib.html#id4)
+- [下载安装 Linux Python installer](download_lib.html#python)
+- [下载安装 Windows Python installer](download_lib.html#id4)
 
 ### 方式三：源码安装
 
-参考[源码编译](../user_guides/source_compile)文档。
+参考[源码编译](./compile/index_compile.html)文档。
 
 ## 验证安装
 

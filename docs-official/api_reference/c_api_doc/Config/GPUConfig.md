@@ -90,7 +90,7 @@ PD_ConfigDestroy(config);
 2. 对存在 LoD 信息的模型，如 ERNIE / BERT 等 NLP 模型，必须使用动态 Shape
 3. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)
 
-更多 TensorRT 详细信息，请参考 [使用Paddle-TensorRT库预测](../../../optimize/paddle_trt)。
+更多 TensorRT 详细信息，请参考 [使用Paddle-TensorRT库预测](../../../guides/nv_gpu_infer/gpu_trt_infer)。
 
 API定义如下：
 ```c

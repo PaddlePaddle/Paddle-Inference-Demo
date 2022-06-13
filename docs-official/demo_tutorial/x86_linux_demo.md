@@ -8,7 +8,7 @@ C++示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo
 
 #### 1.1.1 准备预测库
 
-请参考[下载安装预测库文档](../user_guides/download_lib)下载Paddle Inference C++预测库，或者参考[源码编译文档](../user_guides/source_compile)编译Paddle Inference C++预测库。
+请参考[下载安装预测库文档](../install/download_lib)下载Paddle Inference C++预测库，或者参考[源码编译文档](../install/compile/index_compile)编译Paddle Inference C++预测库。
 
 #### 1.1.2 准备预测模型
 

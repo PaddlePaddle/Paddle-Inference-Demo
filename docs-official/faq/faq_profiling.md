@@ -3,7 +3,7 @@
 
 
 1. Predictor 是否有 Profile 工具。  
-**答：**  `config.EnableProfile()`可以打印op耗时，请参考[API文档-Profile设置](temp-link)。
+**答：**  `config.EnableProfile()`可以打印op耗时，请参考[API文档-Profile设置](../guides/../api_reference/cxx_api_doc/Config/OptimConfig.md)。
 
 2. 同一个模型的推理耗时不稳定。  
 **答：** 请按以下方向排查：
@@ -12,4 +12,4 @@
 3）使用 TensorRT 时，初始的优化阶段比较耗时，可以通过少量数据 warm up 的方式解决。
 
 3. 如何开启 CPU 预测的多线程加速。  
-**答：** 请使用`config.EnableMKLDNN()`和`config.SetCpuMathLibraryNumThreads()`，请参考[API文档-CPU预测](temp-link)。
+**答：** 请使用`config.EnableMKLDNN()`和`config.SetCpuMathLibraryNumThreads()`，请参考[x86 CPU预测](../guides/x86_cpu_infer/index_x86_cpu_infer)。

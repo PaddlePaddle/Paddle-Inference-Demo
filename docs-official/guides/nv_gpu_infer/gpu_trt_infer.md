@@ -1,13 +1,11 @@
 # GPU TensorRT 加速推理(NV-GPU/Jetson)
 
-- [1. 概要](#1)
-- [2. 环境准备](#2)
-- [3. API 使用介绍](#3)
-- [4. 运行 Dynamic shape](#4)
-- [5. Paddle Inference 适配 TensorRT 原理介绍](#5)
-- GPU TensorRT 加速推理的完整示例链接
-  - [Python](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/gpu/resnet50) 。
-  - [C++](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50) 。
+- [GPU TensorRT 加速推理(NV-GPU/Jetson)](#gpu-tensorrt-加速推理nv-gpujetson)
+  - [1. 概要](#1-概要)
+  - [2. 环境准备](#2-环境准备)
+  - [3, API 使用介绍](#3-api-使用介绍)
+  - [4. 运行 Dynamic shape](#4-运行-dynamic-shape)
+  - [5. Paddle Inference 适配 TensorRT 原理介绍](#5-paddle-inference-适配-tensorrt-原理介绍)
 
 <a name="1"></a>
 
@@ -37,11 +35,11 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 
 如果您需要安装 [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-8x-download)，请参考 [TensorRT 文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-801/install-guide/index.html)。
 
-Paddle Inference 提供的 Ubuntu/Windows 平台的官方 Release 推理库均支持 TensorRT 加速推理，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.md)。
+Paddle Inference 提供的 Ubuntu/Windows 平台的官方 Release 推理库均支持 TensorRT 加速推理，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](./compile/index_compile.md)。
 
-- [下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)
+- [下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/install/download_lib.html#linux)
   - 此链接中名称前缀包含 `nv_jetson` 的为用于NV Jetson平台的推理库。
-- [下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)
+- [下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/install/download_lib.html#windows)
 
 **Note:**
 
@@ -212,7 +210,7 @@ Paddle Inference 采用子图的形式对 TensorRT 进行集成，当模型加�
 
 **原始网络**
 
-<img src=https://raw.githubusercontent.com/NHZlX/FluidDoc/add_trt_doc/doc/fluid/user_guides/howto/inference/image/model_graph_original.png >
+<img src=https://raw.githubusercontent.com/NHZlX/FluidDoc/add_trt_doc/doc/fluid/install/howto/inference/image/model_graph_original.png >
 
 **转换的网络**
 

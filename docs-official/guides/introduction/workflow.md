@@ -6,13 +6,13 @@
 
 Paddle Inference 原生支持由 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) 深度学习框架训练产出的推理模型。PaddlePaddle 用于推理的模型分别可通过 `paddle.jit.save` (动态图) 与 `paddle.static.save_inference_model` (静态图) 或 `paddle.Model().save` (高层API) 保存下来。如果您手中的模型是由诸如 TensorFlow、PyTorch 等框架产出的，那么您可以使用 X2Paddle 工具将模型转换为 PadddlePaddle 格式。
 
-更详细的模型导出说明请参考[模型导出文档](../export_model/README)。
+更详细的模型导出说明请参考[模型导出文档](../export_model/index_export_model.html)。
 
-可以使用[模型可视化工具](../export_model/visual_model)来查看您的模型结构，以确认符合组网预期。
+可以使用[模型可视化工具](../export_model/visual_model.html)来查看您的模型结构，以确认符合组网预期。
 
 ## 二. 准备环境
 
-可参照 [Paddle Inference 安装](../user_guides/install_overview) 页面，通过下载预编译库或源码编译的方式准备 Paddle Inference 的基础开发环境。
+可参照 [Paddle Inference 安装](../install/index_install.html) 页面，通过下载预编译库或源码编译的方式准备 Paddle Inference 的基础开发环境。
 
 ## 三. 开发推理程序
 
@@ -39,10 +39,10 @@ Paddle Inference 采用 Predictor 进行推理。Predictor 是一个高性能推
 
 Paddle Inference 提供了 C, C++, Python, Golang 四种 API 的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
 
-- [推理示例 (C++)](./cpp_demo)
-- [推理示例 (Python)](./python_demo)
-- [推理示例 (C)](./c_demo)
-- [推理示例 (GO)](./go_demo)
+- [推理示例 (C++)](./quick_start/cpp_demo)
+- [推理示例 (Python)](./quick_start/python_demo)
+- [推理示例 (C)](./quick_start/c_demo)
+- [推理示例 (GO)](./quick_start/go_demo)
 
 ## 四. 性能优化
 
@@ -53,7 +53,7 @@ Paddle Inference 提供了 C, C++, Python, Golang 四种 API 的使用示例和�
   - GPU 推理：`EnableTensorRtEngine` 等
   - 基础优化：`SwitchIrOptim`、`EnableMemoryOptim` 等
 
-- 参考[系统调优概述](../performance_tuning/tune_overview)使用混合精度推理和多线程推理。
+- 参考[系统调优概述](../performance_tuning/index_performance_tuning)使用混合精度推理和多线程推理。
 
 ### 2) 使用 PaddleSlim 进行模型小型化
 

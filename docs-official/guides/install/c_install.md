@@ -19,15 +19,15 @@
 
 ## 开始安装
 
-Paddle Inference 提供了 Linux/Windows/MacOS 平台的官方 Release 推理库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile)。
+Paddle Inference 提供了 Linux/Windows/MacOS 平台的官方 Release 推理库下载，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](./compile/index_compile.html)。
 
-- [下载安装 Linux C 推理库](../user_guides/download_lib.html#id1)
-
-
-- [下载安装 Windows C 推理库](../user_guides/download_lib.html#id3)
+- [下载安装 Linux C 推理库](download_lib.html#id1)
 
 
-- [下载安装 MacOs C 推理库](../user_guides/download_lib.html#id6)
+- [下载安装 Windows C 推理库](download_lib.html#id3)
+
+
+- [下载安装 MacOs C 推理库](download_lib.html#id6)
 
 ## 验证安装
 

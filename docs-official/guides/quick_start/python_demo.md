@@ -14,7 +14,7 @@
 
 ### 1. 环境准备
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库wheel包，用户需根据开发环境和硬件自行下载安装，具体可参阅[Python推理环境安装](./python_install.md)。
+Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库wheel包，用户需根据开发环境和硬件自行下载安装，具体可参阅[Python推理环境安装](../install/python_install.md)。
 
 
 ### 2. 模型准备
