@@ -1,5 +1,16 @@
 # GPU TensorRT 加速推理(NV-GPU/Jetson)
 
+- [1. 概要](#1)
+- [2. 环境准备](#2)
+- [3. API 使用介绍](#3)
+- [4. 运行 Dynamic shape](#4)
+- [5. Paddle Inference 适配 TensorRT 原理介绍](#5)
+- GPU TensorRT 加速推理的完整示例链接
+  - [Python](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/gpu/resnet50) 。
+  - [C++](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50) 。
+
+<a name="1"></a>
+
 ## 1. 概要
 
 TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学习推理 SDK，可以使得深度学习模型在这些硬件上的部署获得更好的性能。Paddle Inference 以子图方式集成了 TensorRT，将可用 TensorRT 加速的算子组成子图供给 TensorRT，以获取 TensorRT 加速的同时，保留 PaddlePaddle 即训即推的能力。在这篇文章中，我们会介绍如何使用 TensorRT 加速推理。
@@ -11,6 +22,8 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 目前 Paddle Inference 支持 TensorRT 的静态 shape、动态 shape 两种运行方式。静态 shape 用于模型输入 shape 除 batch 维外，其他维度大小不变的情况，静态 shape 模式下支持图像分类，分割，检测模型；动态 shape 可用于输入 size 任意变化的模型， 如动态 shape 的图像模型（FCN， Faster rcnn）、 NLP 的 Bert/Ernie 等模型，当然也包括静态 shape 支持的模型。 静态 shape 和动态 shape 都支持fp32、fp16、int8 等多种计算精度。TensorRT 支持服务器端GPU，如T4、A10， 也支持边缘端硬件，如 Jetson NX、 Jetson Nano、 Jetson TX2 等。 在边缘硬件上，除支持常规的 GPU 外，还可用 DLA 进行推理，也支持 RTX2080，3090 等游戏显卡。
 
 用 TensorRT 首次推理时，TensorRT 需要进行各 Op 融合、显存复用、以及 Op 的 Kernel 选择等，导致首帧耗时过长。Paddle Inference 开放了 TensorRT 序列化接口，用于将 TensorRT 分析的信息进行存储，在后续推理直接载入相关序列化信息，从而减少启动耗时。
+
+<a name="2"></a>
 
 ## 2. 环境准备
 
@@ -24,12 +37,11 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 
 如果您需要安装 [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-8x-download)，请参考 [TensorRT 文档](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-801/install-guide/index.html)。
 
-Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理库下载，其均支持 TensorRT 加速推理，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.html)。
+Paddle Inference 提供的 Ubuntu/Windows 平台的官方 Release 推理库均支持 TensorRT 加速推理，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](../user_guides/source_compile.md)。
 
 - [下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#linux)
   - 此链接中名称前缀包含 `nv_jetson` 的为用于NV Jetson平台的推理库。
 - [下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#windows)
-- [下载安装 MacOS 推理库](https://paddleinference.paddlepaddle.org.cn/user_guides/download_lib.html#mac)
 
 **Note:**
 
@@ -38,7 +50,7 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理�
 3. 使用 TensorRT 的动态 shape 输入功能要求 TensorRT 的版本在 6.0 以上。
 
 
-
+<a name="3"></a>
 
 ## 3, API 使用介绍
 
@@ -128,6 +140,7 @@ config.EnableTensorRtDLA(0);
 
 DLA 上对运行的模型有一定要求，详情请可参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla_topic)。当 DLA 遇到模型中的某些不支持的层时，会回退到 GPU 进行推理，目前 DLA 仅支持fp16 和 int8 精度。
 
+<a name="4"></a>
 
 ## 4. 运行 Dynamic shape
 
@@ -153,6 +166,10 @@ DLA 上对运行的模型有一定要求，详情请可参考[链接](https://do
 该接口用来设置模型输入的最小、最大、以及最优的输入 shape。 其中，最优的 shape 处于最小最大 shape 之间，在推理初始化期间，会根据opt shape对 Op 选择最优的 Kernel 。   
 
 调用了 **config.set_trt_dynamic_shape_info** 接口，推理器会运行 TensorRT 子图的动态输入模式，运行期间可以接受最小、最大 shape 间的任意 shape 的输入数据。
+
+此接口的相关示例请参考下面链接。
+- Python 样例请访问此处[链接 1](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/gpu/resnet50) ，[链接 2](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/gpu/yolov3)。
+- C++ 样例地址请访问此处[链接 1](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50) ，[链接 2](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/yolov3)。
 
 &emsp;
 
@@ -180,10 +197,12 @@ Paddle Inference 还提供了另外一份使用动态 shape 方法，此接口�
 
 第二次运行时，需设置 `args.tune` 为 `False`，同时设置`args.tuned_dynamic_shape` 为 True，此时运行模型将会根据生成的 `shape_file` 进行模型优化。
 
-这两个接口的完整示例请参考下面链接。
-- Python 样例请访问此处 [链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/paddle_trt) 。
-- C++ 样例地址请访问此处 [链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/paddle-trt) 。
+此接口的相关示例请参考下面链接。
+- Python 样例请访问此处[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/python/gpu/tuned_dynamic_shape)
+- C++ 样例地址请访问此处[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/tuned_dynamic_shape) 。
 
+
+<a name="5"></a>
 
 ## 5. Paddle Inference 适配 TensorRT 原理介绍
 
@@ -200,5 +219,3 @@ Paddle Inference 采用子图的形式对 TensorRT 进行集成，当模型加�
 <img src=https://raw.githubusercontent.com/NHZlX/FluidDoc/add_trt_doc/doc/fluid/user_guides/howto/inference/image/model_graph_trt.png> 
 
 我们可以在原始模型网络中看到，绿色节点表示可以被 TensorRT 支持的节点，红色节点表示网络中的变量，黄色表示 只能被 GPU 原生推理执行的节点。那些在原始网络中的绿色节点被提取出来汇集成子图，并由一个 TensorRT 节点代替，成为转换后网络中的 **block-25** 节点。在网络运行过程中，如果遇到该节点，Paddle Inference 将调用TensorRT 来对其执行。
-
-- [GPU TensorRT 加速推理的完整示例链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c++/cuda_linux_demo)

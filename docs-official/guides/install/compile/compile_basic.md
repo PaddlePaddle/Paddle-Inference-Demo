@@ -4,7 +4,7 @@
 
 深度学习的发展十分迅速，对科研或工程人员来说，可能会遇到一些需要自己开发 OP 的场景，可以在 Python 层面编写 OP，但如果对性能有严格要求的话则必须在 C++ 层面开发 OP，对于这种情况，需要用户源码编译飞桨，使之生效。
 
-此外对于绝大多数使用 C++ 将模型部署上线的工程人员来说，您可以直接通过飞桨官网下载已编译好的预测库，快捷开启飞桨使用之旅。[飞桨官网](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html) 提供了多个不同环境下编译好的预测库。如果用户环境与官网提供环境不一致（如 CUDA、 cuDNN、 TensorRT 版本不一致等），或对飞桨源代码有修改需求，或希望进行定制化构建，可查阅本文档自行源码编译得到预测库。
+此外对于绝大多数使用 C++ 将模型部署上线的工程人员来说，您可以直接通过飞桨官网下载已编译好的推理库，快捷开启飞桨使用之旅。[飞桨官网](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html) 提供了多个不同环境下编译好的推理库。如果用户环境与官网提供环境不一致（如 CUDA、 cuDNN、 TensorRT 版本不一致等），或对飞桨源代码有修改需求，或希望进行定制化构建，可查阅本文档自行源码编译得到推理库。
 
 ## 目标产物
 
@@ -13,7 +13,7 @@
 **c++ lib**
 
 含有 C++ 接口的头文件及其二进制库：用于 C++ 环境，将文件放到指定路径即可开启飞桨使用之旅。
-预测库编译后，所有产出均位于 build 目录下的 paddle_inference_install_dir 目录内，目录结构如下。version.txt 中记录了该预测库的版本信息，包括 Git Commit ID、使用 OpenBlas 或 MKL 数学库、CUDA/cuDNN 版本号。
+推理库编译后，所有产出均位于 build 目录下的 paddle_inference_install_dir 目录内，目录结构如下。version.txt 中记录了该推理库的版本信息，包括 Git Commit ID、使用 OpenBlas 或 MKL 数学库、CUDA/cuDNN 版本号。
 
 ```shell
 build/paddle_inference_install_dir
@@ -47,9 +47,9 @@ build/paddle_inference_install_dir
 └── version.txt
 ```
 
-Include 目录下包括了使用飞桨预测库需要的头文件，lib 目录下包括了生成的静态库和动态库，third_party 目录下包括了预测库依赖的其它库文件。
+Include 目录下包括了使用飞桨推理库需要的头文件，lib 目录下包括了生成的静态库和动态库，third_party 目录下包括了推理库依赖的其它库文件。
 
-您可以编写应用代码，与预测库联合编译并测试结果。请参考 [C++ 预测库 API 使用](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/native_infer.html) 一节。
+您可以编写应用代码，与推理库联合编译并测试结果。请参考 [C++ 推理库 API 使用](https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/05_inference_deployment/inference/native_infer.html) 一节。
 
 **python whl 包**
 
