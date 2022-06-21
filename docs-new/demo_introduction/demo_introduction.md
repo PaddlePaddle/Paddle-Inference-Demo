@@ -31,7 +31,7 @@
 |cpu/resnet50|[单输入模型 oneDnn/ONNXRuntime 预测样例](../../python/cpu/resnet50/)|
 |cpu/yolov3|[多输入模型 oneDnn/ONNXRuntime 预测样例](../../python/cpu/yolov3/)|
 |gpu/resnet50|[单输入模型 原生GPU/GPU混合精度推理/TensorRT_fp32/TensorRT_fp16/TensorRT_int8/TensorRT_dynamic_shape 预测样例](../../python/gpu/resnet50/)|
-|gpu/yolov3|[多输入模型 原生GPU/GPU混合精度推理/TensorRT_fp32/TensorRT_fp16/TensorRT_int8/TensorRT_dynamic_shape 预测样例](../../python/gpu/yolov3/)|
+|gpu/yolov3|[多输入模型 原生GPU/TensorRT_fp32/TensorRT_fp16/TensorRT_int8/TensorRT_dynamic_shape 预测样例](../../python/gpu/yolov3/)|
 |gpu/tuned_dynamic_shape|[TensorRT动态shape自动推导 预测样例](../../python/gpu/tuned_dynamic_shape/)|
 |advanced/custom_operator|[自定义算子 样例](../../python/advanced/custom_operator/)|
 |advanced/share_external_data|[share_external_data 预测样例](../../python/advanced/share_external_data/)|
