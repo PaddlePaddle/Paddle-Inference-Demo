@@ -1,0 +1,4 @@
+GPU架构,Compute Capability,对应Jetson硬件型号
+Maxwell,SM53,CTegra (Jetson) TX1 / Tegra X1C /Jetson Nano
+Pascal,SM62,Tegra (Jetson) TX2
+Volta,SM72,Jetson AGX Xavier
