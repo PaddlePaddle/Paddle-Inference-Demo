@@ -1,6 +1,6 @@
 # GPU TensorRT 低精度或量化推理
 
-深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。Paddle Inference 的 GPU 原生推理仅支持 Fp32，Fp16 精度目前处于实验阶段；采用 TensorRT 加速推理的方式可支持 Fp32、Fp16 以及 Int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#hardware-precision-matrix)确保您的 GPU 硬件支持您使用的精度。
+深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。Paddle Inference 的 GPU 原生推理仅支持 Fp32，Fp16 精度目前处于实验阶段，2.3 及之后的版本才支持；采用 TensorRT 加速推理的方式可支持 Fp32、Fp16 以及 Int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#hardware-precision-matrix)确保您的 GPU 硬件支持您使用的精度。
 
 
 - [1. Fp16 推理](#1)
