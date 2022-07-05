@@ -4,7 +4,7 @@
 
 Paddle Inference 的整体架构如下：
 
-..  image:: ../images/inference_arch.png
+<img src="../../_images/inference_arch.png" width="800" height="545" align="center" />
 
 Paddle Inference 的高性能实现
 ##########

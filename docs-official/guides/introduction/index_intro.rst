@@ -17,8 +17,7 @@ Paddle Inference 功能特性丰富，性能优异，针对不同平台不同的
 - `选择推理引擎 <summary.html>`_ 
 
 欢迎各位用户加入我们的交流群，与更多Paddle Inference的开发者交流讨论  
-
-..  image:: ../images/user_qq.png
+<img src="../../_images/user_qq.png" width="224" height="283" align="left" />
 
 ..  toctree::
     :hidden:

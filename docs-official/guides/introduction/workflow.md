@@ -1,6 +1,6 @@
 # 推理流程
 
-![](../images/workflow.png)
+<img src="../../_images/workflow.png" width="800" height="435" align="center" />
 
 ## 一. 准备模型
 
