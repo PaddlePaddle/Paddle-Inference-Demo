@@ -7,19 +7,19 @@ API
 ..  toctree::
     :maxdepth: 1
  
-    python_api_index/python_api_index.rst
+    python_api_doc/python_api_index.rst
 
 ..  toctree::
     :maxdepth: 1
 
-    cxx_api_index/cxx_api_index.rst
+    cxx_api_doc/cxx_api_index.rst
 
 ..  toctree::
     :maxdepth: 1
 
-    c_api_index/c_api_index.rst
+    c_api_doc/c_api_index.rst
 
 ..  toctree::
     :maxdepth: 1
 
-    go_api_index/go_api_index.rst
+    go_api_doc/go_api_index.rst
