@@ -108,20 +108,20 @@ Output data shape is (2, 1000)
 import paddle.inference as paddle_infer
 ```
 
-(2) 创建配置对象，并根据需求配置，详细可参考 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
+(2) 创建配置对象，并根据需求配置，详细可参考 [Python API 文档 - Config](../../api_reference/python_api_doc/Config_index)
 
 ```python
 # 创建 config，并设置推理模型路径
 config = paddle_infer.Config(args.model_file, args.params_file)
 ```
 
-(3) 根据Config创建推理对象，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
+(3) 根据Config创建推理对象，详细可参考 [Python API 文档 - Predictor](../../api_reference/python_api_doc/Predictor)
 
 ```python
 predictor = paddle_infer.create_predictor(config)
 ```
 
-(4) 设置模型输入 Tensor，详细可参考 [Python API 文档 - Tensor](../api_reference/python_api_doc/Tensor)
+(4) 设置模型输入 Tensor，详细可参考 [Python API 文档 - Tensor](../../python_api_doc/Tensor)
 
 ```python
 # 获取输入的名称
@@ -134,13 +134,13 @@ input_handle.reshape([args.batch_size, 3, 318, 318])
 input_handle.copy_from_cpu(fake_input)
 ```
 
-(5) 执行推理，详细可参考 [Python API 文档 - Predictor](../api_reference/python_api_doc/Predictor)
+(5) 执行推理，详细可参考 [Python API 文档 - Predictor](../../api_reference/python_api_doc/Predictor)
 
 ```python
 predictor.run()
 ```
 
-(5) 获得推理结果，详细可参考 [Python API 文档 - Tensor](../api_reference/python_api_doc/Tensor)
+(5) 获得推理结果，详细可参考 [Python API 文档 - Tensor](../../api_reference/python_api_doc/Tensor)
 
 ```python
 output_names = predictor.get_output_names()

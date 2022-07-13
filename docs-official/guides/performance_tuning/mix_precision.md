@@ -35,7 +35,7 @@
 
 可以在上述 API 接口中传入 OP 名称参数列表，来排除不支持 FP16 计算的 OP 使用混合精度推理。
 
-详细API介绍，分别参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
+详细API介绍，分别参考 [C++ API 文档 - Config](../../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../../api_reference/python_api_doc/Config_index)
 
 #### 3.1.2 TensorRT 推理使用混合精度
 为了使用TensorRT 利用半精度进行混合精度推理，需将制定精度类型参数设定为半精度。
@@ -63,7 +63,7 @@
                         use_calib_mode: bool)
   ```
 
-详细API介绍，分别参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../api_reference/python_api_doc/Config_index)
+详细API介绍，分别参考 [C++ API 文档 - Config](../../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../../api_reference/python_api_doc/Config_index)
 
 ### 3.2 混合精度推理使用示例
 

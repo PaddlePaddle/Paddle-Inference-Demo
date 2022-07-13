@@ -112,7 +112,7 @@ go build .
 import pd "github.com/paddlepaddle/paddle/paddle/fluid/inference/goapi"
 ```
 
-(2) 创建配置对象，并指定推理模型路径，详细可参考 [go API 文档 - Config](../api_reference/go_api_doc/Config_index)
+(2) 创建配置对象，并指定推理模型路径，详细可参考 [go API 文档 - Config](../../api_reference/go_api_doc/Config_index)
 
 ```go
 // 配置 PD_AnalysisConfig
@@ -122,13 +122,13 @@ config := paddle.NewConfig()
 config.SetModel("resnet50/inference.pdmodel", "resnet50/inference.pdiparams")
 ```
 
-(3) 根据Config创建推理对象，详细可参考 [go API 文档 - Predictor](../api_reference/go_api_doc/Predictor)	
+(3) 根据Config创建推理对象，详细可参考 [go API 文档 - Predictor](../../api_reference/go_api_doc/Predictor)	
 
 ```go
 predictor := paddle.NewPredictor(config)
 ```
 
-(4) 设置模型输入和输出 Tensor，详细可参考 [go API 文档 - Tensor](../api_reference/go_api_doc/Tensor)
+(4) 设置模型输入和输出 Tensor，详细可参考 [go API 文档 - Tensor](../../api_reference/go_api_doc/Tensor)
 
 ```go
 // 创建输入 Tensor
@@ -143,13 +143,13 @@ inHandle.Reshape([]int32{1, 3, 224, 224})
 inHandle.CopyFromCpu(data)
 ```
 
-(5) 执行推理引擎，详细可参考 [go API 文档 - Predictor](../api_reference/go_api_doc/Predictor)
+(5) 执行推理引擎，详细可参考 [go API 文档 - Predictor](../../api_reference/go_api_doc/Predictor)
 
 ```go
 predictor.Run()
 ```
 
-(6) 获得推理结果，详细可参考 [go API 文档 - Tensor](../api_reference/go_api_doc/Tensor)
+(6) 获得推理结果，详细可参考 [go API 文档 - Tensor](../../api_reference/go_api_doc/Tensor)
 
 ```go
 outNames := predictor.GetOutputNames()
