@@ -119,7 +119,7 @@ I1202 06:53:18.979828  3411 resnet50_test.cc:88] 900 : 1.52393e-30
 #include "paddle/include/paddle_inference_api.h"
 ```
 
-(2) 创建配置对象，并根据需求配置，详细可参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index)
+(2) 创建配置对象，并根据需求配置，详细可参考 [C++ API 文档 - Config](../../api_reference/cxx_api_doc/Config_index)
 
 ```c++
 // 创建默认配置对象
@@ -136,13 +136,13 @@ config.EnableMKLDNN();
 config.EnableMemoryOptim();
 ```
 
-(3) 根据 Config 创建推理对象，详细可参考 [C++ API 文档 - Predictor](../api_reference/cxx_api_doc/Predictor)
+(3) 根据 Config 创建推理对象，详细可参考 [C++ API 文档 - Predictor](../../api_reference/cxx_api_doc/Predictor)
 
 ```c++
 auto predictor = paddle_infer::CreatePredictor(config);
 ```
 
-(4) 设置模型输入 Tensor，详细可参考 [C++ API 文档 - Tensor](../api_reference/cxx_api_doc/Tensor)
+(4) 设置模型输入 Tensor，详细可参考 [C++ API 文档 - Tensor](../../api_reference/cxx_api_doc/Tensor)
 
 ```c++
 // 获取输入 Tensor
@@ -160,14 +160,14 @@ std::vector<float> input_data(input_size, 1);
 input_tensor->CopyFromCpu(input_data.data());
 ```
 
-(5) 执行推理，详细可参考 [C++ API 文档 - Predictor](../api_reference/cxx_api_doc/Predictor)
+(5) 执行推理，详细可参考 [C++ API 文档 - Predictor](../../api_reference/cxx_api_doc/Predictor)
 
 ```c++
 // 执行推理
 predictor->Run();
 ```
 
-(6) 获得推理结果，详细可参考 [C++ API 文档 - Tensor](../api_reference/cxx_api_doc/Tensor)
+(6) 获得推理结果，详细可参考 [C++ API 文档 - Tensor](../../api_reference/cxx_api_doc/Tensor)
 
 ```c++
 // 获取 Output Tensor
