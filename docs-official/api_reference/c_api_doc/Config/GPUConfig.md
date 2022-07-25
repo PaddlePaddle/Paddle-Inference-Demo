@@ -110,7 +110,7 @@ API定义如下：
 //      use_calib_mode     - 若要运行 TensorRT INT8 离线量化校准，需要将此选项设置为 true
 // 返回：None
 void PD_ConfigEnableTensorRtEngine(PD_Config* pd_config,
-                                   int32_t workspace_size,
+                                   int64_t workspace_size,
                                    int32_t max_batch_size,
                                    int32_t min_subgraph_size,
                                    PD_PrecisionType precision,

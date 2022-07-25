@@ -90,7 +90,7 @@ API定义如下：
 //                          下次运行时直接加载优化的序列化信息而不需要重新生成
 //      useCalibMode      - 若要运行 Paddle-TRT INT8 离线量化校准，需要将此选项设置为 true
 // 返回：None
-func (config *Config) EnableTensorRtEngine(workspaceSize int32, maxBatchSize int32, minSubgraphSize int32,
+func (config *Config) EnableTensorRtEngine(workspaceSize int64, maxBatchSize int32, minSubgraphSize int32,
 	precision Precision, useStatic bool, useCalibMode bool)
 
 // 设置 TensorRT 的动态 Shape

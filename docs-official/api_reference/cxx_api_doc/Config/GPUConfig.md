@@ -181,7 +181,7 @@ API定义如下：
 //                           成，以加速启动时间（需要在同样的硬件和相同 TensorRT 版本的情况下）
 //      use_calib_mode     - 若要运行 TensorRT INT8 离线量化校准，需要将此选项设置为 true
 // 返回：None
-void EnableTensorRtEngine(int workspace_size = 1 << 20,
+void EnableTensorRtEngine(int64_t workspace_size = 1 << 20,
                           int max_batch_size = 1, int min_subgraph_size = 3,
                           Precision precision = Precision::kFloat32,
                           bool use_static = false,
