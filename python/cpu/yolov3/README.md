@@ -39,13 +39,13 @@ tar xzf yolov3_r50vd_dcn_270e_coco.tgz
 ### 使用 oneDNN 运行样例
 
 ```
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ 
+python infer_yolov3.py --model_file=./yolov3_r50vd_dcn_270e_coco/__model__ --params_file=./yolov3_infer/__params__ 
 ```
 
 ### 使用 OnnxRuntime 运行样例
 
 ```
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__  --use_onnxruntime=1
+python infer_yolov3.py --model_file=./yolov3_r50vd_dcn_270e_coco/__model__ --params_file=./yolov3_infer/__params__  --use_onnxruntime=1
 ```
 
 输出结果如下所示：
