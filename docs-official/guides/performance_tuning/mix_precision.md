@@ -44,7 +44,7 @@
   将以下接口中精度类型参数```precision```，设定为```Precision::kFloat32```。
   
   ```
-  void EnableTensorRtEngine(int64_t workspace_size = 1 << 20,
+  void EnableTensorRtEngine(int64_t workspace_size = 1 << 30,
                           int max_batch_size = 1, int min_subgraph_size = 3,
                           Precision precision = Precision::kFloat32,
                           bool use_static = false,
@@ -55,7 +55,7 @@
   
   将以下接口中精度类型参数```precision_mode```，设定为```paddle_infer.PrecisionType.Half```。
   ```python
-  enable_tensorrt_engine(workspace_size: int = 1 << 20,
+  enable_tensorrt_engine(workspace_size: int = 1 << 30,
                         max_batch_size: int,
                         min_subgraph_size: int,
                         precision_mode: PrecisionType,
