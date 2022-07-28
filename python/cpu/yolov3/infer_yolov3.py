@@ -74,7 +74,14 @@ def parse_args():
     parser.add_argument("--use_gpu",
                         type=int,
                         default=0,
-                        help="Whether use gpu.")
+                        help="Whether use gpu."
+    )
+    
+    parser.add_argument("--use_onnxruntime",
+                        type=int,
+                        default=0,
+                        help="Whether use onnxruntime."
+    )
     return parser.parse_args()
 
 
