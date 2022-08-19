@@ -1,6 +1,6 @@
 # 运行 GPU 多流预测样例
 
-GPU 多流预测样例以 ResNet50 为例展示了 GPU 多流推理过程。运行步骤如下：
+GPU 多流预测样例以 ResNet50 为例展示了 GPU 多流推理过程（该功能 develop 和 2.4 后可用）。运行步骤如下：
 
 ## 一：获取 Paddle Inference 预测库
 
@@ -27,7 +27,7 @@ DEMO_NAME=multi_stream_test
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
 WITH_MKL=ON
 WITH_GPU=ON
-USE_TENSORRT=ON
+USE_TENSORRT=OFF
 
 # 配置预测库的根目录
 LIB_DIR=${work_path}/../../lib/paddle_inference
