@@ -79,6 +79,16 @@ bool mkldnn_bfloat16_enabled() const;
 // 参数：std::unordered_set<std::string> - 使用 MKLDNN BFLOAT16 加速的 OP 列表
 // 返回：None
 void SetBfloat16Op(std::unordered_set<std::string> op_list);
+
+// 启用 MKLDNN INT8
+// 参数：op_list - 使用 MKLDNN INT8 加速的 OP 列表
+// 返回：None
+void EnableMkldnnInt8(const std::unordered_set<std::string>& op_list);
+
+// 判断是否启用 MKLDNN INT8
+// 参数：None
+// 返回：bool - 是否启用 MKLDNN INT8
+bool mkldnn_int8_enabled() const;
 ```
 
 代码示例 (1)：使用 MKLDNN 进行预测
@@ -117,3 +127,20 @@ config.SetBfloat16Op({"conv2d"});
 // 通过 API 获取 MKLDNN BFLOAT16 启用结果 - true
 std::cout << "Enable MKLDNN BF16 is: " << config.mkldnn_bfloat16_enabled() << std::endl;
 ```
+
+代码示例 (3)：使用 MKLDNN INT8 进行预测
+
+```c++
+// 创建 Config 对象
+paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+
+// 启用 MKLDNN 进行预测
+config.EnableMKLDNN();
+
+// 启用 MKLDNN INT8 进行预测
+config.EnableMkldnnInt8();
+
+// 通过 API 获取 MKLDNN INT8 启用结果 - true
+std::cout << "Enable MKLDNN INT8 is: " << config.mkldnn_int8_enabled() << std::endl;
+```
+
