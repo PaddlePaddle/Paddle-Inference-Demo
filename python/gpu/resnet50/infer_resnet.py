@@ -130,7 +130,7 @@ if __name__ == '__main__':
     img = cv2.imread('./ILSVRC2012_val_00000247.jpeg')
     img = preprocess(img)
     #img = np.ones((1, 3, 224, 224)).astype(np.float32)
-    if args.use_gpu_fp16:
+    if args.run_mode == "gpu_fp16":
         img = img.astype(np.float16)
     result = run(pred, [img])
     print("class index: ", np.argmax(result[0][0]))

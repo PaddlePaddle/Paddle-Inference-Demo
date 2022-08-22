@@ -18,9 +18,7 @@ def init_predictor(args):
 
     config.enable_memory_optim()
     config.enable_use_gpu(1000, 0)
-    if args.run_mode == "gpu_fp16":
-        config.exp_enable_use_gpu_fp16()
-    elif args.run_mode == "trt_fp32":
+    if args.run_mode == "trt_fp32":
         config.enable_tensorrt_engine(workspace_size=1 << 30,
                                 max_batch_size=1,
                                 min_subgraph_size=5,

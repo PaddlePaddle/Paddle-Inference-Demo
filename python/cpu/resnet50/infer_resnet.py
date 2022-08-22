@@ -15,21 +15,10 @@ def init_predictor(args):
         config = Config(args.model_file, args.params_file)
 
     config.enable_memory_optim()
-    if args.use_gpu:
-        config.enable_use_gpu(1000, 0)
-    elif args.use_gpu_fp16:
-        config.enable_use_gpu(1000, 0)
-        config.exp_enable_use_gpu_fp16()
-    elif args.use_onnxruntime:
+    if args.use_onnxruntime:
         config.enable_onnxruntime()
         config.enable_ort_optimization()
         config.set_cpu_math_library_num_threads(4)
-    elif args.use_xpu:
-        config.enable_xpu()
-    elif args.use_npu:
-        config.enable_npu()
-    elif args.use_ipu:
-        config.enable_ipu()
     else:
         # If not specific mkldnn, you can set the blas thread.
         # The thread num should not be greater than the number of cores in the CPU.
@@ -84,30 +73,10 @@ def parse_args():
         help=
         "Model dir, If you load a non-combined model, specify the directory of the model."
     )
-    parser.add_argument("--use_gpu",
-                        type=int,
-                        default=0,
-                        help="Whether use gpu.")
-    parser.add_argument("--use_gpu_fp16",
-                        type=int,
-                        default=0,
-                        help="Whether use gpu fp16.")
     parser.add_argument("--use_onnxruntime",
                         type=int,
                         default=0,
                         help="Whether use onnxruntime.")
-    parser.add_argument("--use_xpu",
-                        type=int,
-                        default=0,
-                        help="Whether use xpu.")
-    parser.add_argument("--use_npu",
-                        type=int,
-                        default=0,
-                        help="Whether use npu.")
-    parser.add_argument("--use_ipu",
-                        type=int,
-                        default=0,
-                        help="Whether use ipu.")
     return parser.parse_args()
 
 
@@ -117,7 +86,5 @@ if __name__ == '__main__':
     img = cv2.imread('./ILSVRC2012_val_00000247.jpeg')
     img = preprocess(img)
     #img = np.ones((1, 3, 224, 224)).astype(np.float32)
-    if args.use_gpu_fp16:
-        img = img.astype(np.float16)
     result = run(pred, [img])
     print("class index: ", np.argmax(result[0][0]))

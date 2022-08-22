@@ -21,6 +21,7 @@ DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_string(run_mode, "paddle_gpu", "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_bool(use_dynamic_shape, false, "use trt dynaminc shape.");
+DEFINE_bool(use_calib, true, "use trt int8 calibration.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -47,8 +48,8 @@ std::shared_ptr<Predictor> InitPredictor() {
                                 PrecisionType::kHalf, false, false);
   } else if (FLAGS_run_mode == "trt_int8") {
     config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
-                                PrecisionType::kInt8, false, true);
-  }
+                                PrecisionType::kInt8, false, FLAGS_use_calib);
+  } 
   
   if(FLAGS_use_dynamic_shape){
     std::map<std::string, std::vector<int>> min_input_shape = {

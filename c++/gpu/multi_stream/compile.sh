@@ -25,7 +25,7 @@ DEMO_NAME=multi_stream_test
 
 WITH_MKL=ON
 WITH_GPU=ON
-USE_TENSORRT=ON
+USE_TENSORRT=OFF
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/

@@ -36,24 +36,19 @@ tar xzf yolov3_r50vd_dcn_270e_coco.tgz
 ### 使用原生 GPU 运行样例
 
 ```shell
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__
-```
-### 使用 GPU 混合精度推理 运行样例
-
-```shell
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --run_mode=gpu_fp16 
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams
 ```
 
 ### 使用 Trt Fp32 运行样例
 
 ```shell
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --run_mode=trt_fp32
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_fp32
 ```
 
 ### 使用 Trt Fp16 运行样例
 
 ```shell
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --run_mode=trt_fp16
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_fp16
 ```
 
 ### 使用 Trt Int8 运行样例
@@ -63,7 +58,7 @@ python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yol
 #### 生成量化校准表
 
 ```shell
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --run_mode=trt_int8
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_int8
 ```
 
 生成校准表的log：

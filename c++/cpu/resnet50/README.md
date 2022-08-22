@@ -1,6 +1,10 @@
-# 运行 ResNet50 图像分类样例
+# Linux 运行 ResNet50 图像分类样例
 
-ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 的推理过程。运行步骤如下：
+ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 的推理过程。
+
+Windows 运行请看文档: [Windows 运行 ResNet50 图像分类样例](Windows.md)
+
+Linux运行步骤如下：
 
 ## 一：获取 Paddle Inference 预测库
 
@@ -18,6 +22,16 @@ ResNet50 样例展示了单输入模型在 CPU 下使用 oneDNN 和 OnnxRuntime 
 - 文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有 opencv 或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
 - 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。  
 - 脚本`run.sh` 为一键运行脚本。
+
+编译前，需要根据自己的环境修改 `compile.sh` 中的相关代码配置依赖库：
+
+```bash
+# 根据预编译库中的version.txt信息判断是否将以下标记打开
+WITH_MKL=OFF
+WITH_ARM=OFF  # 在飞腾/鲲鹏 CPU 下运行，则修改为ON
+WITH_MIPS=OFF # 在龙芯 CPU 下运行，则修改为ON
+WITH_SW=OFF   # 在申威 CPU 下运行，则修改为ON
+```
 
 运行 `bash compile.sh` 编译样例。
 
