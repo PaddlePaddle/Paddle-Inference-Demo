@@ -5,7 +5,8 @@
 
 模型结构文件（*.pdmodel文件），顾名思义，存储了模型的拓扑结构，其中包括模型中各种OP的计算顺序以及OP的详细信息。很多时候，我们希望能够将这些模型的结构以及内部信息可视化，方便我们进行模型分析。
 
-飞桨提供了 VisualDL 帮助我们来可视化模型结构，除此之外，对 `Netron <https://github.com/lutzroeder/netron>`_ 熟悉的用户也可直接使用 Netron 进行模型结构的可视化。 
+飞桨提供了 VisualDL 帮助我们来可视化模型结构，除此之外，对 `Netron <https://github.com/lutzroeder/netron>`_ 熟悉的用户也可直接使用 Netron 进行模型结构的可视化。
+
 安装可视化工具VisualDL
 >>>>>>>>>>>>>>
 
