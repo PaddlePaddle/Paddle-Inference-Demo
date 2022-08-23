@@ -210,7 +210,7 @@ Paddle Inference 采用子图的形式对 TensorRT 进行集成，当模型加�
 
 **原始网络**
 
-<img src=https://raw.githubusercontent.com/NHZlX/FluidDoc/add_trt_doc/doc/fluid/install/howto/inference/image/model_graph_original.png >
+<img src=https://raw.githubusercontent.com/NHZlX/FluidDoc/add_trt_doc/doc/fluid/user_guides/howto/inference/image/model_graph_original.png>
 
 **转换的网络**
 
