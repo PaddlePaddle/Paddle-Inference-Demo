@@ -22,6 +22,19 @@ void EnableIpu(int ipu_device_num = 1, int ipu_micro_batch_size = 1,
 void SetIpuConfig(bool ipu_enable_fp16 = false, int ipu_replica_num = 1,
                   float ipu_available_memory_proportion = 1.0,
                   bool ipu_enable_half_partial = false);
+
+// 配置 IPU Custom Ops 和 Patterns
+// 参数：ipu_custom_ops_info - 设置Paddle Op和IPU Custom Op信息，需要给定Paddle Op name，IPU Custom Op name，Op Domain和 Op Version。例如：[["custom_relu", "Relu", "custom.ops", "1"]].
+// 参数：ipu_custom_patterns - 开启或关闭特定 IPU pattern，需要给定Pattern name 和 Pattern状态。例如：{"AccumulatePriorityPattern", false}
+// 返回：None
+void SetIpuCustomInfo(
+      const std::vector<std::vector<std::string>>& ipu_custom_ops_info = {},
+      const std::map<std::string, bool>& ipu_custom_patterns = {});
+
+// 从文件载入 IPU 配置信息
+// 参数：config_path - 指定文件路径.
+// 返回：None
+void LoadIpuConfig(const std::string& config_path);
 ```
 
 代码示例：
@@ -34,4 +47,12 @@ paddle_infer::Config config(FLAGS_model_dir);
 config.EnableIpu(1);
 // 使能float16模式
 config.SetIpuConfig(true);
+```
+
+```text
+# IPU 配置文件示例如下：
+ipu_device_num,1
+ipu_micro_batch_size,1
+ipu_enable_fp16,false
+ipu_custom_ops_info,[[custom_relu, Relu, custom.ops, 1]]
 ```
