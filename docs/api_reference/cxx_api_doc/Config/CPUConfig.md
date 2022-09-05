@@ -70,6 +70,11 @@ void SetMKLDNNOp(std::unordered_set<std::string> op_list);
 // 返回：None
 void EnableMkldnnBfloat16();
 
+// 设置新版本量化模型的 calibration file 路径
+// 参数：calibration_file_path - 新版本量化模型的 calibration file 路径
+// 返回：None
+void SetCalibrationFilePath(const std::string& calibration_file_path);
+
 // 启用 MKLDNN INT8
 // 参数：op_list - 使用 MKLDNN INT8 加速的 OP 列表
 // 返回：None
@@ -136,6 +141,9 @@ paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
 
 // 启用 MKLDNN 进行预测
 config.EnableMKLDNN();
+
+// 设置新版本量化模型的量化标定文件路径
+config.SetCalibrationFilePath(FLAGS_infer_model + "/mobilenet/calibration_table.txt")
 
 // 启用 MKLDNN INT8 进行预测
 config.EnableMkldnnInt8();
