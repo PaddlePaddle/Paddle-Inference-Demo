@@ -14,6 +14,7 @@ using paddle_infer::CreatePredictor;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
+DEFINE_string(calibration_file, "", "The calibration path of quantize model.");
 DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
@@ -33,8 +34,9 @@ std::shared_ptr<Predictor> InitPredictor() {
   Config config;
   if (FLAGS_model_dir != "") {
     config.SetModel(FLAGS_model_dir);
+  } else {
+    config.SetModel(FLAGS_model_file, FLAGS_params_file);
   }
-  config.SetModel(FLAGS_model_file, FLAGS_params_file);
   if (FLAGS_use_ort) {
     // 使用onnxruntime推理
     config.EnableONNXRuntime();
@@ -42,8 +44,11 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.EnableORTOptimization();
   } else {
     config.EnableMKLDNN();
+    if(FLAGS_calibration_file.size()){
+      config.SetCalibrationFilePath()
+      config.EnableMkldnnInt8();
+    }
   }
-
   // Open the memory optim.
   config.EnableMemoryOptim();
   return CreatePredictor(config);

@@ -24,6 +24,11 @@ def init_predictor(args):
         # The thread num should not be greater than the number of cores in the CPU.
         config.set_cpu_math_library_num_threads(4)
         config.enable_mkldnn()
+        config.switch_ir_optim()
+        # If calibration_file is specified, it means that the input model is a quantize model
+        if args.calibration_file is not "":
+            config.set_calibration_file_path("./mobilenet_v1/calibration_table.txt")
+            config.enable_mkldnn_int8() 
 
     predictor = create_predictor(config)
     return predictor
@@ -72,6 +77,13 @@ def parse_args():
         default="",
         help=
         "Model dir, If you load a non-combined model, specify the directory of the model."
+    )
+    parser.add_argument(
+        "--calibration_file",
+        type=str,
+        default="",
+        help=
+        "Calibration file path, specify the calibration file path of the quantize model."
     )
     parser.add_argument("--use_onnxruntime",
                         type=int,
