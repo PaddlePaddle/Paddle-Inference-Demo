@@ -27,7 +27,7 @@ def init_predictor(args):
         config.switch_ir_optim()
         # If calibration_file is specified, it means that the input model is a quantize model
         if args.calibration_file is not "":
-            config.set_calibration_file_path("./mobilenet_v1/calibration_table.txt")
+            config.set_calibration_file_path(args.calibration_file)
             config.enable_mkldnn_int8() 
 
     predictor = create_predictor(config)

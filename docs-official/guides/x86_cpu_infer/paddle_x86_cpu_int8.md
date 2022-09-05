@@ -40,7 +40,7 @@ X86 CPU 预测端支持 PaddleSlim 量化训练方法和静态离线量化方法
 
 ### 预测部署
 
-参考[C++ 预测部署示例](../../c++/cpu/resnet50)和[Python 预测部署示例](../../pythoncpu/resnet50)，准备预测库，对模型进行部署。
+参考[C++ 预测部署示例](../../../c++/cpu/resnet50)和[Python 预测部署示例](../../../pythoncpu/resnet50)，准备预测库，对模型进行部署。
 
 **请注意：**
 - 在 X86 CPU 预测端部署量化模型，必须开启 MKLDNN, MKLDNNINT8 和 IrOptim。
