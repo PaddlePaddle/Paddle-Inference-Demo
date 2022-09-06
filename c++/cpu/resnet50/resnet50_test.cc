@@ -45,7 +45,7 @@ std::shared_ptr<Predictor> InitPredictor() {
   } else {
     config.EnableMKLDNN();
     if(FLAGS_calibration_file.size()){
-      config.SetCalibrationFilePath(FLAGS_calibration_file)
+      config.SetCalibrationFilePath(FLAGS_calibration_file);
       config.EnableMkldnnInt8();
     }
   }

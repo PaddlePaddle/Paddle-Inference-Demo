@@ -47,16 +47,22 @@ X86 CPU 预测端支持 PaddleSlim 量化训练方法和静态离线量化方法
 - 新版本量化模型还需要使用 SetCalibrationFilePath 设置量化模型的 calibration 文件路径
 - 生成量化模型后，可以使用如下命令部署量化模型
 
-c++ 部署命令如下：
-
+用户可用以下提前准备的量化模型进行验证
 ```bash
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --calibration_file resnet50/calibration_table.txt
+wget https://paddle-slim-models.bj.bcebos.com/act/ResNet50_vd_QAT.tar
+tar -xf ResNet50_vd_QAT.tar
 ```
 
-Python 部署命令如下：
+C++ 部署示例中运行量化模型的命令如下：
 
 ```bash
-python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --calibration_file=./resnet50/calibration_table.txt
+./build/resnet50_test --model_file ResNet50_vd_QAT/inference.pdmodel --params_file ResNet50_vd_QAT/inference.pdiparams --calibration_file ResNet50_vd_QAT/calibration_table.txt
+```
+
+Python 部署示例中运行量化模型的命令如下：
+
+```bash
+python infer_resnet.py --model_file=ResNet50_vd_QAT/inference.pdmodel --params_file ResNet50_vd_QAT/inference.pdiparams --calibration_file ResNet50_vd_QAT/calibration_table.txt
 ```
 
 ## 性能benchmark
