@@ -210,10 +210,10 @@ Paddle Inference 采用子图的形式对 TensorRT 进行集成，当模型加�
 
 **原始网络**
 
-<img src=https://raw.githubusercontent.com/NHZlX/FluidDoc/add_trt_doc/doc/fluid/install/howto/inference/image/model_graph_original.png >
+![model_graph_original](./images/model_graph_original.png)
 
 **转换的网络**
 
-<img src=https://raw.githubusercontent.com/NHZlX/FluidDoc/add_trt_doc/doc/fluid/user_guides/howto/inference/image/model_graph_trt.png> 
+![model_graph_trt](./images/model_graph_trt.png)
 
 我们可以在原始模型网络中看到，绿色节点表示可以被 TensorRT 支持的节点，红色节点表示网络中的变量，黄色表示 只能被 GPU 原生推理执行的节点。那些在原始网络中的绿色节点被提取出来汇集成子图，并由一个 TensorRT 节点代替，成为转换后网络中的 **block-25** 节点。在网络运行过程中，如果遇到该节点，Paddle Inference 将调用TensorRT 来对其执行。
