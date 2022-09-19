@@ -38,6 +38,11 @@ paddle.inference.Predictor.run()
 # 返回：Predictor - 新的 Predictor
 paddle.inference.Predictor.clone()
 
+# 根据该 Predictor，和外部 stream, 克隆一个新的 Predictor，两个 Predictor 之间共享权重，克隆 Predictor 绑定外部 stream
+# 参数：paddle.device.cuda.Stream
+# 返回：Predictor - 新的 Predictor
+paddle.inference.Predictor.clone(paddle.device.cuda.Stream(paddle.CUDAPlace(0), 1))
+
 # 释放中间 Tensor
 # 参数：None
 # 返回：None
