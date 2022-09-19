@@ -16,11 +16,11 @@ using paddle_infer::CreatePredictor;
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
 DEFINE_string(model_dir, "", "Directory of the inference model.");
-DEFINE_int32(batch_size, 1, "Directory of the inference model.");
+DEFINE_int32(batch_size, 100, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_bool(use_ort, false, "use ort.");
-DEFINE_int32(thread_num, 1, "thread num");
+DEFINE_int32(thread_num, 5, "thread num");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -51,12 +51,8 @@ std::shared_ptr<Predictor> InitPredictor() {
   return CreatePredictor(config);
 }
 
-void run(Predictor *predictor, int thread_id) {
-  std::vector<int> input_shape = {FLAGS_batch_size, 3, 224, 224};
-  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
-  for (size_t i = 0; i < input_data.size(); ++i){
-    input_data[i] = i % 255 * 0.1;
-  }
+void run(Predictor *predictor, int thread_id, const std::vector<float> &input_data,
+         const std::vector<int> &input_shape) {
   std::vector<float> out_data;
 
   int input_num = std::accumulate(input_shape.begin(), input_shape.end(), 1,
@@ -82,6 +78,9 @@ void run(Predictor *predictor, int thread_id) {
     output_t->CopyToCpu(out_data.data());
   }
   LOG(INFO) << "Thread " << thread_id << " run done.";
+
+  LOG(INFO) << "run avg time is " << time_diff(st, time()) / FLAGS_repeats
+            << " ms";
 }
 
 int main(int argc, char **argv) {
@@ -92,11 +91,26 @@ int main(int argc, char **argv) {
   for (int i = 0; i < FLAGS_thread_num; ++i) {
     predictors.emplace_back(std::move(main_predictor->Clone()));
   }
-
+  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
+  for (size_t i = 0; i < input_data.size(); ++i)
+    input_data[i] = i % 255 * 0.1;
+  
+  std::vector<int> strides(FLAGS_thread_num + 1, 0);
+  for (int i = 1; i < strides.size(); ++ i) {
+      if (i == strides.size()) {
+        strides[i] = FLAGS_batch_size / FLAGS_thread_num * (FLAGS_batch_size % FLAGS_thread_num + i);
+      } else {
+        strides[i] = FLAGS_batch_size / FLAGS_thread_num * i;
+      }
+  }
+  
   std::vector<std::thread> threads;
   for (int i = 0; i < FLAGS_thread_num; ++i) {
-    threads.emplace_back(run, predictors[i].get(), i);
+    std::vector<int> input_shape = {strides[i + 1] - strides[i], 3, 224, 224};
+    std::vector<float> input_data_i(input_data.begin() + strides[i] * 3 * 224 * 224, input_data.begin() + strides[i + 1] * 3 * 224 * 224);
+    threads.emplace_back(run, predictors[i].get(), i, input_data_i, input_shape);
   }
+
   for (int i = 0; i < FLAGS_thread_num; ++i) {
     threads[i].join();
   }
