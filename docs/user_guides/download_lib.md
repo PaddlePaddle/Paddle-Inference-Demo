@@ -31,7 +31,10 @@
 |Jetpack4.6.1: nv-jetson-cuda10.2-cudnn8.2-trt8.2(nano)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack4.6.1_gcc7.5/nano/paddle_inference_install_dir.tgz)|
 |Jetpack4.6.1: nv-jetson-cuda10.2-cudnn8.2-trt8.2(tx2)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack4.6.1_gcc7.5/tx2/paddle_inference_install_dir.tgz)|
 |Jetpack4.6.1: nv-jetson-cuda10.2-cudnn8.2-trt8.2(xavier)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack4.6.1_gcc7.5/xavier/paddle_inference_install_dir.tgz)|
-
+|Jetpack5.0.2: nv-jetson-cuda11.4-cudnn8.4-trt8.4(all)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack5.0.2_gcc9.4/all/paddle_inference_install_dir.tgz)|
+|Jetpack5.0.2: nv-jetson-cuda11.4-cudnn8.4-trt8.4(nano)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack5.0.2_gcc9.4/nano/paddle_inference_install_dir.tgz)|
+|Jetpack5.0.2: nv-jetson-cuda11.4-cudnn8.4-trt8.4(tx2)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack5.0.2_gcc9.4/tx2/paddle_inference_install_dir.tgz)|
+|Jetpack5.0.2: nv-jetson-cuda11.4-cudnn8.4-trt8.4(xavier)|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack5.0.2_gcc9.4/xavier/paddle_inference_install_dir.tgz)|
 
 ## C预测库
 
