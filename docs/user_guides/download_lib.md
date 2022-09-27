@@ -74,10 +74,10 @@
 |Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-nano||[paddlepaddle_gpu-2.4.0-rc0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack4.6.1_gcc7.5/nano/paddlepaddle_gpu-2.4.0rc0-cp37-cp37m-linux_aarch64.whl)|||
 |Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-tx2||[paddlepaddle_gpu-2.4.0-rc0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack4.6.1_gcc7.5/tx2/paddlepaddle_gpu-2.4.0rc0-cp37-cp37m-linux_aarch64.whl)|||
 |Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-xavier||[paddlepaddle_gpu-2.4.0-rc0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack4.6.1_gcc7.5/xavier/paddlepaddle_gpu-2.4.0rc0-cp37-cp37m-linux_aarch64.whl)|||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-all|||[paddlepaddle_gpu-2.4.0-rc0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/all/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-nano|||[paddlepaddle_gpu-2.4.0-rc0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/nano/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-tx2|||[paddlepaddle_gpu-2.4.0-rc0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/tx2/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-xavier|||[paddlepaddle_gpu-2.4.0-rc0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/xavier/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-all|||[paddlepaddle_gpu-2.4.0-rc0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/all/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-nano|||[paddlepaddle_gpu-2.4.0-rc0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/nano/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-tx2|||[paddlepaddle_gpu-2.4.0-rc0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/tx2/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-xavier|||[paddlepaddle_gpu-2.4.0-rc0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/python/Jetson/jetpack5.0.2_gcc9.4/xavier/paddlepaddle_gpu-2.4.0rc0-cp38-cp38-linux_aarch64.whl)||
 
 
 
@@ -102,9 +102,9 @@
 |cpu_avx_mkl|[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/CPU/x86-64_avx-mkl-vs2017/paddle_inference.zip)|  MSVC 2017 | - | - |
 |cpu_avx_openblas|[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/CPU/x86-64_avx-openblas-vs2017/paddle_inference.zip)| MSVC 2017 | - | - |
 |avx_mkl_cuda10.2_cudnn7.6.5_avx_mkl-trt7.0.0.11 |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda10.2_cudnn7.6.5_trt7.0.0.11_mkl_avx_vs2017/paddle_inference.zip)| MSVC 2017  | 7.6|  10.2 |
-|avx_mkl_cuda11.2_cudnn8.2_avx_mkl-trt8.0.1.6 |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.2_cudnn8.2.1_trt8.0.1.6_mkl_avx_vs2019/paddle_inference.zip)| MSVC 2017  | 8.2 | 11.2 |
-|avx_mkl_cuda11.6_cudnn8.4_avx_mkl-trt8.4.1.5 |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference.zip)| MSVC 2017  | 8.4 | 11.6 |
-|avx_mkl_cuda11.7_cudnn8.4_avx_mkl-trt8.4.2.4 |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.7_cudnn8.4.1_trt8.4.2.4_mkl_avx_vs2019/paddle_inference.zip)| MSVC 2017  | 8.4 | 11.7 |
+|avx_mkl_cuda11.2_cudnn8.2_avx_mkl-trt8.0.1.6 |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.2_cudnn8.2.1_trt8.0.1.6_mkl_avx_vs2019/paddle_inference.zip)| MSVC 2019  | 8.2 | 11.2 |
+|avx_mkl_cuda11.6_cudnn8.4_avx_mkl-trt8.4.1.5 |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference.zip)| MSVC 2019  | 8.4 | 11.6 |
+|avx_mkl_cuda11.7_cudnn8.4_avx_mkl-trt8.4.2.4 |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.7_cudnn8.4.1_trt8.4.2.4_mkl_avx_vs2019/paddle_inference.zip)| MSVC 2019  | 8.4 | 11.7 |
 
 ## C预测库
 
@@ -113,9 +113,9 @@
 |cpu_avx_mkl| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/CPU/x86-64_avx-mkl-vs2017/paddle_inference_c.zip)|  MSVC 2017 | - | - |
 |cpu_avx_openblas| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/CPU/x86-64_avx-openblas-vs2017/paddle_inference_c.zip)| MSVC 2017 | - | - |
 |avx_mkl_cuda10.2_cudnn7.6.5_avx_mkl-trt7.0.0.11 |[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda10.2_cudnn7.6.5_trt7.0.0.11_mkl_avx_vs2017/paddle_inference_c.zip)| MSVC 2017  | 7.6|  10.2 |
-|avx_mkl_cuda11.2_cudnn8.2_avx_mkl-trt8.0.1.6 |[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.2_cudnn8.2.1_trt8.0.1.6_mkl_avx_vs2019/paddle_inference_c.zip)| MSVC 2017  | 8.2 | 11.2 |
-|avx_mkl_cuda11.6_cudnn8.4_avx_mkl-trt8.4.1.5 |[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference_c.zip)| MSVC 2017  | 8.4 | 11.6 |
-|avx_mkl_cuda11.7_cudnn8.4_avx_mkl-trt8.4.2.4 |[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.7_cudnn8.4.1_trt8.4.2.4_mkl_avx_vs2019/paddle_inference_c.zip)| MSVC 2017  | 8.4 | 11.7 |
+|avx_mkl_cuda11.2_cudnn8.2_avx_mkl-trt8.0.1.6 |[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.2_cudnn8.2.1_trt8.0.1.6_mkl_avx_vs2019/paddle_inference_c.zip)| MSVC 2019  | 8.2 | 11.2 |
+|avx_mkl_cuda11.6_cudnn8.4_avx_mkl-trt8.4.1.5 |[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference_c.zip)| MSVC 2019  | 8.4 | 11.6 |
+|avx_mkl_cuda11.7_cudnn8.4_avx_mkl-trt8.4.2.4 |[paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Windows/GPU/x86-64_cuda11.7_cudnn8.4.1_trt8.4.2.4_mkl_avx_vs2019/paddle_inference_c.zip)| MSVC 2019  | 8.4 | 11.7 |
 
 
 # 下载安装Mac预测库
