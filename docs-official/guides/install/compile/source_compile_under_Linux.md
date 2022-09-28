@@ -4,11 +4,11 @@
 
 Linux 版本 (64 bit)
 
-	CentOS 6 (不推荐，不提供编译出现问题时的官方支持)
-	CentOS 7 (GPU 版本支持 CUDA 10.2/11.0/11.1/11.2)
-	Ubuntu 14.04 (不推荐，不提供编译出现问题时的官方支持)
-	Ubuntu 16.04 (GPU 版本支持 CUDA 10.2/11.0/11.1/11.2)
-	Ubuntu 18.04 (GPU 版本支持 CUDA 10.2/11.0/11.1/11.2)
+    CentOS 6 (不推荐，不提供编译出现问题时的官方支持)
+    CentOS 7
+    Ubuntu 14.04 (不推荐，不提供编译出现问题时的官方支持)
+    Ubuntu 16.04
+    Ubuntu 18.04
 
 Python 版本 3.6/3.7/3.8/3.9/3.10 (64 bit)
 
@@ -17,20 +17,20 @@ Python 版本 3.6/3.7/3.8/3.9/3.10 (64 bit)
 如果您的计算机没有 NVIDIA GPU，请安装 CPU 版本的 PaddlePaddle。
 如果您的计算机有 NVIDIA GPU，请确保满足以下条件以编译 GPU 版 PaddlePaddle：
 
-	CUDA 工具包10.2配合 cuDNN 7 (cuDNN 版本>=7.6.5)
-	CUDA 工具包11.0配合 cuDNN v8.0.4
-	CUDA 工具包11.1配合 cuDNN v8.1.1
-	CUDA 工具包11.2配合 cuDNN v8.1.1
-	GPU 运算能力超过3.5的硬件设备
+    CUDA 工具包 10.2 配合 cuDNN 7 (cuDNN 版本>=7.6.5)
+    CUDA 工具包 11.0 配合 cuDNN v8.0.4
+    CUDA 工具包 11.1 配合 cuDNN v8.1.1
+    CUDA 工具包 11.2 配合 cuDNN v8.1.1
+    GPU 运算能力超过 3.5 的硬件设备
 
 您可参考 NVIDIA 官方文档了解 CUDA 和 cuDNN 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/cuDNN/install-guide/)
 
 ## 安装步骤
 
-在 Linux 的系统下有2种编译方式，推荐使用 Docker 编译。 Docker 环境中已预装好编译 Paddle 需要的各种依赖，相较本机编译环境更简单。
+在 Linux 的系统下有 2 种编译方式，推荐使用 Docker 编译。 Docker 环境中已预装好编译 Paddle 需要的各种依赖，相较本机编译环境更简单。
 
-	1. 使用 Docker 编译（不提供在 CentOS 6下编译中遇到问题的支持）
-	2. 本机编译（不提供在 CentOS 6下编译中遇到问题的支持）
+    1. 使用 Docker 编译（不提供在 CentOS 6 下编译中遇到问题的支持）
+    2. 本机编译（不提供在 CentOS 6 下编译中遇到问题的支持）
 
 ### 使用 docker 编译
 
@@ -38,8 +38,8 @@ Docker 是一个开源的应用容器引擎。使用 Docker，既可以将 Paddl
 
 使用 Docker 编译时，您需要：
 
-	1. 在本地主机上安装 Docker
-	2. 如需在 Linux 开启 GPU 支持，请安装 nvidia-docker
+    1. 在本地主机上安装 Docker
+    2. 如需在 Linux 开启 GPU 支持，请安装 nvidia-docker
 
 请您按照以下步骤编译安装：
 
@@ -85,19 +85,19 @@ nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cuDNN8-gcc82
 
 编译 CPU 版本的 PaddlePaddle：
 
-	docker run --name paddle-test -v $PWD:/paddle --network=host --privileged=true -it registry.baidubce.com/paddlepaddle/paddle:latest-dev /bin/bash
+    docker run --name paddle-test -v $PWD:/paddle --network=host --privileged=true -it registry.baidubce.com/paddlepaddle/paddle:latest-dev /bin/bash
 
 其中参数的意义为：
 
-	--name paddle-test：为您创建的 Docker 容器命名为 paddle-test;
-	-v $PWD:/paddle： 将当前目录挂载到 Docker 容器中的 /paddle 目录下（Linux 中 PWD 变量会展开为当前路径的绝对路径);
-	--privileged=true: container 内的 root用户 拥有真正的 root 权限
-	-it： 与宿主机保持交互状态;
-	registry.baidubce.com/paddlepaddle/paddle:latest-dev：使用名为 registry.baidubce.com/paddlepaddle/paddle:latest-dev 的镜像创建 Docker 容器，/bin/bash 进入容器后启动 /bin/bash 命令。
+    --name paddle-test：为您创建的 Docker 容器命名为 paddle-test;
+    -v $PWD:/paddle： 将当前目录挂载到 Docker 容器中的 /paddle 目录下（Linux 中 PWD 变量会展开为当前路径的绝对路径);
+    --privileged=true: container 内的 root 用户 拥有真正的 root 权限
+    -it： 与宿主机保持交互状态;
+    registry.baidubce.com/paddlepaddle/paddle:latest-dev：使用名为 registry.baidubce.com/paddlepaddle/paddle:latest-dev 的镜像创建 Docker 容器，/bin/bash 进入容器后启动 /bin/bash 命令。
 
 编译 GPU 版本的 PaddlePaddle：
 
-	nvidia-docke run --name paddle-test -v $PWD:/paddle --network=host --privileged=true -it registry.baidubce.com/paddlepaddle/paddle:latest-dev /bin/bash
+    nvidia-docke run --name paddle-test -v $PWD:/paddle --network=host --privileged=true -it registry.baidubce.com/paddlepaddle/paddle:latest-dev /bin/bash
 
 注意： 请确保至少为 docker 分配 4g 以上的内存，否则编译过程可能因内存不足导致失败。
 
@@ -147,25 +147,25 @@ cmake .. -DPY_VERSION=3.7 -DWITH_TESTING=OFF -DWITH_MKL=ON -DWITH_GPU=ON -DON_IN
 目录为 /paddle/nvidia/TensorRT/， cmake 编译指令如下：
 ```shell
 cmake .. -DPY_VERSION=3.7 -DWITH_TESTING=OFF -DWITH_MKL=ON -DWITH_GPU=ON -DON_INFER=ON \
-					-DWITH_TENSORRT=ON -DTENSORRT_ROOT=/paddle/nvidia/TensorRT/
+                    -DWITH_TENSORRT=ON -DTENSORRT_ROOT=/paddle/nvidia/TensorRT/
 ```
 
 更多 cmake 参数可以查看 cmake 参数表：
 
 | 选项 | 说明 | 默认值 |
 |--|--|--|
-| WITH_GPU | 是否支持GPU | ON |
-| WITH_AVX | 是否编译含有AVX指令集的飞桨二进制文件 | ON |
-| WITH_PYTHON | 是否内嵌PYTHON解释器并编译Wheel安装包 | ON |
+| WITH_GPU | 是否支持 GPU | ON |
+| WITH_AVX | 是否编译含有 AVX 指令集的飞桨二进制文件 | ON |
+| WITH_PYTHON | 是否内嵌 PYTHON 解释器并编译 Wheel 安装包 | ON |
 | WITH_TESTING | 是否开启单元测试 | OFF |
-| WITH_MKL | 是否使用MKL数学库，如果为否，将使用OpenBLAS | ON |
-| WITH_SYSTEM_BLAS | 是否使用系统自带的BLAS | OFF |
+| WITH_MKL | 是否使用 MKL 数学库，如果为否，将使用 OpenBLAS | ON |
+| WITH_SYSTEM_BLAS | 是否使用系统自带的 BLAS | OFF |
 | WITH_DISTRIBUTE | 是否编译带有分布式的版本 | OFF |
-| WITH_BRPC_RDMA | 是否使用BRPC,RDMA作为RPC协议 | OFF |
+| WITH_BRPC_RDMA | 是否使用 BRPC,RDMA 作为 RPC 协议 | OFF |
 | ON_INFER | 是否打开推理优化 | OFF |
-| CUDA_ARCH_NAME | 是否只针对当前CUDA架构编译 | All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译 |
+| CUDA_ARCH_NAME | 是否只针对当前 CUDA 架构编译 | All:编译所有可支持的 CUDA 架构；Auto:自动识别当前环境的架构编译 |
 | WITH_TENSORRT | 是否开启 TensorRT | OFF |
-| TENSORRT_ROOT | TensorRT_lib的路径，该路径指定后会编译 TensorRT 子图功能eg:/paddle/nvidia/TensorRT/ | /usr |
+| TENSORRT_ROOT | TensorRT_lib 的路径，该路径指定后会编译 TensorRT 子图功能 eg:/paddle/nvidia/TensorRT/ | /usr |
 
 **10. 执行编译**
 ```shell
@@ -229,7 +229,7 @@ sudo cp -a cuda/lib64/libcuDNN* /usr/local/cuda/lib64/
 
 2.1) 下载 Paddle
 
-使用 Git 将飞桨代码克隆到本地，并进入目录，切换到稳定版本（git tag显示的标签名，如 release/2.3）。 飞桨使用 develop 分支进行最新特性的开发，使用 release 分支发布稳定版本。在 GitHub 的 Releases 选项卡中，可以看到飞桨版本的发布记录。
+使用 Git 将飞桨代码克隆到本地，并进入目录，切换到稳定版本（git tag 显示的标签名，如 release/2.3）。 飞桨使用 develop 分支进行最新特性的开发，使用 release 分支发布稳定版本。在 GitHub 的 Releases 选项卡中，可以看到飞桨版本的发布记录。
 
 ```shell
 git clone https://github.com/PaddlePaddle/Paddle.git
@@ -243,7 +243,7 @@ git checkout release/2.3
 ```shell
 # 创建并进入 build 目录
 mkdir build_cuda && cd build_cuda
-# 执行cmake指令
+# 执行 cmake 指令
 cmake .. -DPY_VERSION=3 \
         -DWITH_TESTING=OFF \
         -DWITH_MKL=ON \
@@ -261,27 +261,27 @@ make -j4
 
 | 选项 | 说明 | 默认值 |
 |--|--|--|
-| WITH_GPU | 是否支持GPU | ON |
-| WITH_AVX | 是否编译含有AVX指令集的飞桨二进制文件 | ON |
-| WITH_PYTHON | 是否内嵌PYTHON解释器并编译Wheel安装包 | ON |
+| WITH_GPU | 是否支持 GPU | ON |
+| WITH_AVX | 是否编译含有 AVX 指令集的飞桨二进制文件 | ON |
+| WITH_PYTHON | 是否内嵌 PYTHON 解释器并编译 Wheel 安装包 | ON |
 | WITH_TESTING | 是否开启单元测试 | OFF |
-| WITH_MKL | 是否使用MKL数学库，如果为否，将使用OpenBLAS | ON |
-| WITH_SYSTEM_BLAS | 是否使用系统自带的BLAS | OFF |
+| WITH_MKL | 是否使用 MKL 数学库，如果为否，将使用 OpenBLAS | ON |
+| WITH_SYSTEM_BLAS | 是否使用系统自带的 BLAS | OFF |
 | WITH_DISTRIBUTE | 是否编译带有分布式的版本 | OFF |
-| WITH_BRPC_RDMA | 是否使用BRPC,RDMA作为RPC协议 | OFF |
+| WITH_BRPC_RDMA | 是否使用 BRPC,RDMA 作为 RPC 协议 | OFF |
 | ON_INFER | 是否打开推理优化 | OFF |
-| CUDA_ARCH_NAME | 是否只针对当前CUDA架构编译 | All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译 |
+| CUDA_ARCH_NAME | 是否只针对当前 CUDA 架构编译 | All:编译所有可支持的 CUDA 架构；Auto:自动识别当前环境的架构编译 |
 | WITH_TENSORRT | 是否开启 TensorRT | OFF |
-| TENSORRT_ROOT | TensorRT_lib的路径，该路径指定后会编译 TensorRT 子图功能eg:/paddle/nvidia/TensorRT/ | /usr |
+| TENSORRT_ROOT | TensorRT_lib 的路径，该路径指定后会编译 TensorRT 子图功能 eg:/paddle/nvidia/TensorRT/ | /usr |
 
-**3. 安装Wheel包**
+**3. 安装 Wheel 包**
 
 编译成功后可在 dist 目录找到生成的 .whl 包
 ```shell
 pip3 install python/dist/[wheel 包名字]
 ```
 
-**4. 编译C++推理库（按需）**
+**4. 编译 C++推理库（按需）**
 ```shell
 make inference_lib_dist -j4
 ```
