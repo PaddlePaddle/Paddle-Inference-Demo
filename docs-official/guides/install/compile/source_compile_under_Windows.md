@@ -1,15 +1,15 @@
-# Windows 下从源码编译 
+# Windows 下从源码编译
 
 ## 环境准备
 
-	Windows 7/8/10 专业版/企业版 (64 bit)
-	Python 版本 3.6/3.7/3.8/3.9/3.10 (64 bit)
-	Visual Studio 2017 社区版/专业版/企业版
+    Windows 7/8/10 专业版/企业版 (64 bit)
+    Python 版本 3.6/3.7/3.8/3.9/3.10 (64 bit)
+    Visual Studio 2017 社区版/专业版/企业版
 
-## 选择CPU/GPU
+## 选择 CPU/GPU
 
-	如果你的计算机硬件没有 NVIDIA GPU，请编译 CPU 版本的 Paddle Inference 预测库
-	如果你的计算机硬件有 NVIDIA GPU，推荐编译 GPU 版本的 Paddle Inference 预测库，建议安装 CUDA 10.2/11.0/11.1/11.2
+    如果你的计算机硬件没有 NVIDIA GPU，请编译 CPU 版本的 Paddle Inference 预测库
+    如果你的计算机硬件有 NVIDIA GPU，推荐编译 GPU 版本的 Paddle Inference 预测库，建议安装 CUDA 10.2/11.2/11.6/11.7
 
 ## 本机编译过程
 
@@ -18,7 +18,7 @@
 - cmake：建议安装 CMake3.17 版本, 官网下载[链接](https://cmake.org/files/v3.17/cmake-3.17.0-win64-x64.msi)。安装时注意勾选 `Add CMake to the system PATH for all users`，将 CMake 添加到环境变量中。
 
 - git：官网下载[链接](https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2.35.1.2-64-bit.exe)，使用默认选项安装。
-	
+
 - python：官网[链接](https://www.python.org/downloads/windows/)，可选择 3.6/3.7/3.8/3.9/3.10 中任一版本的 Windows installer(64-bit) 安装。安装时注意勾选 `Add Python 3.x to PATH`，将 Python 添加到环境变量中。
 
 - Visual studio 2017：官网[链接](https://visualstudio.microsoft.com/zh-hans/vs/older-downloads/#visual-studio-2017-and-other-products)，需要登录后下载，建议下载 Community 社区版。在安装时需要在工作负荷一栏中勾选 使用 `C++ 的桌面开发` 和 `通用 Windows 平台开发`，并在语言包一栏中选择 `英语`。
@@ -62,7 +62,7 @@ cmake .. -GNinja -DWITH_GPU=OFF  -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=O
 cmake .. -GNinja -DWITH_GPU=ON  -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=ON -DWITH_TESTING=OFF -DON_INFER=ON
 ```
 使用 TensorRT：
-如果想使用 TensorRT 进行推理，首先需要下载并解压[TensorRT](https://developer.nvidia.com/tensorrt), 
+如果想使用 TensorRT 进行推理，首先需要下载并解压[TensorRT](https://developer.nvidia.com/tensorrt),
 在 cmake 中开启 WITH_TENSORRT， 并通过 TENSORRT_ROOT 指定刚刚解压的 TensorRT 路径。假设下载的 TensorRT lib 解压
 到 D 盘目录下， cmake 编译指令如下：
 ```shell
@@ -73,25 +73,25 @@ cmake .. -GNinja -DWITH_GPU=ON  -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=ON
 
 | 选项 | 说明 | 默认值 |
 |--|--|--|
-| WITH_GPU | 是否支持GPU | ON |
-| WITH_AVX | 是否编译含有AVX指令集的飞桨二进制文件 | ON |
-| WITH_PYTHON | 是否内嵌PYTHON解释器并编译Wheel安装包 | ON |
+| WITH_GPU | 是否支持 GPU | ON |
+| WITH_AVX | 是否编译含有 AVX 指令集的飞桨二进制文件 | ON |
+| WITH_PYTHON | 是否内嵌 PYTHON 解释器并编译 Wheel 安装包 | ON |
 | WITH_TESTING | 是否开启单元测试 | OFF |
-| WITH_MKL | 是否使用MKL数学库，如果为否，将使用OpenBLAS | ON |
-| WITH_SYSTEM_BLAS | 是否使用系统自带的BLAS | OFF |
+| WITH_MKL | 是否使用 MKL 数学库，如果为否，将使用 OpenBLAS | ON |
+| WITH_SYSTEM_BLAS | 是否使用系统自带的 BLAS | OFF |
 | WITH_DISTRIBUTE | 是否编译带有分布式的版本 | OFF |
-| WITH_BRPC_RDMA | 是否使用BRPC,RDMA作为RPC协议 | OFF |
+| WITH_BRPC_RDMA | 是否使用 BRPC,RDMA 作为 RPC 协议 | OFF |
 | ON_INFER | 是否打开预测优化 | OFF |
-| CUDA_ARCH_NAME | 是否只针对当前CUDA架构编译 | All:编译所有可支持的CUDA架构；Auto:自动识别当前环境的架构编译 |
+| CUDA_ARCH_NAME | 是否只针对当前 CUDA 架构编译 | All:编译所有可支持的 CUDA 架构；Auto:自动识别当前环境的架构编译 |
 | WITH_TENSORRT | 是否开启 TensorRT | OFF |
-| TENSORRT_ROOT | TensorRT_lib的路径，该路径指定后会编译TRT子图功能eg:/paddle/nvidia/TensorRT/ | /usr |
+| TENSORRT_ROOT | TensorRT_lib 的路径，该路径指定后会编译 TRT 子图功能 eg:/paddle/nvidia/TensorRT/ | /usr |
 
 注意：
 
-	如果本机安装了多个 CUDA，将使用最新安装的 CUDA 版本，且无法指定。
-	如果本机安装了多个 Python，将使用最新安装的 Python 版本。若需要指定 Python 版本，则需要指定 Python 路径，例如：
+    如果本机安装了多个 CUDA，将使用最新安装的 CUDA 版本，且无法指定。
+    如果本机安装了多个 Python，将使用最新安装的 Python 版本。若需要指定 Python 版本，则需要指定 Python 路径，例如：
 
-	cmake .. -GNinja -DWITH_GPU=ON -DPYTHON_EXECUTABLE=C:\Python38\python.exe -DPYTHON_INCLUDE_DIR=C:\Python38\include -DPYTHON_LIBRARY=C:\Python38\libs\python38.lib -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=ON -DWITH_TESTING=OFF -DON_INFER=ON
+    cmake .. -GNinja -DWITH_GPU=ON -DPYTHON_EXECUTABLE=C:\Python38\python.exe -DPYTHON_INCLUDE_DIR=C:\Python38\include -DPYTHON_LIBRARY=C:\Python38\libs\python38.lib -DCMAKE_BUILD_TYPE=Release -DWITH_UNITY_BUILD=ON -DWITH_TESTING=OFF -DON_INFER=ON
 
 **8. 执行编译：**
 ```shell
