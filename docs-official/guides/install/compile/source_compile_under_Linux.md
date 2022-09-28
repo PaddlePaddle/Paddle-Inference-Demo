@@ -142,7 +142,7 @@ cmake .. -DPY_VERSION=3.7 -DWITH_TESTING=OFF -DWITH_MKL=ON -DWITH_GPU=ON -DON_IN
 
 使用 TensorRT：
 
-如果想使用 TensorRT 进行推理，首先需要根据自己的需求下载对应版本的 [TensorRT GA build](https://developer.nvidia.com/nvidia-tensorrt-download),
+如果想使用 TensorRT 进行推理，首先需要根据自己的需求下载对应版本的 [TensorRT GA build](https://developer.nvidia.com/tensorrt),
 下载解压后，在 cmake 中开启 WITH_TENSORRT， 并通过 TENSORRT_ROOT 指定刚刚解压的 TensorRT_lib 的路径。假设下载的 TensorRT lib 解压
 目录为 /paddle/nvidia/TensorRT/， cmake 编译指令如下：
 ```shell

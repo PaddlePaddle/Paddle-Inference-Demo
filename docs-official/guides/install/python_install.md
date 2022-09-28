@@ -7,7 +7,7 @@
 - Python: 3.6 / 3.7 / 3.8 / 3.9 / 3.10
 - CUDA 10.1 / CUDA 10.2 / CUDA 11.1 / CUDA 11.2 / CUDA 11.6 / CUDA 11.7, cuDNN7.6+, TensorRT （仅在使用 GPU 版本的推理库时需要）
 
-您可参考 NVIDIA 官方文档了解 CUDA、cuDNN 和 TensorRT 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，[TensorRT](https://developer.nvidia.com/nvidia-tensorrt-download)
+您可参考 NVIDIA 官方文档了解 CUDA、cuDNN 和 TensorRT 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，[TensorRT](https://developer.nvidia.com/tensorrt)
 
 
 Linux 下，版本对应关系如下表所示：
