@@ -77,11 +77,6 @@ paddle.inference.Config.enable_mkldnn_bfloat16()
 # 返回：None
 paddle.inference.Config.set_bfloat16_op(op_list: Set[str])
 
-# 设置新版本量化模型的 calibration file 路径
-# 参数：新版量化模型的 calibration file 路径
-# 返回：None
-paddle.inference.Config.set_calibration_file_path(calibration_file_path: str)
-
 # 启用 MKLDNN INT8
 # 参数：使用 MKLDNN INT8 加速的 OP 集合
 # 返回：None
@@ -140,9 +135,6 @@ config = paddle_infer.Config("./mobilenet_v1")
 
 # 启用 MKLDNN 进行预测
 config.enable_mkldnn()
-
-# 设置新版本量化模型的量化标定文件路径
-config.set_calibration_file_path("./mobilenet_v1/calibration_table.txt")
 
 # 启用 MKLDNN INT8 进行预测
 config.enable_mkldnn_int8()

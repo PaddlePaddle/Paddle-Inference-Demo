@@ -14,12 +14,12 @@ using paddle_infer::CreatePredictor;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
-DEFINE_string(calibration_file, "", "The calibration path of quantize model.");
 DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_bool(use_ort, false, "use ort.");
+DEFINE_bool(quantize_model, false, "Deploy quantize model or not.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -44,8 +44,7 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.EnableORTOptimization();
   } else {
     config.EnableMKLDNN();
-    if(FLAGS_calibration_file.size()){
-      config.SetCalibrationFilePath(FLAGS_calibration_file);
+    if(FLAGS_quantize_model){
       config.EnableMkldnnInt8();
     }
   }
