@@ -38,9 +38,9 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.SetModel(FLAGS_model_file, FLAGS_params_file);
   }
   if (FLAGS_use_ort) {
-    // 使用onnxruntime推理
+    // use onnxruntime to infer
     config.EnableONNXRuntime();
-    // 开启onnxruntime优化
+    // enable onnxruntime optimization
     config.EnableORTOptimization();
   } else {
     config.EnableMKLDNN();
