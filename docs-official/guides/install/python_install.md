@@ -38,16 +38,15 @@ Windows 下，版本对应关系如下表所示：
 
 ## 开始安装
 
-如果已经安装 PaddlePaddle，且不需要使用 TensorRT 进行推理加速，可以跳过此步骤，直接使用为训练安装的 PaddlePaddle 版本。
-
 ### 方式一：通过 pip 在线安装（包含 TensorRT）
 
 参考[Pip 安装](http://10.136.157.23:8090/documentation/docs/zh/install/pip/frompip.html)
 
 ### 方式二：下载 whl 包（可选 TensorRT）到本地，然后通过 pip 工具安装
 
-- [下载安装 Linux Python installer](download_lib.html#python)
-- [下载安装 Windows Python installer](download_lib.html#id4)
+[下载安装 Linux Python installer](download_lib.html#python)
+
+Linux 下仅提供 CUDA11.2/cuDNN8.2.1/TensorRT8.0.3.4 版本组合的 whl 包，其他组合请使用方式一(pip 在线安装)
 
 ### 方式三：源码安装
 
