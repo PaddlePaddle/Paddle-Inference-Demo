@@ -44,7 +44,8 @@ Windows 下，版本对应关系如下表所示：
 
 ### 方式二：下载 whl 包（可选 TensorRT）到本地，然后通过 pip 工具安装
 
-- [下载安装 Linux Python installer](download_lib.html#python)
+[下载安装 Linux Python installer](download_lib.html#python)
+
 Linux 下仅提供 CUDA11.2/cuDNN8.2.1/TensorRT8.0.3.4 版本组合的 whl 包，其他组合请使用方式一(pip 在线安装)
 
 ### 方式三：源码安装
