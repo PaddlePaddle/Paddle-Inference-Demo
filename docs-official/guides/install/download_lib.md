@@ -139,4 +139,4 @@
 |硬件后端 |是否打开 avx | 数学库      |推理库(2.4.0-rc0 版)   |
 |----------|----------|:---------|:----------------|
 |X86_64 |是 |OpenBLAS|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/MacOS/CPU/x86-64_clang_avx_openblas/paddle_inference_c_install_dir.tgz)|
-|m1 |是 |OpenBLAS|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/MacOS/CPU/m1_clang_noavx_openblas/paddle_inference_c_install_dir.tgz)|
+|m1 |否 |OpenBLAS|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/MacOS/CPU/m1_clang_noavx_openblas/paddle_inference_c_install_dir.tgz)|
