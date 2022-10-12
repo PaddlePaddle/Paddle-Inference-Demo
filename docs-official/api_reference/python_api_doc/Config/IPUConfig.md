@@ -52,7 +52,7 @@ paddle.inference.Config.load_ipu_config(config_path)
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
 # 启用 IPU，并设置单个实例所需要的 IPU 个数为 1
 config.enable_ipu(1)
