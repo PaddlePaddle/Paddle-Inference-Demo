@@ -47,3 +47,29 @@ version: 2.3.0
 commit: b207edf916
 branch: release/2.3
 ```
+
+# ConvertToMixedPrecision 方法
+
+`ConvertToMixedPrecision` 接口可对模型精度格式进行修改，如在选定的后端下，将 fp32 格式的模型转换为 fp16 格式，API 定义如下：
+
+```c++
+// 模型精度转换
+// 参数：model_file - fp32 模型文件路径
+//      params_file - fp32 权重文件路径
+//      mixed_model_file - 混合精度模型文件保存路径
+//      mixed_params_file - 混合精度权重文件保存路径
+//      mixed_precision - 转换精度，如 PrecisionType.kHalf
+//      backend - 后端，如 PlaceType.kGPU
+//      keep_io_types - 保留输入输出精度信息，若为 True 则输入输出保留为 fp32 类型，否则转为 precision 类型
+//      black_list - 黑名单列表，哪些 op 不需要进行精度类型转换
+// 返回：NONE
+void ConvertToMixedPrecision(
+    const std::string& model_file,
+    const std::string& params_file,
+    const std::string& mixed_model_file,
+    const std::string& mixed_params_file,
+    PrecisionType mixed_precision,
+    PlaceType backend,
+    bool keep_io_types = true,
+    std::unordered_set<std::string> black_list = {});
+```
