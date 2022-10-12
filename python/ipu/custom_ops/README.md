@@ -24,8 +24,3 @@ python infer.py
 ## 三：注意事项
 
 请留意 Python 环境安装的飞桨版本。自定义算子功能的正确训练和推理建议使用 飞桨 2.3 及以上版本；使用 IPU 功能需要安装 IPU 版本的飞桨。
-
-## 更多链接
-- [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/master/guides/introduction/index_intro.html)
-- [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/master/api_reference/cxx_api_doc/cxx_api_index.html)
-- [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/master/api_reference/python_api_doc/python_api_index.html)
