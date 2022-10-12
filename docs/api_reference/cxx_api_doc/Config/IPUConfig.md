@@ -35,3 +35,5 @@ config.EnableIpu(1);
 // 使能float16模式
 config.SetIpuConfig(true);
 ```
+
+<!-- test ci -->
