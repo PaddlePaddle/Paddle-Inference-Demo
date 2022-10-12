@@ -26,6 +26,7 @@ WITH_IPU=ON
 
 # 配置预测库的根目录
 LIB_DIR=${work_path}/../lib/paddle_inference
+```
 
 运行 `bash compile.sh`， 会在目录下产生build目录。
 
