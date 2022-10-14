@@ -30,8 +30,8 @@ if __name__ == "__main__":
         args.src_params,    # fp32权重文件路径
         args.dst_model,     # 混合精度模型文件保存路径
         args.dst_params,    # 混合精度权重文件保存路径
-        PrecisionType.Half, # 转换精度，一般为 PrecisionType.Half
-        BackendType.GPU,    # 后端，一般为 BackendType.GPU
+        PrecisionType.Half, # 转换精度，如 PrecisionType.Half
+        PlaceType.GPU,      # 后端，如 PlaceType.GPU
         True,               # 保留输入输出精度信息，若为 True 则输入输出保留为 fp32 类型，否则转为 precision 类型
         black_list          # 黑名单列表，哪些 op 不需要进行精度类型转换
     )
