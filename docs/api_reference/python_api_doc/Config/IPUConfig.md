@@ -27,6 +27,22 @@ paddle.inference.Config.set_ipu_config(ipu_enable_fp16 = False,
                                        ipu_replica_num = 1,
                                        ipu_available_memory_proportion = 1.0,
                                        ipu_enable_half_partial = False)
+
+
+
+# 配置 IPU Custom Ops 和 Patterns
+# 参数：ipu_custom_ops_info - 设置Paddle Op和IPU Custom Op信息，需要给定Paddle Op name，IPU Custom Op name，Op Domain和 Op Version。例如：[["custom_relu", "Relu", "custom.ops", "1"]].
+# 参数：ipu_custom_patterns - 开启或关闭特定 IPU pattern，需要给定Pattern name 和 Pattern状态。例如：{"AccumulatePriorityPattern", false}
+# 返回：None
+paddle.inference.Config.set_ipu_custom_info(ipu_custom_ops_info = None,
+                                            ipu_custom_patterns = None)
+
+
+
+# 从文件载入 IPU 配置信息
+# 参数：config_path - 指定文件路径。
+# 返回：None
+paddle.inference.Config.load_ipu_config(config_path)
 ```
 
 代码示例：
@@ -43,4 +59,12 @@ config.enable_ipu(1)
 
 # 使能float16模式
 config.set_ipu_config(True)
+```
+
+```text
+# IPU 配置文件示例如下：
+ipu_device_num,1
+ipu_micro_batch_size,1
+ipu_enable_fp16,false
+ipu_custom_ops_info,[[custom_relu, Relu, custom.ops, 1]]
 ```
