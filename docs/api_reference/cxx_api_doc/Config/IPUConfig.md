@@ -18,10 +18,12 @@ void EnableIpu(int ipu_device_num = 1, int ipu_micro_batch_size = 1,
 // 参数：ipu_replica_num - 设置实例个数，举例ipu_device_num=2，表示单个实例需要2个IPU运行，设置ipu_replica_num=8,表示总共有8个相同实例，所以总共需要16个IPU.
 // 参数：ipu_available_memory_proportion - 设置matmul/conv Op可使用的内存比例，取值(0.0, 1.0], 比例越高，计算性能越好.
 // 参数：ipu_enable_half_partial - matmul Op中间结果以float16存储于片上.
+// 参数：ipu_enable_model_runtime_executor - 使能model_runtime executor，设置为false时使用popart executor.
 // 返回：None
 void SetIpuConfig(bool ipu_enable_fp16 = false, int ipu_replica_num = 1,
                   float ipu_available_memory_proportion = 1.0,
-                  bool ipu_enable_half_partial = false);
+                  bool ipu_enable_half_partial = false,
+                  bool ipu_enable_model_runtime_executor = false);
 
 // 配置 IPU Custom Ops 和 Patterns
 // 参数：ipu_custom_ops_info - 设置Paddle Op和IPU Custom Op信息，需要给定Paddle Op name，IPU Custom Op name，Op Domain和 Op Version。例如：[["custom_relu", "Relu", "custom.ops", "1"]].

@@ -22,11 +22,13 @@ paddle.inference.Config.enable_ipu(ipu_device_num = 1,
 # 参数：ipu_replica_num - 设置实例个数，举例ipu_device_num=2，表示单个实例需要2个IPU运行，设置ipu_replica_num=8,表示总共有8个相同实例，所以总共需要16个IPU.
 # 参数：ipu_available_memory_proportion - 设置matmul/conv Op可使用的内存比例，取值(0.0, 1.0], 比例越高，计算性能越好.
 # 参数：ipu_enable_half_partial - matmul Op中间结果以float16存储于片上.
+# 参数：ipu_enable_model_runtime_executor - 使能model_runtime executor，设置为false时使用popart executor.
 # 返回：None
 paddle.inference.Config.set_ipu_config(ipu_enable_fp16 = False,
                                        ipu_replica_num = 1,
                                        ipu_available_memory_proportion = 1.0,
-                                       ipu_enable_half_partial = False)
+                                       ipu_enable_half_partial = False,
+                                       ipu_enable_model_runtime_executor = False)
 
 
 
