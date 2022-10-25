@@ -77,7 +77,7 @@ paddle.inference.convert_to_mixed_precision(
 代码示例：
 
 ```python
-from paddle.inference import PrecisionType, BackendType
+from paddle.inference import PrecisionType, PlaceType
 from paddle.inference import convert_to_mixed_precision
 import argparse
 
