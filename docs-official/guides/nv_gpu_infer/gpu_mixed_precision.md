@@ -12,7 +12,7 @@
 `convert_to_mixed_precision`接口可对模型精度格式进行修改，可使用以下 python 脚本进行模型精度转换。
 
 ```python
-from paddle.inference import PrecisionType, BackendType
+from paddle.inference import PrecisionType, PlaceType
 from paddle.inference import convert_to_mixed_precision
 import argparse
 
