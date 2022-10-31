@@ -38,3 +38,4 @@ config.EnableXpu(10*1024*1024);
 
 **注意事项：**
 Xpu 推理依赖 Lite 子图引擎，配置需开启 EnableLiteEngine，API 文档参考[设置模型优化方法](./OptimConfig)。
+
