@@ -18,7 +18,6 @@ void EnableXpu(int l3_workspace_size = 0xfffc00,
                bool autotune = true,
                const std::string& autotune_file = "",
                const std::string& precision = "int16",
-               bool adaptive_seqlen = false);
                bool adaptive_seqlen = false,
                bool enable_multi_stream = false);
 ```
