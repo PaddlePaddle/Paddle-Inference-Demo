@@ -11,7 +11,7 @@ API定义如下：
 # 参数：autotune_file       - 指定 autotune 文件路径。如果指定 autotune_file，则使用文件中指定的算法，不再重新进行 autotune
 # 参数：precision           - multi_encoder 的计算精度
 # 参数：adaptive_seqlen     - multi_encoder 的输入是否可变长
-# 参数：enable_multi_stream - 是否开启XPU的multi stream功能
+# 参数：enable_multi_stream - 是否开启 XPU 的 multi_stream 功能
 # 返回：None
 paddle.inference.Config.enable_xpu(l3_workspace_size: int = 0xfffc00,
                                    locked: bool = False,
