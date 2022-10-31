@@ -11,10 +11,16 @@ API定义如下：
 // 参数：autotune_file - 指定autotune文件路径。如果指定autotune_file，则使用文件中指定的算法，不再重新进行autotune
 // 参数：precision - multi_encoder的计算精度
 // 参数：adaptive_seqlen - multi_encoder的输入是否可变长
+// 参数：enable_multi_stream - 是否开启XPU的multi stream功能
 // 返回：None
-void EnableXpu(int l3_workspace_size = 0xfffc00, bool locked = false,
-               bool autotune = true, const std::string& autotune_file = "",
-               const std::string& precision = "int16", bool adaptive_seqlen = false);
+void EnableXpu(int l3_workspace_size = 0xfffc00,
+               bool locked = false,
+               bool autotune = true,
+               const std::string& autotune_file = "",
+               const std::string& precision = "int16",
+               bool adaptive_seqlen = false);
+               bool adaptive_seqlen = false,
+               bool enable_multi_stream = false);
 ```
 
 代码示例：
