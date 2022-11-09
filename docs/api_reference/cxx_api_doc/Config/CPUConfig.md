@@ -89,6 +89,12 @@ bool mkldnn_bfloat16_enabled() const;
 // 参数：std::unordered_set<std::string> - 使用 MKLDNN BFLOAT16 加速的 OP 列表
 // 返回：None
 void SetBfloat16Op(std::unordered_set<std::string> op_list);
+
+// 关闭 MKLDNN 的 FC kernel
+// 参数：None
+// 返回：None
+void DisableMkldnnFcPasses();
+
 ```
 
 代码示例 (1)：使用 MKLDNN 进行预测
