@@ -37,7 +37,7 @@ Windows 下，版本对应关系如下表所示：
 
 ### 方式一：通过 pip 在线安装（包含 TensorRT）
 
-参考[Pip 安装](http://10.136.157.23:8090/documentation/docs/zh/install/pip/frompip.html)
+参考[Pip 安装](https://www.paddlepaddle.org.cn/documentation/docs/zh/2.4rc/install/pip/frompip.html)
 
 ### 方式二：下载 whl 包（可选 TensorRT）到本地，然后通过 pip 工具安装
 
