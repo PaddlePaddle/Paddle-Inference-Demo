@@ -5,12 +5,12 @@ API定义如下：
 
 ```python
 # 启用 IPU 进行预测
-# 参数：ipu_device_num - 所需要的IPU个数.
-# 参数：ipu_micro_batch_size - 计算图输入的batch size，用于根据输入batch size进行全图Tensor shape推导，仅在动态输入batch size的情况生效
-# 参数：ipu_enable_pipelining - 使能IPU间数据流水
-# 参数：ipu_batches_per_step - 在使能数据流水的条件下，指定每次跑多少batch的数据，如果关闭数据流水，该值应设置为1
+# 参数：ipu_device_num - 所需要的 IPU 个数
+# 参数：ipu_micro_batch_size - 计算图输入的 batch size，用于根据输入 batch size 进行全图 Tensor shape 推导，仅在动态输入 batch size 的情况生效
+# 参数：ipu_enable_pipelining - 使能 IPU 间数据流水
+# 参数：ipu_batches_per_step - 在使能数据流水的条件下，指定每次跑多少 batch 的数据，如果关闭数据流水，该值应设置为 1
 # 返回：None
-paddle.inference.Config.enable_ipu(ipu_device_num = 1, 
+paddle.inference.Config.enable_ipu(ipu_device_num = 1,
                                    ipu_micro_batch_size = 1,
                                    ipu_enable_pipelining = False,
                                    ipu_batches_per_step = 1)
@@ -18,21 +18,23 @@ paddle.inference.Config.enable_ipu(ipu_device_num = 1,
 
 
 # 配置 IPU 构图参数
-# 参数：ipu_enable_fp16 - 使能float16模式，将float32计算图转换为float16计算图.
-# 参数：ipu_replica_num - 设置实例个数，举例ipu_device_num=2，表示单个实例需要2个IPU运行，设置ipu_replica_num=8,表示总共有8个相同实例，所以总共需要16个IPU.
-# 参数：ipu_available_memory_proportion - 设置matmul/conv Op可使用的内存比例，取值(0.0, 1.0], 比例越高，计算性能越好.
-# 参数：ipu_enable_half_partial - matmul Op中间结果以float16存储于片上.
+# 参数：ipu_enable_fp16 - 使能 float16 模式，将 float32 计算图转换为 float16 计算图
+# 参数：ipu_replica_num - 设置实例个数，举例 ipu_device_num = 2，表示单个实例需要 2 个 IPU 运行，设置ipu_replica_num = 8，表示总共有 8 个相同实例，所以总共需要 16 个 IPU
+# 参数：ipu_available_memory_proportion - 设置 matmul / conv OP 可使用的内存比例，取值 (0.0, 1.0]，比例越高，计算性能越好
+# 参数：ipu_enable_half_partial - matmul OP 中间结果以 float16 存储于片上
+# 参数：ipu_enable_model_runtime_executor - 使能 model_runtime executor，设置为false时使用 popart executor
 # 返回：None
 paddle.inference.Config.set_ipu_config(ipu_enable_fp16 = False,
                                        ipu_replica_num = 1,
                                        ipu_available_memory_proportion = 1.0,
-                                       ipu_enable_half_partial = False)
+                                       ipu_enable_half_partial = False,
+                                       ipu_enable_model_runtime_executor = False)
 
 
 
 # 配置 IPU Custom Ops 和 Patterns
-# 参数：ipu_custom_ops_info - 设置Paddle Op和IPU Custom Op信息，需要给定Paddle Op name，IPU Custom Op name，Op Domain和 Op Version。例如：[["custom_relu", "Relu", "custom.ops", "1"]].
-# 参数：ipu_custom_patterns - 开启或关闭特定 IPU pattern，需要给定Pattern name 和 Pattern状态。例如：{"AccumulatePriorityPattern", false}
+# 参数：ipu_custom_ops_info - 设置 Paddle Op 和 IPU Custom Op 信息，需要给定 Paddle Op name，IPU Custom Op name，Op Domain 和 Op Version。例如：[["custom_relu", "Relu", "custom.ops", "1"]]
+# 参数：ipu_custom_patterns - 开启或关闭特定 IPU pattern，需要给定 Pattern name 和 Pattern 状态。例如：{"AccumulatePriorityPattern", false}
 # 返回：None
 paddle.inference.Config.set_ipu_custom_info(ipu_custom_ops_info = None,
                                             ipu_custom_patterns = None)
@@ -40,7 +42,7 @@ paddle.inference.Config.set_ipu_custom_info(ipu_custom_ops_info = None,
 
 
 # 从文件载入 IPU 配置信息
-# 参数：config_path - 指定文件路径。
+# 参数：config_path - 指定文件路径
 # 返回：None
 paddle.inference.Config.load_ipu_config(config_path)
 ```
@@ -52,12 +54,12 @@ paddle.inference.Config.load_ipu_config(config_path)
 import paddle.inference as paddle_infer
 
 # 创建 config
-config = paddle_infer.Config("./mobilenet_v1")
+config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
-# 启用 IPU，并设置单个实例所需要的IPU个数为1
+# 启用 IPU，并设置单个实例所需要的 IPU 个数为 1
 config.enable_ipu(1)
 
-# 使能float16模式
+# 使能 float16 模式
 config.set_ipu_config(True)
 ```
 
