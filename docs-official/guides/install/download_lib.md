@@ -11,14 +11,17 @@
 |CPU|是|OpenBLAS|5.4|-|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/CPU/gcc5.4_avx_openblas/paddle_inference.tgz)|
 |CPU|否|OpenBLAS|8.2|-|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/CPU/gcc8.2_openblas/paddle_inference.tgz)|
 |CPU|否|OpenBLAS|5.4|-|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/CPU/gcc5.4_openblas/paddle_inference.tgz)|
-|GPU|是|MKL|8.2|CUDA10.2/cuDNN8.1/TensorRT7.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.2_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|
 |GPU|是|MKL|8.2|CUDA10.2/cuDNN7.6/TensorRT7.0|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.2_cudnn7.6.5_trt7.0.0.11/paddle_inference.tgz)|
+|GPU|是|MKL|8.2|CUDA10.2/cuDNN8.1/TensorRT7.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda10.2_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|
 |GPU|是|MKL|5.4|CUDA10.2/cuDNN8.1/TensorRT7.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda10.2_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|
 |GPU|是|MKL|8.2|CUDA11.1/cuDNN8.1/TensorRT7.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.1_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|
 |GPU|是|MKL|5.4|CUDA11.1/cuDNN8.1/TensorRT7.2|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda11.1_cudnn8.1.1_trt7.2.3.4/paddle_inference.tgz)|
-|GPU|是|MKL|8.2|CUDA11.2/cuDNN8.2/TensorRT8.0|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.2_cudnn8.2.1_trt8.0.3.4/paddle_inference.tgz)|
 |GPU|是|MKL|8.2|CUDA11.2/cuDNN8.1/TensorRT8.0|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.2_cudnn8.1.1_trt8.0.3.4/paddle_inference.tgz)|
+|GPU|是|MKL|8.2|CUDA11.2/cuDNN8.2/TensorRT8.0|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.2_cudnn8.2.1_trt8.0.3.4/paddle_inference.tgz)|
 |GPU|是|MKL|5.4|CUDA11.2/cuDNN8.2/TensorRT8.0|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc5.4_avx_mkl_cuda11.2_cudnn8.2.1_trt8.0.3.4/paddle_inference.tgz)|
+|GPU|是|MKL|8.2|CUDA11.6/cuDNN8.4/TensorRT8.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.6_cudnn8.4.0-trt8.4.0.6/paddle_inference.tgz)|
+|GPU|是|MKL|8.2|CUDA11.7/cuDNN8.4/TensorRT8.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.7_cudnn8.4.1-trt8.4.2.4/paddle_inference.tgz)|
+
 |Jetson(all)|-|-|-|Jetpack 4.5|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack4.5_gcc7.5/all/paddle_inference_install_dir.tgz)|
 |Jetson(Nano)|-|-|-|Jetpack 4.5|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack4.5_gcc7.5/nano/paddle_inference_install_dir.tgz)|
 |Jetson(TX2)|-|-|-|Jetpack 4.5|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.4.0-rc0/cxx_c/Jetson/jetpack4.5_gcc7.5/tx2/paddle_inference_install_dir.tgz)|
