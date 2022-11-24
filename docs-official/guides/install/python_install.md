@@ -36,7 +36,7 @@ Windows 下，版本对应关系如下表所示：
 
 ### 方式二：源码安装
 
-参考[源码编译](./compile/index_compile.html)文档。
+参考[源码编译](./compile/index_compile.rst)文档。
 
 ## 验证安装
 
@@ -51,9 +51,9 @@ paddle.utils.run_check()
 
 ### 动态验证方式
 
-您可以编写应用代码并测试结果。请参考 [推理示例(Python)](../quick_start/python_demo) 一节。
+您可以编写应用代码并测试结果。请参考 [推理示例(Python)](../quick_start/python_demo.md) 一节。
 
 
 ## 开始使用
 
-请参考 [推理示例(Python)](../quick_start/python_demo) 和 [Python API 文档](../api_reference/python_api_index)。
+请参考 [推理示例(Python)](../quick_start/python_demo.md) 和 [Python API 文档](../api_reference/python_api_index.rst)。
