@@ -20,7 +20,7 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS 平台的官方 Release 推理�
 
 ### 2. 模型准备
 
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可参考[模型结构可视化文档](../export_model/visual_model.html)。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可参考[模型结构可视化文档](../export_model/visual_model.rst)。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
@@ -198,7 +198,7 @@ Output Tensor Size: 1000
 #include "pd_inference_api.h"
 ```
 
-(2) 创建配置对象，并指定推理模型路径，详细可参考 [C API 文档 - Config 方法](../../api_reference/c_api_doc/Config_index)
+(2) 创建配置对象，并指定推理模型路径，详细可参考 [C API 文档 - Config 方法](../../api_reference/c_api_doc/Config_index.rst)
 
 ```c
 // 创建 Config 对象
@@ -209,13 +209,13 @@ const char* model_path  = "./resnet50/inference.pdmodel";
 const char* params_path = "./resnet50/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
 ```
-(3) 根据Config创建推理对象，详细可参考 [C API 文档 - Predictor 方法](../../api_reference/c_api_doc/Predictor)
+(3) 根据Config创建推理对象，详细可参考 [C API 文档 - Predictor 方法](../../api_reference/c_api_doc/Predictor.md)
 
 ```c
 // 根据 Config 创建 Predictor, 并销毁 Config 对象
 PD_Predictor* predictor = PD_PredictorCreate(config);
 ```
-(4) 设置模型输入Tensor，详细可参考 [C API 文档 - Tensor 方法](../../api_reference/c_api_doc/Tensor)
+(4) 设置模型输入Tensor，详细可参考 [C API 文档 - Tensor 方法](../../api_reference/c_api_doc/Tensor.md)
 
 ```c
 // 准备输入数据
@@ -231,13 +231,13 @@ PD_TensorReshape(input_tensor, 4, input_shape);
 PD_TensorCopyFromCpuFloat(input_tensor, input_data);
 ```
 
-(5) 执行推理引擎，详细可参考 [C API 文档 - Predictor 方法](../../api_reference/c_api_doc/Predictor)
+(5) 执行推理引擎，详细可参考 [C API 文档 - Predictor 方法](../../api_reference/c_api_doc/Predictor.md)
 
 ```c
 // 执行推理
 PD_PredictorRun(predictor);
 ```
-(6) 获得推理结果，详细可参考 [C API 文档 - Tensor 方法](../../api_reference/c_api_doc/Tensor)
+(6) 获得推理结果，详细可参考 [C API 文档 - Tensor 方法](../../api_reference/c_api_doc/Tensor.md)
 
 ```c
 // 获取推理输出 Tensor
