@@ -32,7 +32,7 @@ Windows 下，版本对应关系如下表所示：
 
 ### 方式一：通过 pip 在线安装（包含 TensorRT）
 
-参考[Pip 安装](https://www.paddlepaddle.org.cn/documentation/docs/zh/2.4rc/install/pip/frompip.html)
+参考[Pip 安装](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/pip/frompip.html)
 
 ### 方式二：源码安装
 
