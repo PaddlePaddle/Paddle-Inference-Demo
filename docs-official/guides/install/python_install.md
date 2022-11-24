@@ -56,4 +56,4 @@ paddle.utils.run_check()
 
 ## 开始使用
 
-请参考 [推理示例(Python)](../quick_start/python_demo.md) 和 [Python API 文档](../../api_reference/python_api_index.rst)。
+请参考 [推理示例(Python)](../quick_start/python_demo.md) 和 [Python API 文档](../../api_reference/python_api_doc/python_api_index.rst)。
