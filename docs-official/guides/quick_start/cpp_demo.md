@@ -21,7 +21,7 @@ Paddle Inference 提供了 Ubuntu/Windows/MacOS/Jetson 平台的官方 Release �
 
 ### 2. 模型准备
 
-下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可参考[模型结构可视化文档](../export_model/visual_model.html)。
+下载 [ResNet50](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz) 模型后解压，得到 Paddle 推理格式的模型，位于文件夹 ResNet50 下。如需查看模型结构，可参考[模型结构可视化文档](../export_model/visual_model.rst)。
 
 ```bash
 wget https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz
