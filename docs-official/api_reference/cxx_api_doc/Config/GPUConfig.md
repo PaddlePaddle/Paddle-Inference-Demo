@@ -49,16 +49,6 @@ void EnableGpuMultiStream();
 // 参数：None
 // 返回：bool - 是否是否开启线程流
 bool thread_local_stream_enabled() const;
-
-// 启用 GPU FP16 计算精度进行预测
-// 参数：op_list - 保持 FP32 计算精度算子名单
-// 返回：None
-void Exp_EnableUseGpuFp16(std::unordered_set<std::string> op_list);
-
-// 判断是否启用 GPU FP16 计算精度 
-// 参数：None
-// 返回：bool - 是否启用 GPU FP16 计算精度
-bool gpu_fp16_enabled() const;
 ```
 
 GPU设置代码示例：
@@ -79,12 +69,6 @@ std::cout << "GPU device id is: " << config.gpu_device_id() << std::endl;
 config.DisableGpu();
 // 通过 API 获取 GPU 信息
 std::cout << "Use GPU is: " << config.use_gpu() << std::endl; // false
-
-// 启用 GPU FP16 计算精度进行预测
-config.EnableUseGpu(100, 0);
-config.Exp_EnableUseGpuFp16();
-// 通过 API 获取是否启用了 GPU FP16 计算精度
-std::cout << "Use GPU FP16 is: " << config.gpu_fp16_enabled() << std::endl; // true
 ```
 
 开启多线程流代码示例：
@@ -139,7 +123,7 @@ int main(int argc, char **argv) {
   const size_t thread_num = 5;
   std::vector<std::thread> threads(thread_num);
   Barrier barrier(thread_num);
-  // 创建 5 个线程，并为每个线程开启一个单独的GPU Stream
+  // 创建 5 个线程，并为每个线程开启一个单独的 GPU Stream
   for (size_t i = 0; i < threads.size(); ++i) {
     threads[i] = std::thread([&barrier, i]() {
       paddle_infer::Config config;
@@ -192,6 +176,15 @@ void EnableTensorRtEngine(int workspace_size = 1 << 20,
 // 返回：bool - 是否启用 TensorRT
 bool tensorrt_engine_enabled() const;
 
+// 启用 TensorRT 显存优化
+// 参数：engine_memory_sharing     - 指定是否开启 TensorRT 显存优化，默认为 false，开启后，当一个模型中（predictor）存在
+//                                  多个 TensorRT Engine（子图）时，它们的运行时 context memory 会共享
+//      sharing_identifier        - 如果有多个可以保证串行执行的模型（多个串行执行的 predictor），可通过此参数控制它们之间的
+//                                  子图共享显存。参与显存共享的 predictor 的 config 配置中，指定此参数为相同的大于0的一个值即可
+// 返回：None
+void EnableTensorRTMemoryOptim(bool engine_memory_sharing = true,
+                               int sharing_identifier = 0);
+
 // 设置 TensorRT 的动态 Shape
 // 参数：min_input_shape          - TensorRT 子图支持动态 shape 的最小 shape，推理时输入 shape 的任何
 //                                 维度均不能小于该项配置
@@ -228,14 +221,14 @@ void EnableTensorRtOSS();
 // 返回：bool - 是否启用 TensorRT OSS
 bool tensorrt_oss_enabled();
 
-/// 启用TensorRT DLA进行预测加速
-/// 参数：dla_core - DLA设备的id，可选0，1，...，DLA设备总数 - 1
+/// 启用 TensorRT DLA 进行预测加速
+/// 参数：dla_core - DLA 设备的 id，可选 0，1，...，DLA 设备总数 - 1
 /// 返回：None
 void EnableTensorRtDLA(int dla_core = 0);
 
-/// 判断是否已经开启TensorRT DLA加速
+/// 判断是否已经开启 TensorRT DLA 加速
 /// 参数：None
-/// 返回：bool - 是否已开启TensorRT DLA加速
+/// 返回：bool - 是否已开启 TensorRT DLA 加速
 bool tensorrt_dla_enabled();
 ```
 
@@ -253,6 +246,9 @@ config.EnableTensorRtEngine(1 << 28, 1, 3,
                             paddle_infer::PrecisionType::kFloat32, false, false);
 // 通过 API 获取 TensorRT 启用结果 - true
 std::cout << "Enable TensorRT is: " << config.tensorrt_engine_enabled() << std::endl;
+
+// 开启 TensorRT 显存优化
+config.EnableTensorRTMemoryOptim();
 
 // 启用 TensorRT 进行预测加速 - FP16
 config.EnableTensorRtEngine(1 << 28, 1, 3, 
@@ -279,6 +275,10 @@ config.EnableUseGpu(100, 0);
 // 启用 TensorRT 进行预测加速 - Int8
 config.EnableTensorRtEngine(1 << 29, 1, 1,
                             paddle_infer::PrecisionType::kInt8, false, true);
+
+// 开启 TensorRT 显存优化
+config.EnableTensorRTMemoryOptim();
+
 // 设置模型输入的动态 Shape 范围
 std::map<std::string, std::vector<int>> min_input_shape = {{"image", {1, 1, 3, 3}}};
 std::map<std::string, std::vector<int>> max_input_shape = {{"image", {1, 1, 10, 10}}};

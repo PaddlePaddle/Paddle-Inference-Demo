@@ -120,3 +120,110 @@ predictor->ClearIntermediateTensor();
 // 释放内存池中的所有临时 Tensor
 predictor->TryShrinkMemory();
 ```
+
+## 获取 OP 中间输出 Tensor
+
+API 定义如下：
+
+```c++
+// 获取中间 op 的输出 Tensor
+// 参数：Exp_OutputHookFunc    - hook 函数签名为 void(const std::string&, const std::string&, const Tensor&)
+//                              第一个参数是 op type（name），第二个参数是输出 Tensor name，第三个参数是输出 Tensor
+// 返回：None
+void RegisterOutputHook(const Exp_OutputHookFunc& hookfunc);
+```
+
+代码示例：
+
+示例一：
+该示例输出所有 tensor 的均值和方差。用户可根据需要单独输出某一特定 op 的输出 tensor 的信息。
+
+（下面是针对跑 fp32 的模型给出的示例。跑混合精度的话，需要做些修改，具体见注释部分）
+```cpp
+void get_output_tensor(const std::string &op_type,
+                       const std::string &tensor_name,
+                       const Tensor& tensor) {
+  std::vector<int> tensor_shape = tensor.shape();
+  int tensor_numel = std::accumulate(tensor_shape.begin(), tensor_shape.end(),
+                                     1, std::multiplies<int>());
+  // 混合精度情况下，接收数据的 vector 定义：std::vector<TYPE> tensor_data;
+  // 中的 TYPE 需要根据 tensor.type() 接口来确定
+  std::vector<float> tensor_data;
+  tensor_data.resize(tensor_numel);
+  tensor.CopyToCpu(tensor_data.data());
+
+  std::stringstream ss;
+
+  // op type and tensor name
+  ss << std::left << std::setw(20) << op_type << std::setw(40) << tensor_name;
+
+  // tensor shape
+  std::string shape_str;
+  shape_str += "[" + std::to_string(tensor_shape[0]);
+  for (size_t i = 1; i < tensor_shape.size(); i++) {
+    shape_str += "," + std::to_string(tensor_shape[i]);
+  }
+  shape_str += "]";
+  ss << std::setw(20) << shape_str;
+
+  // tensor data mean and variance
+  float sum =
+      std::accumulate(std::begin(tensor_data), std::end(tensor_data), 0.0);
+  float mean = sum / tensor_data.size();
+  float accum = 0.0;
+  for (auto value : tensor_data) {
+    accum += (value - mean) * (value - mean);
+  }
+  float variance = accum / tensor_data.size();
+  ss << std::setw(20) << mean << std::setw(20) << variance;
+
+  LOG(INFO) << ss.str();
+}
+
+// 通过该接口注册的 hook 函数，在每个 op run 完都会被执行一次
+predictor->RegisterOutputHook(get_output_tensor);
+```
+
+输出结果（`op type`、`output tensor name`、`tensor shape`、`mean of tensor`、`variance of tensor`）：
+
+![image](https://user-images.githubusercontent.com/23653004/195584773-42bc2e95-87b0-40b4-9b61-48adb5fa142a.png)
+
+示例二：
+该示例输出每个 op run 前后当前 device 上的显存占用信息。
+```cpp
+void get_current_memory(const std::string &op_type,
+                        const std::string &tensor_name, const Tensor &tensor) {
+  // parameters tensor_name and tensor are not used
+  std::stringstream ss;
+
+  int device_id = 0;
+  if (auto p = getenv("CUDA_VISIBLE_DEVICES")) {
+    device_id = atoi(p);
+  }
+  size_t avail;
+  size_t total;
+  cudaMemGetInfo(&avail, &total);
+  ss << std::left << std::setw(20) << op_type << std::setw(5) << device_id
+     << std::setw(10) << (total - avail) / 1024.0 / 1024.0 << std::setw(5)
+     << 1.0 * (total - avail) / total;
+  LOG(INFO) << ss.str();
+}
+
+// 通过该接口注册的 hook 函数，在每个 op run 完都会被执行一次
+predictor->RegisterOutputHook(get_current_memory);
+```
+
+输出结果（`op type`、`device id`、`memory usage(MiB)`、`memory usage(%)`）：
+
+![image](https://user-images.githubusercontent.com/23653004/196133166-7705c00b-2d0a-499d-bfae-39ecb5b1e9e4.png)
+
+示例三（python）：
+```python
+def hookfunc(op_type, tensor_name, tensor):
+    print(op_type)
+    print(tensor_name)
+    print(tensor.shape())
+
+// 通过该接口注册的 hook 函数，在每个 op run 完都会被执行一次
+predictor.register_output_hook(hookfunc)
+```
