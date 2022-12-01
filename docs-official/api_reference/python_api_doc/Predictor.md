@@ -43,6 +43,14 @@ paddle.inference.Predictor.clone()
 # 返回：None
 paddle.inference.Predictor.clear_intermediate_tensor()
 
+# 获取中间 op 的输出 Tensor
+# 参数：Exp_OutputHookFunc  -  具有三个接收参数的 hook 函数，第一个参数是 op type（name）
+#                                                       第二个参数是输出 Tensor name
+#                                                       第三个参数是输出 Tensor
+#                             (function) hook_function: (op_type : str, tensor_name : str, tensor : Tensor) -> None
+# 返回：None
+paddle.inference.Predictor.register_output_hook(hookfunc : Exp_OutputHookFunc)
+
 # 释放内存池中的所有临时 Tensor
 # 参数：None
 # 返回：int - 释放的内存字节数
@@ -62,6 +70,16 @@ config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams
 
 # 根据 config 创建 predictor
 predictor = paddle_infer.create_predictor(config)
+
+# 定义 hook function
+# 打印中间层的 op type, tensor's name, tensor's shape
+def hookfunc(op_type, tensor_name, tensor):
+    print(op_type)
+    print(tensor_name)
+    print(tensor.shape())
+# 注册 hook function
+# 通过该接口注册的 hook 函数，在每个 op run 完都会被执行一次
+predictor.register_output_hook(hookfunc)
 
 # 获取输入 Tensor
 input_names = predictor.get_input_names()
