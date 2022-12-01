@@ -39,11 +39,6 @@ paddle.inference.Config.memory_pool_init_size_mb()
 # 参数：None
 # 返回：float - 初始的显存占总显存的百分比
 paddle.inference.Config.fraction_of_gpu_memory_for_pool()
-
-# 启用 GPU FP16 计算精度进行预测
-# 参数：op_list - 保持 FP32 计算精度算子名单
-# 返回：None
-paddle.inference.Config.exp_enable_use_gpu_fp16(op_list: Set[str])
 ```
 
 GPU设置代码示例：
@@ -67,10 +62,6 @@ print("GPU device id is: {}".format(config.gpu_device_id())) # 0
 config.disable_gpu()
 # 通过 API 获取 GPU 信息
 print("Use GPU is: {}".format(config.use_gpu())) # False
-
-# 启用 GPU FP16 计算精度进行预测
-config.enable_use_gpu(100, 0);
-config.exp_enable_use_gpu_fp16();
 ```
 
 ## TensorRT 设置
@@ -110,6 +101,15 @@ paddle.inference.Config.enable_tensorrt_engine(workspace_size: int = 1 << 20,
 # 返回：bool - 是否启用 TensorRT
 paddle.inference.Config.tensorrt_engine_enabled()
 
+# 启用 TensorRT 显存优化
+# 参数：engine_memory_sharing     - 指定是否开启 TensorRT 显存优化，默认为 false，开启后，当一个模型中（predictor）存在
+#                                  多个 TensorRT Engine（子图）时，它们的运行时 context memory 会共享
+#      sharing_identifier        - 如果有多个可以保证串行执行的模型（多个串行执行的 predictor），可通过此参数控制它们之间的
+#                                  子图共享显存。参与显存共享的 predictor 的 config 配置中，指定此参数为相同的大于0的一个值即可
+# 返回：None
+paddle.inference.Config.enable_tensorrt_memory_optim(engine_memory_sharing : bool = true,
+                                                     sharing_identifier : int = 0)
+
 # 设置 TensorRT 的动态 Shape
 # 参数：min_input_shape          - TensorRT 子图支持动态 shape 的最小 shape，推理时输入 shape 的任何
 #                                 维度均不能小于该项配置
@@ -119,10 +119,10 @@ paddle.inference.Config.tensorrt_engine_enabled()
 #                                 kernel 阶段以此项配置的 shape 下的性能表现作为选择依据
 #      disable_trt_plugin_fp16  - 设置 TensorRT 的 plugin 不在 fp16 精度下运行
 # 返回：None
-paddle.inference.Config.set_trt_dynamic_shape_info(min_input_shape: Dict[str, List[int]]={}, 
-                                                   max_input_shape: Dict[str, List[int]]={}, 
-                                                   optim_input_shape: Dict[str, List[int]]={}, 
-                                                   disable_trt_plugin_fp16: bool=False)
+paddle.inference.Config.set_trt_dynamic_shape_info(min_input_shape: Dict[str, List[int]] = {}, 
+                                                   max_input_shape: Dict[str, List[int]] = {}, 
+                                                   optim_input_shape: Dict[str, List[int]] = {}, 
+                                                   disable_trt_plugin_fp16: bool = False)
 
 #
 # TensorRT 动态 shape 的自动推导
@@ -133,7 +133,7 @@ paddle.inference.Config.set_trt_dynamic_shape_info(min_input_shape: Dict[str, Li
 # 返回：None
 paddle.inference.Config.enable_tuned_tensorrt_dynamic_shape(
                                      shape_range_info_path: str,
-                                     allow_build_at_runtime: bool=True)
+                                     allow_build_at_runtime: bool = True)
 
 # 启用 TensorRT OSS 进行 ERNIE / BERT 预测加速（原理介绍 https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/ernie-varlen ）
 # 参数：None
@@ -172,7 +172,7 @@ config.enable_use_gpu(100, 0)
 config.enable_tensorrt_engine(workspace_size = 1 << 28, 
                               max_batch_size = 1, 
                               min_subgraph_size = 3, 
-                              precision_mode=paddle_infer.PrecisionType.Float32, 
+                              precision_mode = paddle_infer.PrecisionType.Float32, 
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
@@ -182,7 +182,7 @@ print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 config.enable_tensorrt_engine(workspace_size = 1 << 28, 
                               max_batch_size = 1, 
                               min_subgraph_size = 3, 
-                              precision_mode=paddle_infer.PrecisionType.Half, 
+                              precision_mode = paddle_infer.PrecisionType.Half, 
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
@@ -191,8 +191,12 @@ print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 config.enable_tensorrt_engine(workspace_size = 1 << 28, 
                               max_batch_size = 1, 
                               min_subgraph_size = 3, 
-                              precision_mode=paddle_infer.PrecisionType.Int8, 
+                              precision_mode = paddle_infer.PrecisionType.Int8, 
                               use_static = False, use_calib_mode = False)
+
+# 开启 TensorRT 显存优化
+config.enable_tensorrt_memory_optim()
+
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 ```
@@ -215,6 +219,9 @@ config.enable_tensorrt_engine(workspace_size = 1 << 29,
                               min_subgraph_size = 1, 
                               precision_mode=paddle_infer.PrecisionType.Int8, 
                               use_static = False, use_calib_mode = True)
+
+# 开启 TensorRT 显存优化
+config.enable_tensorrt_memory_optim()
 
 # 设置 TensorRT 的动态 Shape
 config.set_trt_dynamic_shape_info(min_input_shape={"image": [1, 1, 3, 3]},

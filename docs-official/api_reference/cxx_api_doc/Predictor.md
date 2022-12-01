@@ -216,14 +216,3 @@ predictor->RegisterOutputHook(get_current_memory);
 输出结果（`op type`、`device id`、`memory usage(MiB)`、`memory usage(%)`）：
 
 ![image](https://user-images.githubusercontent.com/23653004/196133166-7705c00b-2d0a-499d-bfae-39ecb5b1e9e4.png)
-
-示例三（python）：
-```python
-def hookfunc(op_type, tensor_name, tensor):
-    print(op_type)
-    print(tensor_name)
-    print(tensor.shape())
-
-// 通过该接口注册的 hook 函数，在每个 op run 完都会被执行一次
-predictor.register_output_hook(hookfunc)
-```
