@@ -12,8 +12,9 @@ API定义如下：
 // 启用 GPU 进行预测
 // 参数：memory_pool_init_size_mb - 初始化分配的gpu显存，以MB为单位
 //      device_id - 设备id
+//      precision - 指定推理精度
 // 返回：None
-void EnableUseGpu(uint64_t memory_pool_init_size_mb, int device_id = 0);
+void EnableUseGpu(uint64_t memory_pool_init_size_mb, int device_id = 0, Precision precision = Precision::kFloat32);
 
 // 禁用 GPU 进行预测
 // 参数：None
