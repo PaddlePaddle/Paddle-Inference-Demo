@@ -19,7 +19,7 @@
   ```
   void EnableTensorRtEngine(int workspace_size = 1 << 20,
                           int max_batch_size = 1, int min_subgraph_size = 3,
-                          Precision precision = Precision::kHalf,
+                          Precision precision = Precision::kFloat32,
                           bool use_static = false,
                           bool use_calib_mode = true);
   ```
