@@ -25,15 +25,13 @@
 #### 3.1.1 GPU 原生推理使用混合精度
 - C++ Config 选项
   ```
-  Exp_EnableUseGpuFp16(std::unordered_set<std::string> gpu_fp16_disabled_op_types_)
+  EnableUseGpu(512, 0, Precision::kHalf)
   ```
 
 - Python Config 选项
   ```
-  exp_enable_use_gpu_fp16()
+  enable_use_gpu(512, 0, PrecisionType.Half)
   ```
-
-可以在上述 API 接口中传入 OP 名称参数列表，来排除不支持 FP16 计算的 OP 使用混合精度推理。
 
 详细API介绍，分别参考 [C++ API 文档 - Config](../../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../../api_reference/python_api_doc/Config_index)
 
@@ -78,8 +76,7 @@
   } else {
     config.SetModel(FLAGS_model_dir); // Load no-combined model
   }
-  config.EnableUseGpu(1000, 0);
-  config.Exp_EnableUseGpuFp16();
+  config.EnableUseGpu(1000, 0, PrecisionType::kHalf);
   config.SwitchIrOptim(true);
 
   auto predictor = paddle_infer::CreatePredictor(config);
@@ -91,8 +88,7 @@
     config = Config(args.model_file, args.params_file)
   else:
     config = Config(args.model_dir)
-  config.enable_use_gpu(1000, 0)
-  config.exp_enable_use_gpu_fp16()
+  config.enable_use_gpu(1000, 0, PrecisionType.Half)
   config.switch_ir_optim(True)
 
   predictor = create_predictor(config)

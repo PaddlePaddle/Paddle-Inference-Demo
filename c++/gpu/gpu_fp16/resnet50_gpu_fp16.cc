@@ -6,12 +6,12 @@
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 
-#include "paddle/include/paddle_inference_api.h"
 #include "paddle/include/experimental/phi/common/float16.h"
+#include "paddle/include/paddle_inference_api.h"
 
 using paddle_infer::Config;
-using paddle_infer::Predictor;
 using paddle_infer::CreatePredictor;
+using paddle_infer::Predictor;
 using phi::dtype::float16;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
@@ -44,8 +44,7 @@ std::shared_ptr<Predictor> InitPredictor() {
   if (FLAGS_use_gpu) {
     config.EnableUseGpu(100, 0);
   } else if (FLAGS_use_gpu_fp16) {
-    config.EnableUseGpu(100, 0);
-    config.Exp_EnableUseGpuFp16();
+    config.EnableUseGpu(100, 0, PrecisionType::kHalf);
   } else if (FLAGS_use_xpu) {
     config.EnableXpu();
   } else if (FLAGS_use_npu) {
@@ -62,8 +61,8 @@ std::shared_ptr<Predictor> InitPredictor() {
 }
 
 template <typename T>
-void run(Predictor *predictor, T* const input_data,
-         const std::vector<int> &input_shape, T* out_data) {
+void run(Predictor *predictor, T *const input_data,
+         const std::vector<int> &input_shape, T *out_data) {
   int input_num = std::accumulate(input_shape.begin(), input_shape.end(), 1,
                                   std::multiplies<int>());
 
@@ -93,36 +92,19 @@ int main(int argc, char *argv[]) {
   const int input_volume = FLAGS_batch_size * 3 * 224 * 224;
   const int output_volume = FLAGS_batch_size * 1000;
 
-  if (FLAGS_use_gpu_fp16) {
-    float16 input_data[input_volume];
-    for (int i = 0; i < input_volume; i++) {
-      input_data[i] = i % 255 * 0.1;
-    }
-    float16 out_data[output_volume];
-    for (int i = 0; i < output_volume; i++) {
-      out_data[i] = 0;
-    }
+  float input_data[input_volume];
+  for (int i = 0; i < input_volume; i++) {
+    input_data[i] = i % 255 * 0.1;
+  }
+  float out_data[output_volume];
+  for (int i = 0; i < output_volume; i++) {
+    out_data[i] = 0;
+  }
 
-    run<float16>(predictor.get(), input_data, input_shape, out_data);
-    for (size_t i = 0; i < output_volume; i += 100) {
-      LOG(INFO) << i << " : " << out_data[i] << std::endl;
-    }
-  } else {
-    float input_data[input_volume];
-    for (int i = 0; i < input_volume; i++) {
-      input_data[i] = i % 255 * 0.1;
-    }
-    float out_data[output_volume];
-    for (int i = 0; i < output_volume; i++) {
-       out_data[i] = 0;
-    }
-
-    run<float>(predictor.get(), input_data, input_shape, out_data);
-    for (size_t i = 0; i < output_volume; i += 100) {
-      LOG(INFO) << i << " : " << out_data[i] << std::endl;
-    }
+  run<float>(predictor.get(), input_data, input_shape, out_data);
+  for (size_t i = 0; i < output_volume; i += 100) {
+    LOG(INFO) << i << " : " << out_data[i] << std::endl;
   }
 
   return 0;
 }
-

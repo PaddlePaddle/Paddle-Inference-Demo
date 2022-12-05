@@ -12,8 +12,9 @@ API定义如下：
 # 启用 GPU 进行预测
 # 参数：memory_pool_init_size_mb - 初始化分配的gpu显存，以MB为单位
 #      device_id - 设备id
+#      precision_mode - 指定推理精度，默认是PrecisionType.Float32
 # 返回：None
-paddle.inference.Config.enable_use_gpu(memory_pool_init_size_mb: int, device_id: int)
+paddle.inference.Config.enable_use_gpu(memory_pool_init_size_mb: int, device_id: int, precision_mode: PrecisionType)
 
 # 禁用 GPU 进行预测
 # 参数：None

@@ -57,8 +57,8 @@ import paddle.inference as paddle_infer
 # 创建 config
 config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams")
 
-# 启用 GPU, 初始化 100 MB 显存，使用 gpu id 为 0
-config.enable_use_gpu(100, 0)
+# 启用 GPU FP16 推理, 初始化 100 MB 显存，使用 gpu id 为 0
+config.enable_use_gpu(100, 0, precision_mode = paddle_infer.PrecisionType.Half)
 
 # 开启 TensorRT 预测，精度为 FP32，开启 INT8 离线量化校准
 config.enable_tensorrt_engine(precision_mode = paddle_infer.PrecisionType.Float32,
