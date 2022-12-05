@@ -16,11 +16,14 @@ def init_predictor(args):
         config = Config(args.model_file, args.params_file)
 
     config.enable_memory_optim()
+    
+    gpu_precision = PrecisionType.Float32
     if args.run_mode == "gpu_fp16":
-        config.enable_use_gpu(1000, 0, PrecisionType.Half)
-    else:
-        config.enable_use_gpu(1000, 0)
-    elif args.run_mode == "trt_fp32":
+        gpu_precision = PrecisionType.Half
+
+    config.enable_use_gpu(1000, 0, gpu_precision)
+
+    if args.run_mode == "trt_fp32":
         config.enable_tensorrt_engine(workspace_size=1 << 30,
                                       max_batch_size=1,
                                       min_subgraph_size=5,
