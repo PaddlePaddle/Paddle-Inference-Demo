@@ -17,12 +17,15 @@ Paddle Inference 支持通过以下两种方式在Nvidia-GPU上运行推理任�
 `GPU 原生推理 <./gpu_native_infer.html>`_  :  介绍如何使用 GPU 原生推理将模型部署在 GPU 硬件上，包括根据示例代码介绍 Paddle Inference C++/Python API 的使用流程，如何安装 Paddle Inference 推理库，以及如何在 Ubuntu、Windows 等操作系统上编译和执行示例代码。  
   
 .. note::
-   GPU 原生推理仅支持 fp32，fp16 精度目前处于实验阶段。使用前，您需要确保您的机器上已经安装了 CUDA 和 cuDNN。 
+   GPU 原生推理支持 fp32、fp16 和 bfp16。使用前，您需要确保您的机器上已经安装了 CUDA 和 cuDNN。 
+
+`GPU 混合精度推理 <./gpu_mixed_precision.html>`_ :   介绍如何使用 Paddle-GPU 原生混合精度推理。
+
 
 `GPU TensorRT 加速推理(NV-GPU/Jetson) <./gpu_trt_infer.html>`_ :   介绍如何使用 TensorRT 加速模型推理，根据示例代码介绍启用 TensorRT 加速的 API、 保存优化后的模型降低首帧耗时、支持动态 shape 的 API 等内容。还会介绍 Paddle Inference 接入 TensorRT 的原理。
 
 
-`GPU TensorRT 低精度或量化推理 <./gpu_fp16_int8.html>`_ :    介绍 Paddle Inference 使用 TensorRT情况下，实现对低精度和量化推理的支持。
+`GPU TensorRT 低精度或量化推理 <./trt_fp16_int8.html>`_ :    介绍 Paddle Inference 使用 TensorRT情况下，实现对低精度和量化推理的支持。
 
 
 ..  toctree::
@@ -32,7 +35,7 @@ Paddle Inference 支持通过以下两种方式在Nvidia-GPU上运行推理任�
     gpu_multi_stream.md
     gpu_mixed_precision.md
     gpu_trt_infer.md
-    gpu_fp16_int8.md
+    trt_fp16_int8.md
 
 
 
