@@ -39,11 +39,6 @@ paddle.inference.Config.memory_pool_init_size_mb()
 # 参数：None
 # 返回：float - 初始的显存占总显存的百分比
 paddle.inference.Config.fraction_of_gpu_memory_for_pool()
-
-# 启用 GPU FP16 计算精度进行预测
-# 参数：op_list - 保持 FP32 计算精度算子名单
-# 返回：None
-paddle.inference.Config.exp_enable_use_gpu_fp16(op_list: Set[str])
 ```
 
 GPU设置代码示例：
@@ -69,8 +64,7 @@ config.disable_gpu()
 print("Use GPU is: {}".format(config.use_gpu())) # False
 
 # 启用 GPU FP16 计算精度进行预测
-config.enable_use_gpu(100, 0);
-config.exp_enable_use_gpu_fp16();
+config.enable_use_gpu(100, 0, paddle_infer.PrecisionType.Half)
 ```
 
 ## TensorRT 设置

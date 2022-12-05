@@ -22,7 +22,7 @@ Paddle Inference 支持通过以下两种方式在Nvidia-GPU上运行推理任�
 `GPU TensorRT 加速推理(NV-GPU/Jetson) <./gpu_trt_infer.html>`_ :   介绍如何使用 TensorRT 加速模型推理，根据示例代码介绍启用 TensorRT 加速的 API、 保存优化后的模型降低首帧耗时、支持动态 shape 的 API 等内容。还会介绍 Paddle Inference 接入 TensorRT 的原理。
 
 
-`GPU TensorRT 低精度或量化推理 <./gpu_fp16_int8.html>`_ :    介绍 Paddle Inference 使用 TensorRT情况下，实现对低精度和量化推理的支持。
+`GPU TensorRT 低精度或量化推理 <./trt_fp16_int8.html>`_ :    介绍 Paddle Inference 使用 TensorRT情况下，实现对低精度和量化推理的支持。
 
 
 ..  toctree::
@@ -32,7 +32,7 @@ Paddle Inference 支持通过以下两种方式在Nvidia-GPU上运行推理任�
     gpu_multi_stream.md
     gpu_mixed_precision.md
     gpu_trt_infer.md
-    gpu_fp16_int8.md
+    trt_fp16_int8.md
 
 
 
