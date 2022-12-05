@@ -17,7 +17,7 @@ Paddle Inference 支持通过以下两种方式在Nvidia-GPU上运行推理任�
 `GPU 原生推理 <./gpu_native_infer.html>`_  :  介绍如何使用 GPU 原生推理将模型部署在 GPU 硬件上，包括根据示例代码介绍 Paddle Inference C++/Python API 的使用流程，如何安装 Paddle Inference 推理库，以及如何在 Ubuntu、Windows 等操作系统上编译和执行示例代码。  
   
 .. note::
-   GPU 原生推理仅支持 fp32，fp16 精度目前处于实验阶段。使用前，您需要确保您的机器上已经安装了 CUDA 和 cuDNN。 
+   GPU 原生推理目前支持 fp32、fp16 和 bfp16。使用前，您需要确保您的机器上已经安装了 CUDA 和 cuDNN。 
 
 `GPU TensorRT 加速推理(NV-GPU/Jetson) <./gpu_trt_infer.html>`_ :   介绍如何使用 TensorRT 加速模型推理，根据示例代码介绍启用 TensorRT 加速的 API、 保存优化后的模型降低首帧耗时、支持动态 shape 的 API 等内容。还会介绍 Paddle Inference 接入 TensorRT 的原理。
 
