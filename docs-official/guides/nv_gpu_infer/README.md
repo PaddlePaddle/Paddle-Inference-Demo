@@ -18,4 +18,4 @@ GPU TensorRT 加速推理需要借助于 TensorRT，TensorRT 是一个针对 NVI
 
 - [GPU 原生推理](./gpu_native_infer.md)
 - [GPU TensorRT 加速推理(NV-GPU/Jetson)](./gpu_trt_infer.md)
-- [GPU TensorRT 低精度或量化推理](./gpu_fp16_int8.md)
+- [GPU TensorRT 低精度或量化推理](./trt_fp16_int8.md)
