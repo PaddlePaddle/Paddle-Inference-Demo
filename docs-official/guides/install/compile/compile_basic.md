@@ -54,7 +54,7 @@ Include 目录下包括了使用飞桨推理库需要的头文件，lib 目录�
 **python whl 包**
 
 Python Wheel 形式的安装包：用于 Python 环境，也就是说，通过 pip 安装属于在线安装，这里属于本地安装。
-编译完毕后，会在 python/dist 目录下生成一个 Python Wheel 安装包，安装测试的命令为：  
+编译完毕后，会在 python/dist 目录下生成一个 Python Wheel 安装包，安装测试的命令为：
 
 ```shell
 pip3 install [wheel 包的名字]
@@ -79,7 +79,7 @@ paddle.utils.run_check()
 
 ## 编译方式
 
-飞桨框架的设计原则之一是满足不同平台的可用性。然而，不同操作系统惯用的编译和链接器是不一样的，使用它们的命令也不一致。比如，Linux 一般使用 GNU 编译器套件（GCC），Windows 则使用 Microsoft Visual C++（MSVC）。为了统一编译脚本，飞桨使用了支持跨平台构建的 CMake，它可以输出上述编译器所需的各种 Makefile 或者 Project 文件。    
+飞桨框架的设计原则之一是满足不同平台的可用性。然而，不同操作系统惯用的编译和链接器是不一样的，使用它们的命令也不一致。比如，Linux 一般使用 GNU 编译器套件（GCC），Windows 则使用 Microsoft Visual C++（MSVC）。为了统一编译脚本，飞桨使用了支持跨平台构建的 CMake，它可以输出上述编译器所需的各种 Makefile 或者 Project 文件。
 
 为方便编译，框架对常用的 CMake 命令进行了封装，如仿照 Bazel 工具封装了 cc_binary 和 cc_library ，分别用于可执行文件和库文件的产出等，对 CMake 感兴趣的同学可在 cmake/generic.cmake 中查看具体的实现逻辑。Paddle 的 CMake 中集成了生成 python wheel 包的逻辑，对如何生成 wheel 包感兴趣的同学可参考 [相关文档](https://packaging.python.org/tutorials/packaging-projects/)。
 
@@ -92,4 +92,4 @@ paddle.utils.run_check()
 
 [Windows 下从源码编译](source_compile_under_Windows.md)
 
-[MacOs 下从源码编译](source_compile_under_MacOs.md)
+[MacOs 下从源码编译](source_compile_under_MacOS.md)
