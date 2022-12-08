@@ -1,6 +1,6 @@
 # 快速上手Python推理
 
-本章节包含2部分内容, 
+本章节包含2部分内容,
 - [运行 Python 示例程序](#id1)
 - [Python 推理程序开发说明](#id2)
 
@@ -121,7 +121,7 @@ config = paddle_infer.Config(args.model_file, args.params_file)
 predictor = paddle_infer.create_predictor(config)
 ```
 
-(4) 设置模型输入 Tensor，详细可参考 [Python API 文档 - Tensor](../../python_api_doc/Tensor)
+(4) 设置模型输入 Tensor，详细可参考 [Python API 文档 - Tensor](../../api_reference/python_api_doc/Tensor)
 
 ```python
 # 获取输入的名称
