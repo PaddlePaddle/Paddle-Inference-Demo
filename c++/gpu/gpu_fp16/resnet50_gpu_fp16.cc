@@ -11,6 +11,7 @@
 
 using paddle_infer::Config;
 using paddle_infer::CreatePredictor;
+using paddle_infer::PrecisionType;
 using paddle_infer::Predictor;
 using phi::dtype::float16;
 
