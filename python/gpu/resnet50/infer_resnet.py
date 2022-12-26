@@ -16,7 +16,7 @@ def init_predictor(args):
         config = Config(args.model_file, args.params_file)
 
     config.enable_memory_optim()
-    
+
     gpu_precision = PrecisionType.Float32
     if args.run_mode == "gpu_fp16":
         gpu_precision = PrecisionType.Half
@@ -24,45 +24,42 @@ def init_predictor(args):
     config.enable_use_gpu(1000, 0, gpu_precision)
 
     if args.run_mode == "trt_fp32":
-        config.enable_tensorrt_engine(workspace_size=1 << 30,
-                                      max_batch_size=1,
-                                      min_subgraph_size=5,
-                                      precision_mode=PrecisionType.Float32,
-                                      use_static=False,
-                                      use_calib_mode=False)
+        config.enable_tensorrt_engine(
+            workspace_size=1 << 30,
+            max_batch_size=1,
+            min_subgraph_size=5,
+            precision_mode=PrecisionType.Float32,
+            use_static=False,
+            use_calib_mode=False,
+        )
     elif args.run_mode == "trt_fp16":
-        config.enable_tensorrt_engine(workspace_size=1 << 30,
-                                      max_batch_size=1,
-                                      min_subgraph_size=5,
-                                      precision_mode=PrecisionType.Half,
-                                      use_static=False,
-                                      use_calib_mode=False)
+        config.enable_tensorrt_engine(
+            workspace_size=1 << 30,
+            max_batch_size=1,
+            min_subgraph_size=5,
+            precision_mode=PrecisionType.Half,
+            use_static=False,
+            use_calib_mode=False,
+        )
     elif args.run_mode == "trt_int8":
-        config.enable_tensorrt_engine(workspace_size=1 << 30,
-                                      max_batch_size=1,
-                                      min_subgraph_size=5,
-                                      precision_mode=PrecisionType.Int8,
-                                      use_static=False,
-                                      use_calib_mode=True)
+        config.enable_tensorrt_engine(
+            workspace_size=1 << 30,
+            max_batch_size=1,
+            min_subgraph_size=5,
+            precision_mode=PrecisionType.Int8,
+            use_static=False,
+            use_calib_mode=True,
+        )
     if args.use_dynamic_shape:
-        names = ["im_shape", "image", "scale_factor"]
-        min_input_shape = [[1, 2], [1, 3, 112, 112], [1, 2]]
-        max_input_shape = [[1, 2], [1, 3, 608, 608], [1, 2]]
-        opt_input_shape = [[1, 2], [1, 3, 608, 608], [1, 2]]
+        names = ["inputs"]
+        min_input_shape = [[1, 3, 112, 112]]
+        max_input_shape = [[1, 3, 448, 448]]
+        opt_input_shape = [[1, 3, 224, 224]]
 
         config.set_trt_dynamic_shape_info(
-            {names[0]: min_input_shape[0],
-             names[1]: min_input_shape[0],
-             names[2]: min_input_shape[0],
-             },
-            {names[0]: max_input_shape[1],
-             names[1]: max_input_shape[1],
-             names[2]: max_input_shape[1],
-             },
-            {names[0]: opt_input_shape[2],
-             names[1]: opt_input_shape[2],
-             names[2]: opt_input_shape[2],
-             }
+            {names[0]: min_input_shape[0]},
+            {names[0]: max_input_shape[0]},
+            {names[0]: opt_input_shape[0]},
         )
 
     predictor = create_predictor(config)
@@ -97,39 +94,41 @@ def parse_args():
         "--model_file",
         type=str,
         default="",
-        help="Model filename, Specify this when your model is a combined model."
+        help="Model filename, Specify this when your model is a combined model.",
     )
     parser.add_argument(
         "--params_file",
         type=str,
         default="",
-        help="Parameter filename, Specify this when your model is a combined model."
+        help="Parameter filename, Specify this when your model is a combined model.",
     )
     parser.add_argument(
         "--model_dir",
         type=str,
         default="",
-        help="Model dir, If you load a non-combined model, specify the directory of the model."
+        help="Model dir, If you load a non-combined model, specify the directory of the model.",
     )
     parser.add_argument(
         "--run_mode",
         type=str,
         default="",
-        help="Run_mode which can be: trt_fp32, trt_fp16, trt_int8 and gpu_fp16."
+        help="Run_mode which can be: trt_fp32, trt_fp16, trt_int8 and gpu_fp16.",
     )
-    parser.add_argument("--use_dynamic_shape",
-                        type=int,
-                        default=0,
-                        help="Whether use trt dynamic shape.")
+    parser.add_argument(
+        "--use_dynamic_shape",
+        type=int,
+        default=0,
+        help="Whether use trt dynamic shape.",
+    )
 
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse_args()
     pred = init_predictor(args)
-    img = cv2.imread('./ILSVRC2012_val_00000247.jpeg')
+    img = cv2.imread("./ILSVRC2012_val_00000247.jpeg")
     img = preprocess(img)
-    #img = np.ones((1, 3, 224, 224)).astype(np.float32)
+    # img = np.ones((1, 3, 224, 224)).astype(np.float32)
     result = run(pred, [img])
     print("class index: ", np.argmax(result[0][0]))
