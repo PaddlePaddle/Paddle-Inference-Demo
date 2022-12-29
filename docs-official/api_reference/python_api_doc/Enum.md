@@ -19,6 +19,10 @@ DataType 中包括以下成员:
 * `INT64`: 64位整型
 * `INT32`: 32位整型
 * `FLOAT32`: 32位浮点型
+* `FLOAT16`: 16位浮点型
+* `UINT8`: 无符号8位整型
+* `INT8`: 8位整型
+* `BOOL`: 布尔型
 
 代码示例：
 
@@ -35,7 +39,7 @@ paddle_infer.get_num_bytes_of_data_type(data_type)
 
 ## PrecisionType
 
-PrecisionType设置模型的运行精度，默认值为 `kFloat32(float32)`。枚举变量定义如下：
+PrecisionType设置模型的运行精度。枚举变量定义如下：
 
 ```python
 # PrecisionType 枚举定义
@@ -46,6 +50,7 @@ PrecisionType 中包括以下成员:
 
 * `Float32`: FP32 模式运行
 * `Half`: FP16 模式运行
+* `Bf16`: BF16 模式运行
 * `Int8`: INT8 模式运行
 
 代码示例：
@@ -64,3 +69,22 @@ config.enable_use_gpu(100, 0, precision_mode = paddle_infer.PrecisionType.Half)
 config.enable_tensorrt_engine(precision_mode = paddle_infer.PrecisionType.Float32,
                               use_calib_mode = True)
 ```
+
+## PlaceType
+
+PlaceType 为目标设备硬件类型，用户可以根据应用场景选择硬件平台类型。枚举变量定义如下：
+
+```python
+# PrecisionType 枚举定义
+class paddle.inference.PlaceType
+```
+
+PlaceType 中包括以下成员:
+
+* `UNK`: unknown
+* `CPU`
+* `GPU`
+* `XPU`
+* `NPU`
+* `IPU`
+* `CUSTOM`

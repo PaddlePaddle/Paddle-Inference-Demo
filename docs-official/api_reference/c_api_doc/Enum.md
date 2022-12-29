@@ -16,12 +16,15 @@ PD_ENUM(PD_DataType){
 ```
 ## PrecisionType
 
-PrecisionType 为模型的运行精度，默认值为 `PD_PRECISION_FLOAT32`。枚举变量定义如下：
+PrecisionType 为模型的运行精度，枚举变量定义如下：
 
 ```c
 // PrecisionType 枚举类型定义
-PD_ENUM(PD_PrecisionType){PD_PRECISION_FLOAT32 = 0, PD_PRECISION_INT8,
-                          PD_PRECISION_HALF};
+PD_ENUM(PD_PrecisionType){
+    PD_PRECISION_FLOAT32 = 0,
+    PD_PRECISION_INT8,
+    PD_PRECISION_HALF,
+};
 ```
 ## PlaceType
 

@@ -2,17 +2,18 @@
 
 ## DataType
 
-DataType 为模型中 Tensor 的数据精度，默认值为 `FLOAT32`。枚举变量与 API 定义如下：
+DataType 为模型中 Tensor 的数据精度。枚举变量与 API 定义如下：
 
 ```c++
 // DataType 枚举类型定义
 enum DataType {
-  FLOAT32,
   INT64,
   INT32,
+  FLOAT32,
+  FLOAT16,
   UINT8,
   INT8,
-  FLOAT16,
+  BOOL,
 };
 
 // 获取各个 DataType 对应的字节数
@@ -34,7 +35,7 @@ std::cout << paddle_infer::GetNumBytesOfDataType(data_type) << std::endl;
 
 ## PrecisionType
 
-PrecisionType 设置模型的运行精度，默认值为 `kFloat32(float32)`。枚举变量定义如下：
+PrecisionType 设置模型的运行精度。枚举变量定义如下：
 
 ```c++
 // PrecisionType 枚举类型定义
@@ -42,6 +43,7 @@ enum class PrecisionType {
   kFloat32 = 0,  ///< fp32
   kInt8,         ///< int8
   kHalf,         ///< fp16
+  kBf16,         ///< bf16
 };
 ```
 
@@ -66,7 +68,15 @@ PlaceType 为目标设备硬件类型，用户可以根据应用场景选择硬�
 
 ```c++
 // PlaceType 枚举类型定义
-enum class PlaceType { kUNK = -1, kCPU, kGPU, kXPU, kNPU, kIPU, kCUSTOM };
+enum class PlaceType {
+  kUNK = -1,
+  kCPU,
+  kGPU,
+  kXPU,
+  kNPU,
+  kIPU,
+  kCUSTOM,
+};
 ```
 
 代码示例：
