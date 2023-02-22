@@ -39,13 +39,7 @@ tar xzf yolov3_r50vd_dcn_270e_coco.tgz
 ### 使用 oneDNN 运行样例
 
 ```
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ 
-```
-
-### 使用 OnnxRuntime 运行样例
-
-```
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__  --use_onnxruntime=1
+python infer_yolov3.py --model_file=./yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=./yolov3_r50vd_dcn_270e_coco/model.pdiparams
 ```
 
 输出结果如下所示：
@@ -78,4 +72,3 @@ category id is 33.0, bbox is [575.6267 343.2629 601.619  369.2695]
 ## 相关链接
 - [Paddle Inference使用Quick Start！]()
 - [Paddle Inference Python Api使用]()
-
