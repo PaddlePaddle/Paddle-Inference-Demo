@@ -74,7 +74,7 @@ I0623 08:41:14.419198 107053 analysis_predictor.cc:793] Generating TRT Calibrati
 #### 加载校准表执行预测
 
 ```shell
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --run_mode=trt_int8
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_int8
 ```
 
 加载校准表预测的log：
@@ -86,7 +86,7 @@ I0623 08:40:27.217834 107040 tensorrt_subgraph_pass.cc:321] Prepare TRT engine (
 ### 使用 Trt dynamic shape 运行样例（以 Fp32 为例）
 
 ```shell
-python infer_yolov3.py --model_file=./yolov3_infer/__model__ --params_file=./yolov3_infer/__params__ --run_mode=trt_fp32 --use_dynamic_shape=1
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1
 ```
 
 输出结果如下所示：
@@ -120,4 +120,3 @@ category id is 33.0, bbox is [575.6267 343.2629 601.619  369.2695]
 ## 相关链接
 - [Paddle Inference使用Quick Start！]()
 - [Paddle Inference Python Api使用]()
-
