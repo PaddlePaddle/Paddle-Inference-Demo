@@ -42,7 +42,7 @@ go version
 
 ### Paddle Inference C 库安装
 
-安装Paddle Inference C 库请参考[Paddle Inference安装（C）](../quick_start/c_install)。
+安装Paddle Inference C 库请参考[Paddle Inference安装（C）](./c_install)。
 
 Paddle Inference C 库的目录结构如下所示：
 
@@ -130,5 +130,4 @@ bash test.sh
 
 ## 开始使用
 
-请参考 [推理示例(Go)](../quick_start/go_demo) 和 [Go API 文档](../api_reference/go_api_index)。
-
+请参考 [推理示例(Go)](../quick_start/go_demo) 和 [Go API 文档](../../api_reference/go_api_doc/go_api_index)。

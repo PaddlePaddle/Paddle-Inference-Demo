@@ -39,16 +39,16 @@ Paddle Inference 采用 Predictor 进行推理。Predictor 是一个高性能推
 
 Paddle Inference 提供了 C, C++, Python, Golang 四种 API 的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
 
-- [推理示例 (C++)](./quick_start/cpp_demo)
-- [推理示例 (Python)](./quick_start/python_demo)
-- [推理示例 (C)](./quick_start/c_demo)
-- [推理示例 (GO)](./quick_start/go_demo)
+- [推理示例 (C++)](../quick_start/cpp_demo)
+- [推理示例 (Python)](../quick_start/python_demo)
+- [推理示例 (C)](../quick_start/c_demo)
+- [推理示例 (GO)](../quick_start/go_demo)
 
 ## 四. 性能优化
 
 ### 1) 根据实际场景开启相应的推理优化配置项
 
-- 以 C++ API 为例，根据实际场景开启相关的优化开关，示例如下，具体请参考 [C++ API 文档](../api_reference/cxx_api_index)。
+- 以 C++ API 为例，根据实际场景开启相关的优化开关，示例如下，具体请参考 [C++ API 文档](../../api_reference/cxx_api_doc/cxx_api_index)。
   - CPU 推理：`EnableMKLDNN`、`EnableMkldnnBfloat16`、`SetCpuMathLibraryNumThreads` 、`EnableONNXRuntime` 等
   - GPU 推理：`EnableTensorRtEngine` 等
   - 基础优化：`SwitchIrOptim`、`EnableMemoryOptim` 等
