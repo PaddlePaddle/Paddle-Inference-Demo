@@ -19,14 +19,32 @@
 
 ## 三、Paddle-GPU 混合精度推理
 
-本节主要介绍 GPU 原生混合精度推理流程，主要分为模型精度转换和模型推理两个步骤。
+本节主要介绍 GPU 原生混合精度推理流程，有两种方式：一阶段式和二阶段式。一阶段式直接输入 FP32 的模型，给 FP16 或 FP32 的数据，通过配置 Config 来指定推理精度。二阶段式主要分为模型精度转换和模型推理两个步骤。
 
-- [3.1 模型精度转换](#1)
-- [3.2 模型推理](#2)
+### 3.1 一阶段式
+
+只需一行代码。
+```cpp
+// cpp 示例
+config.EnableUseGpu(512, 0, Precision::kHalf);
+
+// 若出现了精度 diff，可通过此 API 禁用某些 op 跑在低精度下
+config.Exp_DisableMixedPrecisionOps(const std::unordered_set<std::string>& black_list);
+```
+
+```python
+# python 示例
+config.enable_use_gpu(512, 0, PrecisionType.Half)
+```
+
+### 3.2 二阶段式
+
+- [3.2.1. 模型精度转换](#1)
+- [3.2.2 模型推理](#2)
 
 <a name="1"></a>
 
-### 3.1 模型精度转换
+#### 3.2.1 模型精度转换
 
 `convert_to_mixed_precision`接口可对模型精度格式进行修改，可使用以下 python 脚本进行模型精度转换。
 
@@ -61,7 +79,7 @@ if __name__ == "__main__":
 
 <a name="2"></a>
 
-### 3.2 模型推理
+#### 3.2.2 模型推理
 
 得到混合精度模型后，可按照正常的推理逻辑进行推理，详情请参考 [GPU 原生推理](https://www.paddlepaddle.org.cn/inference/master/guides/nv_gpu_infer/gpu_native_infer.html)。
 
