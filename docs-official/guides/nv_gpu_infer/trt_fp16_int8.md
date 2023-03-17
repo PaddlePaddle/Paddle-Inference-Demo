@@ -5,21 +5,37 @@
 
 - [1. Fp16 推理](#1)
 - [2. Int8 量化推理](#2)
-- [Int8 量化推理的完整 demo](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50)
 
 <a name="1"></a>
 
 ## 1. Fp16 推理
 
-为使用 Fp16 带来的性能提升，只需在指定 TensorRT 配置时，将 **precision_mode** 设为 **paddle_infer.PrecisionType.Half**即可，示例如下：
+为了使用TensorRT 利用半精度进行混合精度推理，需将制定精度类型参数设定为半精度。
+- C++ Config 选项
 
-```python
-	config.enable_tensorrt_engine(
-		workspace_size = 1<<30,
-		max_batch_size=1, min_subgraph_size=5,
-		precision_mode=paddle_infer.PrecisionType.Half,
-		use_static=False, use_calib_mode=False)
-```
+  将以下接口中精度类型参数```precision```，设定为```Precision::kHalf```。
+
+  ```
+  void EnableTensorRtEngine(int workspace_size = 1 << 20,
+                          int max_batch_size = 1, int min_subgraph_size = 3,
+                          Precision precision = Precision::kFloat32,
+                          bool use_static = false,
+                          bool use_calib_mode = true);
+  ```
+
+- Python Config 选项
+
+  将以下接口中精度类型参数```precision_mode```，设定为```paddle_infer.PrecisionType.Half```。
+  ```python
+  enable_tensorrt_engine(workspace_size: int = 1 << 20,
+                        max_batch_size: int,
+                        min_subgraph_size: int,
+                        precision_mode: PrecisionType,
+                        use_static: bool,
+                        use_calib_mode: bool)
+  ```
+
+详细API介绍，分别参考 [C++ API 文档 - Config](../../api_reference/cxx_api_doc/Config_index) 或者 [Python API 文档 - Config](../../api_reference/python_api_doc/Config_index)
 
 <a name="2"></a>
 
