@@ -27,7 +27,7 @@ cd Paddle
 mkdir build && cd build
 
 # 执行cmake
-cmake .. -DPY_VERSION=3 -DPYTHON_EXECUTABLE=`which python3` -DWITH_MIPS=ON \
+cmake .. -DPY_VERSION=3 -DPYTHON_EXECUTABLE=`which python3` -DWITH_LOONGARCH=ON \
          -DWITH_TESTING=OFF -DON_INFER=ON -DWITH_XBYAK=OFF
 
 # 使用以下命令来编译
@@ -136,7 +136,7 @@ tar xzf resnet50.tgz
 WITH_MKL=OFF
 WITH_GPU=OFF
 WITH_ARM=OFF
-WITH_MIPS=ON
+WITH_LOONGARCH=ON
 
 # 5) 执行编译，编译完成之后在 build 下生成 resnet50_test 可执行文件
 ./compile.sh
