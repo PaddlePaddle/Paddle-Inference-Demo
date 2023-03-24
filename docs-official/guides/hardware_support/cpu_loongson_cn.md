@@ -1,14 +1,15 @@
 # 龙芯 CPU 安装说明
 
-Paddle Inference 支持基于龙芯 CPU 的推理部署, 当前仅支持通过源码编译的方式安装。
+Paddle Inference 支持基于龙芯 CPU 的推理部署, 可以通过源码编译的方式安装，也可以通过[龙芯pypi仓库](http://pypi.loongnix.cn)进行安装。
 
 ## 系统要求
 
 当前 Paddle Inference 支持龙芯 CPU 在如下环境下的源码编译和安装部署：
 
-| 处理器 | 操作系统 |
-| ---- | ---- |
-| 龙芯 3A4000、3A5000、3C5000L | 麒麟 V10，Loongnix release 1.0 |
+| 处理器 | 操作系统 | 指令集|
+| ---- | ---- | ---- |
+| 龙芯 3A3000、3B3000、3A4000、3B4000 | 麒麟 V10，UOS，Loongnix | Mips64el |
+| 龙芯 3A5000、3B5000、3C5000、3C5000L | 麒麟 V10，UOS，Loongnix |  LoongArch (LA) |
 
 ## 源码编译
 
@@ -27,6 +28,12 @@ cd Paddle
 mkdir build && cd build
 
 # 执行cmake
+
+# mips64el 构建
+cmake .. -DPY_VERSION=3 -DPYTHON_EXECUTABLE=`which python3` -DWITH_MIPS=ON \
+         -DWITH_TESTING=OFF -DON_INFER=ON -DWITH_XBYAK=OFF
+
+# loongarch 构建
 cmake .. -DPY_VERSION=3 -DPYTHON_EXECUTABLE=`which python3` -DWITH_LOONGARCH=ON \
          -DWITH_TESTING=OFF -DON_INFER=ON -DWITH_XBYAK=OFF
 
@@ -159,3 +166,43 @@ C++ 预测库无需卸载，Python whl 包请使用以下命令卸载：
 ```bash
 python3 -m pip uninstall paddlepaddle
 ```
+
+## 通过龙芯python仓库安装(LA)
+
+### 简介
+[龙芯Python仓库](http://pypi.loongnix.cn)是适用于LoongArch架构的Python软件包仓库。为了使Python更好的支持龙芯LoongArch架构，龙芯系统软件团队将[官方 Pipy 仓库](https://pypi.org)中尚未支持LoongArch架构的包进行移植，建立了龙芯Python仓库。
+
+### 安装步骤
+
+第一步, 通过 [龙芯python仓库用户手册](http://docs.loongnix.cn/python/python.html)修改pip的下载路径
+第二步，[查看支持哪些版本](http://pypi.loongnix.cn/loongson/pypi/paddlepaddle)
+第三步，指定版本安装
+第四步，导入模块进行验证
+
+具体流程如下：
+```
+[loongson@localhost ~]$ arch
+loongarch64
+# 方式一：修改配置文件，指定版本安装
+[loongson@localhost ~]$ cat /etc/pip.conf 
+[global]
+timeout = 60
+index-url = https://pypi.loongnix.cn/loongson/pypi
+extra-index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+trusted-host =
+    pypi.loongnix.cn
+    pypi.tuna.tsinghua.edu.cn
+[loongson@localhost ~]$ pip3 install paddlepaddle==2.4.2 
+# 方式二：-i 参数指定
+[loongson@localhost ~]$ python3 -m pip install paddlepaddle==2.4.2 -i https://pypi.loongnix.cn/loongson/pypi --trusted-host pypi.loongnix.cn
+# 验证
+[loongson@localhost ~]$ pip3 list |grep paddle
+paddle-bfloat                       0.1.7
+paddlepaddle                        2.4.2
+[loongson@localhost ~]$ python3 -c "import paddle; paddle.utils.run_check()"
+Running verify PaddlePaddle program ...
+PaddlePaddle works well on 1 CPU.
+PaddlePaddle works well on 2 CPUs.
+PaddlePaddle is installed successfully! Let's start deep learning with PaddlePaddle now.
+``` 
