@@ -84,7 +84,7 @@ NVIDIA TensorRT 是一个高性能机器学习推理SDK，专注于深度学习�
         for i,  name in enumerate(input_names):
             input_tensor = predictor.get_input_handle(name)
             input_tensor.reshape(img[i].shape)   
-            input_tensor.copy_from_cpu(img[i].copy())
+            input_tensor.copy_from_cpu(img[i])
         # 预测
         predictor.run()
         results = []

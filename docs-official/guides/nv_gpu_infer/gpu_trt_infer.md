@@ -89,7 +89,7 @@ Paddle Inference 中启用 TensorRT 也是遵照这样的流程。我们先用�
         for i,  name in enumerate(input_names):
             input_tensor = predictor.get_input_handle(name)
             input_tensor.reshape(img[i].shape)   
-            input_tensor.copy_from_cpu(img[i].copy())
+            input_tensor.copy_from_cpu(img[i])
         # 推理
         predictor.run()
         results = []

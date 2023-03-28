@@ -82,7 +82,7 @@ def run(predictor, datas, lods):
     for i, name in enumerate(input_names):
         input_tensor = predictor.get_input_handle(name)
         input_tensor.reshape(datas[i].shape)
-        input_tensor.copy_from_cpu(datas[i].copy())
+        input_tensor.copy_from_cpu(datas[i])
         input_tensor.set_lod(lods[i])
 
     # do the inference

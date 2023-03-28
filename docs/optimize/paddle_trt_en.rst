@@ -161,7 +161,7 @@ Paddle-TRT also follows the same process. Let's use a simple example to introduc
         for i,  name in enumerate(input_names):
             input_tensor = predictor.get_input_handle(name)
             input_tensor.reshape(img[i].shape)   
-            input_tensor.copy_from_cpu(img[i].copy())
+            input_tensor.copy_from_cpu(img[i])
         # Inference
         predictor.run()
         results = []

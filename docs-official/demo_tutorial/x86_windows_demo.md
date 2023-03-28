@@ -192,7 +192,7 @@ img = preprocess(img)
 input_names = predictor.get_input_names()
 input_tensor = predictor.get_input_handle(input_names[0])
 input_tensor.reshape(img.shape)
-input_tensor.copy_from_cpu(img.copy())
+input_tensor.copy_from_cpu(img)
 ```
 
 #### 2.1.7 执行Predictor
