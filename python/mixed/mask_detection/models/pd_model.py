@@ -27,7 +27,7 @@ class Model:
         for i, name in enumerate(input_names):
             input_tensor = self.predictor.get_input_handle(input_names[i])
             input_tensor.reshape(img_list[i].shape)
-            input_tensor.copy_from_cpu(img_list[i].copy())
+            input_tensor.copy_from_cpu(img_list[i])
 
         self.predictor.run()
 

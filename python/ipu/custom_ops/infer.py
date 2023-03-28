@@ -42,7 +42,7 @@ predictor = create_predictor(config)
 
 input_tensor = predictor.get_input_handle(predictor.get_input_names()[0])
 input_tensor.reshape(np_data.shape)
-input_tensor.copy_from_cpu(np_data.copy())
+input_tensor.copy_from_cpu(np_data)
 predictor.run()
 output_tensor = predictor.get_output_handle(predictor.get_output_names()[0])
 predict_infer = output_tensor.copy_to_cpu()

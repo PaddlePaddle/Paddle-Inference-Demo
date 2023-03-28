@@ -35,7 +35,7 @@ def run(predictor, img):
     for i, name in enumerate(input_names):
         input_tensor = predictor.get_input_handle(name)
         input_tensor.reshape(img[i].shape)
-        input_tensor.copy_from_cpu(img[i].copy())
+        input_tensor.copy_from_cpu(img[i])
 
     # do the inference
     predictor.run()
