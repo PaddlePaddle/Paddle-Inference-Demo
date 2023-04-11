@@ -10,25 +10,25 @@ Paddle Inference 的预测器，由 `CreatePredictor` 根据 `Config` 进行创�
 API 定义如下：
 
 ```c++
-// 获取所有输入 Tensor 的名称
+// 获取所有输入 paddle_infer::Tensor 的名称
 // 参数：None
-// 返回：std::vector<std::string> - 所有输入 Tensor 的名称
+// 返回：std::vector<std::string> - 所有输入 paddle_infer::Tensor 的名称
 std::vector<std::string> GetInputNames();
 
-// 根据名称获取输入 Tensor 的句柄
-// 参数：name - Tensor 的名称
-// 返回：std::unique_ptr<Tensor> - 指向 Tensor 的指针
-std::unique_ptr<Tensor> GetInputHandle(const std::string& name);
+// 根据名称获取输入 paddle_infer::Tensor 的句柄
+// 参数：name - paddle_infer::Tensor 的名称
+// 返回：std::unique_ptr<Tensor> - 指向 paddle_infer::Tensor 的指针
+std::unique_ptr<paddle_infer::Tensor> GetInputHandle(const std::string& name);
 
-// 获取所有输出 Tensor 的名称
+// 获取所有输出 paddle_infer::Tensor 的名称
 // 参数：None
-// 返回：std::vector<std::string> - 所有输出 Tensor 的名称
+// 返回：std::vector<std::string> - 所有输出 paddle_infer::Tensor 的名称
 std::vector<std::string> GetOutputNames();
 
-// 根据名称获取输出 Tensor 的句柄
-// 参数：name - Tensor 的名称
-// 返回：std::unique_ptr<Tensor> - 指向 Tensor 的指针
-std::unique_ptr<Tensor> GetOutputHandle(const std::string& name);
+// 根据名称获取输出 paddle_infer::Tensor 的句柄
+// 参数：name - paddle_infer::Tensor 的名称
+// 返回：std::unique_ptr<Tensor> - 指向 paddle_infer::Tensor 的指针
+std::unique_ptr<paddle_infer::Tensor> GetOutputHandle(const std::string& name);
 ```
 
 代码示例：
@@ -44,7 +44,7 @@ auto predictor = paddle_infer::CreatePredictor(config);
 int input_num = shape_production(INPUT_SHAPE);
 std::vector<float> input_data(input_num, 1);
 
-// 准备输入 Tensor
+// 准备输入 paddle_infer::Tensor
 auto input_names = predictor->GetInputNames();
 auto input_tensor = predictor->GetInputHandle(input_names[0]);
 input_tensor->Reshape({1, 3, 224, 224});
@@ -53,7 +53,7 @@ input_tensor->CopyFromCpu(input_data.data());
 // 执行预测
 predictor->Run();
 
-// 获取 Output Tensor
+// 获取 Output paddle_infer::Tensor
 auto output_names = predictor->GetOutputNames();
 auto output_tensor = predictor->GetOutputHandle(output_names[0]);
 ```
@@ -65,8 +65,16 @@ API 定义如下：
 ```c++
 // 执行模型预测，需要在设置输入数据后调用
 // 参数：None
-// 返回：None
+// 返回：bool - 是否执行成功
+// 备注：此接口对应于 paddle_infer::Tensor
 bool Run();
+
+// 执行模型预测(推荐使用)
+// 参数：inputs - 输入数据，对应模型输入的 paddle::Tensor 向量
+//      outputs - 输出数据，对应模型输出的 paddle::Tenosr 向量
+// 返回：bool - 是否执行成功
+// 备注：此接口对应于 paddle::Tensor
+bool Run(const std::vector<paddle::Tensor>& inputs, std::vector<paddle::Tensor> * outputs);
 
 // 根据该 Predictor，克隆一个新的 Predictor，两个 Predictor 之间共享权重
 // 参数：None
@@ -94,7 +102,7 @@ auto predictor = paddle_infer::CreatePredictor(config);
 int input_num = shape_production(INPUT_SHAPE);
 std::vector<float> input_data(input_num, 1);
 
-// 准备输入 Tensor
+// 准备输入 paddle_infer::Tensor
 auto input_names = predictor->GetInputNames();
 auto input_tensor = predictor->GetInputHandle(input_names[0]);
 input_tensor->Reshape({1, 3, 224, 224});
@@ -103,7 +111,7 @@ input_tensor->CopyFromCpu(input_data.data());
 // 执行预测
 predictor->Run();
 
-// 获取 Output Tensor
+// 获取 Output paddle_infer::Tensor
 auto output_names = predictor->GetOutputNames();
 auto output_tensor = predictor->GetOutputHandle(output_names[0]);
 std::vector<int> output_shape = output_tensor->shape();
@@ -121,14 +129,16 @@ predictor->ClearIntermediateTensor();
 predictor->TryShrinkMemory();
 ```
 
-## 获取 OP 中间输出 Tensor
+## 获取 OP 中间输出 paddle_infer::Tensor
 
 API 定义如下：
 
 ```c++
-// 获取中间 op 的输出 Tensor
-// 参数：Exp_OutputHookFunc    - hook 函数签名为 void(const std::string&, const std::string&, const Tensor&)
-//                              第一个参数是 op type（name），第二个参数是输出 Tensor name，第三个参数是输出 Tensor
+// 获取中间 op 的输出 paddle_infer::Tensor
+// 参数：Exp_OutputHookFunc    - hook 函数签名为 void(const std::string&, const std::string&, const paddle_infer::Tensor&)
+//                              第一个参数是 op type（name）
+//                              第二个参数是输出 paddle_infer::Tensor‘s name
+//                              第三个参数是输出 paddle_infer::Tensor
 // 返回：None
 void RegisterOutputHook(const Exp_OutputHookFunc& hookfunc);
 ```
@@ -142,7 +152,7 @@ void RegisterOutputHook(const Exp_OutputHookFunc& hookfunc);
 ```cpp
 void get_output_tensor(const std::string &op_type,
                        const std::string &tensor_name,
-                       const Tensor& tensor) {
+                       const paddle_infer::Tensor& tensor) {
   std::vector<int> tensor_shape = tensor.shape();
   int tensor_numel = std::accumulate(tensor_shape.begin(), tensor_shape.end(),
                                      1, std::multiplies<int>());
@@ -192,7 +202,7 @@ predictor->RegisterOutputHook(get_output_tensor);
 该示例输出每个 op run 前后当前 device 上的显存占用信息。
 ```cpp
 void get_current_memory(const std::string &op_type,
-                        const std::string &tensor_name, const Tensor &tensor) {
+                        const std::string &tensor_name, const paddle_infer::Tensor &tensor) {
   // parameters tensor_name and tensor are not used
   std::stringstream ss;
 
