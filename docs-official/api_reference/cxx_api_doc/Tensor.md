@@ -1,11 +1,13 @@
 #  Tensor 类
 
-Tensor 是 Paddle Inference 的数据组织形式，用于对底层数据进行封装并提供接口对数据进行操作，包括设置 Shape、数据、LoD 信息等。
+Tensor 是 Paddle Inference 的数据组织形式，用于对底层数据进行封装并提供接口对数据进行操作，包括设置 Shape、数据、LoD 信息等。在 Paddle Inference 中存在两种 Tensor，分别是 paddle_infer::Tensor 和 paddle::Tensor， 其中 paddle::Tensor 为训推一体共用，对应于 Python 端的 Paddle.Tensor。在 Paddle2.5 及之后的版本中，我们推荐使用 paddle::Tensor。
+
+## 一、paddle_infer::Tensor
 
 **注意：** 
 应使用 `Predictor` 的 `GetInputHandle` 和 `GetOuputHandle` 接口获取输入输出 `Tensor`。
 
-Tensor 类的API定义如下：
+paddle_infer::Tensor 类的API定义如下：
 
 ```c++
 // 设置 Tensor 的维度信息
@@ -131,3 +133,7 @@ std::vector<float> output_data;
 output_data.resize(output_size);
 output_tensor->CopyToCpu(output_data.data());
 ```
+
+## 二、paddle::Tensor
+
+[参考官网链接](https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/custom_op/new_cpp_op_cn.html#tensor-api)。

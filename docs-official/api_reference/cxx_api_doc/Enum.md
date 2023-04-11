@@ -7,13 +7,14 @@ DataType 为模型中 Tensor 的数据精度。枚举变量与 API 定义如下�
 ```c++
 // DataType 枚举类型定义
 enum DataType {
+  FLOAT32,
   INT64,
   INT32,
-  FLOAT32,
-  FLOAT16,
   UINT8,
   INT8,
+  FLOAT16,
   BOOL,
+  FLOAT64,
 };
 
 // 获取各个 DataType 对应的字节数
