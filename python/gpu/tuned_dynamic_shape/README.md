@@ -12,6 +12,18 @@
 
 ### 三：运行 TunedDynamicShape 样例
 
+#### 方式一：Auto_Tune
+
+**Auto_Tune 的方式是运行时构建 trt engine 并收集 shape 信息，使用时不需要预先收集 shape 信息，收集好的 shape 信息保存在 _opt_cache 目录下的 shape_range_info.pbtxt 文件中**
+
+```
+python infer_tune.py --model_file ./resnet50/inference.pdmodel --params_file ./resnet50/inference.pdiparams --use_trt 1 --tuned_dynamic_shape 1 --auto_tune 1
+```
+
+#### 方式二：离线 Tune
+
+**离线 Tune 的方式需要以下两个步骤完成：**
+
 **1、首先您需要针对业务数据进行离线 tune，来获取计算图中所有中间 tensor 的 shape 范围，并将其存储在 config 中配置的 shape_range_info.pbtxt 文件中**
 
 ```

@@ -21,9 +21,9 @@ void EnableUseGpu(uint64_t memory_pool_init_size_mb, int device_id = 0, Precisio
 // 返回：None
 void DisableGpu();
 
-// 判断是否启用 GPU 
+// 判断是否启用 GPU
 // 参数：None
-// 返回：bool - 是否启用 GPU 
+// 返回：bool - 是否启用 GPU
 bool use_gpu() const;
 
 // 获取 GPU 的device id
@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
 
 ## TensorRT 设置
 
-**注意：** 
+**注意：**
 1. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
 2. 对存在LoD信息的模型，如BERT, ERNIE等NLP模型，必须使用动态 Shape
 3. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)。当前开始OSS只对ERNIE/BERT模型加速效果（[示例代码](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/ernie-varlen)）。
@@ -157,7 +157,7 @@ API定义如下：
 //                           行时显存占用。该值设置过小可能会导致选不到最佳kernel，设置过大时会增加初始
 //                           化阶段的显存使用，请根据实际情况调整，建议值256MB
 //      max_batch_size     - 设置最大的 batch 大小，运行时 batch 大小不得超过此限定值
-//      min_subgraph_size  - Paddle 内 TensorRT 是以子图的形式运行，为了避免性能损失，当 TensorRT 
+//      min_subgraph_size  - Paddle 内 TensorRT 是以子图的形式运行，为了避免性能损失，当 TensorRT
 //                           子图内部节点个数大于 min_subgraph_size 的时候，才会使用 TensorRT 运行
 //      precision          - 指定使用 TensorRT 的精度，支持 FP32(kFloat32)，FP16(kHalf)，
 //                           Int8(kInt8)
@@ -172,7 +172,7 @@ void EnableTensorRtEngine(int workspace_size = 1 << 20,
                           bool use_static = false,
                           bool use_calib_mode = true);
 
-// 判断是否启用 TensorRT 
+// 判断是否启用 TensorRT
 // 参数：None
 // 返回：bool - 是否启用 TensorRT
 bool tensorrt_engine_enabled() const;
@@ -202,13 +202,13 @@ void SetTRTDynamicShapeInfo(
       bool disable_trt_plugin_fp16 = false);
 
 //
-// TensorRT 动态 shape 的自动推导，使用示例参考 https://github.com/PaddlePaddle/Paddle-Inference-Demo/blob/d6c1aac35fa8a02271c9433b0565ff0054a5a82b/c++/paddle-trt/tuned_dynamic_shape 
-// 参数： shape_range_info_path  - 统计生成的 shape 信息存储文件路径
-//       allow_build_at_runtime - 是否开启运行时重建 TensorRT 引擎功能，当设置为 true 时，输入 shape 
+// TensorRT 动态 shape 的自动推导，使用示例参考 https://github.com/PaddlePaddle/Paddle-Inference-Demo/blob/d6c1aac35fa8a02271c9433b0565ff0054a5a82b/c++/paddle-trt/tuned_dynamic_shape
+// 参数： shape_range_info_path  - 统计生成的 shape 信息存储文件路径，当设置为空时，在运行时收集
+//       allow_build_at_runtime - 是否开启运行时重建 TensorRT 引擎功能，当设置为 true 时，输入 shape
 //                                超过 tune 范围时会触发 TensorRT 重建。当设置为 false 时，输入 shape
 //                                超过 tune 范围时会引起推理出错
 // 返回：None
-void EnableTunedTensorRtDynamicShape(const std::string& shape_range_info_path,
+void EnableTunedTensorRtDynamicShape(const std::string& shape_range_info_path = "",
                                      bool allow_build_at_runtime = true);
 
 
@@ -243,7 +243,7 @@ paddle_infer::Config config("./model/mobilenet.pdmodel", "./model/mobilenet.pdip
 config.EnableUseGpu(100, 0);
 
 // 启用 TensorRT 进行预测加速 - FP32
-config.EnableTensorRtEngine(1 << 28, 1, 3, 
+config.EnableTensorRtEngine(1 << 28, 1, 3,
                             paddle_infer::PrecisionType::kFloat32, false, false);
 // 通过 API 获取 TensorRT 启用结果 - true
 std::cout << "Enable TensorRT is: " << config.tensorrt_engine_enabled() << std::endl;
@@ -252,13 +252,13 @@ std::cout << "Enable TensorRT is: " << config.tensorrt_engine_enabled() << std::
 config.EnableTensorRTMemoryOptim();
 
 // 启用 TensorRT 进行预测加速 - FP16
-config.EnableTensorRtEngine(1 << 28, 1, 3, 
+config.EnableTensorRtEngine(1 << 28, 1, 3,
                             paddle_infer::PrecisionType::kHalf, false, false);
 // 通过 API 获取 TensorRT 启用结果 - true
 std::cout << "Enable TensorRT is: " << config.tensorrt_engine_enabled() << std::endl;
 
 // 启用 TensorRT 进行预测加速 - Int8
-config.EnableTensorRtEngine(1 << 28, 1, 3, 
+config.EnableTensorRtEngine(1 << 28, 1, 3,
                             paddle_infer::PrecisionType::kInt8, false, true);
 // 通过 API 获取 TensorRT 启用结果 - true
 std::cout << "Enable TensorRT is: " << config.tensorrt_engine_enabled() << std::endl;
