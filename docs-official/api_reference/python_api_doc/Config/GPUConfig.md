@@ -21,9 +21,9 @@ paddle.inference.Config.enable_use_gpu(memory_pool_init_size_mb: int, device_id:
 # 返回：None
 paddle.inference.Config.disable_gpu()
 
-# 判断是否启用 GPU 
+# 判断是否启用 GPU
 # 参数：None
-# 返回：bool - 是否启用 GPU 
+# 返回：bool - 是否启用 GPU
 paddle.inference.Config.use_gpu()
 
 # 获取 GPU 的device id
@@ -67,7 +67,7 @@ print("Use GPU is: {}".format(config.use_gpu())) # False
 
 ## TensorRT 设置
 
-**注意：** 
+**注意：**
 1. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
 2. 对存在 LoD 信息的模型，如 BERT、ERNIE 等 NLP 模型，必须使用动态 Shape
 3. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)
@@ -82,7 +82,7 @@ API定义如下：
 #                           行时显存占用。该值设置过小可能会导致选不到最佳kernel，设置过大时会增加初始
 #                           化阶段的显存使用，请根据实际情况调整，建议值256MB
 #      max_batch_size     - 设置最大的 batch 大小，运行时 batch 大小不得超过此限定值
-#      min_subgraph_size  - Paddle 内 TensorRT 是以子图的形式运行，为了避免性能损失，当 TensorRT 
+#      min_subgraph_size  - Paddle 内 TensorRT 是以子图的形式运行，为了避免性能损失，当 TensorRT
 #                           子图内部节点个数大于 min_subgraph_size 的时候，才会使用 TensorRT 运行
 #      precision          - 指定使用 TensorRT 的精度，支持 FP32(kFloat32)，FP16(kHalf)，Int8(kInt8)
 #      use_static         - 若指定为 true，在初次运行程序退出Predictor析构的时候会将 TensorRT 的优
@@ -97,7 +97,7 @@ paddle.inference.Config.enable_tensorrt_engine(workspace_size: int = 1 << 20,
                                                use_static: bool,
                                                use_calib_mode: bool)
 
-# 判断是否启用 TensorRT 
+# 判断是否启用 TensorRT
 # 参数：None
 # 返回：bool - 是否启用 TensorRT
 paddle.inference.Config.tensorrt_engine_enabled()
@@ -120,20 +120,20 @@ paddle.inference.Config.enable_tensorrt_memory_optim(engine_memory_sharing : boo
 #                                 kernel 阶段以此项配置的 shape 下的性能表现作为选择依据
 #      disable_trt_plugin_fp16  - 设置 TensorRT 的 plugin 不在 fp16 精度下运行
 # 返回：None
-paddle.inference.Config.set_trt_dynamic_shape_info(min_input_shape: Dict[str, List[int]] = {}, 
-                                                   max_input_shape: Dict[str, List[int]] = {}, 
-                                                   optim_input_shape: Dict[str, List[int]] = {}, 
+paddle.inference.Config.set_trt_dynamic_shape_info(min_input_shape: Dict[str, List[int]] = {},
+                                                   max_input_shape: Dict[str, List[int]] = {},
+                                                   optim_input_shape: Dict[str, List[int]] = {},
                                                    disable_trt_plugin_fp16: bool = False)
 
 #
 # TensorRT 动态 shape 的自动推导
-# 参数： shape_range_info_path  - 统计生成的 shape 信息存储文件路径
-#       allow_build_at_runtime - 是否开启运行时重建 TensorRT 引擎功能，当设置为 true 时，输入 shape 
+# 参数： shape_range_info_path  - 统计生成的 shape 信息存储文件路径，当设置为空时，在运行时收集
+#       allow_build_at_runtime - 是否开启运行时重建 TensorRT 引擎功能，当设置为 true 时，输入 shape
 #                                超过 tune 范围时会触发 TensorRT 重建。当设置为 false 时，输入 shape
 #                                超过 tune 范围时会引起推理出错
 # 返回：None
 paddle.inference.Config.enable_tuned_tensorrt_dynamic_shape(
-                                     shape_range_info_path: str,
+                                     shape_range_info_path: str = "",
                                      allow_build_at_runtime: bool = True)
 
 # 启用 TensorRT OSS 进行 ERNIE / BERT 预测加速（原理介绍 https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/ernie-varlen ）
@@ -170,29 +170,29 @@ config = paddle_infer.Config("./mobilenet.pdmodel", "./mobilenet.pdiparams")
 config.enable_use_gpu(100, 0)
 
 # 启用 TensorRT 进行预测加速 - FP32
-config.enable_tensorrt_engine(workspace_size = 1 << 28, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 3, 
-                              precision_mode = paddle_infer.PrecisionType.Float32, 
+config.enable_tensorrt_engine(workspace_size = 1 << 28,
+                              max_batch_size = 1,
+                              min_subgraph_size = 3,
+                              precision_mode = paddle_infer.PrecisionType.Float32,
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 
 
 # 启用 TensorRT 进行预测加速 - FP16
-config.enable_tensorrt_engine(workspace_size = 1 << 28, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 3, 
-                              precision_mode = paddle_infer.PrecisionType.Half, 
+config.enable_tensorrt_engine(workspace_size = 1 << 28,
+                              max_batch_size = 1,
+                              min_subgraph_size = 3,
+                              precision_mode = paddle_infer.PrecisionType.Half,
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 
 # 启用 TensorRT 进行预测加速 - Int8
-config.enable_tensorrt_engine(workspace_size = 1 << 28, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 3, 
-                              precision_mode = paddle_infer.PrecisionType.Int8, 
+config.enable_tensorrt_engine(workspace_size = 1 << 28,
+                              max_batch_size = 1,
+                              min_subgraph_size = 3,
+                              precision_mode = paddle_infer.PrecisionType.Int8,
                               use_static = False, use_calib_mode = False)
 
 # 开启 TensorRT 显存优化
@@ -215,10 +215,10 @@ config = paddle_infer.Config("./mobilenet.pdmodel", "./mobilenet.pdiparams")
 config.enable_use_gpu(100, 0)
 
 # 启用 TensorRT 进行预测加速 - Int8
-config.enable_tensorrt_engine(workspace_size = 1 << 29, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 1, 
-                              precision_mode=paddle_infer.PrecisionType.Int8, 
+config.enable_tensorrt_engine(workspace_size = 1 << 29,
+                              max_batch_size = 1,
+                              min_subgraph_size = 1,
+                              precision_mode=paddle_infer.PrecisionType.Int8,
                               use_static = False, use_calib_mode = True)
 
 # 开启 TensorRT 显存优化

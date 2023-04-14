@@ -15,26 +15,23 @@ def init_predictor(args):
         config = Config(args.model_file, args.params_file)
 
     config.enable_memory_optim()
+    config.enable_use_gpu(1000, 0)
     if args.tune:
         config.collect_shape_range_info(shape_file)
-    if args.use_gpu:
-        config.enable_use_gpu(1000, 0)
-        if args.use_trt:
-            # using dynamic shpae mode, the max_batch_size will be ignored.
-            config.enable_tensorrt_engine(
-                workspace_size=1 << 30,
-                max_batch_size=1,
-                min_subgraph_size=5,
-                precision_mode=PrecisionType.Float32,
-                use_static=False,
-                use_calib_mode=False)
-            if args.tuned_dynamic_shape:
+    if args.use_trt:
+        # using dynamic shpae mode, the max_batch_size will be ignored.
+        config.enable_tensorrt_engine(
+            workspace_size=1 << 30,
+            max_batch_size=1,
+            min_subgraph_size=5,
+            precision_mode=PrecisionType.Float32,
+            use_static=False,
+            use_calib_mode=False)
+        if args.tuned_dynamic_shape:
+            if args.auto_tune:
+                config.enable_tuned_tensorrt_dynamic_shape()
+            else:
                 config.enable_tuned_tensorrt_dynamic_shape(shape_file, True)
-    else:
-        # If not specific mkldnn, you can set the blas thread.
-        # The thread num should not be greater than the number of cores in the CPU.
-        config.set_cpu_math_library_num_threads(4)
-        config.enable_mkldnn()
 
     predictor = create_predictor(config)
     return predictor
@@ -91,6 +88,11 @@ def parse_args():
         type=int,
         default=0,
         help="Whether use tune to get shape range.")
+    parser.add_argument(
+        "--auto_tune",
+        type=int,
+        default=0,
+        help="Whether use auto tune to get shape range.")
     parser.add_argument(
         "--tuned_dynamic_shape",
         type=int,

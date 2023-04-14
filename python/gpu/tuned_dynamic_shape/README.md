@@ -12,19 +12,31 @@
 
 ### 三：运行 TunedDynamicShape 样例
 
-**1、首先您需要针对业务数据进行离线 tune，来获取计算图中所有中间 tensor 的 shape 范围，并将其存储在 config 中配置的 shape_range_info.pbtxt 文件中**
+#### 方式一：Auto_Tune
+
+Auto_Tune 的方式是运行时构建 trt engine 并收集 shape 信息，使用时不需要预先收集 shape 信息，收集好的 shape 信息保存在 _opt_cache 目录下的 shape_range_info.pbtxt 文件中
+
+```
+python infer_tune.py --model_file ./resnet50/inference.pdmodel --params_file ./resnet50/inference.pdiparams --use_trt 1 --tuned_dynamic_shape 1 --auto_tune 1
+```
+
+#### 方式二：离线 Tune
+
+离线 Tune 的方式需要以下两个步骤完成：
+
+1、首先您需要针对业务数据进行离线 tune，来获取计算图中所有中间 tensor 的 shape 范围，并将其存储在 config 中配置的 shape_range_info.pbtxt 文件中
 
 ```
 python infer_tune.py --model_file ./resnet50/inference.pdmodel --params_file ./resnet50/inference.pdiparams --tune 1
 ```
 
-**2、有了离线 tune 得到的 shape 范围信息后，您可以使用该文件自动对所有的 trt 子图设置其输入的 shape 范围。**
+2、有了离线 tune 得到的 shape 范围信息后，您可以使用该文件自动对所有的 trt 子图设置其输入的 shape 范围。
 
 ```
 python infer_tune.py --model_file ./resnet50/inference.pdmodel --params_file ./resnet50/inference.pdiparams --use_gpu 1 --use_trt 1 --tuned_dynamic_shape 1
 ```
 
 ## 更多链接
-- [Paddle Inference使用Quick Start！](https://paddle-inference.readthedocs.io/en/latest/introduction/quick_start.html)
-- [Paddle Inference C++ Api使用](https://paddle-inference.readthedocs.io/en/latest/user_guides/cxx_api.html)
-- [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/user_guides/inference_python_api.html)
+- [Paddle Inference使用Quick Start！](https://www.paddlepaddle.org.cn/inference/master/guides/quick_start/index_quick_start.html)
+- [Paddle Inference C++ Api使用](https://www.paddlepaddle.org.cn/inference/master/api_reference/cxx_api_doc/cxx_api_index.html)
+- [Paddle Inference Python Api使用](https://www.paddlepaddle.org.cn/inference/master/api_reference/python_api_doc/python_api_index.html)
