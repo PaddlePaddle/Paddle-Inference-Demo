@@ -18,6 +18,12 @@ paddle.inference.Config.enable_xpu(l3_workspace_size: int = 0xfffc00,
                                    autotune_file: string = "",
                                    precision: string = "int16",
                                    adaptive_seqlen: bool = False)
+
+# 设置 XPU 配置
+# 参数：quant_post_dynamic_weight_bits - 动态量化时，量化权重的位数。可选值为：-1，8，16。默认值为 -1，表示不进行配置，使用推荐的精度。
+# 参数：quant_post_dynamic_op_types - 动态量化时，需要进行量化操作的算子类型。
+paddle.inference.Config.set_xpu_config(quant_post_dynamic_weight_bits: int = -1,
+                                       quant_post_dynamic_op_types: List[str] = [])
 ```
 
 代码示例：
@@ -31,4 +37,7 @@ config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams
 
 # 启用 XPU，并设置 L3 cache 大小为 10 MB
 config.enable_xpu(10 * 1024 * 1024)
+
+# 设置默认 XPU 推理配置：使用推荐的量化配置
+config.set_xpu_config()
 ```
