@@ -15,6 +15,13 @@ API定义如下：
 void EnableXpu(int l3_workspace_size = 0xfffc00, bool locked = false,
                bool autotune = true, const std::string& autotune_file = "",
                const std::string& precision = "int16", bool adaptive_seqlen = false);
+
+// 设置 XPU 配置
+// 参数：quant_post_dynamic_weight_bits - 动态量化时，量化权重的位数。可选值为：-1，8，16。默认值为 -1，表示不进行配置，使用推荐的精度。
+// 参数：quant_post_dynamic_op_types - 动态量化时，需要进行量化操作的算子类型。
+void SetXpuConfig(
+      int quant_post_dynamic_weight_bits = -1,
+      const std::vector<std::string>& quant_post_dynamic_op_types = {});
 ```
 
 代码示例：
@@ -25,4 +32,7 @@ paddle_infer::Config config(FLAGS_model_dir);
 
 // 启用 XPU，并设置 l3 cache 大小为 10M
 config.EnableXpu(10*1024*1024);
+
+// 设置默认 XPU 推理配置：使用推荐的量化配置
+config.SetXpuConfig();
 ```
