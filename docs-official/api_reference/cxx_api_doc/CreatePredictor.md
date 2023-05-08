@@ -73,3 +73,25 @@ void ConvertToMixedPrecision(
     bool keep_io_types = true,
     std::unordered_set<std::string> black_list = {});
 ```
+
+# SaveOptimizedModel 方法
+
+`SaveOptimizedModel` 接口可保存经过选定 backend 硬件 analysis ir pass 优化的模型结构和模型参数，API 定义如下：
+
+```c++
+// 保存优化后的模型
+// 参数：model_file - 原始模型文件路径
+//      params_file - 原始权重文件路径
+//      output_model_file - 优化后的模型文件保存路径
+//      output_params_file - 优化后的权重文件保存路径
+//      backend - 硬件后端，如 PlaceType.kXPU
+//      black_list - 黑名单列表，哪些 pass 不需要执行
+// 返回：NONE
+void SaveOptimizedModel(
+    const std::string& model_file,
+    const std::string& params_file,
+    const std::string& output_model_file,
+    const std::string& output_params_file,
+    PlaceType backend,
+    std::unordered_set<std::string> black_list = {});
+```
