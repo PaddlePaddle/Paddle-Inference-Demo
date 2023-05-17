@@ -155,16 +155,6 @@ paddle.inference.Config.enable_tensorrt_dla(dla_core: int = 0)
 # 参数：None
 # 返回：bool - 是否已开启 TensorRT DLA 加速
 paddle.inference.Config.tensorrt_dla_enabled()
-
-# 启用TensorRT Sparse Weights优化特性
-# 参数：None
-# 返回：None
-paddle.inference.Config.enable_tensorrt_sparse_weights()
-
-# 判断是否已经开启TensorRT Sparse Weights优化特性
-# 参数：None
-# 返回：bool - 是否已开启TensorRT Sparse Weights优化特性
-paddle.inference.Config.tensorrt_sparse_weights_enabled()
 ```
 
 代码示例 (1)：使用 TensorRT FP32 / FP16 / INT8 进行预测
