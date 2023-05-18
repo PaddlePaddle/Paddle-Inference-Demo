@@ -29,6 +29,16 @@ paddle.inference.Config.pass_builder()
 # 参数：pass - 需要删除的 pass 字符串
 # 返回：None
 paddle.inference.Config.delete_pass(pass: str)
+
+# 设置是否保存 IR 优化后的模型和参数，默认保存在模型目录下，可提供 SetOptimCacheDir 接口设置保存路径
+# 参数：save_optimized_model - 是否开启 IR 优化，默认关闭
+# 返回：None
+paddle.inference.Config.enable_save_optim_model(save_optimized_model: bool=False);
+
+# 设置缓存路径
+# 参数：opt_cache_dir - 缓存路径
+# 返回：None
+paddle.inference.Config.set_optim_cache_dir(opt_cache_dir: str)
 ```
 
 代码示例：
@@ -44,6 +54,10 @@ config = paddle_infer.Config("./mobilenet_v1.pdmodel", "./mobilenet_v1.pdiparams
 config.switch_ir_optim()
 # 开启 IR 打印
 config.switch_ir_debug()
+# 开启保存 IR 优化后的模型和参数
+config.enable_save_optim_model(true);
+# 设置保存目录
+config.set_optim_cache_dir("./");
 
 # 得到 pass_builder 对象
 pass_builder = config.pass_builder()
@@ -81,6 +95,8 @@ predictor = paddle_infer.create_predictor(config)
 ...
 -rw-r--r-- 1 root root  72K Nov 17 10:47 8_ir_mul_lstm_fuse_pass.dot
 -rw-r--r-- 1 root root  72K Nov 17 10:47 9_ir_graph_viz_pass.dot
+
+# EnableSaveOptimModel 开启 IR 后，运行结束之后会在目录下生成如下 _optimized.pdmodel 和 _optimized.pdiparams 文件
 ```
 
 ## Lite 子图
