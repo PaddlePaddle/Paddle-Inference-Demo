@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "paddle/include/experimental/ext_all.h"
+#include "paddle/extension.h"
 
 template <typename data_t>
 __global__ void relu_cuda_forward_kernel(const data_t* x,

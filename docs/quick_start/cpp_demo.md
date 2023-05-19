@@ -136,7 +136,7 @@ I1202 06:53:18.979828  3411 resnet50_test.cc:88] 900 : 1.52393e-30
 (1) 引用头文件
 
 ```c++
-#include "paddle/include/paddle_inference_api.h"
+#include "paddle_inference_api.h"
 ```
 
 (2) 创建配置对象，并根据需求配置，详细可参考 [C++ API 文档 - Config](../api_reference/cxx_api_doc/Config_index)

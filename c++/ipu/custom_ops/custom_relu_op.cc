@@ -15,7 +15,7 @@
 #include <iostream>
 #include <vector>
 
-#include "paddle/include/experimental/ext_all.h"
+#include "paddle/extension.h"
 
 template <typename data_t>
 void relu_cpu_forward_kernel(const data_t* x_data,

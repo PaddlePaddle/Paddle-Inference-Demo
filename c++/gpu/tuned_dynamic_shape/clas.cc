@@ -1,4 +1,4 @@
-#include "paddle/include/paddle_inference_api.h"
+#include "paddle_inference_api.h"
 
 #include <functional>
 #include <gflags/gflags.h>
