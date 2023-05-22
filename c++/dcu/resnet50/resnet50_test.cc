@@ -6,7 +6,7 @@
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 
-#include "paddle/include/paddle_inference_api.h"
+#include "paddle_inference_api.h"
 
 using paddle_infer::Config;
 using paddle_infer::Predictor;

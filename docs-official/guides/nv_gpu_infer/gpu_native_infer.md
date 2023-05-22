@@ -33,7 +33,7 @@ C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Dem
 使用 Paddle Inference 推理库，只需包含 `paddle_inference_api.h`。
 
 ```cpp
-#include "paddle/include/paddle_inference_api.h"
+#include "paddle_inference_api.h"
 ```
 
 (2) 设置 Config
