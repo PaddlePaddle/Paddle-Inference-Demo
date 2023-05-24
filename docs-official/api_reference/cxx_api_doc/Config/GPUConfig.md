@@ -50,6 +50,11 @@ void EnableGpuMultiStream();
 // 参数：None
 // 返回：bool - 是否是否开启线程流
 bool thread_local_stream_enabled() const;
+
+// 低精度模式（float16）下，推理时期望直接 feed/fetch 低精度数据
+// 参数：bool - 是否 feed/fetch 低精度数据
+// 返回：None
+void EnableLowPrecisionIO(bool x = true);
 ```
 
 GPU设置代码示例：
