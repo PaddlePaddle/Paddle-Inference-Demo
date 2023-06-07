@@ -37,13 +37,12 @@ config.enable_use_gpu(512, 0, PrecisionType.Half)
 predictor = paddle_infer.create_predictor(config)
 
 # 三个接收参数分别对应
-# op_type：op的名字
-# tensor_name: op的输出var的名字
-# tensor: 对应的输出tensor对象
-def hook_func(op_type, tensor_name, tensor):
-    data = tensor.copy_to_cpu()
+# op_type：op 的名字
+# tensor_name: op 的输出 var 的名字
+# tensor: 对应的输出 paddle.Tensor 对象
+def hook_func(op_type: str, tensor_name: str, tensor: paddle.Tensor):
     # ... 在这里你可以求和、求均值、求方差或者直接输出全部数据等等
-    print(op_type, tensor_name, tensor.shape(), sum(data))
+    print(op_type, tensor_name, tensor)
     # ...
 
 predictor.register_output_hook(hook_func)

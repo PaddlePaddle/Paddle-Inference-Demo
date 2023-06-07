@@ -50,13 +50,13 @@ paddle.inference.Predictor.clone()
 # 返回：None
 paddle.inference.Predictor.clear_intermediate_tensor()
 
-# 获取中间 op 的输出 paddle.inference.Tensor
-# 参数：Exp_OutputHookFunc  -  具有三个接收参数的 hook 函数，第一个参数是 op type（name）
-#                                                       第二个参数是输出 paddle.inference.Tensor's name
-#                                                       第三个参数是输出 paddle.inference.Tensor
-#                             (function) hook_function: (op_type : str, tensor_name : str, tensor : paddle.inference.Tensor) -> None
+# 获取中间 op 的输出 paddle.Tensor
+# 参数：OutputHookFunc  -  具有三个接收参数的 hook 函数，第一个参数是 op type（name）
+#                                                       第二个参数是输出 paddle.Tensor's name
+#                                                       第三个参数是输出 paddle.Tensor
+#                             (function) hook_function: (op_type : str, tensor_name : str, tensor : paddle.Tensor) -> None
 # 返回：None
-paddle.inference.Predictor.register_output_hook(hookfunc : Exp_OutputHookFunc)
+paddle.inference.Predictor.register_output_hook(hookfunc : OutputHookFunc)
 
 # 释放内存池中的所有临时 Tensor
 # 参数：None
@@ -80,10 +80,10 @@ predictor = paddle_infer.create_predictor(config)
 
 # 定义 hook function
 # 打印中间层的 op type, tensor's name, tensor's shape
-def hookfunc(op_type, tensor_name, tensor):
+def hookfunc(op_type: str, tensor_name: str, tensor: paddle.Tensor):
     print(op_type)
     print(tensor_name)
-    print(tensor.shape())
+    print(tensor)
 # 注册 hook function
 # 通过该接口注册的 hook 函数，在每个 op run 完都会被执行一次
 predictor.register_output_hook(hookfunc)
