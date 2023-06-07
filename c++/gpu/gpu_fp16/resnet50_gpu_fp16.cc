@@ -6,8 +6,8 @@
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 
-#include "paddle/include/experimental/phi/common/float16.h"
-#include "paddle/include/paddle_inference_api.h"
+#include "paddle/extension.h"
+#include "paddle_inference_api.h"
 
 using paddle_infer::Config;
 using paddle_infer::CreatePredictor;

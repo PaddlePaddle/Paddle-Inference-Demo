@@ -26,6 +26,16 @@ void SwitchIrDebug(int x = true);
 // 参数：None
 // 返回：PassStrategy - pass_builder 对象
 PassStrategy* pass_builder() const;
+
+// 设置是否保存 IR 优化后的模型和参数，默认保存在模型目录下，可提供 SetOptimCacheDir 接口设置保存路径
+// 参数：x - 是否开启 IR 优化，默认关闭
+// 返回：None
+void EnableSaveOptimModel(bool save_optimized_model = false);
+
+// 设置缓存目录
+// 参数：opt_cache_dir - 缓存目录
+// 返回：None
+void SetOptimCacheDir(const std::string& opt_cache_dir);
 ```
 
 代码示例：
@@ -38,6 +48,10 @@ paddle_infer::Config config("./model/resnet50.pdmodel", "./model/resnet50.pdipar
 config.SwitchIrOptim();
 // 开启 IR 打印
 config.SwitchIrDebug();
+// 开启保存 IR 优化后的模型和参数
+config.EnableSaveOptimModel(true);
+// 设置保存目录
+config.SetOptimCacheDir("./model");
 
 // 得到 pass_builder 对象
 auto pass_builder = config.pass_builder();
@@ -72,6 +86,8 @@ auto predictor = paddle_infer::CreatePredictor(config);
 ...
 -rw-r--r-- 1 root root  72K Nov 17 10:47 8_ir_mul_lstm_fuse_pass.dot
 -rw-r--r-- 1 root root  72K Nov 17 10:47 9_ir_graph_viz_pass.dot
+
+# EnableSaveOptimModel 开启 IR 后，运行结束之后会在目录下生成如下 _optimized.pdmodel 和 _optimized.pdiparams 文件
 ```
 
 ## Lite 子图

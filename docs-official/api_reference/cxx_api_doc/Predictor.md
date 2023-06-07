@@ -134,13 +134,13 @@ predictor->TryShrinkMemory();
 API 定义如下：
 
 ```c++
-// 获取中间 op 的输出 paddle_infer::Tensor
-// 参数：Exp_OutputHookFunc    - hook 函数签名为 void(const std::string&, const std::string&, const paddle_infer::Tensor&)
+// 获取中间 op 的输出 paddle::Tensor
+// 参数：OutputHookFunc    - hook 函数签名为 void(const std::string&, const std::string&, const paddle::Tensor&)
 //                              第一个参数是 op type（name）
-//                              第二个参数是输出 paddle_infer::Tensor‘s name
-//                              第三个参数是输出 paddle_infer::Tensor
+//                              第二个参数是输出 paddle::Tensor‘s name
+//                              第三个参数是输出 paddle::Tensor
 // 返回：None
-void RegisterOutputHook(const Exp_OutputHookFunc& hookfunc);
+void RegisterOutputHook(const OutputHookFunc& hookfunc);
 ```
 
 代码示例：
@@ -150,17 +150,16 @@ void RegisterOutputHook(const Exp_OutputHookFunc& hookfunc);
 
 （下面是针对跑 fp32 的模型给出的示例。跑混合精度的话，需要做些修改，具体见注释部分）
 ```cpp
+// 使用 paddle::Tensor 需要包含这个头文件
+#include "paddle/extension.h"
+
 void get_output_tensor(const std::string &op_type,
                        const std::string &tensor_name,
-                       const paddle_infer::Tensor& tensor) {
-  std::vector<int> tensor_shape = tensor.shape();
-  int tensor_numel = std::accumulate(tensor_shape.begin(), tensor_shape.end(),
-                                     1, std::multiplies<int>());
-  // 混合精度情况下，接收数据的 vector 定义：std::vector<TYPE> tensor_data;
-  // 中的 TYPE 需要根据 tensor.type() 接口来确定
-  std::vector<float> tensor_data;
-  tensor_data.resize(tensor_numel);
-  tensor.CopyToCpu(tensor_data.data());
+                       const paddle::Tensor &tensor) {
+  if(tensor.dtype() != paddle::DataType::FLOAT32) return;
+  auto cpu_tensor = tensor.copy_to(paddle::CPUPlace{}, true);
+  // using TYPE = phi::dtype::float16;
+  using TYPE = float;
 
   std::stringstream ss;
 
@@ -169,25 +168,28 @@ void get_output_tensor(const std::string &op_type,
 
   // tensor shape
   std::string shape_str;
-  shape_str += "[" + std::to_string(tensor_shape[0]);
-  for (size_t i = 1; i < tensor_shape.size(); i++) {
-    shape_str += "," + std::to_string(tensor_shape[i]);
+  shape_str += "[" + std::to_string(cpu_tensor.shape()[0]);
+  for (size_t i = 1; i < cpu_tensor.shape().size(); i++) {
+    shape_str += "," + std::to_string(cpu_tensor.shape()[i]);
   }
   shape_str += "]";
   ss << std::setw(20) << shape_str;
 
   // tensor data mean and variance
-  float sum =
-      std::accumulate(std::begin(tensor_data), std::end(tensor_data), 0.0);
-  float mean = sum / tensor_data.size();
-  float accum = 0.0;
-  for (auto value : tensor_data) {
-    accum += (value - mean) * (value - mean);
+  TYPE sum{0};
+  for (size_t i = 0; i < cpu_tensor.numel(); i++) {
+    sum += cpu_tensor.data<TYPE>()[i];
   }
-  float variance = accum / tensor_data.size();
+  TYPE mean = sum / TYPE(cpu_tensor.numel());
+  TYPE accum{0};
+  for (size_t i = 0; i < cpu_tensor.numel(); i++) {
+    accum += (cpu_tensor.data<TYPE>()[i] - mean) *
+             (cpu_tensor.data<TYPE>()[i] - mean);
+  }
+  TYPE variance = accum / TYPE(cpu_tensor.numel());
   ss << std::setw(20) << mean << std::setw(20) << variance;
 
-  LOG(INFO) << ss.str();
+  std::cout << ss.str() << std::endl;
 }
 
 // 通过该接口注册的 hook 函数，在每个 op run 完都会被执行一次
@@ -202,7 +204,7 @@ predictor->RegisterOutputHook(get_output_tensor);
 该示例输出每个 op run 前后当前 device 上的显存占用信息。
 ```cpp
 void get_current_memory(const std::string &op_type,
-                        const std::string &tensor_name, const paddle_infer::Tensor &tensor) {
+                        const std::string &tensor_name, const paddle::Tensor &tensor) {
   // parameters tensor_name and tensor are not used
   std::stringstream ss;
 

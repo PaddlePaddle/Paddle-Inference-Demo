@@ -25,7 +25,7 @@ wget https://paddle-inference-dist.cdn.bcebos.com/PaddleInference/mobilenetv1_fp
 使用Paddle预测库，只需要包含 `paddle_inference_api.h` 头文件。
 
 ```cpp
-#include "paddle/include/paddle_inference_api.h"
+#include "paddle_inference_api.h"
 ```
 
 #### 1.1.4 设置Config

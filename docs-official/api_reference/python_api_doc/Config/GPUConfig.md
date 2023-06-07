@@ -40,6 +40,11 @@ paddle.inference.Config.memory_pool_init_size_mb()
 # 参数：None
 # 返回：float - 初始的显存占总显存的百分比
 paddle.inference.Config.fraction_of_gpu_memory_for_pool()
+
+# 低精度模式（float16）下，推理时期望直接 feed/fetch 低精度数据
+# 参数：bool - 是否 feed/fetch 低精度数据
+# 返回：None
+paddle.inference.Config.enable_low_precision_io(x : bool)
 ```
 
 GPU设置代码示例：

@@ -7,7 +7,7 @@
 #include <glog/logging.h>
 #include <cuda_runtime.h>
 
-#include "paddle/include/paddle_inference_api.h"
+#include "paddle_inference_api.h"
 
 using paddle_infer::Config;
 using paddle_infer::Predictor;
