@@ -94,7 +94,7 @@ https://|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-orin
 | CPU | 是 | MSVC 2017 | - |OpenBLAS|[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.0-rc1/cxx_c/Windows/CPU/x86-64_avx-openblas-vs2017/paddle_inference.zip)|
 | GPU | 是 | MSVC 2017  | CUDA10.2/cuDNN7.6/TensorRT7.0 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.0-rc1/cxx_c/Windows/GPU/x86-64_cuda10.2_cudnn7.6.5_trt7.0.0.11_mkl_avx_vs2017/paddle_inference.zip)|
 | GPU | 是 | MSVC 2019  | CUDA11.2/cuDNN8.2/TensorRT8.0 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.0-rc1/cxx_c/Windows/GPU/x86-64_cuda11.2_cudnn8.2.1_trt8.0.1.6_mkl_avx_vs2019/paddle_inference.zip)|
-| GPU | 是 | MSVC 2019  | CUDA11.6/cuDNN8.4/TensorRT8.4 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.0-rc1/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference.zip|
+| GPU | 是 | MSVC 2019  | CUDA11.6/cuDNN8.4/TensorRT8.4 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.0-rc1/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference.zip)|
 | GPU | 是 | MSVC 2019  | CUDA11.7/cuDNN8.4/TensorRT8.4 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.0-rc1/cxx_c/Windows/GPU/x86-64_cuda11.7_cudnn8.4.1_trt8.4.2.4_mkl_avx_vs2019/paddle_inference.zip)|
 | GPU | 是 | MSVC 2019  | CUDA11.8/cuDNN8.6/TensorRT8.5 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.0-rc1/cxx_c/Windows/GPU/x86-64_cuda11.8_cudnn8.6.0_trt8.5.1.7_mkl_avx_vs2019/paddle_inference.zip)|
 
