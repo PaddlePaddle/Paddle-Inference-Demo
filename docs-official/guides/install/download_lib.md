@@ -53,24 +53,24 @@
 
 | 版本说明   |     python3.6  |   python3.7   |     python3.8     |     python3.9   |     python3.10   |
 |:---------|:----------------|:-------------|:-------------------|:----------------|:----------------|
-|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-all|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/all/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-nano|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/nano/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-tx2|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/tx2/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-xavier|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/xavier/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-all|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/all/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-nano|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/nano/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-tx2|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/tx2/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-xavier|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/xavier/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)||||
-|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-all||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/all/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)|||
-|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-nano||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/nano/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)|||
-|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-tx2||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/tx2/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)|||
-|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-xavier||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/xavier/paddlepaddle_gpu-2.5.0rc1-cp37-cp37m-linux_aarch64.whl)|||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-all|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/all/paddlepaddle_gpu-2.5.0rc1-cp38-cp38-linux_aarch64.whl)||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-nano|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/nano/paddlepaddle_gpu-2.5.0rc1-cp38-cp38-linux_aarch64.whl)||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-tx2|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/tx2/paddlepaddle_gpu-2.5.0rc1-cp38-cp38-linux_aarch64.whl)||
-|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-xavier|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/xavier/paddlepaddle_gpu-2.5.0rc1-cp38-cp38-linux_aarch64.whl)||
-https://|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-orin|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/orin/paddlepaddle_gpu-2.5.0rc1-cp38-cp38-linux_aarch64.whl)||
-|Jetpack5.1.1：nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.1-all|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.1.1_gcc9.4/all/paddlepaddle_gpu-2.5.0rc1-cp38-cp38-linux_aarch64.whl)||
+|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-all|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/all/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-nano|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/nano/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-tx2|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/tx2/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.5(4.4): nv_jetson-cuda10.2-trt7-xavier|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.5_gcc7.5/xavier/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-all|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/all/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-nano|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/nano/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-tx2|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/tx2/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.6：nv_jetson-cuda10.2-trt8.0-xavier|[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6_gcc7.5/xavier/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)||||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-all||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/all/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-nano||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/nano/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-tx2||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/tx2/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack4.6.1：nv_jetson-cuda10.2-trt8.2-xavier||[paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack4.6.1_gcc7.5/xavier/paddlepaddle_gpu-2.5.0-cp37-cp37m-linux_aarch64.whl)|||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-all|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/all/paddlepaddle_gpu-2.5.0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-nano|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/nano/paddlepaddle_gpu-2.5.0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-tx2|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/tx2/paddlepaddle_gpu-2.5.0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-xavier|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/xavier/paddlepaddle_gpu-2.5.0-cp38-cp38-linux_aarch64.whl)||
+https://|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-orin|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.0.2_gcc9.4/orin/paddlepaddle_gpu-2.5.0-cp38-cp38-linux_aarch64.whl)||
+|Jetpack5.1.1：nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.1-all|||[paddlepaddle_gpu-2.5.0-cp38-cp38m-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/2.5.0/python/Jetson/jetpack5.1.1_gcc9.4/all/paddlepaddle_gpu-2.5.0-cp38-cp38-linux_aarch64.whl)||
 
 
 # 下载安装 Windows 推理库
@@ -121,7 +121,7 @@ https://|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-orin
 
 |硬件后端 |是否打开 avx |数学库 |推理库(2.5.0 版本)   |
 |----------|----------|----------|:----------------|
-|X86_64 |是 |OpenBLAS |[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.0/cxx_c/MacOS/x86-64_clang_avx_openblas%20/paddle_inference_install_dir.tgz)|
+|X86_64 |是 |OpenBLAS |[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.0/cxx_c/MacOS/x86-64_clang_avx_openblas/paddle_inference_install_dir.tgz)|
 |m1 | 否 |OpenBLAS |[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.0/cxx_c/MacOS/m1_clang_noavx_openblas/paddle_inference_install_dir.tgz)|
 
 ## C 推理库
@@ -130,5 +130,5 @@ https://|Jetpack5.0.2：nv-jetson-cuda11.4-cudnn8.4.1-trt8.4.1-jetpack5.0.2-orin
 
 |硬件后端 |是否打开 avx | 数学库      |推理库(2.5.0 版)   |
 |----------|----------|:---------|:----------------|
-|X86_64 |是 |OpenBLAS|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.0/cxx_c/MacOS/x86-64_clang_avx_openblas%20/paddle_inference_c_install_dir.tgz)|
+|X86_64 |是 |OpenBLAS|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.0/cxx_c/MacOS/x86-64_clang_avx_openblas/paddle_inference_c_install_dir.tgz)|
 |m1 |否 |OpenBLAS|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.0/cxx_c/MacOS/m1_clang_noavx_openblas/paddle_inference_c_install_dir.tgz)|
