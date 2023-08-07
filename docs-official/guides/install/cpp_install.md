@@ -4,10 +4,10 @@
 
 ## 环境准备
 
-- GCC 5.4+
-- CMake 3.0+
+- GCC 8.2+
+- CMake 3.20+
 - Visual Studio 2017 Update 3 （仅在使用 Windows 版本的推理库时需要，根据 Paddle 推理库所使用的 VS 版本选择，请参考 [Visual Studio 不同版本二进制兼容性](https://docs.microsoft.com/zh-cn/cpp/porting/binary-compat-2015-2017?view=msvc-170&viewFallbackFrom=vs-2019) )
-- CUDA 10.1 / CUDA 10.2 / CUDA 11.1 / CUDA 11.2 / CUDA 11.6 / CUDA 11.7, cuDNN7.6+, TensorRT （仅在使用 GPU 版本的推理库时需要）
+- CUDA 10.2 / CUDA 11.2 / CUDA 11.6 / CUDA 11.7 / CUDA 11.8 / CUDA 12.0, cuDNN 7.6+, TensorRT （仅在使用 GPU 版本的推理库时需要）
 
 您可参考 NVIDIA 官方文档了解 CUDA、cuDNN 和 TensorRT 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，[TensorRT](https://developer.nvidia.com/tensorrt)
 
@@ -23,6 +23,8 @@ Linux 下，版本对应关系如下表所示：
 |11.2|8.2.1|8.0.3.4|
 |11.6|8.4.0|8.4.0.6|
 |11.7|8.4.1|8.4.2.4|
+|11.8|8.6.0|8.5.1.7|
+|12.0|8.6.0|8.6.1.6|
 
 Windows 下，版本对应关系如下表所示：
 
@@ -32,6 +34,8 @@ Windows 下，版本对应关系如下表所示：
 |11.2|8.2.1|8.0.1.6|
 |11.6|8.4.0|8.4.0.6|
 |11.7|8.4.1|8.4.2.4|
+|11.8|8.6.0|8.5.1.7|
+|12.0|8.6.0|8.6.1.6|
 
 ## 开始安装
 
@@ -49,34 +53,38 @@ Paddle Inference 提供了 Linux/Windows/MacOS 平台的官方 Release 推理库
 
 下载完成并解压之后，目录下的 `paddle_inference_install_dir` 即为 C++ 推理库，目录结构如下：
 
-```bash
+```shell
 paddle_inference/paddle_inference_install_dir/
-├── CMakeCache.txt
+├── CMakeCache.txt                                # 编译推理库时的 cmake 选项
 ├── paddle
-│   ├── include                                    C++ 推理库头文件目录
-│   │   ├── crypto
-│   │   ├── internal
-│   │   ├── paddle_analysis_config.h
-│   │   ├── paddle_api.h
-│   │   ├── paddle_infer_declare.h
-│   │   ├── paddle_inference_api.h                 C++ 推理库头文件
-│   │   ├── paddle_mkldnn_quantizer_config.h
-│   │   └── paddle_pass_builder.h
-│   └── lib
-│       ├── libpaddle_inference.a                      C++ 静态推理库文件
-│       └── libpaddle_inference.so                     C++ 动态态推理库文件
-├── third_party
-│   ├── install                                    第三方链接库和头文件
-│   │   ├── cryptopp
-│   │   ├── gflags
-│   │   ├── glog
-│   │   ├── mkldnn
-│   │   ├── mklml
-│   │   ├── protobuf
-│   │   └── xxhash
-│   └── threadpool
-│       └── ThreadPool.h
-└── version.txt
+│   ├── include                                   # 推理库的头文件
+│   │   ├── crypto
+│   │   ├── internal
+│   │   ├── paddle                                # 使用 phi 算子库内部组件需要的头文件
+│   │   ├── paddle_analysis_config.h
+│   │   ├── paddle_api.h
+│   │   ├── paddle_infer_contrib.h
+│   │   ├── paddle_infer_declare.h
+│   │   ├── paddle_inference_api.h                # 使用推理库的必须包含的关键头文件
+│   │   ├── paddle_mkldnn_quantizer_config.h
+│   │   ├── paddle_pass_builder.h
+│   │   └── paddle_tensor.h
+│   └── lib
+│       ├── libpaddle_inference.a                 # 静态推理库
+│       └── libpaddle_inference.so                # 动态推理库
+└── third_party                                   # 依赖或提供的第三方库
+    ├── externalError
+    │   └── data
+    ├── install
+    │   ├── cryptopp
+    │   ├── gflags
+    │   ├── glog
+    │   ├── mklml
+    │   ├── protobuf
+    │   ├── utf8proc
+    │   └── xxhash
+    └── threadpool
+        └── ThreadPool.h
 ```
 
 include 目录下包括了使用飞桨推理库需要的头文件，lib 目录下包括了生成的静态库和动态库，third_party 目录下包括了推理库依赖的其它库文件。
