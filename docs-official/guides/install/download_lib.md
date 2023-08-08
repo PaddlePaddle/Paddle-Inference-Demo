@@ -99,7 +99,7 @@
 | GPU | 是 | MSVC 2019  | CUDA11.6/cuDNN8.4/TensorRT8.4 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference.zip)|
 | GPU | 是 | MSVC 2019  | CUDA11.7/cuDNN8.4/TensorRT8.4 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda11.7_cudnn8.4.1_trt8.4.2.4_mkl_avx_vs2019/paddle_inference.zip)|
 | GPU | 是 | MSVC 2019  | CUDA11.8/cuDNN8.6/TensorRT8.5 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda11.8_cudnn8.6.0_trt8.5.1.7_mkl_avx_vs2019/paddle_inference.zip)|
-
+| GPU | 是 | MSVC 2019  | CUDA12.0/cuDNN8.9/TensorRT8.6 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda12.0_cudnn8.9.1_trt8.6.1.6_mkl_avx_vs2019/paddle_inference.zip)|
 
 ## C 推理库
 
@@ -114,6 +114,7 @@
 | GPU |是 |MKL | MSVC 2019 |CUDA11.6/cuDNN8.4/TensorRT8.4| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda11.6_cudnn8.4.0_trt8.4.1.5_mkl_avx_vs2019/paddle_inference_c.zip) |
 | GPU |是 |MKL | MSVC 2019 |CUDA11.7/cuDNN8.4/TensorRT8.4| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda11.7_cudnn8.4.1_trt8.4.2.4_mkl_avx_vs2019/paddle_inference_c.zip) |
 | GPU |是 |MKL | MSVC 2019 |CUDA11.8/cuDNN8.6/TensorRT8.5| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda11.8_cudnn8.6.0_trt8.5.1.7_mkl_avx_vs2019/paddle_inference_c.zip) |
+| GPU |是 |MKL | MSVC 2019 |CUDA12.0/cuDNN8.8/TensorRT8.6| [paddle_inference_c.zip](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Windows/GPU/x86-64_cuda12.0_cudnn8.9.1_trt8.6.1.6_mkl_avx_vs2019/paddle_inference_c.zip) |
 
 # 下载安装 Mac 推理库
 
