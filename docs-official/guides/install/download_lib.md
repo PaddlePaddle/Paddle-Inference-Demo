@@ -47,7 +47,7 @@
 |GPU|是|是|8.2|CUDA11.6/cuDNN8.4/TensorRT8.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.6_cudnn8.4.0-trt8.4.0.6/paddle_inference_c.tgz)|
 |GPU|是|是|8.2|CUDA11.7/cuDNN8.4/TensorRT8.4|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.7_cudnn8.4.1-trt8.4.2.4/paddle_inference_c.tgz)|
 |GPU|是|是|8.2|CUDA11.8/cuDNN8.6/TensorRT8.5|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Linux/GPU/x86-64_gcc8.2_avx_mkl_cuda11.8_cudnn8.6.0-trt8.5.1.7/paddle_inference_c.tgz)|
-|GPU|是|是|12.2|CUDA12.0/cuDNN8.9/TensorRT8.6|[paddle_inference.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Linux/GPU/x86-64_gcc12.2_avx_mkl_cuda12.0_cudnn8.9.1-trt8.6.1.6/paddle_inference_c.tgz)|
+|GPU|是|是|12.2|CUDA12.0/cuDNN8.9/TensorRT8.6|[paddle_inference_c.tgz](https://paddle-inference-lib.bj.bcebos.com/2.5.1/cxx_c/Linux/GPU/x86-64_gcc12.2_avx_mkl_cuda12.0_cudnn8.9.1-trt8.6.1.6/paddle_inference_c.tgz)|
 
 ## Python 推理库
 
