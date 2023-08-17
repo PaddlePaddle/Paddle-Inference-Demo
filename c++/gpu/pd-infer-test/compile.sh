@@ -5,7 +5,7 @@ set -e
 work_path=$(dirname $(readlink -f $0))
 
 # 1. check paddle_inference exists
-if [ ! -d "${work_path}/paddle_inference" ]; then
+if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
   echo "Please download paddle_inference lib and move it in Paddle-Inference-Demo/lib"
   exit 1
 fi
@@ -26,8 +26,7 @@ WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=ON
 
-LIB_DIR=${work_path}/paddle_inference
-echo "LIB_DIR is $LIB_DIR"
+LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
 CUDA_LIB=/usr/local/cuda/lib64
 TENSORRT_ROOT=/usr/local/TensorRT-8.4.3.1/

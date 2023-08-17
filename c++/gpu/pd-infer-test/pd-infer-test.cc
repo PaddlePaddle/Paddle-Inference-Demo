@@ -10,8 +10,8 @@
 #include <functional>
 
 #include "cuda_runtime.h"
-#include "paddle/include/paddle_inference_api.h"
-#include "paddle/include/paddle/extension.h"
+#include "paddle_inference_api.h"
+#include "paddle/extension.h"
 #include "utils/table_printer.h"
 #include "utils/string_processor.h"
 
@@ -48,11 +48,11 @@ namespace hook_got_info {
   std::vector<std::string> tensor_names;
   std::map<std::string, std::string> tensor2op;
   std::map<std::string, paddle::Tensor> baseline_tensor;
-  std::vector<std::vector<std::string>> mismatch_tensors;
+  std::map<std::string, std::vector<std::string>> mismatch_tensors;
   bool fluid_mode = true;
   size_t check_conut = 0;
   std::set<std::string> output_names;
-  std::vector<std::vector<std::string>> output_match_status;
+  std::map<std::string, std::vector<std::string>> output_match_status;
 }
 
 namespace input_info {
@@ -95,7 +95,6 @@ void assert_tensor_close_hook(const std::string &op_type,
                        const paddle::Tensor &tensor) {
   auto actual = tensor.copy_to(paddle::CPUPlace(), true);
   if (hook_got_info::baseline_tensor.count(tensor_name)) {
-    // LOG(INFO) << "tensor_name: " << tensor_name;
     hook_got_info::check_conut ++;
     auto desired = hook_got_info::baseline_tensor[tensor_name];
     std::vector<std::string> match_status;
@@ -117,9 +116,11 @@ void assert_tensor_close_hook(const std::string &op_type,
     double max_atol = 0., max_rtol = 0.;
     if (actual.shape() != desired.shape()) {
       shapeMatch = "expect " + get_shape(desired) +  ", but got " + get_shape(actual);
+      match_status.emplace_back(shapeMatch);
     } else {
       assert(actual.numel() == desired.numel());
       shapeMatch = "match, " + get_shape(desired);
+      match_status.emplace_back(shapeMatch);
       for (size_t i = 0; i < desired.numel(); i++) {
         if (tensor.dtype() == paddle::DataType::INT32) {
           mis_match_num += assert_close<int32_t>(actual.data<int32_t>()[i], desired.data<int32_t>()[i], FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
@@ -136,16 +137,15 @@ void assert_tensor_close_hook(const std::string &op_type,
           return;
         }
       }
+      match_status.emplace_back(std::to_string(mis_match_num) + "/" + std::to_string(desired.numel()));
+      match_status.emplace_back(std::to_string(max_atol));
+      match_status.emplace_back(std::to_string(max_rtol));
+      // LOG(INFO) << "max atol: " << max_atol << ", max rtol: " << max_rtol;
     }
-    match_status.emplace_back(shapeMatch);
-    match_status.emplace_back(std::to_string(mis_match_num) + "/" + std::to_string(desired.numel()));
-    match_status.emplace_back(std::to_string(max_atol));
-    match_status.emplace_back(std::to_string(max_rtol));
-    // LOG(INFO) << "max atol: " << max_atol << ", max rtol: " << max_rtol;
     if (hook_got_info::output_names.count(tensor_name)) {
-      hook_got_info::output_match_status.emplace_back(match_status);
+      hook_got_info::output_match_status[tensor_name] = match_status;
     } else if (mis_match_num > 0) {
-      hook_got_info::mismatch_tensors.emplace_back(match_status);
+      hook_got_info::mismatch_tensors[tensor_name] = match_status;
     }
   } else {
     LOG(WARNING) << "Tensor " << tensor_name << " not found in paddle fluid inference.";
@@ -375,18 +375,21 @@ int main(int argc, char *argv[]) {
     run(predictor.get(), true);
 
     // print result
-    LOG(INFO) << "Mismatched Tensor Num: " << hook_got_info::mismatch_tensors.size();
     std::vector<std::string> header{"Operator Type", "Tensor Name", "Shape", "Mismatched Elements", "Max Atol", "Max Rtol"};
     paddle::inference::TablePrinter table(header);
     if (hook_got_info::mismatch_tensors.size() > 0) {
-      for (auto& match_status: hook_got_info::mismatch_tensors) {
-        table.InsertRow(match_status);
+      for(auto& tensor_name: hook_got_info::tensor_names) {
+        if (hook_got_info::mismatch_tensors.count(tensor_name) > 0) {
+          table.InsertRow(hook_got_info::mismatch_tensors[tensor_name]);
+        }
       }
       table.InsetDivider();
-      for (auto& match_status: hook_got_info::output_match_status) {
-        table.InsertRow(match_status);
+      for (auto& tensor_name: output_names) {
+        if (hook_got_info::output_match_status.count(tensor_name) > 0) {
+          table.InsertRow(hook_got_info::output_match_status[tensor_name]);
+        }
       }
-      LOG(INFO) << "Check result are as follows: ";
+      LOG(INFO) << hook_got_info::mismatch_tensors.size() <<"mismatched tensor(s), the details are as follows: ";
       table.PrintTableCout();
     } else {
       std::string output_num = std::to_string(hook_got_info::check_conut);
