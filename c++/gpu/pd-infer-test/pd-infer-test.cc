@@ -8,6 +8,8 @@
 #include <glog/logging.h>
 #include <iterator>
 #include <functional>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "cuda_runtime.h"
 #include "paddle_inference_api.h"
@@ -26,7 +28,7 @@ DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
-DEFINE_string(run_mode, "trt_fp32", "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
+DEFINE_string(run_mode, "paddle_gpu", "mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_string(baseline_mode, "", "baseline_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_string(shapes, "", "input_shapes");
 DEFINE_string(load_input, "", "load_input: a:a.data,b:b.data");
@@ -42,17 +44,19 @@ DEFINE_string(cache_dir, "./cache/", "cache_dir.");
 DEFINE_bool(check, false, "check outpus.");
 DEFINE_bool(check_all, false, "check all tensors, including intermediate tensor and output.");
 DEFINE_string(check_tensor, "", "check specific tensors, example: tensor1,tensor2");
+DEFINE_string(disable_trt_ops, "", "disable trt ops.");
+DEFINE_string(delete_pass, "", "delete pass list.");
 
+enum PredictorRunMode {FLUID, COLLECT, CHECKING, BASELINE, TEST}; 
 
 namespace hook_got_info {
   std::vector<std::string> tensor_names;
   std::map<std::string, std::string> tensor2op;
   std::map<std::string, paddle::Tensor> baseline_tensor;
-  std::map<std::string, std::vector<std::string>> mismatch_tensors;
-  bool fluid_mode = true;
-  size_t check_conut = 0;
-  std::set<std::string> output_names;
-  std::map<std::string, std::vector<std::string>> output_match_status;
+  std::map<std::string, std::vector<std::string>> mismatch_tensors_info;
+  PredictorRunMode mode = FLUID;
+  std::map<std::string, std::vector<float>> output_tensor;
+  std::map<std::string, std::vector<std::string>> output_match_info;
 }
 
 namespace input_info {
@@ -74,7 +78,7 @@ void save_baseline_hook (const std::string &op_type,
                         const std::string &tensor_name,
                         const paddle::Tensor &tensor) {
   auto cpu_tensor = tensor.copy_to(paddle::CPUPlace(), true);
-  if (hook_got_info::fluid_mode) {
+  if (hook_got_info::mode == FLUID) {
     hook_got_info::tensor_names.emplace_back(tensor_name);
     hook_got_info::tensor2op[tensor_name] = op_type;
   }
@@ -95,7 +99,6 @@ void assert_tensor_close_hook(const std::string &op_type,
                        const paddle::Tensor &tensor) {
   auto actual = tensor.copy_to(paddle::CPUPlace(), true);
   if (hook_got_info::baseline_tensor.count(tensor_name)) {
-    hook_got_info::check_conut ++;
     auto desired = hook_got_info::baseline_tensor[tensor_name];
     std::vector<std::string> match_status;
     match_status.emplace_back(hook_got_info::tensor2op[tensor_name]);
@@ -140,12 +143,9 @@ void assert_tensor_close_hook(const std::string &op_type,
       match_status.emplace_back(std::to_string(mis_match_num) + "/" + std::to_string(desired.numel()));
       match_status.emplace_back(std::to_string(max_atol));
       match_status.emplace_back(std::to_string(max_rtol));
-      // LOG(INFO) << "max atol: " << max_atol << ", max rtol: " << max_rtol;
     }
-    if (hook_got_info::output_names.count(tensor_name)) {
-      hook_got_info::output_match_status[tensor_name] = match_status;
-    } else if (mis_match_num > 0) {
-      hook_got_info::mismatch_tensors[tensor_name] = match_status;
+   if (mis_match_num > 0) {
+      hook_got_info::mismatch_tensors_info[tensor_name] = match_status;
     }
   } else {
     LOG(WARNING) << "Tensor " << tensor_name << " not found in paddle fluid inference.";
@@ -161,7 +161,7 @@ double time_diff(Time t1, Time t2) {
   return counter.count() / 1000.0;
 }
 
-void run(Predictor *predictor, bool test_mode=false) {
+void run(Predictor *predictor, PredictorRunMode mode) {
   // if input shapes are not given, we will use the default shape and set the -1 dim to 1
   if (input_info::input_shapes.size() == 0) {
     auto input_tensor_shape = predictor->GetInputTensorShape();
@@ -205,50 +205,82 @@ void run(Predictor *predictor, bool test_mode=false) {
 
   cudaStream_t stream = reinterpret_cast<cudaStream_t>(predictor->GetExecStream());
 
-  if (test_mode) {
+  if (mode == COLLECT) {
     CHECK(predictor->Run());
   } else {
-    for (size_t i = 0; i < FLAGS_warmup; ++i)
-    CHECK(predictor->Run());
-    cudaStreamSynchronize(stream);
-    //cudaDeviceSynchronize();
-    std::vector<std::string> header{"Enqueue Time", "Run Avg Time"};
-    paddle::inference::TablePrinter table(header);
-    auto st = time();
-    double enqueue_time = 0;
-    for (size_t i = 0; i < FLAGS_repeats; ++i) {
-      auto enqueue_s = time();
-      CHECK(predictor->Run());
-      enqueue_time += time_diff(enqueue_s, time());
+    if (mode == TEST) {
+      for (size_t i = 0; i < FLAGS_warmup; ++i) {
+        CHECK(predictor->Run());
+      }
       cudaStreamSynchronize(stream);
+      //cudaDeviceSynchronize();
+      std::vector<std::string> header{"Enqueue Time", "Run Avg Time"};
+      paddle::inference::TablePrinter table(header);
+      auto st = time();
+      double enqueue_time = 0;
+      for (size_t i = 0; i < FLAGS_repeats; ++i) {
+        auto enqueue_s = time();
+        CHECK(predictor->Run());
+        enqueue_time += time_diff(enqueue_s, time());
+        cudaStreamSynchronize(stream);
+      }
+      table.InsertRow({std::to_string(enqueue_time / FLAGS_repeats) + " ms", std::to_string(time_diff(st, time()) / FLAGS_repeats) + " ms"});
+      LOG(INFO) << table.PrintTable();
+    } else {
+      CHECK(predictor->Run());
     }
-    table.InsertRow({std::to_string(enqueue_time / FLAGS_repeats) + " ms", std::to_string(time_diff(st, time()) / FLAGS_repeats) + " ms"});
-    LOG(INFO) << table.PrintTable();
-  }
-
-  if (!FLAGS_out_file.empty() && !test_mode) {
-    std::fstream out_file;
-    out_file.open(FLAGS_out_file, std::ios_base::out);
-
     auto output_names = predictor->GetOutputNames();
+    std::map<std::string, std::vector<float>> outputs;
     for (int i = 0; i < output_names.size(); ++i) {
       auto name = output_names[i];
       auto handle = predictor->GetOutputHandle(name);
       std::vector<int> output_shape = handle->shape();
       int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
                                     std::multiplies<int>());
-      std::vector<float> out_data(out_num, 0);
-      handle->CopyToCpu(out_data.data());
-      for (size_t i = 0; i < out_data.size() - 1; ++i)
-        out_file << out_data[i] << ",";
-      out_file << out_data[out_data.size() - 1]  << "\n";
-      //std::copy(out_data.begin(), out_data.end() - 1, output_iterator);
-      //*output_iterator++ = *(out_data.end() - 1) + "\n";
+      outputs[name] = std::vector<float>(out_num, 0);
+      handle->CopyToCpu(outputs[name].data());
     }
-    for (auto& n : output_names) {
-      out_file << n << "\n";
+    if (mode == BASELINE) {
+      hook_got_info::output_tensor = outputs;
+    } else if (mode == CHECKING) {
+      for (auto& name: output_names) {
+        auto desired = hook_got_info::output_tensor[name];
+        auto actual = outputs[name];
+        std::vector<std::string> match_status;
+        match_status.emplace_back(hook_got_info::tensor2op[name]);
+        match_status.emplace_back(name);
+        std::string shapeMatch;
+        int mis_match_num = 0;
+        double max_atol = 0., max_rtol = 0.;
+        if (actual.size() != desired.size()) {
+          match_status.emplace_back("Shape Mismatch!");
+        } else {
+          match_status.emplace_back("Shape Match!");
+          for (size_t i = 0; i < desired.size(); i++) {
+            mis_match_num += assert_close<float>(actual[i], desired[i], FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
+          }
+          match_status.emplace_back(std::to_string(mis_match_num) + "/" + std::to_string(desired.size()));
+          match_status.emplace_back(std::to_string(max_atol));
+          match_status.emplace_back(std::to_string(max_rtol));
+        }
+        hook_got_info::output_match_info[name] = match_status;
+      }
     }
-    out_file.close();
+    if (!FLAGS_out_file.empty()) {
+      std::fstream out_file;
+      out_file.open(FLAGS_out_file, std::ios_base::out);
+
+      for (auto& name: output_names) {
+        auto& out_data = outputs[name];
+        for (size_t i = 0; i < out_data.size() - 1; ++i)
+          out_file << out_data[i] << ",";
+        out_file << out_data[out_data.size() - 1]  << "\n";
+      }
+      for (auto& n : output_names) {
+        out_file << n << "\n";
+      }
+      out_file.close();
+    }
   }
 }
 
@@ -264,11 +296,11 @@ std::shared_ptr<Predictor> InitPredictorBaseline() {
 }
 
 std::shared_ptr<Predictor> InitPredictorTRTDynamic(std::vector<std::string> mark_name = {}, bool baseline_mode=false) {
-  std::string run_mode;
+  std::string mode;
   if(baseline_mode) {
-    run_mode = FLAGS_baseline_mode;
+    mode = FLAGS_baseline_mode;
   } else {
-    run_mode = FLAGS_run_mode;
+    mode = FLAGS_run_mode;
   }
   Config config;
   if (FLAGS_model_dir != "") {
@@ -277,23 +309,23 @@ std::shared_ptr<Predictor> InitPredictorTRTDynamic(std::vector<std::string> mark
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
   config.EnableUseGpu(500, 0);
 
-  if (run_mode == "trt_fp32") {
+  if (mode == "trt_fp32") {
     config.EnableTensorRtEngine(1 << 30, 1, 1,
                                 PrecisionType::kFloat32, true, false, FLAGS_use_cuda_graph);
-  } else if (run_mode == "trt_fp16") {
+  } else if (mode == "trt_fp16") {
     config.EnableTensorRtEngine(1 << 30, 1, 1,
                                 PrecisionType::kHalf, true, false, FLAGS_use_cuda_graph);
-  } else if (run_mode == "trt_int8") {
+  } else if (mode == "trt_int8") {
     config.EnableTensorRtEngine(1 << 30, 1, 1,
                                 PrecisionType::kInt8, false, FLAGS_use_calib, FLAGS_use_cuda_graph);
   }
   config.SwitchIrDebug(true);
   config.SetOptimCacheDir(FLAGS_cache_dir);
-  if (run_mode.find("trt") != std::string::npos) {
+  if (mode.find("trt") != std::string::npos) {
     auto runForShapeFile = [](const std::string& shape_file, Config config) {
       config.CollectShapeRangeInfo(shape_file);
       auto predictor_cs = CreatePredictor(config);
-      run(predictor_cs.get(), true);
+      run(predictor_cs.get(), COLLECT);
     };
     if (FLAGS_shape_file.empty()) {
       if(FLAGS_collect_shape.empty()) {
@@ -309,6 +341,14 @@ std::shared_ptr<Predictor> InitPredictorTRTDynamic(std::vector<std::string> mark
     config.EnableTunedTensorRtDynamicShape(FLAGS_shape_file);
   }
   config.MarkTrtEngineOutputs(mark_name);
+  if (!FLAGS_disable_trt_ops.empty()) {
+    config.Exp_DisableTensorRtOPs(ProcessMultiShape(FLAGS_disable_trt_ops));
+  }
+  if (!FLAGS_delete_pass.empty()) {
+    for (auto& pass: ProcessMultiShape(FLAGS_delete_pass)) {
+      config.pass_builder()->DeletePass(pass);
+    }
+  }
   // Open the memory optim.
   if (FLAGS_memory_optim) {
     config.EnableMemoryOptim();
@@ -333,72 +373,68 @@ int main(int argc, char *argv[]) {
   }
 
   for (auto it : input_info::input_shapes) {
-      if (input_info::input_files.count(it.first)) {
-        auto data = LoadInputFrom(input_info::input_files[it.first]);
-        input_info::input_datas[it.first] = data;
-      } else {
-        int num = std::accumulate(it.second.begin(), it.second.end(), 1, std::multiplies<int>());
-        std::vector<float> data(num, 0.1);
-        input_info::input_datas[it.first] = data;
-      }
+    if (input_info::input_files.count(it.first)) {
+      auto data = LoadInputFrom(input_info::input_files[it.first]);
+      input_info::input_datas[it.first] = data;
+    } else {
+      int num = std::accumulate(it.second.begin(), it.second.end(), 1, std::multiplies<int>());
+      std::vector<float> data(num, 0.1);
+      input_info::input_datas[it.first] = data;
+    }
   }
 
+  std::vector<std::string> header{"Operator Type", "Tensor Name", "Shape", "Mismatched Elements", "Max Atol", "Max Rtol"};
+  paddle::inference::TablePrinter table(header);
   if (FLAGS_check || FLAGS_check_all || !FLAGS_check_tensor.empty()) {
     // paddle fuild baseline
     auto predictor_baseline = InitPredictorBaseline();
-    auto output_names = predictor_baseline->GetOutputNames();
-    for (auto& output_name: output_names) {
-      hook_got_info::output_names.insert(output_name);
-    }
     predictor_baseline->RegisterOutputHook(save_baseline_hook);
-    run(predictor_baseline.get(), true);
+    run(predictor_baseline.get(), BASELINE);
 
     // user set baseline
     if (!FLAGS_baseline_mode.empty()) {
-      hook_got_info::fluid_mode = false;
+      hook_got_info::mode = CHECKING;
       auto predictor_baseline2 = InitPredictorTRTDynamic({hook_got_info::tensor_names}, true);
       predictor_baseline2->RegisterOutputHook(save_baseline_hook);
-      run(predictor_baseline2.get(), true);
+      run(predictor_baseline2.get(), BASELINE);
     }
     
     // run
     std::shared_ptr<Predictor> predictor;
     if (FLAGS_check) {
       predictor = InitPredictorTRTDynamic();
-    } else if (FLAGS_check_all) {
-      predictor = InitPredictorTRTDynamic({hook_got_info::tensor_names});
     } else {
-      std::vector<std::string> mark_names = ProcessMultiShape(FLAGS_check_tensor);
-      predictor = InitPredictorTRTDynamic(mark_names);
+      if (FLAGS_check_all) {
+        predictor = InitPredictorTRTDynamic({hook_got_info::tensor_names});
+      } else {
+        std::vector<std::string> mark_names = ProcessMultiShape(FLAGS_check_tensor);
+        predictor = InitPredictorTRTDynamic(mark_names);
+      }
+      predictor->RegisterOutputHook(assert_tensor_close_hook);
     }
-    predictor->RegisterOutputHook(assert_tensor_close_hook);
-    run(predictor.get(), true);
+    run(predictor.get(), CHECKING);
 
     // print result
-    std::vector<std::string> header{"Operator Type", "Tensor Name", "Shape", "Mismatched Elements", "Max Atol", "Max Rtol"};
-    paddle::inference::TablePrinter table(header);
-    if (hook_got_info::mismatch_tensors.size() > 0) {
-      for(auto& tensor_name: hook_got_info::tensor_names) {
-        if (hook_got_info::mismatch_tensors.count(tensor_name) > 0) {
-          table.InsertRow(hook_got_info::mismatch_tensors[tensor_name]);
-        }
+    for(auto& tensor_name: hook_got_info::tensor_names) {
+      if (hook_got_info::mismatch_tensors_info.count(tensor_name) > 0) {
+        table.InsertRow(hook_got_info::mismatch_tensors_info[tensor_name]);
       }
-      table.InsetDivider();
-      for (auto& tensor_name: output_names) {
-        if (hook_got_info::output_match_status.count(tensor_name) > 0) {
-          table.InsertRow(hook_got_info::output_match_status[tensor_name]);
-        }
-      }
-      LOG(INFO) << hook_got_info::mismatch_tensors.size() <<"mismatched tensor(s), the details are as follows: ";
-      table.PrintTableCout();
-    } else {
-      std::string output_num = std::to_string(hook_got_info::check_conut);
-      table.InsertRow({"All(" + output_num +") output are equal."});
-      LOG(INFO) << table.PrintTable();
     }
+    if (hook_got_info::mismatch_tensors_info.size() > 0) {
+      table.InsetDivider();
+    }
+    for (auto& match_info: hook_got_info::output_match_info) {
+      table.InsertRow(match_info.second);
+    }
+    LOG(INFO) << hook_got_info::mismatch_tensors_info.size() <<" mismatched tensor(s), the details are as follows: ";
+    table.PrintTableCout();
   } else {
     auto predictor = InitPredictorTRTDynamic();
-    run(predictor.get());
+    run(predictor.get(), TEST);
+    for (auto& match_info: hook_got_info::output_match_info) {
+      table.InsertRow(match_info.second);
+    }
+    table.PrintTableCout();
   }
   return 0;
 }
