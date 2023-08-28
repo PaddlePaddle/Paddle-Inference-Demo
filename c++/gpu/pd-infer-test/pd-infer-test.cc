@@ -164,8 +164,8 @@ void assert_tensor_close_hook(const std::string &op_type,
       min_info += min_base == DBL_MAX ? "(nan)" : "(" + std::to_string(min_base) + ")";
       match_status.emplace_back(min_info);
       std::string max_info;
-      max_info += max_cur == DBL_MIN ? "nan" : std::to_string(max_cur);
-      max_info += max_base == DBL_MIN ? "(nan)" : "(" + std::to_string(max_base) + ")";
+      max_info += max_cur == -DBL_MAX ? "nan" : std::to_string(max_cur);
+      max_info += max_base == -DBL_MAX ? "(nan)" : "(" + std::to_string(max_base) + ")";
       match_status.emplace_back(max_info);
     }
    if (mis_match_num > 0) {
@@ -310,8 +310,8 @@ void run(Predictor *predictor, PredictorRunMode mode) {
           min_info += min_base == DBL_MAX ? "(nan)" : "(" + std::to_string(min_base) + ")";
           match_status.emplace_back(min_info);
           std::string max_info;
-          max_info += max_cur == DBL_MIN ? "nan" : std::to_string(max_cur);
-          max_info += max_base == DBL_MIN ? "(nan)" : "(" + std::to_string(max_base) + ")";
+          max_info += max_cur == -DBL_MAX ? "nan" : std::to_string(max_cur);
+          max_info += max_base == -DBL_MAX ? "(nan)" : "(" + std::to_string(max_base) + ")";
           match_status.emplace_back(max_info);
         }
         hook_got_info::output_match_info[name] = match_status;
