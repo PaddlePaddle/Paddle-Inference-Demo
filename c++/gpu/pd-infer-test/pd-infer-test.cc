@@ -10,6 +10,7 @@
 #include <functional>
 #include <unistd.h>
 #include <fcntl.h>
+#include <float.h>
 
 #include "cuda_runtime.h"
 #include "paddle_inference_api.h"
@@ -28,19 +29,20 @@ DEFINE_string(model_dir, "", "Directory of the inference model.");
 DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
-DEFINE_string(run_mode, "paddle_gpu", "mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
+DEFINE_string(run_mode, "paddle_gpu", "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_string(baseline_mode, "", "baseline_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_string(shapes, "", "input_shapes");
 DEFINE_string(load_input, "", "load_input: a:a.data,b:b.data");
 DEFINE_string(collect_shape, "", "collect shape.");
 DEFINE_string(shape_file, "", "collect shape file.");
 DEFINE_string(out_file, "", "out file.");
+DEFINE_string(baseline_out, "", "out file.");
 DEFINE_bool(use_calib, false, "use trt int8 calibration.");
 DEFINE_bool(use_cuda_graph, false, "use cuda_graph.");
 DEFINE_bool(memory_optim, false, "use memory optimize.");
 DEFINE_double(rtol, 1e-4, "relative tolerance");
 DEFINE_double(atol, 1e-4, "absolute tolerance");
-DEFINE_string(cache_dir, "./cache/", "cache_dir.");
+DEFINE_string(cache_dir, "./cache", "cache_dir.");
 DEFINE_bool(check, false, "check outpus.");
 DEFINE_bool(check_all, false, "check all tensors, including intermediate tensor and output.");
 DEFINE_string(check_tensor, "", "check specific tensors, example: tensor1,tensor2");
@@ -117,6 +119,15 @@ void assert_tensor_close_hook(const std::string &op_type,
     std::string shapeMatch;
     int mis_match_num = 0;
     double max_atol = 0., max_rtol = 0.;
+    double min_base = DBL_MAX, min_cur = DBL_MAX;
+    double max_base = -DBL_MAX, max_cur = -DBL_MAX;
+    auto updateMinMax = [&min_base, &min_cur, &max_base, &max_cur, &tensor_name](double actual_val, double desired_val) {
+      min_base = std::min(min_base, desired_val);
+      min_cur = std::min(min_cur, actual_val);
+      max_base = std::max(max_base, desired_val);
+      max_cur =  std::max(max_cur, actual_val);
+    };
+
     if (actual.shape() != desired.shape()) {
       shapeMatch = "expect " + get_shape(desired) +  ", but got " + get_shape(actual);
       match_status.emplace_back(shapeMatch);
@@ -127,14 +138,19 @@ void assert_tensor_close_hook(const std::string &op_type,
       for (size_t i = 0; i < desired.numel(); i++) {
         if (tensor.dtype() == paddle::DataType::INT32) {
           mis_match_num += assert_close<int32_t>(actual.data<int32_t>()[i], desired.data<int32_t>()[i], FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
+          updateMinMax(actual.data<int32_t>()[i], desired.data<int32_t>()[i]);
         } else if (tensor.dtype() == paddle::DataType::INT64) {
           mis_match_num += assert_close<int64_t>(actual.data<int64_t>()[i], desired.data<int64_t>()[i], FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
+          updateMinMax(actual.data<int64_t>()[i], desired.data<int64_t>()[i]);
         } else if (tensor.dtype() == paddle::DataType::FLOAT32) {
           mis_match_num += assert_close<float>(actual.data<float>()[i], desired.data<float>()[i], FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
+          updateMinMax(actual.data<float>()[i], desired.data<float>()[i]);
         } else if (tensor.dtype() == paddle::DataType::FLOAT64) {
           mis_match_num += assert_close<double>(actual.data<double>()[i], desired.data<double>()[i], FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
+          updateMinMax(actual.data<double>()[i], desired.data<double>()[i]);
         } else if (tensor.dtype() == paddle::DataType::BOOL) {
           mis_match_num += assert_close<int>(static_cast<int>(actual.data<bool>()[i]), static_cast<int>(desired.data<bool>()[i]), FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
+          updateMinMax(static_cast<int>(actual.data<bool>()[i]), static_cast<int>(desired.data<bool>()[i]));
         } else {
           LOG(WARNING) << "Unsupported data type " << tensor.dtype();
           return;
@@ -143,6 +159,14 @@ void assert_tensor_close_hook(const std::string &op_type,
       match_status.emplace_back(std::to_string(mis_match_num) + "/" + std::to_string(desired.numel()));
       match_status.emplace_back(std::to_string(max_atol));
       match_status.emplace_back(std::to_string(max_rtol));
+      std::string min_info;
+      min_info += min_cur == DBL_MAX ? "nan" : std::to_string(min_cur);
+      min_info += min_base == DBL_MAX ? "(nan)" : "(" + std::to_string(min_base) + ")";
+      match_status.emplace_back(min_info);
+      std::string max_info;
+      max_info += max_cur == DBL_MIN ? "nan" : std::to_string(max_cur);
+      max_info += max_base == DBL_MIN ? "(nan)" : "(" + std::to_string(max_base) + ")";
+      match_status.emplace_back(max_info);
     }
    if (mis_match_num > 0) {
       hook_got_info::mismatch_tensors_info[tensor_name] = match_status;
@@ -205,8 +229,9 @@ void run(Predictor *predictor, PredictorRunMode mode) {
 
   cudaStream_t stream = reinterpret_cast<cudaStream_t>(predictor->GetExecStream());
 
-  if (mode == COLLECT) {
+   if (mode == COLLECT) {
     CHECK(predictor->Run());
+    cudaStreamSynchronize(stream);
   } else {
     if (mode == TEST) {
       for (size_t i = 0; i < FLAGS_warmup; ++i) {
@@ -228,6 +253,7 @@ void run(Predictor *predictor, PredictorRunMode mode) {
       LOG(INFO) << table.PrintTable();
     } else {
       CHECK(predictor->Run());
+      cudaStreamSynchronize(stream);
     }
     auto output_names = predictor->GetOutputNames();
     std::map<std::string, std::vector<float>> outputs;
@@ -238,7 +264,15 @@ void run(Predictor *predictor, PredictorRunMode mode) {
       int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
                                     std::multiplies<int>());
       outputs[name] = std::vector<float>(out_num, 0);
-      handle->CopyToCpu(outputs[name].data());
+      if(handle->type() == paddle_infer::DataType::INT32) {
+        std::vector<int> tmp(out_num, 0);
+        handle->CopyToCpu(tmp.data());
+        for (int idx=0; idx < out_num; ++idx) {
+          outputs[name][idx] = static_cast<float>(tmp[i]);
+        }
+      } else {
+        handle->CopyToCpu(outputs[name].data());
+      }
     }
     if (mode == BASELINE) {
       hook_got_info::output_tensor = outputs;
@@ -252,24 +286,44 @@ void run(Predictor *predictor, PredictorRunMode mode) {
         std::string shapeMatch;
         int mis_match_num = 0;
         double max_atol = 0., max_rtol = 0.;
+        double min_base = DBL_MAX, min_cur = DBL_MAX;
+        double max_base = -DBL_MAX, max_cur = -DBL_MAX;
+        auto updateMinMax = [&min_base, &min_cur, &max_base, &max_cur](double actual_val, double desired_val) {
+          min_base = std::min(min_base, desired_val);
+          min_cur = std::min(min_cur, actual_val);
+          max_base = std::max(max_base, desired_val);
+          max_cur =  std::max(max_cur, actual_val);
+        };
         if (actual.size() != desired.size()) {
           match_status.emplace_back("Shape Mismatch!");
         } else {
           match_status.emplace_back("Shape Match!");
           for (size_t i = 0; i < desired.size(); i++) {
             mis_match_num += assert_close<float>(actual[i], desired[i], FLAGS_atol, FLAGS_atol, max_atol, max_rtol);
+            updateMinMax(actual[i], desired[i]);
           }
           match_status.emplace_back(std::to_string(mis_match_num) + "/" + std::to_string(desired.size()));
           match_status.emplace_back(std::to_string(max_atol));
           match_status.emplace_back(std::to_string(max_rtol));
+          std::string min_info;
+          min_info += min_cur == DBL_MAX ? "nan" : std::to_string(min_cur);
+          min_info += min_base == DBL_MAX ? "(nan)" : "(" + std::to_string(min_base) + ")";
+          match_status.emplace_back(min_info);
+          std::string max_info;
+          max_info += max_cur == DBL_MIN ? "nan" : std::to_string(max_cur);
+          max_info += max_base == DBL_MIN ? "(nan)" : "(" + std::to_string(max_base) + ")";
+          match_status.emplace_back(max_info);
         }
         hook_got_info::output_match_info[name] = match_status;
       }
     }
-    if (!FLAGS_out_file.empty()) {
+    if ((!FLAGS_out_file.empty() || (!FLAGS_baseline_out.empty() && mode == BASELINE)) && mode != COLLECT) {
       std::fstream out_file;
-      out_file.open(FLAGS_out_file, std::ios_base::out);
-
+      if (!FLAGS_baseline_out.empty() && mode == BASELINE) {
+        out_file.open(FLAGS_baseline_out, std::ios_base::out);
+      } else {
+        out_file.open(FLAGS_out_file, std::ios_base::out);
+      }
       for (auto& name: output_names) {
         auto& out_data = outputs[name];
         for (size_t i = 0; i < out_data.size() - 1; ++i)
@@ -308,38 +362,22 @@ std::shared_ptr<Predictor> InitPredictorTRTDynamic(std::vector<std::string> mark
   }
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
   config.EnableUseGpu(500, 0);
-
-  if (mode == "trt_fp32") {
-    config.EnableTensorRtEngine(1 << 30, 1, 1,
-                                PrecisionType::kFloat32, true, false, FLAGS_use_cuda_graph);
-  } else if (mode == "trt_fp16") {
-    config.EnableTensorRtEngine(1 << 30, 1, 1,
-                                PrecisionType::kHalf, true, false, FLAGS_use_cuda_graph);
-  } else if (mode == "trt_int8") {
-    config.EnableTensorRtEngine(1 << 30, 1, 1,
-                                PrecisionType::kInt8, false, FLAGS_use_calib, FLAGS_use_cuda_graph);
-  }
   config.SwitchIrDebug(true);
   config.SetOptimCacheDir(FLAGS_cache_dir);
   if (mode.find("trt") != std::string::npos) {
-    auto runForShapeFile = [](const std::string& shape_file, Config config) {
-      config.CollectShapeRangeInfo(shape_file);
-      auto predictor_cs = CreatePredictor(config);
-      run(predictor_cs.get(), COLLECT);
-    };
-    if (FLAGS_shape_file.empty()) {
-      if(FLAGS_collect_shape.empty()) {
-        FLAGS_collect_shape = FLAGS_cache_dir + GetModelName(FLAGS_model_file) + ".pbtxt";
-      }
-      if(access(FLAGS_collect_shape.c_str(), F_OK ) != -1 ) {
-        LOG(INFO) << "Load shape file " << FLAGS_collect_shape;
-      } else {
-        runForShapeFile(FLAGS_collect_shape, config);
-        LOG(INFO) << "The shape file has been saved in " << FLAGS_collect_shape;
-      }
-    }
     config.EnableTunedTensorRtDynamicShape(FLAGS_shape_file);
+    if (mode == "trt_fp32") {
+      config.EnableTensorRtEngine(1 << 30, 1, 1,
+                                  PrecisionType::kFloat32, true, false, FLAGS_use_cuda_graph);
+    } else if (mode == "trt_fp16") {
+      config.EnableTensorRtEngine(1 << 30, 1, 1,
+                                  PrecisionType::kHalf, true, false, FLAGS_use_cuda_graph);
+    } else if (mode == "trt_int8") {
+      config.EnableTensorRtEngine(1 << 30, 1, 1,
+                                  PrecisionType::kInt8, false, FLAGS_use_calib, FLAGS_use_cuda_graph);
+    }
   }
+
   config.MarkTrtEngineOutputs(mark_name);
   if (!FLAGS_disable_trt_ops.empty()) {
     config.Exp_DisableTensorRtOPs(ProcessMultiShape(FLAGS_disable_trt_ops));
@@ -383,7 +421,8 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  std::vector<std::string> header{"Operator Type", "Tensor Name", "Shape", "Mismatched Elements", "Max Atol", "Max Rtol"};
+  std::vector<std::string> header{"Operator Type", "Tensor Name", "Shape", 
+          "Mismatched Elements", "Max Atol", "Max Rtol", "Min Val(base)", "Max Val(base)"};
   paddle::inference::TablePrinter table(header);
   if (FLAGS_check || FLAGS_check_all || !FLAGS_check_tensor.empty()) {
     // paddle fuild baseline
@@ -431,10 +470,6 @@ int main(int argc, char *argv[]) {
   } else {
     auto predictor = InitPredictorTRTDynamic();
     run(predictor.get(), TEST);
-    for (auto& match_info: hook_got_info::output_match_info) {
-      table.InsertRow(match_info.second);
-    }
-    table.PrintTableCout();
   }
   return 0;
 }
