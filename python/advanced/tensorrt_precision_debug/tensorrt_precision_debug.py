@@ -1,4 +1,4 @@
-import json
+import openpyxl
 import numpy as np
 import pandas as pd
 import argparse
@@ -11,35 +11,9 @@ from paddle.inference import PrecisionType
 check_diff_tensor_names = []
 check_diff_tensor2op = {}
 check_diff_baseline_tensor = {}
-check_diff_mismatch_tensors_info = {}
-check_diff_reorder_info = []
+check_diff_tensor_match_info = {}
+check_diff_tensor_match_info_reorder = []
 check_diff_mark_tensor_names = []
-
-def get_mark_names_from_serialized_json():
-    with open("cache/engine_info_*.json", "r") as f:
-        data = json.load(f)
-    for layer in data:
-        for output in layer['Outputs']:
-            output_name = output["Name"]
-            if "subgraph" in output_name:
-                output_name = output_name[0:output_name.index("_subgraph")]
-                check_diff_mark_tensor_names.append(output_name)
-
-def assign_mark_names():
-    flag = False
-    start = ["tensor_name.tmp_0", "tensor_name.tmp_1"]
-    end = ["tensor_name.tmp_5"]
-    with open("save_baseline.txt", "r") as f:
-        lines = f.readlines()
-    for line in lines:
-        baseline_tensor_names = line.split(":")[-1].split(" ")[-1].strip()
-        if baseline_tensor_names in start:
-            flag = True
-        if flag:
-            # print(baseline_tensor_names)
-            check_diff_mark_tensor_names.append(baseline_tensor_names)
-        if baseline_tensor_names in end:
-            flag = False
 
 def save_baseline_hook(op_type: str, tensor_name: str, tensor: paddle.Tensor):
     print(">>>> save_baseline_hook: {} {}".format(op_type, tensor_name))
@@ -53,8 +27,8 @@ def assert_tensor_close_hook(op_type: str, tensor_name: str, tensor: paddle.Tens
     print(">>>> assert_tensor_close_hook: {} {}".format(op_type, tensor_name))
     if tensor_name in check_diff_baseline_tensor:
         match_status = []
-        match_status.append(op_type)
-        # match_status.append(check_diff_tensor2op[tensor_name])
+        # match_status.append(op_type)
+        match_status.append(check_diff_tensor2op[tensor_name])
         match_status.append(tensor_name)
         actual = np.array(tensor).astype(float)
         desire = check_diff_baseline_tensor[tensor_name].astype(float)
@@ -88,16 +62,16 @@ def assert_tensor_close_hook(op_type: str, tensor_name: str, tensor: paddle.Tens
         if (len(match_status) != 8):
             for i in range(0, 8 - len(match_status)):
                 match_status.append(None)
-        check_diff_mismatch_tensors_info[tensor_name] = match_status
+        check_diff_tensor_match_info[tensor_name] = match_status
     else:
         print("Tensor {} not found in paddle inference with ir optim off.".format(tensor_name))
 
 def reorder():
-    check_diff_reorder_info.append(["Operator Type", "Tensor Name", "Shape", 
+    check_diff_tensor_match_info_reorder.append(["Operator Type", "Tensor Name", "Shape", 
           "Mismatched Elements", "Max Atol", "Max Rtol", "Min Val(base)", "Max Val(base)"])
     for name in check_diff_tensor_names:
-        if name in check_diff_mismatch_tensors_info:
-            check_diff_reorder_info.append(check_diff_mismatch_tensors_info[name])
+        if name in check_diff_tensor_match_info:
+            check_diff_tensor_match_info_reorder.append(check_diff_tensor_match_info[name])
 
 def init_baseline_predictor(args):
     if args.model_dir is not "":
@@ -235,15 +209,17 @@ if __name__ == "__main__":
     img = np.ones((1, 3, 224, 224)).astype(np.float32)
 
     pred_base = init_baseline_predictor(args)
+    pred_base.register_output_hook(save_baseline_hook)
     result_base = run(pred_base, [img])
     
-    get_mark_names_from_serialized_json()
-    # assign_mark_names()
-    
+    # mark and check all tensors
+    check_diff_mark_tensor_names = check_diff_tensor_names
+
     pred = init_predictor(args)
+    pred.register_output_hook(assert_tensor_close_hook)
     result = run(pred, [img])
 
     reorder()
-    df = pd.DataFrame(check_diff_reorder_info)
+    df = pd.DataFrame(check_diff_tensor_match_info_reorder)
     df.to_excel('output.xlsx', sheet_name='Sheet1', header=None)
     

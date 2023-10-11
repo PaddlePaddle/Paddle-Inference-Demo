@@ -1,9 +1,9 @@
 #include <chrono>
 #include <iostream>
 #include <memory>
-#include <set>
 #include <numeric>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <gflags/gflags.h>
 #include <glog/logging.h>
@@ -45,13 +45,14 @@ namespace check_diff {
   std::vector<std::string> tensor_names;
   std::unordered_map<std::string, std::string> tensor2op;
   std::unordered_map<std::string, paddle::Tensor> baseline_tensor;
-  std::unordered_map<std::string, std::vector<std::string>> mismatch_tensors_info;
-  std::vector<std::string> mark_names;
+  std::unordered_map<std::string, std::vector<std::string>> tensor_match_info;
+  std::vector<std::string> mark_tensor_names;
 }
 
 void save_baseline_hook (const std::string &op_type,
                         const std::string &tensor_name,
                         const paddle::Tensor &tensor) {
+  LOG(INFO) << ">>>> save_baseline_hook: " << op_type << " " << tensor_name;
   auto cpu_tensor = tensor.copy_to(paddle::CPUPlace(), true);
   check_diff::tensor_names.emplace_back(tensor_name);
   check_diff::tensor2op[tensor_name] = op_type;
@@ -70,6 +71,7 @@ int assert_close(const T& actual, const T& desired, const double& atol, const do
 void assert_tensor_close_hook(const std::string &op_type,
                        const std::string &tensor_name,
                        const paddle::Tensor &tensor) {
+  LOG(INFO) << ">>>> assert_tensor_close_hook: " << op_type << " " << tensor_name;
   auto actual = tensor.copy_to(paddle::CPUPlace(), true);
   if (check_diff::baseline_tensor.count(tensor_name)) {
     auto desired = check_diff::baseline_tensor[tensor_name];
@@ -145,7 +147,7 @@ void assert_tensor_close_hook(const std::string &op_type,
       max_info += max_base == -DBL_MAX ? "(nan)" : "(" + std::to_string(max_base) + ")";
       match_status.emplace_back(max_info);
     }
-    check_diff::mismatch_tensors_info[tensor_name] = match_status;
+    check_diff::tensor_match_info[tensor_name] = match_status;
   } else {
     LOG(WARNING) << "Tensor " << tensor_name << " not found in paddle inference with ir optim off.";
   }
@@ -153,7 +155,7 @@ void assert_tensor_close_hook(const std::string &op_type,
 
 void run(Predictor *predictor, std::unordered_map<std::string, std::vector<int>>& input_shapes, std::unordered_map<std::string, std::vector<float>>& input_datas) {
   auto input_names = predictor->GetInputNames();
-  std::set<std::string> input_name_set(input_names.begin(), input_names.end());
+  std::unordered_set<std::string> input_name_set(input_names.begin(), input_names.end());
   for (auto it : input_shapes) {
     auto name = it.first;
     if (input_name_set.count(name)) {
@@ -207,7 +209,7 @@ std::shared_ptr<Predictor> InitPredictor() {
   config.EnableTensorRtInspector(true);
 
   // mark tensorrt outputs for checking diff
-  config.MarkTrtEngineOutputs(check_diff::mark_names);
+  config.MarkTrtEngineOutputs(check_diff::mark_tensor_names);
   
   // Open the memory optim.
   if (FLAGS_memory_optim) {
@@ -339,8 +341,8 @@ int main(int argc, char *argv[]) {
   predictor_baseline->RegisterOutputHook(save_baseline_hook);
   run(predictor_baseline.get(), input_shapes, input_datas);
 
-  // check all tensors
-  check_diff::mark_names = check_diff::tensor_names;
+  // mark and check all tensors
+  check_diff::mark_tensor_names = check_diff::tensor_names;
 
   // run tensorrt predictor
   auto predictor = InitPredictor();
@@ -351,8 +353,8 @@ int main(int argc, char *argv[]) {
           "Mismatched Elements", "Max Atol", "Max Rtol", "Min Val(base)", "Max Val(base)"};
   paddle::inference::TablePrinter table(header);
   for(auto& tensor_name: check_diff::tensor_names) {
-    if (check_diff::mismatch_tensors_info.count(tensor_name) > 0) {
-      table.InsertRow(check_diff::mismatch_tensors_info[tensor_name]);
+    if (check_diff::tensor_match_info.count(tensor_name) > 0) {
+      table.InsertRow(check_diff::tensor_match_info[tensor_name]);
     }
   }
   table.PrintTableCout();
