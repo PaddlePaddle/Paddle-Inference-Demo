@@ -23,7 +23,8 @@
 │   ├── custom_operator           自定义算子 样例
 │   ├── share_external_data       share_external_data 预测样例
 │   ├── multi_thread              多线程 预测样例
-│   └── x86_gru_int8              slim_int8 预测样例
+│   ├── x86_gru_int8              slim_int8 预测样例
+│   └── tensorrt_precision_debug  Paddle-TensorRT 精度调试工具 使用样例
 ├── mixed
 │   └── LIC2020                   LIC2020比赛 预测样例
 └── lib
