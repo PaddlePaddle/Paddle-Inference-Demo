@@ -13,6 +13,10 @@ if(WITH_GPU)
   add_definitions("-DPADDLE_WITH_CUDA")
 endif()
 
+if(USE_TENSORRT)
+  add_definitions("-DPADDLE_WITH_TENSORRT")
+endif()
+
 if(NOT WITH_STATIC_LIB)
   add_definitions("-DPADDLE_WITH_SHARED_LIB")
 else()
