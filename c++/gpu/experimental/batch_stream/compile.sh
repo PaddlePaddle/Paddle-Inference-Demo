@@ -25,6 +25,7 @@ DEMO_NAME=batch_stream
 WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=OFF
+WITH_SHARED_PHI=ON
 
 LIB_DIR=${work_path}/../../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
@@ -44,6 +45,7 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DROCM_LIB=${ROCM_LIB} \
   -DCUDNN_LIB=${CUDNN_LIB} \
   -DCUDA_LIB=${CUDA_LIB} \
-  -DTENSORRT_ROOT=${TENSORRT_ROOT}
+  -DTENSORRT_ROOT=${TENSORRT_ROOT} \
+  -DWITH_SHARED_PHI=${WITH_SHARED_PHI}
 
 make -j

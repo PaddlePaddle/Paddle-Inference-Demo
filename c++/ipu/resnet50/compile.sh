@@ -25,6 +25,7 @@ DEMO_NAME=resnet50_test
 
 WITH_MKL=ON
 WITH_ARM=OFF
+WITH_SHARED_PHI=ON
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
 
@@ -32,7 +33,8 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DWITH_MKL=${WITH_MKL} \
   -DWITH_ARM=${WITH_ARM} \
   -DDEMO_NAME=${DEMO_NAME} \
-  -DWITH_STATIC_LIB=OFF 
+  -DWITH_STATIC_LIB=OFF  \
+  -DWITH_SHARED_PHI=${WITH_SHARED_PHI}
 
 if [ "$WITH_ARM" == "ON" ];then
   make TARGET=ARMV8 -j
