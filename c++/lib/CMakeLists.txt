@@ -154,7 +154,7 @@ if(WITH_MKL)
   if(EXISTS ${MKLDNN_PATH})
     include_directories("${MKLDNN_PATH}/include")
     if(WIN32)
-      set(MKLDNN_LIB ${MKLDNN_PATH}/lib/dnnl.dll)
+      set(MKLDNN_LIB ${MKLDNN_PATH}/lib/mkldnn.dll)
     else()
       set(MKLDNN_LIB ${MKLDNN_PATH}/lib/libdnnl.so.3)
     endif()
@@ -328,7 +328,7 @@ if(WIN32)
               ${CMAKE_BINARY_DIR}/Release
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/libiomp5md.dll
               ${CMAKE_BINARY_DIR}/Release
-      COMMAND ${CMAKE_COMMAND} -E copy ${MKLDNN_PATH}/lib/dnnl.dll
+      COMMAND ${CMAKE_COMMAND} -E copy ${MKLDNN_PATH}/lib/mkldnn.dll
               ${CMAKE_BINARY_DIR}/Release)
   else()
     add_custom_command(
