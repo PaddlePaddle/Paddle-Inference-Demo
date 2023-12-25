@@ -10,7 +10,12 @@ if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
   exit 1
 fi
 
-# 2. compile
+# 2. check CMakeLists exists
+if [ ! -f "${work_path}/CMakeLists.txt" ]; then
+  cp -a "${work_path}/../../lib/CMakeLists.txt" "${work_path}/"
+fi
+
+# 3. compile
 mkdir -p build
 cd build
 rm -rf *

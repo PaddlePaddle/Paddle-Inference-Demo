@@ -14,6 +14,7 @@ option(WITH_LOONGARCH "Compile demo with LOONGARCH" OFF)
 option(WITH_SW "Compile demo with SW" OFF)
 option(WITH_XPU "Compile demo with xpu" OFF)
 option(WITH_NPU "Compile demo with npu" OFF)
+option(CUSTOM_OPERATOR_FILES "List of file names for custom operators" "")
 
 if(NOT WITH_STATIC_LIB)
   add_definitions("-DPADDLE_WITH_SHARED_LIB")
@@ -59,6 +60,15 @@ link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}cryptopp/lib")
 link_directories("${PADDLE_LIB}/paddle/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}paddle2onnx/lib")
+
+if(WITH_GPU)
+  find_package(CUDA REQUIRED)
+  add_definitions("-DPADDLE_WITH_CUDA")
+endif()
+
+if(USE_TENSORRT)
+  add_definitions("-DPADDLE_WITH_TENSORRT")
+endif()
 
 if(WIN32)
   add_definitions("/DGOOGLE_GLOG_DLL_DECL=")
@@ -295,8 +305,14 @@ if(WITH_NPU AND NOT WIN32)
   )
 endif()
 
+if(${CUSTOM_OPERATOR_FILES}) 
+  cuda_add_library(pd_infer_custom_op ${CUSTOM_OPERATOR_FILES} SHARED)
+  set(DEPS ${DEPS} pd_infer_custom_op)
+endif()
+
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
 target_link_libraries(${DEMO_NAME} ${DEPS})
+
 if(WIN32)
   if(USE_TENSORRT)
     add_custom_command(
