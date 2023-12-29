@@ -343,8 +343,6 @@ if(WIN32)
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/mklml.dll
               ${CMAKE_BINARY_DIR}/Release
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/libiomp5md.dll
-              ${CMAKE_BINARY_DIR}/Release
-      COMMAND ${CMAKE_COMMAND} -E copy ${MKLDNN_PATH}/lib/mkldnn.dll
               ${CMAKE_BINARY_DIR}/Release)
   else()
     add_custom_command(
