@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(cpp_inference_demo CXX C)
+project(cpp_inference_demo CXX C CUDA)
 option(WITH_MKL "Compile demo with MKL/OpenBlas support, default use MKL." ON)
 option(WITH_GPU "Compile demo with GPU/CPU, default use CPU." OFF)
 option(WITH_STATIC_LIB
@@ -306,7 +306,7 @@ if(WITH_NPU AND NOT WIN32)
 endif()
 
 if(CUSTOM_OPERATOR_FILES) 
-  cuda_add_library(pd_infer_custom_op ${CUSTOM_OPERATOR_FILES} SHARED)
+  add_library(pd_infer_custom_op SHARED ${CUSTOM_OPERATOR_FILES})
   set(DEPS ${DEPS} pd_infer_custom_op)
 endif()
 
