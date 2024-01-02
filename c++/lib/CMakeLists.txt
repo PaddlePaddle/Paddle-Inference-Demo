@@ -229,6 +229,7 @@ if(NOT WIN32)
   if(WITH_SHARED_PHI)
     set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/libphi${CMAKE_SHARED_LIBRARY_SUFFIX})
   endif()
+  set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/libcommon${CMAKE_SHARED_LIBRARY_SUFFIX})
 else()
   set(DEPS
       ${DEPS}
@@ -241,6 +242,7 @@ else()
       cryptopp-static
       ${EXTERNAL_LIB})
   set(DEPS ${DEPS} shlwapi.lib)
+  set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/common${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
 
 if(WITH_GPU)
