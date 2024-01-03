@@ -10,9 +10,15 @@ if [ ! -d "${work_path}/../../lib/paddle_inference" ]; then
   exit 1
 fi
 
-# 2. compile
+# 2. check CMakeLists exists
+if [ ! -f "${work_path}/CMakeLists.txt" ]; then
+  cp -a "${work_path}/../../lib/CMakeLists.txt" "${work_path}/"
+fi
+
+# 3. compile
 mkdir -p build
 cd build
+rm -rf *
 
 DEMO_NAME=custom_op_test
 
@@ -20,6 +26,7 @@ WITH_MKL=ON
 WITH_GPU=ON
 USE_TENSORRT=OFF
 WITH_ONNXRUNTIME=ON
+WITH_SHARED_PHI=ON
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDNN_LIB=/usr/lib/x86_64-linux-gnu/
@@ -38,6 +45,7 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DCUDA_LIB=${CUDA_LIB} \
   -DTENSORRT_ROOT=${TENSORRT_ROOT} \
   -DCUSTOM_OPERATOR_FILES=${CUSTOM_OPERATOR_FILES} \
-  -DWITH_ONNXRUNTIME=${WITH_ONNXRUNTIME}
+  -DWITH_ONNXRUNTIME=${WITH_ONNXRUNTIME} \
+  -DWITH_SHARED_PHI=${WITH_SHARED_PHI}
 
 make -j

@@ -1,18 +1,20 @@
 cmake_minimum_required(VERSION 3.0)
-project(cpp_inference_demo CXX C)
+project(cpp_inference_demo CXX C CUDA)
 option(WITH_MKL "Compile demo with MKL/OpenBlas support, default use MKL." ON)
 option(WITH_GPU "Compile demo with GPU/CPU, default use CPU." OFF)
 option(WITH_STATIC_LIB
        "Compile demo with static/shared library, default don't use static." OFF)
 option(USE_TENSORRT "Compile demo with TensorRT." OFF)
+option(WITH_SHARED_PHI "Compile demo with phi shared lib" ON)
 option(WITH_ROCM "Compile demo with rocm." OFF)
 option(WITH_ONNXRUNTIME "Compile demo with ONNXRuntime" OFF)
 option(WITH_ARM "Compile demo with ARM" OFF)
 option(WITH_MIPS "Compile demo with MIPS" OFF)
 option(WITH_LOONGARCH "Compile demo with LOONGARCH" OFF)
 option(WITH_SW "Compile demo with SW" OFF)
-option(WITH_XPU "Compile demow ith xpu" OFF)
-option(WITH_NPU "Compile demow ith npu" OFF)
+option(WITH_XPU "Compile demo with xpu" OFF)
+option(WITH_NPU "Compile demo with npu" OFF)
+option(CUSTOM_OPERATOR_FILES "List of file names for custom operators" "")
 
 if(NOT WITH_STATIC_LIB)
   add_definitions("-DPADDLE_WITH_SHARED_LIB")
@@ -58,6 +60,15 @@ link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}cryptopp/lib")
 link_directories("${PADDLE_LIB}/paddle/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}paddle2onnx/lib")
+
+if(WITH_GPU)
+  find_package(CUDA REQUIRED)
+  add_definitions("-DPADDLE_WITH_CUDA")
+endif()
+
+if(USE_TENSORRT)
+  add_definitions("-DPADDLE_WITH_TENSORRT")
+endif()
 
 if(WIN32)
   add_definitions("/DGOOGLE_GLOG_DLL_DECL=")
@@ -153,7 +164,7 @@ if(WITH_MKL)
   if(EXISTS ${MKLDNN_PATH})
     include_directories("${MKLDNN_PATH}/include")
     if(WIN32)
-      set(MKLDNN_LIB ${MKLDNN_PATH}/lib/dnnl.dll)
+      set(MKLDNN_LIB ${MKLDNN_PATH}/lib/mkldnn.lib)
     else()
       set(MKLDNN_LIB ${MKLDNN_PATH}/lib/libdnnl.so.3)
     endif()
@@ -215,6 +226,10 @@ if(NOT WIN32)
       xxhash
       cryptopp
       ${EXTERNAL_LIB})
+  if(WITH_SHARED_PHI)
+    set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/libphi${CMAKE_SHARED_LIBRARY_SUFFIX})
+  endif()
+  set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/libcommon${CMAKE_SHARED_LIBRARY_SUFFIX})
 else()
   set(DEPS
       ${DEPS}
@@ -227,6 +242,7 @@ else()
       cryptopp-static
       ${EXTERNAL_LIB})
   set(DEPS ${DEPS} shlwapi.lib)
+  set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/common.lib)
 endif()
 
 if(WITH_GPU)
@@ -245,7 +261,7 @@ if(WITH_GPU)
                ${TENSORRT_LIB_DIR}/nvinfer${CMAKE_STATIC_LIBRARY_SUFFIX})
       set(DEPS ${DEPS}
                ${TENSORRT_LIB_DIR}/nvinfer_plugin${CMAKE_STATIC_LIBRARY_SUFFIX})
-      if(${TENSORRT_MAJOR_VERSION} GREATER_EQUAL 7)
+      if(${TENSORRT_MAJOR_VERSION} EQUAL 7)
         set(DEPS ${DEPS}
                  ${TENSORRT_LIB_DIR}/myelin64_1${CMAKE_STATIC_LIBRARY_SUFFIX})
       endif()
@@ -291,8 +307,14 @@ if(WITH_NPU AND NOT WIN32)
   )
 endif()
 
+if(CUSTOM_OPERATOR_FILES) 
+  add_library(pd_infer_custom_op SHARED ${CUSTOM_OPERATOR_FILES})
+  set(DEPS ${DEPS} pd_infer_custom_op)
+endif()
+
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
 target_link_libraries(${DEMO_NAME} ${DEPS})
+
 if(WIN32)
   if(USE_TENSORRT)
     add_custom_command(
@@ -306,7 +328,7 @@ if(WIN32)
         ${CMAKE_COMMAND} -E copy
         ${TENSORRT_LIB_DIR}/nvinfer_plugin${CMAKE_SHARED_LIBRARY_SUFFIX}
         ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-    if(${TENSORRT_MAJOR_VERSION} GREATER_EQUAL 7)
+    if(${TENSORRT_MAJOR_VERSION} EQUAL 7)
       add_custom_command(
         TARGET ${DEMO_NAME}
         POST_BUILD
@@ -321,17 +343,23 @@ if(WIN32)
       TARGET ${DEMO_NAME}
       POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/mklml.dll
-              ${CMAKE_BINARY_DIR}/Release
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/libiomp5md.dll
-              ${CMAKE_BINARY_DIR}/Release
-      COMMAND ${CMAKE_COMMAND} -E copy ${MKLDNN_PATH}/lib/dnnl.dll
-              ${CMAKE_BINARY_DIR}/Release)
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    set(MKLDNN_PATH "${PADDLE_LIB_THIRD_PARTY_PATH}mkldnn")
+    if(EXISTS ${MKLDNN_PATH})
+      add_custom_command(
+      TARGET ${DEMO_NAME}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${MKLDNN_PATH}/lib/mkldnn.dll
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    endif()
   else()
     add_custom_command(
       TARGET ${DEMO_NAME}
       POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy ${OPENBLAS_LIB_PATH}/lib/openblas.dll
-              ${CMAKE_BINARY_DIR}/Release)
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
   endif()
   if(WITH_ONNXRUNTIME)
     add_custom_command(
@@ -355,4 +383,9 @@ if(WIN32)
         "${PADDLE_LIB}/paddle/lib/paddle_inference.dll"
         ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
   endif()
+  add_custom_command(
+      TARGET ${DEMO_NAME}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${PADDLE_LIB}/paddle/lib/common.dll
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 endif()

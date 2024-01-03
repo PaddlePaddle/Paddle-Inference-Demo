@@ -129,7 +129,7 @@ predictor->ClearIntermediateTensor();
 predictor->TryShrinkMemory();
 ```
 
-## 获取 OP 中间输出 paddle_infer::Tensor
+## 获取 OP 中间输出 paddle::Tensor
 
 API 定义如下：
 
@@ -228,3 +228,15 @@ predictor->RegisterOutputHook(get_current_memory);
 输出结果（`op type`、`device id`、`memory usage(MiB)`、`memory usage(%)`）：
 
 ![image](https://user-images.githubusercontent.com/23653004/196133166-7705c00b-2d0a-499d-bfae-39ecb5b1e9e4.png)
+
+## 获取 OP 中间输入 paddle::Tensor
+API定义如下，示例参考上一节《获取 OP 中间输出 paddle::Tensor》。
+```c++
+// 获取中间 op 的输入 paddle::Tensor
+// 参数：OutputHookFunc    - hook 函数签名为 void(const std::string&, const std::string&, const paddle::Tensor&)
+//                              第一个参数是 op type（name）
+//                              第二个参数是输出 paddle::Tensor‘s name
+//                              第三个参数是输出 paddle::Tensor
+// 返回：None
+void RegisterInputHook(const OutputHookFunc& hookfunc);
+```

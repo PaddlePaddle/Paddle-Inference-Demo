@@ -5,6 +5,7 @@ option(WITH_GPU "Compile demo with GPU/CPU, default use CPU." OFF)
 option(WITH_STATIC_LIB
        "Compile demo with static/shared library, default don't use static." OFF)
 option(USE_TENSORRT "Compile demo with TensorRT." OFF)
+option(WITH_SHARED_PHI "Compile demo with phi shared lib" ON)
 option(WITH_ROCM "Compile demo with rocm." OFF)
 option(WITH_ONNXRUNTIME "Compile demo with ONNXRuntime" OFF)
 option(WITH_ARM "Compile demo with ARM" OFF)
@@ -215,6 +216,9 @@ if(NOT WIN32)
       xxhash
       cryptopp
       ${EXTERNAL_LIB})
+  if(WITH_SHARED_PHI)
+    set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/libphi${CMAKE_SHARED_LIBRARY_SUFFIX})
+  endif()
 else()
   set(DEPS
       ${DEPS}
