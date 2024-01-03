@@ -343,15 +343,24 @@ if(WIN32)
       TARGET ${DEMO_NAME}
       POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/mklml.dll
-              ${CMAKE_BINARY_DIR}/Release
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/libiomp5md.dll
-              ${CMAKE_BINARY_DIR}/Release)
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    set(MKLDNN_PATH "${PADDLE_LIB_THIRD_PARTY_PATH}mkldnn")
+    if(EXISTS ${MKLDNN_PATH})
+      add_custom_command(
+      TARGET ${DEMO_NAME}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${MKLDNN_PATH}/lib/mkldnn.dll
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    endif()
+  endif()
   else()
     add_custom_command(
       TARGET ${DEMO_NAME}
       POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy ${OPENBLAS_LIB_PATH}/lib/openblas.dll
-              ${CMAKE_BINARY_DIR}/Release)
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
   endif()
   if(WITH_ONNXRUNTIME)
     add_custom_command(
@@ -375,4 +384,9 @@ if(WIN32)
         "${PADDLE_LIB}/paddle/lib/paddle_inference.dll"
         ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
   endif()
+  add_custom_command(
+      TARGET ${DEMO_NAME}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${PADDLE_LIB}/paddle/lib/common.dll
+              ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 endif()
