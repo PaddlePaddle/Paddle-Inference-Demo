@@ -242,7 +242,7 @@ else()
       cryptopp-static
       ${EXTERNAL_LIB})
   set(DEPS ${DEPS} shlwapi.lib)
-  set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/common${CMAKE_SHARED_LIBRARY_SUFFIX})
+  set(DEPS ${DEPS} ${PADDLE_LIB}/paddle/lib/common.lib)
 endif()
 
 if(WITH_GPU)
