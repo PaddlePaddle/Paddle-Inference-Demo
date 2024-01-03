@@ -354,7 +354,6 @@ if(WIN32)
       COMMAND ${CMAKE_COMMAND} -E copy ${MKLDNN_PATH}/lib/mkldnn.dll
               ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
     endif()
-  endif()
   else()
     add_custom_command(
       TARGET ${DEMO_NAME}
