@@ -77,6 +77,7 @@ paddle.inference.Config.enable_mkldnn_bfloat16()
 # 返回：None
 paddle.inference.Config.set_bfloat16_op(op_list: Set[str])
 
+
 # 启用 MKLDNN INT8
 # 参数：使用 MKLDNN INT8 加速的 OP 集合
 # 返回：None

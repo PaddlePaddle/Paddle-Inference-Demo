@@ -19,6 +19,7 @@ DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_bool(use_ort, false, "use ort.");
+DEFINE_bool(quantize_model, false, "Deploy quantize model or not.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -33,17 +34,20 @@ std::shared_ptr<Predictor> InitPredictor() {
   Config config;
   if (FLAGS_model_dir != "") {
     config.SetModel(FLAGS_model_dir);
+  } else {
+    config.SetModel(FLAGS_model_file, FLAGS_params_file);
   }
-  config.SetModel(FLAGS_model_file, FLAGS_params_file);
   if (FLAGS_use_ort) {
-    // 使用onnxruntime推理
+    // use onnxruntime to infer
     config.EnableONNXRuntime();
-    // 开启onnxruntime优化
+    // enable onnxruntime optimization
     config.EnableORTOptimization();
   } else {
     config.EnableMKLDNN();
+    if(FLAGS_quantize_model){
+      config.EnableMkldnnInt8();
+    }
   }
-
   // Open the memory optim.
   config.EnableMemoryOptim();
   return CreatePredictor(config);

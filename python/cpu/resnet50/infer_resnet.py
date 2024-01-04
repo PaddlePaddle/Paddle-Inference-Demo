@@ -24,6 +24,9 @@ def init_predictor(args):
         # The thread num should not be greater than the number of cores in the CPU.
         config.set_cpu_math_library_num_threads(4)
         config.enable_mkldnn()
+        config.switch_ir_optim()
+        if args.quantize_model:
+            config.enable_mkldnn_int8() 
 
     predictor = create_predictor(config)
     return predictor
@@ -73,6 +76,10 @@ def parse_args():
         help=
         "Model dir, If you load a non-combined model, specify the directory of the model."
     )
+    parser.add_argument("--quantize_model",
+                        type=int,
+                        default=0,
+                        help="Whether deploy a quantize_model.")
     parser.add_argument("--use_onnxruntime",
                         type=int,
                         default=0,
