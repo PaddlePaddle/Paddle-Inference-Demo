@@ -81,6 +81,11 @@ paddle.inference.Config.set_bfloat16_op(op_list: Set[str])
 # 参数：使用 MKLDNN INT8 加速的 OP 集合
 # 返回：None
 paddle.inference.Config.enable_mkldnn_int8(op_list: Set[str])
+
+# 关闭 MKLDNN 的 FC kernel
+# 参数：None
+# 返回：None
+addle.inference.Config.disable_mkldnn_fc_passes()
 ```
 
 代码示例 (1)：使用 MKLDNN 进行预测
