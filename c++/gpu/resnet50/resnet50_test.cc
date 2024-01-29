@@ -38,6 +38,7 @@ DEFINE_string(
     "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_bool(use_dynamic_shape, false, "use trt dynaminc shape.");
 DEFINE_bool(use_calib, true, "use trt int8 calibration.");
+DEFINE_string(dynamic_shape_file,"","dynamic shape file.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -55,7 +56,8 @@ std::shared_ptr<Predictor> InitPredictor() {
   }
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
   config.EnableUseGpu(500, 0);
-
+   // 收集shape信息
+  config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
   if (FLAGS_run_mode == "trt_fp32") {
     config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
                                 PrecisionType::kFloat32, false, false);
@@ -66,16 +68,9 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
                                 PrecisionType::kInt8, false, FLAGS_use_calib);
   }
-
   if (FLAGS_use_dynamic_shape) {
-    std::map<std::string, std::vector<int>> min_input_shape = {
-        {"inputs", {FLAGS_batch_size, 3, 112, 112}}};
-    std::map<std::string, std::vector<int>> max_input_shape = {
-        {"inputs", {FLAGS_batch_size, 3, 448, 448}}};
-    std::map<std::string, std::vector<int>> opt_input_shape = {
-        {"inputs", {FLAGS_batch_size, 3, 224, 224}}};
-    config.SetTRTDynamicShapeInfo(min_input_shape, max_input_shape,
-                                  opt_input_shape);
+    // config.CollectShapeRangeInfo("FLAGS_dynamic_shape_file");
+    config.EnableTunedTensorRtDynamicShape(FLAGS_dynamic_shape_file);
   }
 
   // Open the memory optim.
@@ -114,15 +109,15 @@ void run(Predictor *predictor, const std::vector<float> &input,
 int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = InitPredictor();
-  std::vector<int> input_shape = {FLAGS_batch_size, 3, 224, 224};
-  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
+  std::vector<int> input_shape = {FLAGS_batch_size, 3, 1500, 2000};
+  std::vector<float> input_data(FLAGS_batch_size * 3 * 1500 * 2000);
   for (size_t i = 0; i < input_data.size(); ++i)
     input_data[i] = i % 255 * 0.1;
   std::vector<float> out_data;
   run(predictor.get(), input_data, input_shape, &out_data);
 
-  for (size_t i = 0; i < out_data.size(); i += 100) {
-    LOG(INFO) << i << " : " << out_data[i] << std::endl;
-  }
+  // for (size_t i = 0; i < out_data.size(); i += 100) {
+  //   LOG(INFO) << i << " : " << out_data[i] << std::endl;
+  // }
   return 0;
 }
