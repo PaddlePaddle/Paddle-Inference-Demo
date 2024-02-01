@@ -57,7 +57,7 @@ std::shared_ptr<Predictor> InitPredictor() {
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
   config.EnableUseGpu(500, 0);
    // 收集shape信息
-  config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
+  // config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
   if (FLAGS_run_mode == "trt_fp32") {
     config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
                                 PrecisionType::kFloat32, false, false);
@@ -70,7 +70,7 @@ std::shared_ptr<Predictor> InitPredictor() {
   }
   if (FLAGS_use_dynamic_shape) {
     // config.CollectShapeRangeInfo("FLAGS_dynamic_shape_file");
-    config.EnableTunedTensorRtDynamicShape(FLAGS_dynamic_shape_file);
+    config.EnableTunedTensorRtDynamicShape("shape_range.txt");
   }
 
   // Open the memory optim.
