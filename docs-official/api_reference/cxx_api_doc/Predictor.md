@@ -81,11 +81,6 @@ bool Run(const std::vector<paddle::Tensor>& inputs, std::vector<paddle::Tensor> 
 // 返回：std::unique_ptr<Predictor> - 新的 Predictor
 std::unique_ptr<Predictor> Clone();
 
-// 释放中间Tensor
-// 参数：None
-// 返回：None
-void ClearIntermediateTensor();
-
 // 释放内存池中的所有临时 Tensor
 // 参数：None
 // 返回：uint64_t - 释放的内存字节数
@@ -121,9 +116,6 @@ int out_num = std::accumulate(output_shape.begin(), output_shape.end(),
 std::vector<float> out_data;
 out_data.resize(out_num);
 output_tensor->CopyToCpu(out_data.data());
-
-// 释放中间Tensor
-predictor->ClearIntermediateTensor();
 
 // 释放内存池中的所有临时 Tensor
 predictor->TryShrinkMemory();
