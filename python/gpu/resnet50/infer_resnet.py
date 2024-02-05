@@ -1,16 +1,28 @@
-import numpy as np
+# Copyright (c) 2024 PaddlePaddle Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import argparse
+
 import cv2
-
-from paddle.inference import Config
-from paddle.inference import create_predictor
-from paddle.inference import PrecisionType
-
+import numpy as np
 from img_preprocess import preprocess
+
+from paddle.inference import Config, PrecisionType, create_predictor
 
 
 def init_predictor(args):
-    if args.model_dir is not "":
+    if args.model_dir != "":
         config = Config(args.model_dir)
     else:
         config = Config(args.model_file, args.params_file)
@@ -50,18 +62,10 @@ def init_predictor(args):
             use_static=False,
             use_calib_mode=True,
         )
-    if args.use_dynamic_shape:
-        names = ["inputs"]
-        min_input_shape = [[1, 3, 112, 112]]
-        max_input_shape = [[1, 3, 448, 448]]
-        opt_input_shape = [[1, 3, 224, 224]]
-
-        config.set_trt_dynamic_shape_info(
-            {names[0]: min_input_shape[0]},
-            {names[0]: max_input_shape[0]},
-            {names[0]: opt_input_shape[0]},
-        )
-
+    if args.use_dynamic_shape and args.use_collect_shape:
+        config.collect_shape_range_info(args.dynamic_shape_file)
+    elif args.use_dynamic_shape and not args.use_collect_shape:
+        config.enable_tuned_tensorrt_dynamic_shape(args.dynamic_shape_file)
     predictor = create_predictor(config)
     return predictor
 
@@ -119,6 +123,18 @@ def parse_args():
         type=int,
         default=0,
         help="Whether use trt dynamic shape.",
+    )
+    parser.add_argument(
+        "--use_collect_shape",
+        type=int,
+        default=0,
+        help="Whether use trt collect shape.",
+    )
+    parser.add_argument(
+        "--dynamic_shape_file",
+        type=str,
+        default="",
+        help="The file path of dynamic shape info.",
     )
 
     return parser.parse_args()
