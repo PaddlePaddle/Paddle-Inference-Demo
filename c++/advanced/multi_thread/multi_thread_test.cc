@@ -1,3 +1,17 @@
+// Copyright (c) 2024 PaddlePaddle Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -24,31 +38,25 @@ DEFINE_int32(thread_num, 5, "thread num");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
-double time_diff(Time t1, Time t2)
-{
+double time_diff(Time t1, Time t2) {
   typedef std::chrono::microseconds ms;
   auto diff = t2 - t1;
   ms counter = std::chrono::duration_cast<ms>(diff);
   return counter.count() / 1000.0;
 }
 
-std::shared_ptr<Predictor> InitPredictor()
-{
+std::shared_ptr<Predictor> InitPredictor() {
   Config config;
-  if (FLAGS_model_dir != "")
-  {
+  if (FLAGS_model_dir != "") {
     config.SetModel(FLAGS_model_dir);
   }
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
-  if (FLAGS_use_ort)
-  {
+  if (FLAGS_use_ort) {
     // 使用onnxruntime推理
     config.EnableONNXRuntime();
     // 开启onnxruntime优化
     config.EnableORTOptimization();
-  }
-  else
-  {
+  } else {
     config.EnableMKLDNN();
   }
 
@@ -57,13 +65,14 @@ std::shared_ptr<Predictor> InitPredictor()
   return CreatePredictor(config);
 }
 
-void run(Predictor *predictor, int thread_id, const std::vector<float> &input_data,
-         const std::vector<int> &input_shape)
-{
+void run(Predictor *predictor,
+         int thread_id,
+         const std::vector<float> &input_data,
+         const std::vector<int> &input_shape) {
   std::vector<float> out_data;
 
-  int input_num = std::accumulate(input_shape.begin(), input_shape.end(), 1,
-                                  std::multiplies<int>());
+  int input_num = std::accumulate(
+      input_shape.begin(), input_shape.end(), 1, std::multiplies<int>());
 
   auto input_names = predictor->GetInputNames();
   auto output_names = predictor->GetOutputNames();
@@ -71,17 +80,15 @@ void run(Predictor *predictor, int thread_id, const std::vector<float> &input_da
   input_t->Reshape(input_shape);
   input_t->CopyFromCpu(input_data.data());
 
-  for (size_t i = 0; i < FLAGS_warmup; ++i)
-    CHECK(predictor->Run());
+  for (size_t i = 0; i < FLAGS_warmup; ++i) CHECK(predictor->Run());
 
   auto st = time();
-  for (size_t i = 0; i < FLAGS_repeats; ++i)
-  {
+  for (size_t i = 0; i < FLAGS_repeats; ++i) {
     CHECK(predictor->Run());
     auto output_t = predictor->GetOutputHandle(output_names[0]);
     std::vector<int> output_shape = output_t->shape();
-    int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
-                                  std::multiplies<int>());
+    int out_num = std::accumulate(
+        output_shape.begin(), output_shape.end(), 1, std::multiplies<int>());
     out_data.resize(out_num);
     output_t->CopyToCpu(out_data.data());
   }
@@ -91,43 +98,38 @@ void run(Predictor *predictor, int thread_id, const std::vector<float> &input_da
             << " ms";
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   google::ParseCommandLineFlags(&argc, &argv, true);
 
   auto main_predictor = InitPredictor();
   std::vector<decltype(main_predictor)> predictors;
-  for (int i = 0; i < FLAGS_thread_num; ++i)
-  {
+  for (int i = 0; i < FLAGS_thread_num; ++i) {
     predictors.emplace_back(std::move(main_predictor->Clone()));
   }
   std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
-  for (size_t i = 0; i < input_data.size(); ++i)
-    input_data[i] = i % 255 * 0.1;
+  for (size_t i = 0; i < input_data.size(); ++i) input_data[i] = i % 255 * 0.1;
 
   std::vector<int> strides(FLAGS_thread_num + 1, 0);
-  for (int i = 1; i < strides.size(); ++i)
-  {
-    if (i == strides.size() - 1)
-    {
-      strides[i] = strides[i - 1] + FLAGS_batch_size / FLAGS_thread_num + FLAGS_batch_size % FLAGS_thread_num;
-    }
-    else
-    {
+  for (int i = 1; i < strides.size(); ++i) {
+    if (i == strides.size() - 1) {
+      strides[i] = strides[i - 1] + FLAGS_batch_size / FLAGS_thread_num +
+                   FLAGS_batch_size % FLAGS_thread_num;
+    } else {
       strides[i] = strides[i - 1] + FLAGS_batch_size / FLAGS_thread_num;
     }
   }
 
   std::vector<std::thread> threads;
-  for (int i = 0; i < FLAGS_thread_num; ++i)
-  {
+  for (int i = 0; i < FLAGS_thread_num; ++i) {
     std::vector<int> input_shape = {strides[i + 1] - strides[i], 3, 224, 224};
-    std::vector<float> input_data_i(input_data.begin() + strides[i] * 3 * 224 * 224, input_data.begin() + strides[i + 1] * 3 * 224 * 224);
-    threads.emplace_back(run, predictors[i].get(), i, input_data_i, input_shape);
+    std::vector<float> input_data_i(
+        input_data.begin() + strides[i] * 3 * 224 * 224,
+        input_data.begin() + strides[i + 1] * 3 * 224 * 224);
+    threads.emplace_back(
+        run, predictors[i].get(), i, input_data_i, input_shape);
   }
 
-  for (int i = 0; i < FLAGS_thread_num; ++i)
-  {
+  for (int i = 0; i < FLAGS_thread_num; ++i) {
     threads[i].join();
   }
   LOG(INFO) << "Run done";
