@@ -12,16 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import numpy as np
 import argparse
+
 import cv2
+import numpy as np
 from PIL import Image
+from utils import draw_bbox, preprocess
 
-from paddle.inference import Config
-from paddle.inference import create_predictor
-from paddle.inference import PrecisionType
-
-from utils import preprocess, draw_bbox
+from paddle.inference import Config, PrecisionType, create_predictor
 
 
 def init_predictor(args):
@@ -59,81 +57,11 @@ def init_predictor(args):
             use_static=False,
             use_calib_mode=True,
         )
-    if args.use_dynamic_shape:
-        names = [
-            "image",
-            "batch_norm_45.tmp_2",
-            "deformable_conv_0.tmp_0",
-            "relu_44.tmp_0",
-            "deformable_conv_1.tmp_0",
-            "relu_23.tmp_0",
-            "relu_47.tmp_0",
-            "deformable_conv_2.tmp_0",
-        ]
-        min_input_shape = [
-            [1, 3, 608, 608],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-            [1, 512, 76, 76],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-        ]
-        max_input_shape = [
-            [1, 3, 608, 608],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-            [1, 512, 76, 76],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-        ]
-        opt_input_shape = [
-            [1, 3, 608, 608],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-            [1, 512, 76, 76],
-            [1, 2048, 19, 19],
-            [1, 512, 19, 19],
-        ]
 
-        config.set_trt_dynamic_shape_info(
-            {
-                names[0]: min_input_shape[0],
-                names[1]: min_input_shape[1],
-                names[2]: min_input_shape[2],
-                names[3]: min_input_shape[3],
-                names[4]: min_input_shape[4],
-                names[5]: min_input_shape[5],
-                names[6]: min_input_shape[6],
-                names[7]: min_input_shape[7],
-            },
-            {
-                names[0]: max_input_shape[0],
-                names[1]: max_input_shape[1],
-                names[2]: max_input_shape[2],
-                names[3]: max_input_shape[3],
-                names[4]: max_input_shape[4],
-                names[5]: max_input_shape[5],
-                names[6]: max_input_shape[6],
-                names[7]: max_input_shape[7],
-            },
-            {
-                names[0]: opt_input_shape[0],
-                names[1]: opt_input_shape[1],
-                names[2]: opt_input_shape[2],
-                names[3]: opt_input_shape[3],
-                names[4]: opt_input_shape[4],
-                names[5]: opt_input_shape[5],
-                names[6]: opt_input_shape[6],
-                names[7]: opt_input_shape[7],
-            },
-        )
-
+    if args.use_dynamic_shape and args.use_collect_shape:
+        config.collect_shape_range_info(args.dynamic_shape_file)
+    elif args.use_dynamic_shape and not args.use_collect_shape:
+        config.enable_tuned_tensorrt_dynamic_shape(args.dynamic_shape_file)
     predictor = create_predictor(config)
     return predictor
 
@@ -190,6 +118,18 @@ def parse_args():
         type=int,
         default=0,
         help="Whether use trt dynamic shape.",
+    )
+    parser.add_argument(
+        "--use_collect_shape",
+        type=int,
+        default=0,
+        help="Whether use trt collect shape.",
+    )
+    parser.add_argument(
+        "--dynamic_shape_file",
+        type=str,
+        default="",
+        help="The file path of dynamic shape info.",
     )
     return parser.parse_args()
 
