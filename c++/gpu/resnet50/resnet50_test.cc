@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include <chrono>
-#include <iostream>
 #include <memory>
 #include <numeric>
 
@@ -34,11 +33,13 @@ DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_string(
-    run_mode, "paddle_gpu",
+    run_mode,
+    "paddle_gpu",
     "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_bool(use_dynamic_shape, false, "use trt dynaminc shape.");
 DEFINE_bool(use_calib, true, "use trt int8 calibration.");
-DEFINE_string(dynamic_shape_file,"","dynamic shape file.");
+DEFINE_bool(use_collect_shape, false, "Collect trt shape information");
+DEFINE_string(dynamic_shape_file, "", "trt shape information name");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -56,21 +57,26 @@ std::shared_ptr<Predictor> InitPredictor() {
   }
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
   config.EnableUseGpu(500, 0);
-   // 收集shape信息
-  // config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
+
   if (FLAGS_run_mode == "trt_fp32") {
-    config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
-                                PrecisionType::kFloat32, false, false);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kFloat32, false, false);
   } else if (FLAGS_run_mode == "trt_fp16") {
-    config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
-                                PrecisionType::kHalf, false, false);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kHalf, false, false);
   } else if (FLAGS_run_mode == "trt_int8") {
-    config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
-                                PrecisionType::kInt8, false, FLAGS_use_calib);
+    config.EnableTensorRtEngine(1 << 30,
+                                FLAGS_batch_size,
+                                5,
+                                PrecisionType::kInt8,
+                                false,
+                                FLAGS_use_calib);
   }
-  if (FLAGS_use_dynamic_shape) {
-    // config.CollectShapeRangeInfo("FLAGS_dynamic_shape_file");
-    config.EnableTunedTensorRtDynamicShape("shape_range.txt");
+
+  if (FLAGS_use_dynamic_shape && FLAGS_use_collect_shape) {
+    config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
+  } else if (FLAGS_use_dynamic_shape && !FLAGS_use_collect_shape) {
+    config.EnableTunedTensorRtDynamicShape(FLAGS_dynamic_shape_file);
   }
 
   // Open the memory optim.
@@ -78,10 +84,12 @@ std::shared_ptr<Predictor> InitPredictor() {
   return CreatePredictor(config);
 }
 
-void run(Predictor *predictor, const std::vector<float> &input,
-         const std::vector<int> &input_shape, std::vector<float> *out_data) {
-  int input_num = std::accumulate(input_shape.begin(), input_shape.end(), 1,
-                                  std::multiplies<int>());
+void run(Predictor *predictor,
+         const std::vector<float> &input,
+         const std::vector<int> &input_shape,
+         std::vector<float> *out_data) {
+  int input_num = std::accumulate(
+      input_shape.begin(), input_shape.end(), 1, std::multiplies<int>());
 
   auto input_names = predictor->GetInputNames();
   auto output_names = predictor->GetOutputNames();
@@ -89,16 +97,15 @@ void run(Predictor *predictor, const std::vector<float> &input,
   input_t->Reshape(input_shape);
   input_t->CopyFromCpu(input.data());
 
-  for (size_t i = 0; i < FLAGS_warmup; ++i)
-    CHECK(predictor->Run());
+  for (size_t i = 0; i < FLAGS_warmup; ++i) CHECK(predictor->Run());
 
   auto st = time();
   for (size_t i = 0; i < FLAGS_repeats; ++i) {
     CHECK(predictor->Run());
     auto output_t = predictor->GetOutputHandle(output_names[0]);
     std::vector<int> output_shape = output_t->shape();
-    int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
-                                  std::multiplies<int>());
+    int out_num = std::accumulate(
+        output_shape.begin(), output_shape.end(), 1, std::multiplies<int>());
     out_data->resize(out_num);
     output_t->CopyToCpu(out_data->data());
   }
@@ -109,15 +116,14 @@ void run(Predictor *predictor, const std::vector<float> &input,
 int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = InitPredictor();
-  std::vector<int> input_shape = {FLAGS_batch_size, 3, 1500, 2000};
-  std::vector<float> input_data(FLAGS_batch_size * 3 * 1500 * 2000);
-  for (size_t i = 0; i < input_data.size(); ++i)
-    input_data[i] = i % 255 * 0.1;
+  std::vector<int> input_shape = {FLAGS_batch_size, 3, 224, 224};
+  std::vector<float> input_data(FLAGS_batch_size * 3 * 224 * 224);
+  for (size_t i = 0; i < input_data.size(); ++i) input_data[i] = i % 255 * 0.1;
   std::vector<float> out_data;
   run(predictor.get(), input_data, input_shape, &out_data);
 
-  // for (size_t i = 0; i < out_data.size(); i += 100) {
-  //   LOG(INFO) << i << " : " << out_data[i] << std::endl;
-  // }
+  for (size_t i = 0; i < out_data.size(); i += 100) {
+    LOG(INFO) << i << " : " << out_data[i] << std::endl;
+  }
   return 0;
 }
