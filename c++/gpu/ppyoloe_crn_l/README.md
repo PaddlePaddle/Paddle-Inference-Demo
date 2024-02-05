@@ -14,8 +14,8 @@ PP-YOLOE-l 样例展示了单输入模型在 GPU 下的推理过程。运行步�
 点击[链接](https://bj.bcebos.com/v1/paddle-slim-models/act/ppyoloe_crn_l_300e_coco.tar)下载模型。如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleClas)。
 
 ## 三：编译样例
- 
-- 文件`ppyoloe_crn_l.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
+
+- 文件`ppyoloe_crn_l.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
 - 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
 - 脚本`run.sh` 为一键运行脚本。
 
@@ -81,7 +81,7 @@ I0103 08:48:13.665902 94466 analysis_predictor.cc:2696] Generating TRT Calibrati
 #### 加载校准表执行预测
 
 ```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_int8 --use_calib=true
+./build/resnet50_test --model_file rppyoloe_crn_l_300e_coco/model.pdmodel --params_file ppyoloe_crn_l_300e_coco/model.pdiparams --run_mode=trt_int8 --use_calib=true
 ```
 
 加载校准表预测的log：
@@ -91,19 +91,24 @@ I0623 08:40:27.217834 107040 tensorrt_subgraph_pass.cc:321] Prepare TRT engine (
 ```
 
 ### 使用 TensorRT 加载 PaddleSlim Int8 量化模型预测
-这里，我们首先下载 [PP-YOLOE-l PaddleSlim量化模型](https://bj.bcebos.com/v1/paddle-slim-models/act/ppyoloe_crn_l_300e_coco_quant.tar)。
-也可以根据https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/pKzJfZczuc/Ar29fX6Lfo/S8OsiXdVD3RqHX文档中根据3.4节量化好的生成的
-文件夹，此处文件夹名字为ppyoloe_crn_l_300e_coco_quant，复制到Paddle-Inference-Demo/c++/gpu/ppyoloe_crn_l
+也可以根据[目标检测模型自动压缩示例](https://github.com/PaddlePaddle/PaddleSlim/tree/develop/example/auto_compression/detection)
+量化后生成的文件夹，此处文件夹名字为ppyoloe_crn_l_300e_coco_quant，复制到Paddle-Inference-Demo/c++/gpu/ppyoloe_crn_l
 
 与加载离线量化校准表执行 Int8 预测的区别是，PaddleSlim 量化模型已经将 scale 保存在模型 op 的属性中，这里我们就不再需要校准表了，所以在运行样例时将 `use_calib` 配置为 false。
 
 ```shell
-./build/ppyoloe_crn_l --model_file ppyoloe_crn_l_300e_coco_quant/model.pdmodel --params_file ppyoloe_crn_l_300e_coco_quant/model.pdiparams --run_mode=trt_int8
+./build/ppyoloe_crn_l --model_file ppyoloe_crn_l_300e_coco_quant/model.pdmodel --params_file ppyoloe_crn_l_300e_coco_quant/model.pdiparams --run_mode=trt_int8 --use_calib=false
 ```
 
 ### 使用 TensorRT dynamic shape 运行样例（以 Fp32 为例）
+- 动态 shape 运行时，需要指定 `use_dynamic_shape=1` 和 `use_collect_shape=true`，并指定 `dynamic_shape_file` 文件。
+先收集shape信息。
 ```shell
-./build/ppyoloe_crn_l  --model_file ppyoloe_crn_l/model.pdmodel --params_file ppyoloe_crn_l/model.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1
+./build/ppyoloe_crn_l --model_file ppyoloe_crn_l_300e_coco/model.pdmodel --params_file ppyoloe_crn_l_300e_coco/model.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=true --dynamic_shape_file=shape_range.txt
+```
+收集shape信息后，运行样例。
+```shell
+./build/ppyoloe_crn_l  --model_file ppyoloe_crn_l/model.pdmodel --params_file ppyoloe_crn_l/model.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=false --dynamic_shape_file=shape_range.txt
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
