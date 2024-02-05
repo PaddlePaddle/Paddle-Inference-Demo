@@ -14,8 +14,8 @@ ResNet50 样例展示了单输入模型在 GPU 下的推理过程。运行步骤
 点击[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz)下载模型。如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleClas)。
 
 ## 三：编译样例
- 
-- 文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。    
+
+- 文件`resnet50_test.cc` 为预测的样例程序（程序中的输入为固定值，如果您有opencv或其他方式进行数据读取的需求，需要对程序进行一定的修改）。
 - 脚本`compile.sh` 包含了第三方库、预编译库的信息配置。
 - 脚本`run.sh` 为一键运行脚本。
 
@@ -103,7 +103,11 @@ I0623 08:40:27.217834 107040 tensorrt_subgraph_pass.cc:321] Prepare TRT engine (
 
 ### 使用 TensorRT dynamic shape 运行样例（以 Fp32 为例）
 ```shell
-./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1
+./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=true --dynamic_shape_file=shape_range.txt
+```
+收集shape信息后，运行样例。
+```shell
+./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=false --dynamic_shape_file=shape_range.txt
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。

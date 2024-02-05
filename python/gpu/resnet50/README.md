@@ -29,18 +29,18 @@ ResNet50 样例展示了单输入模型在 GPU 下的推理过程。运行步骤
 
 ## 三：运行预测
 
-- 文件`img_preprocess.py`包含了图像的预处理。    
+- 文件`img_preprocess.py`包含了图像的预处理。
 - 文件`infer_resnet.py` 包含了创建predictor，读取示例图片，预测，获取输出的等功能。
 
 ### 使用原生 GPU 运行样例
 
 ```shell
-python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams 
+python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams
 ```
 ### 使用 GPU 混合精度推理 运行样例
 
 ```shell
-python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --run_mode=gpu_fp16 
+python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --run_mode=gpu_fp16
 ```
 
 ### 使用 Trt Fp32 运行样例
@@ -88,9 +88,14 @@ I0623 08:40:27.217834 107040 tensorrt_subgraph_pass.cc:321] Prepare TRT engine (
 ```
 
 ### 使用 Trt dynamic shape 运行样例（以 Fp32 为例）
-
+- 动态shape运行时，需要指定'use_dynamic_shape=1'和'use_collect_shape=1',并指定'dynamic_shape_file'文件。
+先收集shape信息。
 ```shell
-python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1
+python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=1 --dynamic_shape_file=shape_range.txt
+```
+收集shape信息后，运行样例
+```shell
+python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=./resnet50/inference.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=0 --dynamic_shape_file=shape_range.txt
 ```
 
 运行的结果为： ('class index: ', 13)。
@@ -100,4 +105,3 @@ python infer_resnet.py --model_file=./resnet50/inference.pdmodel --params_file=.
 
 ## 相关链接
 - [Paddle Inference Python Api使用](https://paddle-inference.readthedocs.io/en/latest/api_reference/python_api_index.html)
-

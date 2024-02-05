@@ -84,9 +84,14 @@ I0623 08:40:27.217834 107040 tensorrt_subgraph_pass.cc:321] Prepare TRT engine (
 ```
 
 ### 使用 Trt dynamic shape 运行样例（以 Fp32 为例）
-
+- 动态shape运行时，需要指定'use_dynamic_shape=1'和'use_collect_shape=1',并指定'dynamic_shape_file'文件。
+先收集shape信息
 ```shell
-python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=1 --dynamic_shape_file=shape_range.txt
+```
+收集shape信息后，运行样例
+```shell
+python infer_yolov3.py --model_file=yolov3_r50vd_dcn_270e_coco/model.pdmodel --params_file=yolov3_r50vd_dcn_270e_coco/model.pdiparams --run_mode=trt_fp32 --use_dynamic_shape=1 --use_collect_shape=0 --dynamic_shape_file=shape_range.txt
 ```
 
 输出结果如下所示：

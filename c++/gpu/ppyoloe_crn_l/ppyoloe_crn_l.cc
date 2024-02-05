@@ -41,6 +41,8 @@ DEFINE_int32(warmup, 50, "warmup");
 DEFINE_int32(repeats, 1000, "repeats");
 DEFINE_bool(use_dynamic_shape, false, "use trt dynaminc shape.");
 DEFINE_bool(use_calib, true, "use trt int8 calibration.");
+DEFINE_bool(use_collect_shape, false, "Collect trt shape information");
+DEFINE_string(dynamic_shape_file, "", "trt shape information name");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -82,15 +84,10 @@ std::shared_ptr<Predictor> InitPredictor() {
                                 false,
                                 FLAGS_use_calib);
   }
-  if (FLAGS_use_dynamic_shape) {
-    std::map<std::string, std::vector<int>> min_input_shape = {
-        {"image", {1, 3, 640, 640}}};
-    std::map<std::string, std::vector<int>> max_input_shape = {
-        {"image", {4, 3, 640, 640}}};
-    std::map<std::string, std::vector<int>> opt_input_shape = {
-        {"image", {2, 3, 640, 640}}};
-    config.SetTRTDynamicShapeInfo(
-        min_input_shape, max_input_shape, opt_input_shape);
+  if (FLAGS_use_dynamic_shape && FLAGS_use_collect_shape) {
+    config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
+  } else if (FLAGS_use_dynamic_shape && !FLAGS_use_collect_shape) {
+    config.EnableTunedTensorRtDynamicShape(FLAGS_dynamic_shape_file);
   }
   // Open the memory optim.
   config.EnableMemoryOptim();

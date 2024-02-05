@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include <chrono>
-#include <iostream>
 #include <memory>
 #include <numeric>
 
@@ -34,9 +33,12 @@ DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_string(
-    run_mode, "paddle_gpu",
+    run_mode,
+    "paddle_gpu",
     "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_bool(use_dynamic_shape, false, "use trt dynaminc shape.");
+DEFINE_bool(use_collect_shape, false, "Collect trt shape information");
+DEFINE_string(dynamic_shape_file, "", "trt shape information name");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -56,49 +58,20 @@ std::shared_ptr<Predictor> InitPredictor() {
   config.EnableUseGpu(500, 0);
 
   if (FLAGS_run_mode == "trt_fp32") {
-    config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
-                                PrecisionType::kFloat32, false, false);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kFloat32, false, false);
   } else if (FLAGS_run_mode == "trt_fp16") {
-    config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
-                                PrecisionType::kHalf, false, false);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kHalf, false, false);
   } else if (FLAGS_run_mode == "trt_int8") {
-    config.EnableTensorRtEngine(1 << 30, FLAGS_batch_size, 5,
-                                PrecisionType::kInt8, false, true);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kInt8, false, true);
   }
 
-  if (FLAGS_use_dynamic_shape) {
-    std::map<std::string, std::vector<int>> min_input_shape = {
-        {"image", {FLAGS_batch_size, 3, 608, 608}},
-        {"batch_norm_45.tmp_2", {FLAGS_batch_size, 2048, 19, 19}},
-        {"deformable_conv_0.tmp_0", {FLAGS_batch_size, 512, 19, 19}},
-        {"relu_44.tmp_0", {FLAGS_batch_size, 2048, 19, 19}},
-        {"relu_41.tmp_0", {FLAGS_batch_size, 1024, 38, 38}},
-        {"deformable_conv_1.tmp_0", {FLAGS_batch_size, 512, 19, 19}},
-        {"relu_23.tmp_0", {FLAGS_batch_size, 512, 76, 76}},
-        {"relu_47.tmp_0", {FLAGS_batch_size, 2048, 19, 19}},
-        {"deformable_conv_2.tmp_0", {FLAGS_batch_size, 512, 19, 19}}};
-    std::map<std::string, std::vector<int>> max_input_shape = {
-        {"image", {FLAGS_batch_size, 3, 608, 608}},
-        {"batch_norm_45.tmp_2", {FLAGS_batch_size, 2048, 19, 19}},
-        {"deformable_conv_0.tmp_0", {FLAGS_batch_size, 512, 19, 19}},
-        {"relu_44.tmp_0", {FLAGS_batch_size, 2048, 19, 19}},
-        {"relu_41.tmp_0", {FLAGS_batch_size, 1024, 38, 38}},
-        {"deformable_conv_1.tmp_0", {FLAGS_batch_size, 512, 19, 19}},
-        {"relu_23.tmp_0", {FLAGS_batch_size, 512, 76, 76}},
-        {"relu_47.tmp_0", {FLAGS_batch_size, 2048, 19, 19}},
-        {"deformable_conv_2.tmp_0", {FLAGS_batch_size, 512, 19, 19}}};
-    std::map<std::string, std::vector<int>> opt_input_shape = {
-        {"image", {FLAGS_batch_size, 3, 608, 608}},
-        {"batch_norm_45.tmp_2", {FLAGS_batch_size, 2048, 19, 19}},
-        {"deformable_conv_0.tmp_0", {FLAGS_batch_size, 512, 19, 19}},
-        {"relu_44.tmp_0", {FLAGS_batch_size, 2048, 19, 19}},
-        {"relu_41.tmp_0", {FLAGS_batch_size, 1024, 38, 38}},
-        {"deformable_conv_1.tmp_0", {FLAGS_batch_size, 512, 19, 19}},
-        {"relu_23.tmp_0", {FLAGS_batch_size, 512, 76, 76}},
-        {"relu_47.tmp_0", {FLAGS_batch_size, 2048, 19, 19}},
-        {"deformable_conv_2.tmp_0", {FLAGS_batch_size, 512, 19, 19}}};
-    config.SetTRTDynamicShapeInfo(min_input_shape, max_input_shape,
-                                  opt_input_shape);
+  if (FLAGS_use_dynamic_shape && FLAGS_use_collect_shape) {
+    config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
+  } else if (FLAGS_use_dynamic_shape && !FLAGS_use_collect_shape) {
+    config.EnableTunedTensorRtDynamicShape(FLAGS_dynamic_shape_file);
   }
 
   // Open the memory optim.
@@ -106,10 +79,12 @@ std::shared_ptr<Predictor> InitPredictor() {
   return CreatePredictor(config);
 }
 
-void run(Predictor *predictor, const std::vector<float> &input,
+void run(Predictor *predictor,
+         const std::vector<float> &input,
          const std::vector<int> &input_shape,
          const std::vector<float> &input_im,
-         const std::vector<int> &input_im_shape, std::vector<float> *out_data) {
+         const std::vector<int> &input_im_shape,
+         std::vector<float> *out_data) {
   auto input_names = predictor->GetInputNames();
   auto im_shape_handle = predictor->GetInputHandle(input_names[0]);
   im_shape_handle->Reshape(input_im_shape);
@@ -128,8 +103,8 @@ void run(Predictor *predictor, const std::vector<float> &input,
   auto output_names = predictor->GetOutputNames();
   auto output_t = predictor->GetOutputHandle(output_names[0]);
   std::vector<int> output_shape = output_t->shape();
-  int out_num = std::accumulate(output_shape.begin(), output_shape.end(), 1,
-                                std::multiplies<int>());
+  int out_num = std::accumulate(
+      output_shape.begin(), output_shape.end(), 1, std::multiplies<int>());
 
   out_data->resize(out_num);
   output_t->CopyToCpu(out_data->data());
@@ -151,7 +126,11 @@ int main(int argc, char *argv[]) {
   std::vector<float> input_im_data(FLAGS_batch_size * 2, 608);
 
   std::vector<float> out_data;
-  run(predictor.get(), input_data, input_shape, input_im_data, input_im_shape,
+  run(predictor.get(),
+      input_data,
+      input_shape,
+      input_im_data,
+      input_im_shape,
       &out_data);
   LOG(INFO) << "output num is " << out_data.size();
   return 0;
