@@ -81,7 +81,7 @@ I0103 08:48:13.665902 94466 analysis_predictor.cc:2696] Generating TRT Calibrati
 #### 加载校准表执行预测
 
 ```shell
-./build/ppyoloe_crn_l --model_file rppyoloe_crn_l_300e_coco/model.pdmodel --params_file ppyoloe_crn_l_300e_coco/model.pdiparams --run_mode=trt_int8 --use_calib=true
+./build/ppyoloe_crn_l --model_file ppyoloe_crn_l_300e_coco/model.pdmodel --params_file ppyoloe_crn_l_300e_coco/model.pdiparams --run_mode=trt_int8 --use_calib=true
 ```
 
 加载校准表预测的log：
