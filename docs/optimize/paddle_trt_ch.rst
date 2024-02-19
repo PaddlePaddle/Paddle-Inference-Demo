@@ -28,7 +28,7 @@ NVIDIA TensorRT 是一个高性能机器学习推理SDK，专注于深度学习�
 
 1）linux下通过pip安装
 
-请从 `whl list <https://paddle-inference.readthedocs.io/en/latest/user_guides/download_lib.html>`_ 下载带TensorRT且与自己环境一致的whl包，并通过pip安装
+请从 `whl list <https://www.paddlepaddle.org.cn/inference/master/guides/install/download_lib.html>`_ 下载带TensorRT且与自己环境一致的whl包，并通过pip安装
 
 2）使用docker镜像
 

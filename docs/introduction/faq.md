@@ -36,7 +36,7 @@
 答：请检查输入Tensor 是否存在指针越界。
 
 12、Predictor是否有Profile工具。
-答： `config.EnableProfile()`可以打印op耗时，请参考[API文档-Profile设置](https://paddle-inference.readthedocs.io/en/latest/api_reference/cxx_api_doc/Config/OtherFunction.html#profile)。
+答： `config.EnableProfile()`可以打印op耗时，请参考[API文档Config](https://www.paddlepaddle.org.cn/inference/master/api_reference/cxx_api_doc/Config_index.html)。
 
 13、同一个模型的推理耗时不稳定。
 答：请按以下方向排查：
@@ -45,7 +45,7 @@
 3）使用TensorRT时，初始的优化阶段比较耗时，可以通过少量数据warm up的方式解决。
 
 14、ZeroCopyTensor和ZeroCopyRun的相关文档。
-答：ZeroCopyTensor虽然在模型推理时不再有数据拷贝，但是构造时需要用户将数据拷贝至ZeroCopyTensor中，为避免歧义，该接口2.0rc1+版本已经隐藏，当前接口请参考[API文档](https://paddle-inference.readthedocs.io/en/latest/quick_start/cpp_demo.html#id6)  
+答：ZeroCopyTensor虽然在模型推理时不再有数据拷贝，但是构造时需要用户将数据拷贝至ZeroCopyTensor中，为避免歧义，该接口2.0rc1+版本已经隐藏，当前接口请参考[API文档](https://www.paddlepaddle.org.cn/inference/master/api_reference/cxx_api_doc/cxx_api_index.html)  
 
 15、在JetPack 4.4环境的Jetson开发套件上运行带卷积的模型报错`terminate called after throwing an instance of 'std::logic_error' what(): basic_string::_M_construct null not valid`。
 答：这个是cuDNN 8.0在SM_72下的bug，在运行cudnnConvolutionBiasActivationForward的时候会出错，见[https://forums.developer.nvidia.com/t/nx-jp44-cudnn-internal-logic-error/124805](https://forums.developer.nvidia.com/t/nx-jp44-cudnn-internal-logic-error/124805)。
@@ -57,6 +57,6 @@
 答：在2.0 rc1之前的版本，用户使用ZeroCopyTensor和ZeroCopyRun接口时，需要设置`config.SwitchUseFeedFetchOps(false)`，后续版本已经隐藏ZeroCopyTensor的设计，无需手动设置。
 
 17、如何开启CPU预测的多线程加速。
-答：请使用`config.EnableMKLDNN()`和`config.SetCpuMathLibraryNumThreads()`，请参考[API文档-CPU预测](https://paddle-inference.readthedocs.io/en/latest/api_reference/cxx_api_doc/Config/CPUConfig.html)。
+答：请使用`config.EnableMKLDNN()`和`config.SetCpuMathLibraryNumThreads()`，请参考[API文档-CPU预测](https://www.paddlepaddle.org.cn/inference/master/api_reference/cxx_api_doc/Config/CPUConfig.html)。
 
 
