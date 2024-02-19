@@ -40,7 +40,7 @@ C++ 示例代码在[链接](https://github.com/PaddlePaddle/Paddle-Inference-Dem
 
 根据推理部署的实际情况，设置 Config，用于后续创建 Predictor。
 
-Config 默认用 CPU 推理，若要用 GPU，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 的相关说明和示例可以参考[文档](https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html)。
+Config 默认用 CPU 推理，若要用 GPU，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 的相关说明和示例可以参考[文档](https://www.paddlepaddle.org.cn/inference/master/guides/nv_gpu_infer/gpu_trt_infer.html)。
 
 ```cpp
 paddle_infer::Config config;
@@ -203,7 +203,7 @@ from paddle.inference import PrecisionType
 根据推理部署的实际情况，设置 Config ，用于后续创建 Predictor。
 
 
-Config 默认用 CPU 推理，若要用 GPU 推理，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 相关说明和示例可以参考[文档](https://paddle-inference.readthedocs.io/en/master/optimize/paddle_trt.html)。
+Config 默认用 CPU 推理，若要用 GPU 推理，需手动开启，设置分配的初始显存 和 运行的 GPU 卡号。同时可以设置开启 IR 优化、开启内存优化、开启 TensorRT 加速等。Paddle Inference 中启用 TensorRT 相关说明和示例可以参考[文档](https://www.paddlepaddle.org.cn/inference/master/guides/nv_gpu_infer/gpu_trt_infer.html)。
 
 ```python
 # args 是解析的输入参数

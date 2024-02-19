@@ -1,6 +1,6 @@
 # 使用 Paddle-TRT TunedDynamicShape 能力
 
-该文档为使用 Paddle-TRT TunedDynamicShape 的实践 demo。如果您刚接触 Paddle-TRT，推荐先访问[这里](https://paddle-inference.readthedocs.io/en/latest/optimize/paddle_trt.html)对 Paddle-TRT 有个初步认识。
+该文档为使用 Paddle-TRT TunedDynamicShape 的实践 demo。如果您刚接触 Paddle-TRT，推荐先访问[这里](https://www.paddlepaddle.org.cn/inference/master/guides/nv_gpu_infer/gpu_trt_infer.html)对 Paddle-TRT 有个初步认识。
 
 ## 一：准备环境
 
