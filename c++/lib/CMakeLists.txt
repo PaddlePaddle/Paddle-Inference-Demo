@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(cpp_inference_demo CXX C CUDA)
+
+option(USE_CPP_STANDARD "Compile demo with cpp standrad support, default use -std=c++11." "-std=c++11")
 option(WITH_MKL "Compile demo with MKL/OpenBlas support, default use MKL." ON)
 option(WITH_GPU "Compile demo with GPU/CPU, default use CPU." OFF)
 option(WITH_STATIC_LIB
@@ -15,6 +17,7 @@ option(WITH_SW "Compile demo with SW" OFF)
 option(WITH_XPU "Compile demo with xpu" OFF)
 option(WITH_NPU "Compile demo with npu" OFF)
 option(CUSTOM_OPERATOR_FILES "List of file names for custom operators" "")
+option(CUSTOM_PASS_FILES "List of file names for custom passes" "")
 
 if(NOT WITH_STATIC_LIB)
   add_definitions("-DPADDLE_WITH_SHARED_LIB")
@@ -94,7 +97,7 @@ else()
   if(WITH_MKL)
     set(FLAG_OPENMP "-fopenmp")
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${FLAG_OPENMP}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_CPP_STANDARD} ${FLAG_OPENMP}")
 endif()
 
 if(WITH_GPU)
@@ -310,6 +313,11 @@ endif()
 if(CUSTOM_OPERATOR_FILES) 
   add_library(pd_infer_custom_op SHARED ${CUSTOM_OPERATOR_FILES})
   set(DEPS ${DEPS} pd_infer_custom_op)
+endif()
+
+if(CUSTOM_PASS_FILES)
+  add_library(pd_infer_custom_pass SHARED ${CUSTOM_PASS_FILES})
+  set(DEPS ${DEPS} pd_infer_custom_pass)
 endif()
 
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
