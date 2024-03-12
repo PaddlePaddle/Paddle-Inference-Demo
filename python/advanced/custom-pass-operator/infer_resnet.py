@@ -20,6 +20,8 @@ from img_preprocess import preprocess
 
 from paddle.inference import Config, PrecisionType, create_predictor
 
+import custom_relu_op_pass
+
 
 def init_predictor(args):
     if args.model_dir != "":
@@ -33,8 +35,10 @@ def init_predictor(args):
 
     config.enable_use_gpu(1000, 0, gpu_precision)
 
+    # 下面是关键配置
     config.enable_new_executor()
     config.enable_new_ir()
+    # 如果你有多个Pass可以按照预期顺序放进输入参数里
     config.enable_custom_passes(["relu_replace_pass"])
 
     predictor = create_predictor(config)

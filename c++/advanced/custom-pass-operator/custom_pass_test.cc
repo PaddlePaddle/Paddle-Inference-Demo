@@ -52,9 +52,10 @@ std::shared_ptr<Predictor> InitPredictor() {
   config.SwitchIrDebug();
   config.SetOptimCacheDir("./optim_cache");
 
+  // 下面是关键配置
   config.EnableNewExecutor(true);
   config.EnableNewIR(true);
-
+  // 如果你有多个Pass可以按照预期顺序放进输入参数里
   config.EnableCustomPasses({"relu_replace_pass"});
 
   return CreatePredictor(config);
