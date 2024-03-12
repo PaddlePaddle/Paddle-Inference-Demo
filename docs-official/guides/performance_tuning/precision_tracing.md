@@ -75,11 +75,11 @@ config.delete_pass("xxxx_fuse_pass")
 
 (1) 二分法。一次注释一半的 Pass，二分法查找。Pass 全集见运行日志中的 ir_analysis_pass 部分。
 
-<p align="center"><img width="800" src="../images/ir_1.png"/></p>
+![image](../images/ir_1.png)
 
 (2) 逐个查找。delete 命中的 Pass（有命中日志的 Pass ），如下图。
 
-<p align="center"><img width="800" src="../images/ir_3.png"/></p>
+![image](../images/ir_3.png)
 
 ### 2.5 开启 TensorRT
 
@@ -89,7 +89,7 @@ config.delete_pass("xxxx_fuse_pass")
 
 如果开启 TensorRT 后有如下报错，请参考日志设置正确动态 shape 输入变量。
 
-<p align="center"><img width="800" src="../images/trt_1.png"/></p>
+![image](../images/trt_1.png)
 
 (1) c++ API
 ```c++
