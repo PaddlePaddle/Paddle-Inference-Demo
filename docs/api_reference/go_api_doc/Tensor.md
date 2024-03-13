@@ -66,7 +66,7 @@ func main() {
 
     // 获取输入输出 Tensor 指针
     input := predictor.GetInputHandle(predictor.GetInputNames()[0])
-    output := predictor.GetOutputTensors(predictor.GetOutputNames()[0])
+    output := predictor.GetOutputHandle(predictor.GetOutputNames()[0])
 
     inputData := make([]float32, 1 * 3 * 224 * 224)
     for i := 0; i < 1 * 3 * 224 * 224; i++ {
@@ -82,7 +82,7 @@ func main() {
 
     // 获取输出 Tensor
     outData := make([]float32, numElements(output.Shape()))
-		output.CopyToCpu(outData)
+    output.CopyToCpu(outData)
 }
 
 func numElements(shape []int32) int32 {
