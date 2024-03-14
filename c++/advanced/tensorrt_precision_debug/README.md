@@ -4,7 +4,7 @@
 
 ## 一：获取 Paddle Inference 预测库
 
-- [官网下载](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html)（预计在 2.6 支持，2.5.1 暂时不支持该功能）
+- [官网下载](https://www.paddlepaddle.org.cn/documentation/docs/zh/advanced_guide/inference_deployment/inference/build_and_install_lib_cn.html)（2.6及以上）
 - 自行编译获取
 
 将获取到的 Paddle Inference 预测库软链接或者重命名为 `paddle_inference`，并置于 `Paddle-Inference-Demo/c++/lib` 目录下。
