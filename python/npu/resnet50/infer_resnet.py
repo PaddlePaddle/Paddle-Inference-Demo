@@ -16,8 +16,8 @@ def init_predictor(args):
 
     config.enable_memory_optim()
 
-    # Enable to use Ascend910 NPU
-    config.enable_npu()
+    # Enable to use NPU
+    config.enable_custom_device("npu")
 
     predictor = create_predictor(config)
     return predictor
