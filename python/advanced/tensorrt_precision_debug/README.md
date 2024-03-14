@@ -4,7 +4,7 @@
 
 ## 一：准备环境
 
-请您在环境中安装Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。(当前只能通过develop源码编译安装)
+请您在环境中安装Paddle，具体的安装方式请参照[飞桨官方页面](https://www.paddlepaddle.org.cn/)的指示方式。(2.6及以上)
 
 ## 二：获取 Resnet50 模型
 
