@@ -16,8 +16,8 @@ def init_predictor(args):
 
     config.enable_memory_optim()
 
-    # Enable to use NPU
-    config.enable_custom_device("npu")
+    # Enable to use MLU
+    config.enable_custom_device("mlu")
 
     predictor = create_predictor(config)
     return predictor
