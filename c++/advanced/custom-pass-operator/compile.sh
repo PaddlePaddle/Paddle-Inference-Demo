@@ -25,7 +25,6 @@ DEMO_NAME=custom_pass_test
 
 WITH_MKL=ON
 WITH_GPU=ON
-USE_CPP_STANDARD="-std=c++17"
 
 LIB_DIR=${work_path}/../../lib/paddle_inference
 CUDA_LIB=/usr/local/cuda/lib64
@@ -42,6 +41,5 @@ cmake .. -DPADDLE_LIB=${LIB_DIR} \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
   -DCUSTOM_PASS_FILES=${CUSTOM_PASS_FILES} \
   -DCUSTOM_OPERATOR_FILES=${CUSTOM_OPERATOR_FILES} \
-  -DUSE_CPP_STANDARD=${USE_CPP_STANDARD} \
 
 make -j

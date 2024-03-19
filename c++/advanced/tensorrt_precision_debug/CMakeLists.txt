@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(cpp_inference_demo CXX C CUDA)
 
-option(USE_CPP_STANDARD "Compile demo with cpp standrad support, default use -std=c++11." "-std=c++11")
 option(WITH_MKL "Compile demo with MKL/OpenBlas support, default use MKL." ON)
 option(WITH_GPU "Compile demo with GPU/CPU, default use CPU." OFF)
 option(WITH_STATIC_LIB
@@ -97,7 +96,7 @@ else()
   if(WITH_MKL)
     set(FLAG_OPENMP "-fopenmp")
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_CPP_STANDARD} ${FLAG_OPENMP}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${FLAG_OPENMP}")
 endif()
 
 if(WITH_GPU)
