@@ -27,7 +27,10 @@ DEMO_NAME=custom_pass_test
 # 根据预编译库中的version.txt信息判断是否将以下三个标记打开
 WITH_MKL=ON
 WITH_GPU=ON
-USE_CPP_STANDARD="-std=c++17" # 自定义Pass相关头文件需要c++17标准来编译
+
+#
+# 自定义Pass相关头文件需要c++17标准来编译
+#
 
 # 配置预测库的根目录
 LIB_DIR=${work_path}/../lib/paddle_inference
