@@ -162,7 +162,7 @@ if(WITH_MKL)
         ${MATH_LIB_PATH}/lib/libmklml_intel${CMAKE_SHARED_LIBRARY_SUFFIX}
         ${MATH_LIB_PATH}/lib/libiomp5${CMAKE_SHARED_LIBRARY_SUFFIX})
   endif()
-  set(MKLDNN_PATH "${PADDLE_LIB_THIRD_PARTY_PATH}mkldnn")
+  set(MKLDNN_PATH "${PADDLE_LIB_THIRD_PARTY_PATH}onednn")
   if(EXISTS ${MKLDNN_PATH})
     include_directories("${MKLDNN_PATH}/include")
     if(WIN32)
@@ -353,7 +353,7 @@ if(WIN32)
               ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}
       COMMAND ${CMAKE_COMMAND} -E copy ${MATH_LIB_PATH}/lib/libiomp5md.dll
               ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-    set(MKLDNN_PATH "${PADDLE_LIB_THIRD_PARTY_PATH}mkldnn")
+    set(MKLDNN_PATH "${PADDLE_LIB_THIRD_PARTY_PATH}onednn")
     if(EXISTS ${MKLDNN_PATH})
       add_custom_command(
       TARGET ${DEMO_NAME}
