@@ -1,4 +1,4 @@
-// Copyright (c) 2024 PaddlePaddle Authors. All Rights Reserved.
+// Copyright (c) 2023 PaddlePaddle Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include <chrono>
-#include <iostream>
 #include <memory>
 #include <numeric>
 
@@ -27,20 +26,17 @@ using paddle_infer::CreatePredictor;
 using paddle_infer::PrecisionType;
 using paddle_infer::Predictor;
 
+DEFINE_string(model_file, "", "Directory of the inference model.");
+DEFINE_string(params_file, "", "Directory of the inference model.");
 DEFINE_string(model_dir, "", "Directory of the inference model.");
-DEFINE_string(model_file, "", "Path of the inference model file.");
-DEFINE_string(params_file, "", "Path of the inference params file.");
+DEFINE_int32(batch_size, 1, "Directory of the inference model.");
+DEFINE_int32(warmup, 0, "warmup.");
+DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_string(
     run_mode,
     "paddle_gpu",
-    "run_mode which can be: trt_fp32, trt_fp16 and trt_int8 and paddle_gpu");
-DEFINE_int32(batch_size, 1, "Batch size.");
-DEFINE_int32(gpu_id, 0, "GPU card ID num.");
-DEFINE_int32(trt_min_subgraph_size, 3, "tensorrt min_subgraph_size");
-DEFINE_int32(warmup, 50, "warmup");
-DEFINE_int32(repeats, 1000, "repeats");
+    "run_mode which can be: trt_fp32, trt_fp16, trt_int8 and paddle_gpu");
 DEFINE_bool(use_dynamic_shape, false, "use trt dynaminc shape.");
-DEFINE_bool(use_calib, true, "use trt int8 calibration.");
 DEFINE_bool(use_collect_shape, false, "Collect trt shape information");
 DEFINE_string(dynamic_shape_file, "", "trt shape information name");
 
@@ -59,39 +55,27 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.SetModel(FLAGS_model_dir);
   }
   config.SetModel(FLAGS_model_file, FLAGS_params_file);
-
-  config.EnableUseGpu(500, FLAGS_gpu_id);
+  config.EnableUseGpu(500, 0);
 
   if (FLAGS_run_mode == "trt_fp32") {
-    config.EnableTensorRtEngine(1 << 30 * FLAGS_batch_size,
-                                FLAGS_batch_size,
-                                FLAGS_trt_min_subgraph_size,
-                                PrecisionType::kFloat32,
-                                false,
-                                false);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kFloat32, false, false);
   } else if (FLAGS_run_mode == "trt_fp16") {
-    config.EnableTensorRtEngine(1 << 30 * FLAGS_batch_size,
-                                FLAGS_batch_size,
-                                FLAGS_trt_min_subgraph_size,
-                                PrecisionType::kHalf,
-                                false,
-                                false);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kHalf, false, false);
   } else if (FLAGS_run_mode == "trt_int8") {
-    config.EnableTensorRtEngine(1 << 30 * FLAGS_batch_size,
-                                FLAGS_batch_size,
-                                FLAGS_trt_min_subgraph_size,
-                                PrecisionType::kInt8,
-                                false,
-                                FLAGS_use_calib);
+    config.EnableTensorRtEngine(
+        1 << 30, FLAGS_batch_size, 5, PrecisionType::kInt8, false, true);
   }
+
   if (FLAGS_use_dynamic_shape && FLAGS_use_collect_shape) {
     config.CollectShapeRangeInfo(FLAGS_dynamic_shape_file);
   } else if (FLAGS_use_dynamic_shape && !FLAGS_use_collect_shape) {
     config.EnableTunedTensorRtDynamicShape(FLAGS_dynamic_shape_file);
   }
+
   // Open the memory optim.
   config.EnableMemoryOptim();
-  config.SwitchIrOptim(true);
   return CreatePredictor(config);
 }
 
@@ -101,48 +85,53 @@ void run(Predictor *predictor,
          const std::vector<float> &input_im,
          const std::vector<int> &input_im_shape,
          std::vector<float> *out_data) {
-  int input_num = std::accumulate(
-      input_shape.begin(), input_shape.end(), 1, std::multiplies<int>());
-
   auto input_names = predictor->GetInputNames();
-  auto output_names = predictor->GetOutputNames();
+  auto im_shape_handle = predictor->GetInputHandle(input_names[0]);
+  im_shape_handle->Reshape(input_im_shape);
+  im_shape_handle->CopyFromCpu(input_im.data());
 
-  auto input_t = predictor->GetInputHandle(input_names[0]);
-  input_t->Reshape(input_shape);
-  input_t->CopyFromCpu(input.data());
+  auto image_handle = predictor->GetInputHandle(input_names[1]);
+  image_handle->Reshape(input_shape);
+  image_handle->CopyFromCpu(input.data());
 
-  auto scale_factor_handle=predictor->GetInputHandle(input_names[1]);
+  auto scale_factor_handle = predictor->GetInputHandle(input_names[2]);
   scale_factor_handle->Reshape(input_im_shape);
   scale_factor_handle->CopyFromCpu(input_im.data());
 
-  for (size_t i = 0; i < FLAGS_warmup; ++i) CHECK(predictor->Run());
+  CHECK(predictor->Run());
 
-  auto st = time();
-  for (size_t i = 0; i < FLAGS_repeats; ++i) {
-    CHECK(predictor->Run());
-    auto output_t = predictor->GetOutputHandle(output_names[0]);
-    std::vector<int> output_shape = output_t->shape();
-    int out_num = std::accumulate(
-        output_shape.begin(), output_shape.end(), 1, std::multiplies<int>());
-    out_data->resize(out_num);
-    output_t->CopyToCpu(out_data->data());
-  }
-  LOG(INFO) << "run avg time is " << time_diff(st, time()) / FLAGS_repeats
-            << " ms";
+  auto output_names = predictor->GetOutputNames();
+  auto output_t = predictor->GetOutputHandle(output_names[0]);
+  std::vector<int> output_shape = output_t->shape();
+  int out_num = std::accumulate(
+      output_shape.begin(), output_shape.end(), 1, std::multiplies<int>());
+
+  out_data->resize(out_num);
+  output_t->CopyToCpu(out_data->data());
 }
 
 int main(int argc, char *argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
   auto predictor = InitPredictor();
-  std::vector<int> input_shape = {FLAGS_batch_size, 3, 640, 640};
-  std::vector<float> input_data(FLAGS_batch_size * 3 * 640 * 640);
 
+  const int height = 608;
+  const int width = 608;
+  const int channels = 3;
+  std::vector<int> input_shape = {FLAGS_batch_size, channels, height, width};
+  std::vector<float> input_data(FLAGS_batch_size * channels * height * width);
+  for (size_t i = 0; i < input_data.size(); ++i) {
+    input_data[i] = i % 255 * 0.13f;
+  }
   std::vector<int> input_im_shape = {FLAGS_batch_size, 2};
   std::vector<float> input_im_data(FLAGS_batch_size * 2, 608);
 
-  for (size_t i = 0; i < input_data.size(); ++i) input_data[i] = i % 255 * 0.1;
   std::vector<float> out_data;
-  run(predictor.get(), input_data,input_shape, input_im_data,input_im_shape,&out_data);
-
+  run(predictor.get(),
+      input_data,
+      input_shape,
+      input_im_data,
+      input_im_shape,
+      &out_data);
+  LOG(INFO) << "output num is " << out_data.size();
   return 0;
 }
