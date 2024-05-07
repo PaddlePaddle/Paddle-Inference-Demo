@@ -98,15 +98,22 @@ std::shared_ptr<Predictor> InitPredictor() {
 void run(Predictor *predictor,
          const std::vector<float> &input,
          const std::vector<int> &input_shape,
+         const std::vector<float> &input_im,
+         const std::vector<int> &input_im_shape,
          std::vector<float> *out_data) {
   int input_num = std::accumulate(
       input_shape.begin(), input_shape.end(), 1, std::multiplies<int>());
 
   auto input_names = predictor->GetInputNames();
   auto output_names = predictor->GetOutputNames();
+
   auto input_t = predictor->GetInputHandle(input_names[0]);
   input_t->Reshape(input_shape);
   input_t->CopyFromCpu(input.data());
+
+  auto scale_factor_handle=predictor->GetInputHandle(input_names[1]);
+  scale_factor_handle->Reshape(input_im_shape);
+  scale_factor_handle->CopyFromCpu(input_im.data());
 
   for (size_t i = 0; i < FLAGS_warmup; ++i) CHECK(predictor->Run());
 
@@ -129,9 +136,13 @@ int main(int argc, char *argv[]) {
   auto predictor = InitPredictor();
   std::vector<int> input_shape = {FLAGS_batch_size, 3, 640, 640};
   std::vector<float> input_data(FLAGS_batch_size * 3 * 640 * 640);
+
+  std::vector<int> input_im_shape = {FLAGS_batch_size, 2};
+  std::vector<float> input_im_data(FLAGS_batch_size * 2, 608);
+
   for (size_t i = 0; i < input_data.size(); ++i) input_data[i] = i % 255 * 0.1;
   std::vector<float> out_data;
-  run(predictor.get(), input_data, input_shape, &out_data);
+  run(predictor.get(), input_data,input_shape, input_im_data,input_im_shape,&out_data);
 
   return 0;
 }
