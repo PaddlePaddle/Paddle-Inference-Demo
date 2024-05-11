@@ -228,7 +228,6 @@ if(NOT WIN32)
       gflags
       protobuf
       xxhash
-      flashattn
       cryptopp
       ${EXTERNAL_LIB})
   if(WITH_SHARED_PHI)
@@ -244,7 +243,6 @@ else()
       gflags_static
       libprotobuf
       xxhash
-      flashattn
       cryptopp-static
       ${EXTERNAL_LIB})
   set(DEPS ${DEPS} shlwapi.lib)
