@@ -50,6 +50,7 @@ include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}protobuf/include")
 include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}glog/include")
 include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}gflags/include")
 include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}xxhash/include")
+include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}flashattn/include")
 include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}cryptopp/include")
 include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/include")
 include_directories("${PADDLE_LIB_THIRD_PARTY_PATH}paddle2onnx/include")
@@ -58,6 +59,7 @@ link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}protobuf/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}glog/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}gflags/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}xxhash/lib")
+link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}flashattn/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}cryptopp/lib")
 link_directories("${PADDLE_LIB}/paddle/lib")
 link_directories("${PADDLE_LIB_THIRD_PARTY_PATH}onnxruntime/lib")
@@ -226,6 +228,7 @@ if(NOT WIN32)
       gflags
       protobuf
       xxhash
+      flashattn
       cryptopp
       ${EXTERNAL_LIB})
   if(WITH_SHARED_PHI)
@@ -241,6 +244,7 @@ else()
       gflags_static
       libprotobuf
       xxhash
+      flashattn
       cryptopp-static
       ${EXTERNAL_LIB})
   set(DEPS ${DEPS} shlwapi.lib)
