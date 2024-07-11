@@ -37,12 +37,10 @@ Paddle Inference 采用 Predictor 进行推理。Predictor 是一个高性能推
     - 可以使用与训练完全相同的输入数据进行推理并对比结果一致性，或者批量推理验证数据集并计算模型精度的方式来判断推理结果的正确性
     - 将模型推理输出数据进行后处理，比如根据检测框位置裁剪图像等
 
-Paddle Inference 提供了 C, C++, Python, Golang 四种 API 的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
+Paddle Inference 提供了 C++, Python 两种 API 的使用示例和开发说明文档，您可以参考示例中的说明快速了解使用方法，并集成到您自己的项目中去。
 
 - [推理示例 (C++)](../quick_start/cpp_demo)
 - [推理示例 (Python)](../quick_start/python_demo)
-- [推理示例 (C)](../quick_start/c_demo)
-- [推理示例 (GO)](../quick_start/go_demo)
 
 ## 四. 性能优化
 

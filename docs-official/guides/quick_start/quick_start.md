@@ -23,5 +23,3 @@ Paddle Inference内置在Paddle框架中，但根据不同的部署需求，您�
 
 - 1. [预测示例(Python)](python_demo.md)
 - 2. [预测示例(C++)](cpp_demo.md)
-- 3. [预测示例(C)](c_demo.md)
-- 4. [预测示例(GO)](go_demo.md)

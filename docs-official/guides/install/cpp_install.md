@@ -7,7 +7,7 @@
 - GCC 8.2+
 - CMake 3.20+
 - Visual Studio 2017 Update 3 （仅在使用 Windows 版本的推理库时需要，根据 Paddle 推理库所使用的 VS 版本选择，请参考 [Visual Studio 不同版本二进制兼容性](https://docs.microsoft.com/zh-cn/cpp/porting/binary-compat-2015-2017?view=msvc-170&viewFallbackFrom=vs-2019) )
-- CUDA 11.2 / CUDA 11.6 / CUDA 11.7 / CUDA 11.8 / CUDA 12.0, cuDNN 8.2+, TensorRT 8.0+（仅在使用 GPU 版本的推理库时需要）
+- CUDA 11.8 / CUDA 12.3, cuDNN 8.6 / cuDNN 9.0, TensorRT 8.5 /  TensorRT 8.6（仅在使用 GPU 版本的推理库时需要）
 
 您可参考 NVIDIA 官方文档了解 CUDA、cuDNN 和 TensorRT 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，[TensorRT](https://developer.nvidia.com/tensorrt)
 
@@ -16,21 +16,15 @@ Linux 下，版本对应关系如下表所示：
 
 |CUDA 版本|cuDNN 版本| TensorRT 版本|
 |---|---|---|
-|11.2|8.2.1|8.0.3.4|
-|11.6|8.4.0|8.4.0.6|
-|11.7|8.4.1|8.4.2.4|
 |11.8|8.6.0|8.5.1.7|
-|12.0|8.9.1|8.6.1.6|
+|12.3|9.0.0|8.6.1.6|
 
 Windows 下，版本对应关系如下表所示：
 
 |CUDA 版本|cuDNN 版本| TensorRT 版本|
 |---|---|---|
-|11.2|8.2.1|8.0.1.6|
-|11.6|8.4.0|8.4.0.6|
-|11.7|8.4.1|8.4.2.4|
 |11.8|8.6.0|8.5.1.7|
-|12.0|8.9.1|8.6.1.6|
+|12.3|9.0.0|8.6.1.6|
 
 ## 开始安装
 
@@ -95,11 +89,11 @@ WITH_ROCM: OFF
 WITH_ASCEND_CL: OFF
 WITH_ASCEND_CXX11: OFF
 WITH_IPU: OFF
-CUDA version: 11.2
-CUDNN version: v8.2
+CUDA version: 11.8
+CUDNN version: v8.6
 CXX compiler version: 8.2.0
 WITH_TENSORRT: ON
-TensorRT version: v8.2.4.2
+TensorRT version: v8.5.1.7
 ```
 
 ### 动态验证方式

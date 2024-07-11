@@ -2,7 +2,7 @@
 快速开始
 ########
 
-在本章节中，我们提供了基于Paddle Inference的 **Python、 C++、 C、 GO** API接口所构建的简单示例供您参考。 示例中演示了Paddle Inference的基本API的使用流程，并解释了部分重要API的使用方式。
+在本章节中，我们提供了基于Paddle Inference的 **Python、 C++** API接口所构建的简单示例供您参考。 示例中演示了Paddle Inference的基本API的使用流程，并解释了部分重要API的使用方式。
 
 .. note::
    请确认您在参照示例进行操作前，已正确完成Paddle Inference的安装。如未完成可以参考 `安装指南 <../install/index_install.html>`_ 选择适合您的方式安装Paddle Inference。  
@@ -14,13 +14,9 @@
 
 -  `预测示例(Python) <python_demo.html>`_
 -  `预测示例(C++) <cpp_demo.html>`_
--  `预测示例(C) <c_demo.html>`_
--  `预测示例(GO) <go_demo.html>`_
 
 ..  toctree::
     :hidden: 
 
     python_demo.md
     cpp_demo.md
-    c_demo.md
-    go_demo.md

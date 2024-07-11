@@ -22,8 +22,6 @@ Welcome to Paddle Inference's documentation!
   quick_start/workflow
   quick_start/cpp_demo
   quick_start/python_demo
-  quick_start/c_demo
-  quick_start/go_demo
 
 .. toctree::
   :maxdepth: 1
@@ -81,8 +79,6 @@ Welcome to Paddle Inference's documentation!
 
   api_reference/cxx_api_index
   api_reference/python_api_index
-  api_reference/c_api_index
-  api_reference/go_api_index
   api_reference/r_api_index
 
 .. toctree::
