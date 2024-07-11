@@ -45,6 +45,4 @@ Paddle Inference 为追求更快的性能，通过子图集成接入和算子接
 Paddle Inference 基于 C++ 实现，提供了标准 C++ API 接口，在此基础上封装了其它多语言 API，支持多语言 API 如下列表所示。
 
 1. C++: 原生支持；
-2. C: 通过 `extern "C"` 的方式进行封装；
-3. Python: 通过 `pybind` 进行封装；
-4. Go: 通过 `cgo` 在 C API 基础上进行封装。
+2. Python: 通过 `pybind` 进行封装；

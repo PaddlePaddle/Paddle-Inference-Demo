@@ -15,9 +15,8 @@
 
 1. 下载推理库请跳转到以下文档：
 
-- [C/C++预编译库列表 TODO补充url]()
+- [C++预编译库列表 TODO补充url]()
 - [python whl包列表]()
-- [Go API 安装]()
 
 2. 源码编译请参考以下文档：
 
@@ -67,7 +66,4 @@ Paddle Inference 为追求更快的性能，通过子图集成接入和算子接
 Paddle Inference 基于 C++ 实现，提供了标准 C++ API 接口，在此基础上封装了其它多语言 API，支持多语言 API 如下列表所示。
 
 1. C++: 原生支持；
-2. C: 通过 `extern "C"` 的方式进行封装；
-3. Python: 通过 `pybind` 进行封装；
-4. Go: 通过 `cgo` 在 CAPI 基础上进行封装。
-
+2. Python: 通过 `pybind` 进行封装；
