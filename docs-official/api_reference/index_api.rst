@@ -13,13 +13,3 @@ API
     :maxdepth: 1
 
     cxx_api_doc/cxx_api_index.rst
-
-..  toctree::
-    :maxdepth: 1
-
-    c_api_doc/c_api_index.rst
-
-..  toctree::
-    :maxdepth: 1
-
-    go_api_doc/go_api_index.rst
