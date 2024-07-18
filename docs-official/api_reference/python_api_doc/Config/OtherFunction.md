@@ -163,7 +163,7 @@ paddle.inference.Config.summary()
 | model_dir                     | ./inference_pass/TRTFlattenTest/ |
 +-------------------------------+----------------------------------+
 | cpu_math_thread               | 1                                |
-| enable_mkdlnn                 | false                            |
+| enable_mkldnn                 | false                            |
 | mkldnn_cache_capacity         | 10                               |
 +-------------------------------+----------------------------------+
 | use_gpu                       | true                             |
