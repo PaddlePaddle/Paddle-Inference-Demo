@@ -326,7 +326,7 @@ if(CUSTOM_PASS_FILES)
 endif()
 
 add_executable(${DEMO_NAME} ${DEMO_NAME}.cc)
-target_link_libraries(${DEMO_NAME} ${DEPS})
+target_link_libraries(${DEMO_NAME} ${DEPS} z)
 
 if(WIN32)
   if(USE_TENSORRT)
