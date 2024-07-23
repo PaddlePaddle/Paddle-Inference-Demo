@@ -13,6 +13,7 @@ fi
 # 2. check CMakeLists exists
 if [ ! -f "${work_path}/CMakeLists.txt" ]; then
   cp -a "${work_path}/../../lib/CMakeLists.txt" "${work_path}/"
+  sed -i 's/project(cpp_inference_demo CXX C CUDA)/project(cpp_inference_demo CXX C)/g' ${work_path}/CMakeLists.txt
 fi
 
 # 3. compile
