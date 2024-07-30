@@ -163,50 +163,25 @@
 
 # paddle.incubate.jit.inference的参数列表
 ```
-def inference(
-    function=None,
-    cache_static_model=False,
-    save_model_dir=None,
-    memory_pool_init_size_mb=1000,
-    precision_mode="float32",
-    switch_ir_optim=True,
-    switch_ir_debug=False,
-    enable_cinn=False,
-    with_trt=False,
-    trt_precision_mode="float32",
-    trt_use_static=False,
-    collect_shape=False,
-    enable_new_ir=False,
-    exp_enable_use_cutlass=False,
-    delete_pass_lists=None,
-):
-
-    Converts dynamic graph APIs into static graph saved in disk. Then will use Paddle Inference to infer based on
-    the static model in the disk.
-    This function return a callable function, user can use it to inference just like dynamic function.
-
-    Args:
-        function (callable): Callable dynamic graph function. It must be a member function of paddle.nn.Layer.
-            If it used as a decorator, the decorated  function will be parsed as this parameter.
-        cache_static_model: Whether to use the cached static model in thd disk . Default is False.
-            when cache_static_model is True, the static model will be saved in disk, and the next time when you call this function
-        save_model_dir: The directory to save the static model. Default is none which means ~/.cache/paddle/inference_models/.
-        memory_pool_init_size_mb: The memory pool init size in MB. Default is 1000.
-        precision_mode: The precision mode. Default is "float32".
-        switch_ir_optim: Whether to enable IR optim. Default is True.
-        switch_ir_debug: Whether to enable IR debug. Default is False.
-        enable_cinn: Whether to enable CINN. Default is False.
-        with_trt: Whether to enable TensorRT. Default is False.
-        trt_precision_mode: The precision mode of TensorRT. Default is "float32".
-        trt_use_static: Whether to use static shape in TensorRT. Default is False.
-        collect_shape: Whether to collect shape. Default is False.
-        enable_new_ir: Whether to enable new IR. Default is True.
-        exp_enable_use_cutlass: Whether to enable use cutlass. Default is False.
-        delete_pass_lists: The list of pass names to delete. Default is None.
-
-    Returns:
-        function (callable): the decorated function which can be used for inference.
-
+    def inference(
+        function=None,                  # 可调用的动态图函数。它必须是paddle.nn.Layer的成员函数。
+                                        # 如果用作装饰器，则被装饰的函数将被解析为此参数。  
+        cache_static_model=False,       # 是否使用磁盘中缓存的静态模型。默认为False。
+                                        # 当cache_static_model为True时，静态模型将保存在磁盘中，下次调用会直接使用磁盘中的静态模型  
+        save_model_dir=None,            # 静态模型保存的目录。默认为none，即默认是~/.cache/paddle/inference_models/。  
+        memory_pool_init_size_mb=1000,  # 内存池初始大小，单位MB。默认为1000。  
+        precision_mode="float32",       # 精度模式。默认为"float32"。  
+        switch_ir_optim=True,           # 是否开启IR优化。默认为True。  
+        switch_ir_debug=False,          # 是否开启IR debug。默认为False。  
+        enable_cinn=False,              # 是否开启CINN。默认为False。  
+        with_trt=False,                 # 是否开启TensorRT。默认为False。  
+        trt_precision_mode="float32",   # TensorRT的精度模式。默认为"float32"。  
+        trt_use_static=False,           # TensorRT是否使用静态shape。默认为False。  
+        collect_shape=False,            # 是否收集shape。默认为False。  
+        enable_new_ir=False,            # 是否开启new_ir。默认为True。  
+        exp_enable_use_cutlass=False,   # 是否开启cutlass。默认为False。  
+        delete_pass_lists=None,         # 删除的pass列表。默认为None。  
+    ):
 ```
 
 
