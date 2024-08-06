@@ -13,59 +13,57 @@
 * 步骤2. 部署人员开发**动转静脚本**将模型转化成静态图模型，保存到磁盘上  
 * 步骤3. 部署人员用python/C++ API 开发**静态图推理脚本**  
 
-步骤一：模型组网代码  
-```
-    class ExampleLayer(paddle.nn.Layer):
-        def __init__(self, hidd):
-            super().__init__()
-            self.fn = paddle.nn.Linear(hidd, hidd, bias_attr=False)
-        def forward(self, x):
-            for i in range(10):
-                x = paddle.nn.functional.softmax(x,-1)
-            x = x.cast("float32")
-            x = self.func(x)
-            return x
-        def func(self, x):
-            x = x + x
-            return self.fn(x)
-```
-步骤二：动转静代码  
-```
-        batch = 4096
-        hidd = 1024
-        dtype = "bfloat16"
-        x = paddle.rand([batch, hidd], dtype=dtype)
+```py
+import paddle
+#步骤一：模型组网代码  
+class ExampleLayer(paddle.nn.Layer):
+    def __init__(self, hidd):
+        super().__init__()
+        self.fn = paddle.nn.Linear(hidd, hidd, bias_attr=False)
+    def forward(self, x):
+        for i in range(10):
+            x = paddle.nn.functional.softmax(x,-1)
+        x = x.cast("float32")
+        x = self.func(x)
+        return x
+    def func(self, x):
+        x = x + x
+        return self.fn(x)
 
-        mylayer = ExampleLayer(hidd)
+#步骤二：动转静代码  
+batch = 4096
+hidd = 1024
+dtype = "bfloat16"
+x = paddle.rand([batch, hidd], dtype=dtype)
 
-        model = paddle.incubate.jit.inference(
-            mylayer,
-            input_spec=[
-                paddle.static.InputSpec(
-                    shape=[None, None], dtype=dtype),
-            ])
+mylayer = ExampleLayer(hidd)
 
-        # save to static model
-        save_path = "./checkpoints/infer"
-        paddle.jit.save(model, save_path)
-        print(f"static model has been to {save_path}")
-```
-步骤三：静态图推理代码  
-```
-        from paddle.inference import Config
-        from paddle.inference import create_predictor
-        from paddle.inference import PrecisionType
+model = paddle.jit.to_static(
+    mylayer,
+    input_spec=[
+        paddle.static.InputSpec(
+            shape=[None, None], dtype=dtype),
+    ])
 
-        model_dir = "checkpoints/"
-        model_file = model_dir + "/infer.pdmodel"
-        params_file = model_dir + "/infer.pdiparams"
-        config = Config(model_file, params_file)
-        config.enable_memory_optim()
-        gpu_precision = PrecisionType.Float32
-        config.enable_use_gpu(1000, 0, gpu_precision)
-        predictor = create_predictor(config)
+# save to static model
+save_path = "./checkpoints/infer"
+paddle.jit.save(model, save_path)
+print(f"static model has been to {save_path}")
 
-        result = predictor.run([x])
+#步骤三：静态图推理代码  
+from paddle.inference import Config
+from paddle.inference import create_predictor
+from paddle.inference import PrecisionType
+
+model_dir = "checkpoints/"
+model_file = model_dir + "/infer.pdmodel"
+params_file = model_dir + "/infer.pdiparams"
+config = Config(model_file, params_file)
+config.enable_memory_optim()
+gpu_precision = PrecisionType.Float32
+config.enable_use_gpu(1000, 0, gpu_precision)
+predictor = create_predictor(config)
+result = predictor.run([x])
 ``` 
 
 上文是三个步骤的代码，当遇到复杂模型时，步骤2和步骤3的代码量也会跟着多起来。 
@@ -135,7 +133,7 @@
 
 
 #### 2.2.2 C++等其他用户：  
-*       暂不支持  
+*    暂不支持  
     
 ## 3.动态图&静态图混合推理使用注意事项  
 *   `@paddle.incubate.jit.inference()` 仅适用于推理，不能用于训练。  
@@ -164,10 +162,8 @@
 # paddle.incubate.jit.inference的参数列表
 ```
     def inference(
-        function=None,                  # 可调用的动态图函数。它必须是paddle.nn.Layer的成员函数。
-                                        # 如果用作装饰器，则被装饰的函数将被解析为此参数。  
-        cache_static_model=False,       # 是否使用磁盘中缓存的静态模型。默认为False。
-                                        # 当cache_static_model为True时，静态模型将保存在磁盘中，下次调用会直接使用磁盘中的静态模型  
+        function=None,                  # 可调用的动态图函数。它必须是paddle.nn.Layer的成员函数。如果用作装饰器，则被装饰的函数将被解析为此参数。  
+        cache_static_model=False,       # 是否使用磁盘中缓存的静态模型。默认为False。当cache_static_model为True时，静态模型将保存在磁盘中，下次调用会直接使用磁盘中的静态模型  
         save_model_dir=None,            # 静态模型保存的目录。默认为none，即默认是~/.cache/paddle/inference_models/。  
         memory_pool_init_size_mb=1000,  # 内存池初始大小，单位MB。默认为1000。  
         precision_mode="float32",       # 精度模式。默认为"float32"。  
