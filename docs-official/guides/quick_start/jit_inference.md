@@ -1,8 +1,4 @@
 
-
-
-
-
 # Paddle Inference 支持动态图 & 静态图混合推理装饰器使用方法
 
 ## 1. 相关背景
@@ -77,11 +73,10 @@ result = predictor.run([x])
 针对上述问题,我们提出了动态图和静态图混合推理的新模式:  
 在这种新模式下,  
   *  1、我们对具有繁琐的控制逻辑的部分,或者那些根本没办法动转静的部分都不做动转静操作,而只对模型网络中的核心耗时部分按照静态图进行推理。 
-
   *  2、用户只需要维护原本的动态图推理脚本,所有的动转静、Pass优化、缓存生成的操作都是隐式进行的,用户并不感知。   
 
 针对本文的示例代码,用户可以使用以下的新模式直接替代步骤2和步骤3中的代码,以达到等价的推理效果。  
-```
+```py
     #用基于装饰器的方式推理,帮助用户省略步骤2和步骤3的代码,达到同等效果。
     mylayer = paddle.incubate.jit.inference(mylayer)
     # 开启TensorRT后端
@@ -97,7 +92,7 @@ result = predictor.run([x])
 
   * 2、支持其他推理的参数,用户可以通过关键字的参数传入即可使用其他的推理加速功能。  
         如`with_trt`表示是否开启TensorRT后端,`trt_precision_mode`表示TensorRT后端的精度等诸多参数。  
-        可添加的参数列表参考[paddle.incubate.jit.inference的参数列表](#paddle.incubate.jit.inference的参数列表)。  
+        可添加的参数列表参考[paddle.incubate.jit.inference的参数列表](#paddleincubatejitinference的参数列表)。  
 
 ### 2.2 装饰器使用方式
 
@@ -113,24 +108,23 @@ result = predictor.run([x])
      将类的某个函数做动转静,该函数使用静态图推理,其他部分仍然使用动态图推理。
 
 #### 2.2.1 python动态图推理部署用户:  
-*   动态图推理时候,当用户意识到某个模块比较费时间,可以将此模块封装成py函数,然后加上装饰器`paddle.incubate.jit.inference()`,即可获得推理加速。   
+    动态图推理时候,当用户意识到某个模块比较费时间,可以将此模块封装成py函数,然后加上装饰器`paddle.incubate.jit.inference()`,即可获得推理加速。   
     例如:在 transformer 架构的模型中,绝大部分的高耗时部分,应该是这样的语句  
     代码1:  
-    ```
+    ```py
          for block in self.blocks:
             x, y = block(x, y, c, mask)
     ```
     那么用户可以将上述语句抽象成下面的函数,并加上装饰器`@paddle.incubate.jit.inference`,即可获得推理加速。  
     代码2:  
-     ```
+    ```py
         @paddle.incubate.jit.inference()
         def transformer_blocks(self, x,y,c,mask):
             for block in self.blocks:
                 x, y = block(x, y, c, mask)
             return x, y
-     ```
-     之后只需要将原动态图推理中的代码1,换成调用`[x,y] = self.transformer_blocks(x,y,c,mask) `即可。
-
+    ```
+    之后只需要将原动态图推理中的代码1,换成调用`[x,y] = self.transformer_blocks(x,y,c,mask) `即可。
 
 #### 2.2.2 C++等其他用户:  
 *    暂不支持  
@@ -152,27 +146,24 @@ result = predictor.run([x])
 *   由于转静后的函数输出只能是Paddle.Tensor, 这与原动态图的输出可能会有差异，需要用户调整函数输出衔接。
 
 - 例如Dit优化中的语句，https://github.com/PaddlePaddle/PaddleMIX/blob/352435e896cfe7a8250181c89639d6d91ddeb68f/ppdiffusers/ppdiffusers/pipelines/dit/pipeline_dit.py#L229
-```python
-samples_out = self.vae.decode(latents)
-        if paddle.incubate.jit.is_inference_mode(self.vae.decode):
-            # self.vae.decode run in paddle inference.
-            samples = samples_out
-        else:
-            #原动态图输出
-            samples = samples_out.sample
+```py
+    samples_out = self.vae.decode(latents)
+    if paddle.incubate.jit.is_inference_mode(self.vae.decode):
+        # self.vae.decode run in paddle inference.
+        samples = samples_out
+    else:
+        #原动态图输出
+        samples = samples_out.sample
 ```
 
 *   输入如果是动态shape的话,当输入的维度的某个值第一次发生变化时,会重新做jit.save,并将此维度的这个值标记为None,表明此维度可变化,当再次变化的时候则无需再做jit.save    
     
 *   TODO
-*   尝试自动释放不再需要的显存
-*   根据业务需要,加入更多的推理参数。
-
-
-
+    - 尝试自动释放不再需要的显存
+    - 根据业务需要,加入更多的推理参数。
 
 # paddle.incubate.jit.inference的参数列表
-```
+```py
     def inference(
         function=None,                  # 可调用的动态图函数。它必须是paddle.nn.Layer的成员函数。如果用作装饰器,则被装饰的函数将被解析为此参数。  
         cache_static_model=False,       # 是否使用磁盘中缓存的静态模型。默认为False。当cache_static_model为True时,静态模型将保存在磁盘中,下次调用会直接使用磁盘中的静态模型  
@@ -191,8 +182,3 @@ samples_out = self.vae.decode(latents)
         delete_pass_lists=None,         # 删除的pass列表。默认为None。  
     ):
 ```
-
-
-
-
-
