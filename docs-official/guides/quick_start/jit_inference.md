@@ -149,7 +149,19 @@ result = predictor.run([x])
     - 如果是其他类型的参数，如`None`，`bool`，动转静态后将会被固定为常量
     - 函数定义的参数里面禁止含有*args和**kwargs之类的参数 
     - 并且每个参数在该函数的所有次调用的时候类型必须维持不变,也就是说,你如果第一次是None,那么你永远都必须是None,如果你第一次是个Tensor,那么你永远都必须是Tensor。  
-*   确保该函数的每个返回值都是paddle.Tensor的类型  
+*   由于转静后的函数输出只能是Paddle.Tensor, 这与原动态图的输出可能会有差异，需要用户调整函数输出衔接。
+
+- 例如Dit优化中的语句，https://github.com/PaddlePaddle/PaddleMIX/blob/352435e896cfe7a8250181c89639d6d91ddeb68f/ppdiffusers/ppdiffusers/pipelines/dit/pipeline_dit.py#L229
+```python
+samples_out = self.vae.decode(latents)
+        if paddle.incubate.jit.is_inference_mode(self.vae.decode):
+            # self.vae.decode run in paddle inference.
+            samples = samples_out
+        else:
+            #原动态图输出
+            samples = samples_out.sample
+```
+
 *   输入如果是动态shape的话,当输入的维度的某个值第一次发生变化时,会重新做jit.save,并将此维度的这个值标记为None,表明此维度可变化,当再次变化的时候则无需再做jit.save    
     
 *   TODO
@@ -172,7 +184,7 @@ result = predictor.run([x])
         enable_cinn=False,              # 是否开启CINN。默认为False。  
         with_trt=False,                 # 是否开启TensorRT。默认为False。  
         trt_precision_mode="float32",   # TensorRT的精度模式。默认为"float32"。  
-        trt_use_static=False,           # TensorRT是否使用静态shape。默认为False。  
+        trt_use_static=False,           # 是否缓存 TensorRT build 好的engine。默认为False。  
         collect_shape=False,            # 是否收集shape。默认为False。  
         enable_new_ir=False,            # 是否开启new_ir。默认为True。  
         exp_enable_use_cutlass=False,   # 是否开启cutlass。默认为False。  
