@@ -144,10 +144,10 @@ result = predictor.run([x])
     - 这个是因为导出的静态图是和self强绑定的,例如权重。
     - 如果存在model1和model2是同一个类的实例,应该避免使用装饰器的方式。  
     而是用`model1=paddle.incubate.jit.inference()(model1)`, `model2=paddle.incubate.jit.inference(model2)`代替。
-*   确保该函数的每个参数都是
-    - `paddle.Tensor` , `list[paddle.Tensor]`,`None`三者之一
-    - 函数定义的参数里面禁止含有*args和**kwargs之类的参数  
-    - 已加assert判断了  
+*   做好参数准备,确保参数符合要求
+    - 输入参数是`paddle.Tensor` , `list[paddle.Tensor]`则会被当做是静态图的输入参数
+    - 如果是其他类型的参数，如`None`，`bool`，动转静态后将会被固定为常量
+    - 函数定义的参数里面禁止含有*args和**kwargs之类的参数 
     - 并且每个参数在该函数的所有次调用的时候类型必须维持不变,也就是说,你如果第一次是None,那么你永远都必须是None,如果你第一次是个Tensor,那么你永远都必须是Tensor。  
 *   确保该函数的每个返回值都是paddle*.Tensor的类型  
 *   输入如果是动态shape的话,当输入的维度的某个值第一次发生变化时,会重新做jit.save,并将此维度的这个值标记为None,表明此维度可变化,当再次变化的时候则无需再做jit.save    
