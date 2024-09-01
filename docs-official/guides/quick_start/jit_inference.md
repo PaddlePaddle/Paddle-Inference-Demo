@@ -109,13 +109,16 @@ result = predictor.run([x])
 #### 2.2.1 python动态图推理部署用户: 
 *   动态图推理时候,当用户意识到某个模块比较费时间,可以将此模块封装成py函数,然后加上装饰器`paddle.incubate.jit.inference()`,即可获得推理加速。   
     例如:在 transformer 架构的模型中,绝大部分的高耗时部分,应该是这样的语句  
-    代码1:  
+    代码1: 
+
 ```py
 for block in self.blocks:
     x, y = block(x, y, c, mask)
 ```
+
 *   那么用户可以将上述语句抽象成下面的函数,并加上装饰器`@paddle.incubate.jit.inference`,即可获得推理加速。  
-    代码2:  
+    代码2: 
+
 ```py
 @paddle.incubate.jit.inference()
 def transformer_blocks(self, x,y,c,mask):
@@ -123,6 +126,7 @@ def transformer_blocks(self, x,y,c,mask):
         x, y = block(x, y, c, mask)
     return x, y
 ```
+
 *   之后只需要将原动态图推理中的代码1,换成调用`[x,y] = self.transformer_blocks(x,y,c,mask) `即可。
 
 #### 2.2.2 C++等其他用户:  
