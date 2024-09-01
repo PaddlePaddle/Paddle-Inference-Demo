@@ -7,7 +7,7 @@
 
 * 步骤1. 算法人员在**动态图组网**上完成组网代码和训练   
 * 步骤2. 部署人员开发**动转静脚本**将模型转化成静态图模型,保存到磁盘上  
-* 步骤3. 部署人员用python/C++ API 开发**静态图推理脚本**  
+* 步骤3. 部署人员用python/C++ API开发**静态图推理脚本**  
 
 ```py
 import paddle
@@ -66,7 +66,7 @@ result = predictor.run([x])
 
 上述流程存在的问题是:
   * 问题1: 全图转换静态图有时存在较高的使用门槛(学习成本）-> 到底有没有必要将整个模型都转为静态图？
-  * 问题2: 尽管全图 jit.to_static基本都可以成功,但是全图 jit.save在一些复杂模型中会遇到报错,需要修改用户代码才能避免。
+  * 问题2: 尽管全图`jit.to_static`基本都可以成功,但是全图`jit.save`在一些复杂模型中会遇到报错,需要修改用户代码才能避免。
   * 问题3: 用户需要开发专门的动转静脚本、静态图推理脚本,学习静态图相关配置(如TensorRT配置等,同样存在一定学习成本）
 
 ## 2.动态图&静态图混合推理新模式  
@@ -111,19 +111,19 @@ result = predictor.run([x])
 *   动态图推理时候,当用户意识到某个模块比较费时间,可以将此模块封装成py函数,然后加上装饰器`paddle.incubate.jit.inference()`,即可获得推理加速。   
     例如:在 transformer 架构的模型中,绝大部分的高耗时部分,应该是这样的语句  
     代码1:  
-    ```py
-    for block in self.blocks:
-        x, y = block(x, y, c, mask)
-    ```
+```py
+for block in self.blocks:
+    x, y = block(x, y, c, mask)
+```
 *   那么用户可以将上述语句抽象成下面的函数,并加上装饰器`@paddle.incubate.jit.inference`,即可获得推理加速。  
     代码2:  
-    ```py
-    @paddle.incubate.jit.inference()
-    def transformer_blocks(self, x,y,c,mask):
-        for block in self.blocks:
-            x, y = block(x, y, c, mask)
-        return x, y
-    ```
+```py
+@paddle.incubate.jit.inference()
+def transformer_blocks(self, x,y,c,mask):
+    for block in self.blocks:
+        x, y = block(x, y, c, mask)
+    return x, y
+```
 *   之后只需要将原动态图推理中的代码1,换成调用`[x,y] = self.transformer_blocks(x,y,c,mask) `即可。
 
 #### 2.2.2 C++等其他用户:  
@@ -156,7 +156,7 @@ result = predictor.run([x])
         samples = samples_out.sample
 ```
 
-*   输入如果是动态shape的话,当输入的维度的某个值第一次发生变化时,会重新做jit.save,并将此维度的这个值标记为None,表明此维度可变化,当再次变化的时候则无需再做jit.save    
+*   输入如果是动态shape的话,当输入的维度的某个值第一次发生变化时,会重新做`jit.save`,并将此维度的这个值标记为None,表明此维度可变化,当再次变化的时候则无需再做`jit.save`   
     
 *   TODO
     - 尝试自动释放不再需要的显存
