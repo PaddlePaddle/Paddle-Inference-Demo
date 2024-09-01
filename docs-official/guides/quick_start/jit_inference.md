@@ -88,8 +88,7 @@ result = predictor.run([x])
 ### 2.1 功能介绍  
   * 1、支持动态图和静态图混合推理,用户只需修改少量代码即可完成模型推理。  
         具体来讲,用户只需要在动态图组网代码中,将需要动转静的部分用`paddle.incubate.jit.inference`包裹起来即可。  
-        部分通过装饰器修饰的函数,会在用户调用该函数时,自动将函数内的操作进行动转静,并保存在磁盘中。  
-
+        部分通过装饰器修饰的函数,会在用户调用该函数时,自动将函数内的操作进行动转静,并保存在磁盘中。
   * 2、支持其他推理的参数,用户可以通过关键字的参数传入即可使用其他的推理加速功能。  
         如`with_trt`表示是否开启TensorRT后端,`trt_precision_mode`表示TensorRT后端的精度等诸多参数。  
         可添加的参数列表参考[paddle.incubate.jit.inference的参数列表](#paddleincubatejitinference的参数列表)。  
