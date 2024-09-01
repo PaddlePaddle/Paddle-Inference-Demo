@@ -71,7 +71,7 @@ result = predictor.run([x])
 
 ## 2.动态图&静态图混合推理新模式  
 针对上述问题,我们提出了动态图和静态图混合推理的新模式:  
-在这种新模式下,  
+在这种新模式下, 
   *  1、我们对具有繁琐的控制逻辑的部分,或者那些根本没办法动转静的部分都不做动转静操作,而只对模型网络中的核心耗时部分按照静态图进行推理。 
   *  2、用户只需要维护原本的动态图推理脚本,所有的动转静、Pass优化、缓存生成的操作都是隐式进行的,用户并不感知。   
 
@@ -98,33 +98,33 @@ result = predictor.run([x])
 
 #### 目前支持两三种使用方式:
 *  方式一:  
-     @paddle.incubate.jit.inference()放在耗时函数上,
-     将函数部分做动转静,并在该函数调用部分进行静态图推理,其他部分仍然使用动态图推理。
+    `@paddle.incubate.jit.inference()`放在耗时函数上,
+    将函数部分做动转静,并在该函数调用部分进行静态图推理,其他部分仍然使用动态图推理。
 *  方式二:   
-     mylayer = paddle.incubate.jit.inference(mylayer) 加速整个Layer的forward函数
-     将整个Layer的forward函数做动转静,Layer全部使用静态图推理。
+    `mylayer = paddle.incubate.jit.inference(mylayer)`加速整个Layer的forward函数
+    将整个Layer的forward函数做动转静,Layer全部使用静态图推理。
 *  方式三:   
-     mylayer.func = paddle.incubate.jit.inference(mylayer.func) 加速类的局部某个函数
-     将类的某个函数做动转静,该函数使用静态图推理,其他部分仍然使用动态图推理。
+    `mylayer.func = paddle.incubate.jit.inference(mylayer.func)`加速类的局部某个函数
+    将类的某个函数做动转静,该函数使用静态图推理,其他部分仍然使用动态图推理。
 
-#### 2.2.1 python动态图推理部署用户:  
-    动态图推理时候,当用户意识到某个模块比较费时间,可以将此模块封装成py函数,然后加上装饰器`paddle.incubate.jit.inference()`,即可获得推理加速。   
+#### 2.2.1 python动态图推理部署用户: 
+*   动态图推理时候,当用户意识到某个模块比较费时间,可以将此模块封装成py函数,然后加上装饰器`paddle.incubate.jit.inference()`,即可获得推理加速。   
     例如:在 transformer 架构的模型中,绝大部分的高耗时部分,应该是这样的语句  
     代码1:  
     ```py
-         for block in self.blocks:
-            x, y = block(x, y, c, mask)
+    for block in self.blocks:
+        x, y = block(x, y, c, mask)
     ```
-    那么用户可以将上述语句抽象成下面的函数,并加上装饰器`@paddle.incubate.jit.inference`,即可获得推理加速。  
+*   那么用户可以将上述语句抽象成下面的函数,并加上装饰器`@paddle.incubate.jit.inference`,即可获得推理加速。  
     代码2:  
     ```py
-        @paddle.incubate.jit.inference()
-        def transformer_blocks(self, x,y,c,mask):
-            for block in self.blocks:
-                x, y = block(x, y, c, mask)
-            return x, y
+    @paddle.incubate.jit.inference()
+    def transformer_blocks(self, x,y,c,mask):
+        for block in self.blocks:
+            x, y = block(x, y, c, mask)
+        return x, y
     ```
-    之后只需要将原动态图推理中的代码1,换成调用`[x,y] = self.transformer_blocks(x,y,c,mask) `即可。
+*   之后只需要将原动态图推理中的代码1,换成调用`[x,y] = self.transformer_blocks(x,y,c,mask) `即可。
 
 #### 2.2.2 C++等其他用户:  
 *    暂不支持  
@@ -145,7 +145,7 @@ result = predictor.run([x])
     - 并且每个参数在该函数的所有次调用的时候类型必须维持不变,也就是说,你如果第一次是None,那么你永远都必须是None,如果你第一次是个Tensor,那么你永远都必须是Tensor。  
 *   由于转静后的函数输出只能是Paddle.Tensor, 这与原动态图的输出可能会有差异，需要用户调整函数输出衔接。
 
-- 例如Dit优化中的语句，https://github.com/PaddlePaddle/PaddleMIX/blob/352435e896cfe7a8250181c89639d6d91ddeb68f/ppdiffusers/ppdiffusers/pipelines/dit/pipeline_dit.py#L229
+- 例如Dit优化中的语句，https://github.com/PaddlePaddle/PaddleMIX/blob/develop/ppdiffusers/ppdiffusers/pipelines/dit/pipeline_dit.py#L195
 ```py
     samples_out = self.vae.decode(latents)
     if paddle.incubate.jit.is_inference_mode(self.vae.decode):
