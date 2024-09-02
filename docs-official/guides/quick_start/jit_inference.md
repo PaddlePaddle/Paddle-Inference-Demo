@@ -131,13 +131,6 @@ def transformer_blocks(self, x, y, c, mask):
 
 #### 2.2.2 C++等其他用户:  
 *    暂不支持  
-    
-## 3.动态图&静态图混合推理使用示例
-*   以`PaddleMix`中`DIT`模型的推理优化为例:
-
-
-
-
 
 ## 3.动态图&静态图混合推理使用注意事项  
 *   `@paddle.incubate.jit.inference()` 仅适用于推理，不能用于训练。  
