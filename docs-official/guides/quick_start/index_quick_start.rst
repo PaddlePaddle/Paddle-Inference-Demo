@@ -14,9 +14,11 @@
 
 -  `预测示例(Python) <python_demo.html>`_
 -  `预测示例(C++) <cpp_demo.html>`_
+-  `一键动转静推理示例 <jit_inference.html>`_
 
 ..  toctree::
     :hidden: 
 
     python_demo.md
     cpp_demo.md
+    jit_inference.md
