@@ -26,7 +26,9 @@ python -c "import use_triton_in_paddle; use_triton_in_paddle.make_triton_compati
 ## 3. Paddle Inference 使用`PaddleMixTriton`自定义算子示例
 使用Triton算子优化后代码:    
 ```py
-
+# 引入PaddleMIX
+import os
+os.sys.path.append(["/path/to/PaddleMIX"])
 import paddlemix
 # 参数准备
 emb = self.linear(self.silu(conditioning_embedding).cast(x.dtype))
