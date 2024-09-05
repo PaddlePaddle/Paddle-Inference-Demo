@@ -72,8 +72,8 @@ triton_split(x, num_or_sections=[-1, -1], axis=1)
     使用Triton过程中，如果遇到上述问题，请参考如下解决方案：
         
     ```bash
-        cp /usr/local/cuda/bin/ptxas /your_python_path/site-packages/triton/backends/nvidia/bin/
-        # 将triton安装包中的ptxas，替换为/usr/local/cuda/bin/ptxas；
+        cp  /your_cuda_path/bin/ptxas /your_python_path/site-packages/triton/backends/nvidia/bin/
+        # 将triton安装包中的ptxas，替换为 /your_cuda_path/bin/ptxas
         # 不同Triton版本的patxas路径可能不同;用户triton中的ptxas准确位置，可以用如下命令寻找： 
         # find /your_triton_package_path -name ptxas
         # 此方案在Triton 2.3.0 & 3.0.0版本中有效，其他版本的Triton尚未验证。
