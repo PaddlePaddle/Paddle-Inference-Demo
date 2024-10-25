@@ -28,7 +28,7 @@ make -j32
 ```bash
 # 检查编译目录下的 Python whl 包
 Paddle/build/python/dist/
-└── paddlepaddle_npu-0.0.0-cp37-cp37m-linux_x86_64.whl
+└── paddlepaddle-0.0.0-cp310-cp310-linux_x86_64.whl
 
 # 检查编译目录下的 C++ 预测库，目录结构如下
 Paddle/build/paddle_inference_install_dir
