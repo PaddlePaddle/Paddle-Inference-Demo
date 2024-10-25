@@ -6,47 +6,85 @@ ResNet50 样例展示了单输入模型在寒武纪 MLU 下的推理过程。运
 
 当前仅支持通过源码编译的方式安装，源码编译方式参考 Paddle Inference 官网文档的硬件支持部分。
 
-编译完成之后在编译目录下将会生成 Paddle Inference 的 C++ 预测库，即为编译目录下的 `paddle_inference_install_dir` 文件夹。将其软链接或重命名为 `paddle_inference`，并置于 `Paddle-Inference-Demo/c++/lib` 目录下，目录结构如下：
+可以参考如下编译选项：
 
 ```bash
-Paddle-Inference-Demo/c++/lib/
-├── CMakeLists.txt
-└── paddle_inference
-    ├── CMakeCache.txt
-    ├── paddle
-    │   ├── include                                    # C++ 预测库头文件目录
-    │   │   ├── crypto
-    │   │   ├── experimental
-    │   │   ├── internal
-    │   │   ├── paddle_analysis_config.h
-    │   │   ├── paddle_api.h
-    │   │   ├── paddle_infer_contrib.h
-    │   │   ├── paddle_infer_declare.h
-    │   │   ├── paddle_inference_api.h                 # C++ 预测库头文件
-    │   │   ├── paddle_mkldnn_quantizer_config.h
-    │   │   ├── paddle_pass_builder.h
-    │   │   └── paddle_tensor.h
-    │   └── lib
-    │       ├── libpaddle_inference.a                  # C++ 静态预测库文件
-    │       └── libpaddle_inference.so                 # C++ 动态态预测库文件
-    ├── third_party
-    │   ├── install                                    # 第三方链接库和头文件
-    │   │   ├── cryptopp
-    │   │   ├── gflags
-    │   │   ├── glog
-    │   │   ├── mkldnn
-    │   │   ├── mklml
-    │   │   ├── protobuf
-    │   │   ├── utf8proc
-    │   │   └── xxhash
-    │   └── threadpool
-    │       └── ThreadPool.h
-    └── version.txt                                    # 预测库版本信息
+cd Paddle
+mkdir build && cd build
+
+# use the following cmake options
+cmake .. -DPY_VERSION=3.10 \
+		 -DPYTHON_EXECUTABLE=`which python3` \
+		 -DWITH_GPU=OFF \
+		 -DWITH_CUSTOM_DEVICE=ON \
+		 -DON_INFER=ON \
+		 -DWITH_TESTING=OFF \
+		 -DCMAKE_CXX_FLAGS="-Wno-error -w"
+make -j32
 ```
 
-## 二：获取 Resnet50 模型
+编译完成之后在编译目录下将会生成 Paddle Inference 的 C++ 预测库，即为编译目录下的 `paddle_inference_install_dir` 文件夹。文件夹目录如下示例：
 
-点击[链接](https://paddle-inference-dist.bj.bcebos.com/Paddle-Inference-Demo/resnet50.tgz)下载模型。如果你想获取更多的**模型训练信息**，请访问[这里](https://github.com/PaddlePaddle/PaddleClas)。
+```bash
+# 检查编译目录下的 Python whl 包
+Paddle/build/python/dist/
+└── paddlepaddle_npu-0.0.0-cp37-cp37m-linux_x86_64.whl
+
+# 检查编译目录下的 C++ 预测库，目录结构如下
+Paddle/build/paddle_inference_install_dir
+├── CMakeCache.txt
+├── paddle
+│   ├── include                                    # C++ 预测库头文件目录
+│   │   ├── crypto
+│   │   ├── experimental
+│   │   ├── internal
+│   │   ├── paddle_analysis_config.h
+│   │   ├── paddle_api.h
+│   │   ├── paddle_infer_contrib.h
+│   │   ├── paddle_infer_declare.h
+│   │   ├── paddle_inference_api.h                 # C++ 预测库头文件
+│   │   ├── paddle_mkldnn_quantizer_config.h
+│   │   ├── paddle_pass_builder.h
+│   │   └── paddle_tensor.h
+│   └── lib
+│       ├── libpaddle_inference.a                  # C++ 静态预测库文件
+│       └── libpaddle_inference.so                 # C++ 动态态预测库文件
+├── third_party
+│   ├── install                                    # 第三方链接库和头文件
+│   │   ├── cryptopp
+│   │   ├── gflags
+│   │   ├── glog
+│   │   ├── mkldnn
+│   │   ├── mklml
+│   │   ├── protobuf
+│   │   ├── utf8proc
+│   │   └── xxhash
+│   └── threadpool
+│       └── ThreadPool.h
+└── version.txt                                    # 预测库版本信息
+
+```
+
+将编译好的`paddle_inference_install_dir`目录拷贝到`Paddle-Inference-Demo/c++/lib` 目录下。即可完成 Paddle Inference 预测库的安装。
+
+## 二：准备 PaddleCustomDevice
+
+PaddleCustomDevice 中包含了支持 MLU 的插件库，需要手动编译才能是能 MLU 设备。整体使用和编译方法可以参考 [PaddleCustomDevice-MLU](https://github.com/PaddlePaddle/PaddleCustomDevice/blob/develop/backends/mlu/README_cn.md)。若想适配 PaddleInference C++ API，则需修改编译选项：
+
+```bash
+# 给 CustomDevice 设置 PADDLE_INFERENCE_LIB_DIR 环境变量
+export PADDLE_INFERENCE_LIB_DIR=/path/to/paddle_inference/paddle/lib
+
+# 创建 customdevice 安装编译目录
+cd PaddleCustomDevice/backends/mlu
+mkdir build && cd build
+
+# 配置并编译paddlecustomdevice 插件包
+cmake .. -DWITH_PROFILE=OFF -DON_INFER=ON
+make -j32
+```
+
+编译完成，需要设置 PaddleCustomDevice 的库目录到 CUSTOM_DEVICE_ROOT 环境变量，`export CUSTOM_DEVICE_ROOT=PaddleCustomDevice/backends/mlu/build`。该环境变量会在下面编译时做链接使用。
 
 ## 三：编译样例
  
