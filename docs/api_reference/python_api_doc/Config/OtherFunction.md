@@ -164,6 +164,8 @@ paddle.inference.Config.summary()
 | cpu_math_thread               | 1                                |
 | enable_mkdlnn                 | false                            |
 | mkldnn_cache_capacity         | 10                               |
+| use_openvino                  | false                            |
+| openvino_inference_precision  | fp32                            |
 +-------------------------------+----------------------------------+
 | use_gpu                       | true                             |
 | gpu_device_id                 | 0                                |

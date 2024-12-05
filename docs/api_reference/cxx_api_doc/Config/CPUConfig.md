@@ -143,3 +143,45 @@ config.EnableMkldnnInt8();
 // 通过 API 获取 MKLDNN INT8 启用结果 - true
 std::cout << "Enable MKLDNN INT8 is: " << config.mkldnn_int8_enabled() << std::endl;
 ```
+
+## OpenVINO 设置
+
+**注意：** 
+1. 启用 OpenVINO 的前提为已经使用 CPU 进行预测，否则启用 OpenVINO 无法生效
+2. 当前只支持全图转OpenVINO引擎，不支持子图模式
+3. 通过`SetCpuMathLibraryNumThreads` 设置OpenVINO的线程数
+
+API定义如下：
+
+```c++
+// 启用 OpenVINO 进行预测加速
+// 参数：None
+// 返回：None
+void EnableOpenVINOEngine(Precision precision = Precision::kFloat32)
+
+// 设置 OpenVINO 推理线程数
+// 参数：cpu_math_library_num_threads - OpenVINO CPU计算线程数(blas库计算线程数)
+// 返回：None
+void SetCpuMathLibraryNumThreads(int cpu_math_library_num_threads);
+
+// 判断是否启用 OpenVINO 
+// 参数：None
+// 返回：bool - 是否启用 OpenVINO
+bool openvino_engine_enabled() const;
+```
+
+代码示例 (1)：使用 OpenVINO 进行预测
+
+```c++
+// 创建 Config 对象
+paddle_infer::Config config(FLAGS_infer_model + "/mobilenet");
+
+// 启用 OpenVINO 进行预测
+config.EnableOpenVINOEngine(paddle_infer::PrecisionType::kFloat32)
+
+// 设置 OpenVINO CPU推理线程数
+config.SetCpuMathLibraryNumThreads(10)
+
+// 通过 API 获取 OpenVINO 启用结果 - true
+std::cout << "Enable OpenVINO is: " << config.openvino_engine_enabled() << std::endl;
+```

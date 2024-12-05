@@ -11,6 +11,7 @@
 using paddle_infer::Config;
 using paddle_infer::Predictor;
 using paddle_infer::CreatePredictor;
+using paddle_infer::PrecisionType;
 
 DEFINE_string(model_file, "", "Directory of the inference model.");
 DEFINE_string(params_file, "", "Directory of the inference model.");
@@ -19,6 +20,7 @@ DEFINE_int32(batch_size, 1, "Directory of the inference model.");
 DEFINE_int32(warmup, 0, "warmup.");
 DEFINE_int32(repeats, 1, "repeats.");
 DEFINE_bool(use_ort, false, "use ort.");
+DEFINE_bool(use_openvino, false, "use openvino.");
 
 using Time = decltype(std::chrono::high_resolution_clock::now());
 Time time() { return std::chrono::high_resolution_clock::now(); };
@@ -40,6 +42,9 @@ std::shared_ptr<Predictor> InitPredictor() {
     config.EnableONNXRuntime();
     // 开启onnxruntime优化
     config.EnableORTOptimization();
+  }else if(FLAGS_use_openvino){
+    config.EnableOpenVINOEngine(PrecisionType::kFloat32);
+    config.SetCpuMathLibraryNumThreads(10);
   } else {
     config.EnableMKLDNN();
   }
