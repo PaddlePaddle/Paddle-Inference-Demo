@@ -36,6 +36,8 @@ paddle_inference/paddle_inference_install_dir/
 │   │   ├── glog
 │   │   ├── mkldnn
 │   │   ├── mklml
+│   │   ├── openvino        OpenVINO 推理后端
+│   │   ├── tbb             OpenVINO 多线程后端
 │   │   ├── protobuf
 │   │   └── xxhash
 │   └── threadpool
@@ -53,6 +55,8 @@ WITH_GPU: ON
 CUDA version: 9.0
 CUDNN version: v7.6
 CXX compiler version: 4.8.5
+WITH_OPENVINO: ON
+OpenVINO version: 2024.5.0
 WITH_TENSORRT: ON
 TensorRT version: v6
 ```
@@ -72,9 +76,10 @@ Paddle-Inference-Demo/c++/resnet50/
 编译运行预测样例之前，需要根据运行环境配置编译脚本 `compile.sh`。
 
 ```bash
-# 根据预编译库中的version.txt信息判断是否将以下三个标记打开
+# 根据预编译库中的version.txt信息判断是否将以下四个标记打开
 WITH_MKL=ON       
 WITH_GPU=ON         
+WITH_OPENVINO=OFF    
 USE_TENSORRT=OFF
 
 # 配置预测库的根目录，即为本章节第1步中下载/编译的 C++ 预测库，可重命名为 paddle_inference 后置于 ../lib 目录下

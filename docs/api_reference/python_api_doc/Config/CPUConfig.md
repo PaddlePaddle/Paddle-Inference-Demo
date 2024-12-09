@@ -2,7 +2,7 @@
 
 **注意：**
 1. 在 CPU 型号允许的情况下，进行预测库下载或编译试尽量使用带 AVX 和 MKL 的版本
-2. 可以尝试使用 Intel 的 MKLDNN 进行 CPU 预测加速，默认 CPU 不启用 MKLDNN
+2. 可以尝试使用 Intel 的 MKLDNN 或者开启 OpenVINO 推理引擎 进行 CPU 预测加速，默认 CPU 不启用 MKLDNN 或 OpenVINO
 3. 在 CPU 可用核心数足够时，可以通过设置 `set_cpu_math_library_num_threads` 将线程数调高一些，默认线程数为 1
 
 ## CPU 设置
@@ -138,4 +138,49 @@ config.enable_mkldnn()
 
 # 启用 MKLDNN INT8 进行预测
 config.enable_mkldnn_int8()
+```
+
+## OpenVINO 设置
+
+**注意：** 
+1. 启用 OpenVINO 的前提为已经使用 CPU 进行预测，否则启用 OpenVINO 无法生效
+2. 当前只支持全图转OpenVINO引擎，不支持子图模式
+3. 通过`set_cpu_math_library_num_threads` 设置OpenVINO的线程数
+
+API定义如下：
+
+```python
+# 启用 OpenVINO 进行预测加速
+# 参数：None
+# 返回：None
+paddle.inference.Config.enable_openvino_engine(inference_precision: PrecisionType)
+
+# 设置 OpenVINO 推理线程数
+# 参数：cpu_math_library_num_threads - OpenVINO CPU计算线程数(blas库计算线程数)
+# 返回：None
+paddle.inference.Config.set_cpu_math_library_num_threads(cpu_math_library_num_threads: int)
+
+# 判断是否启用 OpenVINO 
+# 参数：None
+# 返回：bool - 是否启用 OpenVINO
+paddle.inference.Config.openvino_engine_enabled()
+```
+
+代码示例 (1)：使用 OpenVINO 进行预测
+
+```python
+# 引用 paddle inference 预测库
+import paddle.inference as paddle_infer
+
+# 创建 config
+config = paddle_infer.Config("./mobilenet_v1")
+
+# 启用 OpenVINO 进行预测
+config.enable_openvino_engine(precision_mode=paddle_infer.PrecisionType.Float32)
+
+# 设置 OpenVINO CPU推理线程数
+config.set_cpu_math_library_num_threads(cpu_math_library_num_threads=10)
+
+# 通过 API 获取 OpenVINO 启用结果 - true
+print(config.openvino_engine_enabled())
 ```

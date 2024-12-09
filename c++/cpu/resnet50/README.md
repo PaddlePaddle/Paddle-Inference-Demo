@@ -28,9 +28,10 @@ Linux运行步骤如下：
 ```bash
 # 根据预编译库中的version.txt信息判断是否将以下标记打开
 WITH_MKL=OFF
-WITH_ARM=OFF  # 在飞腾/鲲鹏 CPU 下运行，则修改为ON
-WITH_MIPS=OFF # 在龙芯 CPU 下运行，则修改为ON
-WITH_SW=OFF   # 在申威 CPU 下运行，则修改为ON
+WITH_OPENVINO=OFF # 在intel CPU 下运行，则修改为ON
+WITH_ARM=OFF      # 在飞腾/鲲鹏 CPU 下运行，则修改为ON
+WITH_MIPS=OFF     # 在龙芯 CPU 下运行，则修改为ON
+WITH_SW=OFF       # 在申威 CPU 下运行，则修改为ON
 ```
 
 运行 `bash compile.sh` 编译样例。
@@ -45,6 +46,11 @@ WITH_SW=OFF   # 在申威 CPU 下运行，则修改为ON
 ### 使用 OnnxRuntime 运行样例
 ```shell
 ./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_ort=1
+```
+
+### 使用 OpenVINO 运行样例
+```shell
+./build/resnet50_test --model_file resnet50/inference.pdmodel --params_file resnet50/inference.pdiparams --use_openvino=1
 ```
 
 运行结束后，程序会将模型结果打印到屏幕，说明运行成功。
