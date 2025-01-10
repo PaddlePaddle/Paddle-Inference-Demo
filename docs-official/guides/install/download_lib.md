@@ -19,11 +19,11 @@
 
 - 预编译包使用方式见：[推理示例（Python）](../quick_start/python_demo.md)
 
-| 版本说明                                                                     | python3.8                                                                                                                                                                                                    |
-|:-------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Jetpack5.1.2: nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.2-all    | [paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/3.0.0-rc0/python/Jetson/jetpack5.1.2_gcc9.4/all/paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl)    |
-| Jetpack5.1.2: nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.2-xavier | [paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/3.0.0-rc0/python/Jetson/jetpack5.1.2_gcc9.4/xavier/paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl) |
-| Jetpack5.1.2: nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.2-orin   | [paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/3.0.0-rc0/python/Jetson/jetpack5.1.2_gcc9.4/orin/paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl)      |
+| 版本说明   |   python3.8   |
+|:---------|:-------------|
+|Jetpack5.1.2: nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.2-all|[paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/3.0.0-rc0/python/Jetson/jetpack5.1.2_gcc9.4/all/paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl)|
+|Jetpack5.1.2: nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.2-xavier|[paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/3.0.0-rc0/python/Jetson/jetpack5.1.2_gcc9.4/xavier/paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl)|
+|Jetpack5.1.2: nv-jetson-cuda11.4-cudnn8.6.0-trt8.5.2-jetpack5.1.2-orin|[paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl](https://paddle-inference-lib.bj.bcebos.com/3.0.0-rc0/python/Jetson/jetpack5.1.2_gcc9.4/orin/paddlepaddle_gpu-3.0.0rc0-cp38-cp38-linux_aarch64.whl)|
 
 
 # 下载安装 Windows 推理库
