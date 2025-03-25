@@ -179,7 +179,7 @@ input_config.input_range=(1,10)
 trt_config=TensorRTConfig(inputs=[input_config])
 ```
 
-## paddle.tensorrt.convert(model_path,config)
+## 4.paddle.tensorrt.convert(model_path,config)
 
 ### 注意:
 1.PIR-TensorRT建议使用json模型，同时也支持pdmodel，但是转换为PIR的过程中无法控制
