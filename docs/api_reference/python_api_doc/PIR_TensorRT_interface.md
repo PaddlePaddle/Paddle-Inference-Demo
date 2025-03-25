@@ -8,13 +8,13 @@ API定义如下:
 
 ```python
 # 一个用于为模型配置输入数据的类
-#参数:warmup_data:tuple[np.ndarray,...] | None = None 实际输入数据的元组（用于自动形状收集机制）。
-#    min_input_shape:tuple | None = None 输入的最小形状。
-#    max_input_shape:tuple | None = None 输入的最大形状。
-#    optim_input_shape:tuple | None = None 输入的优化形状。
-#    input_data_type:str | None = 'float32' 输入的数据类型。
-#    input_range:tuple | None = None 输入的范围。
-#    name:str | None = None 输入的名称。
+# 参数:warmup_data:tuple[np.ndarray,...] | None = None 实际输入数据的元组（用于自动形状收集机制）。
+#     min_input_shape:tuple | None = None 输入的最小形状。
+#     max_input_shape:tuple | None = None 输入的最大形状。
+#     optim_input_shape:tuple | None = None 输入的优化形状。
+#     input_data_type:str | None = 'float32' 输入的数据类型。
+#     input_range:tuple | None = None 输入的范围。
+#     name:str | None = None 输入的名称。
 
 class Input:
     def __init__(
@@ -104,15 +104,15 @@ class PrecisionMode(Enum):
 
 ```python
 # 一个用于配置 TensorRT 优化的类。
-#参数:inputs:(list) 这是一个包含输入配置的列表，每个配置可能定义了模型的输入形状、数据类型等信息。
-#    min_subgraph_size(int,optional):最小可以被TensorRT优化的子图数量(默认为3)
-#    save_model_dir(str,optional):保存优化后的模型的目录(默认为不保存)
-#    disable_ops(str|list,optional):不允许进入TensorRT的op
-#    precision_mode(PrecisionMode,optional):指定TensorRT优化的精度模式,可选PrecisionMode.FP32:32位浮点精度，PrecisionMode.FP16:16位浮点精度，PrecisionMode.INT8:8位浮点精度,PrecisionMode.BFP16:16位脑浮点精度(仅在TensorRT版本大于9.0时支持)
-#    ops_run_float(str|list,optional):指定某些op以fp32精度运行
-#    optimization_level(int,optional):设置TensorRT优化级别(默认为3)。仅在TensorRT版本大于8.6时支持，优化级别通常控制TensorRT在优化过程中应用的优化程度。
-#    disable_passes(str|list,optional):不应用于原始程序的优化pass名称,默认为[]
-#    workspace_size(int,optional):指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
+# 参数:inputs:(list) 这是一个包含输入配置的列表，每个配置可能定义了模型的输入形状、数据类型等信息。
+#     min_subgraph_size(int,optional):最小可以被TensorRT优化的子图数量(默认为3)
+#     save_model_dir(str,optional):保存优化后的模型的目录(默认为不保存)
+#     disable_ops(str|list,optional):不允许进入TensorRT的op
+#     precision_mode(PrecisionMode,optional):指定TensorRT优化的精度模式,可选PrecisionMode.FP32:32位浮点精度，PrecisionMode.FP16:16位浮点精度，PrecisionMode.INT8:8位浮点精度,PrecisionMode.BFP16:16位脑浮点精度(仅在TensorRT版本大于9.0时支持)
+#     ops_run_float(str|list,optional):指定某些op以fp32精度运行
+#     optimization_level(int,optional):设置TensorRT优化级别(默认为3)。仅在TensorRT版本大于8.6时支持，优化级别通常控制TensorRT在优化过程中应用的优化程度。
+#     disable_passes(str|list,optional):不应用于原始程序的优化pass名称,默认为[]
+#     workspace_size(int,optional):指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
 
 class TensorRTConfig:
     def __init__(
