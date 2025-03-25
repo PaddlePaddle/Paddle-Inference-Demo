@@ -67,7 +67,7 @@ print("Use GPU is: {}".format(config.use_gpu())) # False
 config.enable_use_gpu(100, 0, paddle_infer.PrecisionType.Half)
 ```
 
-## 非PIR-TensorRT 设置
+## 旧版本TensorRT 设置
 
 **注意：**
 1. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
@@ -80,7 +80,7 @@ config.enable_use_gpu(100, 0, paddle_infer.PrecisionType.Half)
 API定义如下：
 
 ```python
-# 启用 非pir-TensorRT 进行预测加速
+# 启用 旧版本TensorRT 进行预测加速
 # 参数：workspace_size     - 指定 TensorRT 使用的工作空间大小
 #      max_batch_size     - 设置最大的 batch 大小，运行时 batch 大小不得超过此限定值
 #      min_subgraph_size  - Paddle-TRT 是以子图的形式运行，为了避免性能损失，当子图内部节点个数
