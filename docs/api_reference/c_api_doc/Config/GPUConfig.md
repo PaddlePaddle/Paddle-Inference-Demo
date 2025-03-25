@@ -58,12 +58,12 @@ PD_Bool PD_ConfigThreadLocalStreamEnabled(PD_Config* pd_config);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 通过 API 获取 GPU 信息
 printf("Use GPU is: %s\n", PD_ConfigUseGpu(config) ? "True" : "False"); // True
-printf("GPU device id is: %d\n", PD_ConfigGpuDeviceId(config));
+printf("GPU deivce id is: %d\n", PD_ConfigGpuDeviceId(config));
 printf("GPU memory size is: %d\n", PD_ConfigMemoryPoolInitSizeMb(config));
 printf("GPU memory frac is: %f\n", PD_ConfigFractionOfGpuMemoryForPool(config));
 
@@ -106,7 +106,7 @@ GPU设置代码示例：
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 CUDNN 进行预测加速
@@ -128,7 +128,7 @@ printf("Enable CUDNN is: %s\n", PD_ConfigCudnnEnabled(config) ? "True" : "False"
 PD_ConfigDestroy(config);
 ```
 
-## 旧版本TensorRT 设置
+## TensorRT 设置
 
 **注意：** 
 1. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
@@ -210,7 +210,7 @@ PD_Bool PD_ConfigTensorRtDlaEnabled(PD_Config* pd_config);
 // 创建 Config 对象
 PD_Config* config = PD_ConfigCreate();
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 TensorRT 进行预测加速 - FP32
@@ -242,7 +242,7 @@ const char* model_path  = "./model/inference.pdmodel";
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 TensorRT 进行预测加速 - Int8
@@ -275,7 +275,7 @@ const char* model_path  = "./model/inference.pdmodel";
 const char* params_path = "./model/inference.pdiparams";
 PD_ConfigSetModel(config, model_path, params_path);
 
-// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
+// 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
 PD_ConfigEnableUseGpu(config, 100, 0);
 
 // 启用 TensorRT 进行预测加速 - FP32
