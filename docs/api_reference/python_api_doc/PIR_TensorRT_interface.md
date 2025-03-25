@@ -8,13 +8,13 @@ API定义如下:
 
 ```python
 # 一个用于为模型配置输入数据的类
-#参数:warmup_data:tuple[np.ndarray,...] | None = None 实际输入数据的元组（用于自动形状收集机制）。
-#    min_input_shape:tuple | None = None 输入的最小形状。
-#    max_input_shape:tuple | None = None 输入的最大形状。
-#    optim_input_shape:tuple | None = None 输入的优化形状。
-#    input_data_type:str | None = 'float32' 输入的数据类型。
-#    input_range:tuple | None = None 输入的范围。
-#    name:str | None = None 输入的名称。
+# 参数:warmup_data:tuple[np.ndarray,...] | None = None 实际输入数据的元组。
+#     min_input_shape:tuple | None = None 输入的最小形状。
+#     max_input_shape:tuple | None = None 输入的最大形状。
+#     optim_input_shape:tuple | None = None 输入的最优形状。
+#     input_data_type:str | None = 'float32' 输入的数据类型，默认是float32。
+#     input_range:tuple | None = None 用于生成输入数据的值范围。对于浮点数，默认范围是 (0.0, 1.0)。对于整数，默认范围是 (1, 10)。此选项仅在提供了 min_input_shape、optim_input_shape 和 max_input_shape 时适用；不适用于 warmup_data。
+#     name:str | None = None 模型输入的名称。
 
 class Input:
     def __init__(
@@ -104,15 +104,15 @@ class PrecisionMode(Enum):
 
 ```python
 # 一个用于配置 TensorRT 优化的类。
-#参数:inputs:(list) 这是一个包含输入配置的列表，每个配置可能定义了模型的输入形状、数据类型等信息。
-#    min_subgraph_size(int,optional):最小可以被TensorRT优化的子图数量(默认为3)
-#    save_model_dir(str,optional):保存优化后的模型的目录(默认为不保存)
-#    disable_ops(str|list,optional):不允许进入TensorRT的op
-#    precision_mode(PrecisionMode,optional):指定TensorRT优化的精度模式,可选PrecisionMode.FP32:32位浮点精度，PrecisionMode.FP16:16位浮点精度，PrecisionMode.INT8:8位浮点精度,PrecisionMode.BFP16:16位脑浮点精度(仅在TensorRT版本大于9.0时支持)
-#    ops_run_float(str|list,optional):指定某些op以fp32精度运行
-#    optimization_level(int,optional):设置TensorRT优化级别(默认为3)。仅在TensorRT版本大于8.6时支持，优化级别通常控制TensorRT在优化过程中应用的优化程度。
-#    disable_passes(str|list,optional):不应用于原始程序的优化pass名称,默认为[]
-#    workspace_size(int,optional):指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
+# 参数:inputs:(list) 模型输入配置的列表,每个元素都是Input类的一个实例,用于指定输入数据的形状、类型等。
+#     min_subgraph_size(int,optional):最小可以被TensorRT优化的子图数量(默认为3)。
+#     save_model_dir(str,optional):指定优化后的模型保存路径，若不指定则不保存。
+#     disable_ops(str|list,optional):一个字符串或列表，表示不应该转换为TensorRT的op名称(默认为None)。
+#     precision_mode(PrecisionMode,optional):指定TensorRT优化的精度模式,可选PrecisionMode.FP32:32位浮点精度，PrecisionMode.FP16:16位浮点精度，PrecisionMode.INT8:8位浮点精度,PrecisionMode.BFP16:16位Brain浮点精度(仅在TensorRT版本大于9.0时支持)
+#     ops_run_float(str|list,optional):指定某些op以fp32精度运行
+#     optimization_level(int,optional):设置TensorRT优化级别(默认为3)。仅在TensorRT版本大于8.6时支持，优化级别通常控制TensorRT在优化过程中应用的优化程度。
+#     disable_passes(str|list,optional):一个字符串列表，表示不应用于原始程序的pass名称(默认为空列表[])
+#     workspace_size(int,optional):指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
 
 class TensorRTConfig:
     def __init__(
@@ -179,7 +179,7 @@ input_config.input_range=(1,10)
 trt_config=TensorRTConfig(inputs=[input_config])
 ```
 
-## paddle.tensorrt.convert(model_path,config)
+## 4.paddle.tensorrt.convert(model_path,config)
 
 ### 注意:
 1.PIR-TensorRT建议使用json模型，同时也支持pdmodel，但是转换为PIR的过程中无法控制
@@ -190,7 +190,7 @@ API定义如下:
 # 参数:model_path:Paddle的模型路径，既可以是模型前缀，如model_dir/inference,也可以是model_dir/inference.json
 # config:TensorRTConfig
 # 返回:经过TensorRT优化的模型
-
+paddle.tensorrt.convert(model_path,config)
 ```
 
 代码示例1:
