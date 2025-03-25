@@ -8,6 +8,7 @@ API定义如下:
 
 ```python
 # 一个用于为模型配置输入数据的类
+<<<<<<< HEAD
 # 参数:warmup_data:tuple[np.ndarray,...] | None = None 实际输入数据的元组。
 #     min_input_shape:tuple | None = None 输入的最小形状。
 #     max_input_shape:tuple | None = None 输入的最大形状。
@@ -15,6 +16,15 @@ API定义如下:
 #     input_data_type:str | None = 'float32' 输入的数据类型，默认是float32。
 #     input_range:tuple | None = None 用于生成输入数据的值范围。对于浮点数，默认范围是 (0.0, 1.0)。对于整数，默认范围是 (1, 10)。此选项仅在提供了 min_input_shape、optim_input_shape 和 max_input_shape 时适用；不适用于 warmup_data。
 #     name:str | None = None 模型输入的名称。
+=======
+# 参数:warmup_data:tuple[np.ndarray,...] | None = None 实际输入数据的元组（用于自动形状收集机制）。
+#     min_input_shape:tuple | None = None 输入的最小形状。
+#     max_input_shape:tuple | None = None 输入的最大形状。
+#     optim_input_shape:tuple | None = None 输入的优化形状。
+#     input_data_type:str | None = 'float32' 输入的数据类型。
+#     input_range:tuple | None = None 输入的范围。
+#     name:str | None = None 输入的名称。
+>>>>>>> 048737927e9c3e0297d250d1d3f62bfa8cdbfa3b
 
 class Input:
     def __init__(
