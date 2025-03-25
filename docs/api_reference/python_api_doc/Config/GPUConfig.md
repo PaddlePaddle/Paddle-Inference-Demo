@@ -44,7 +44,7 @@ paddle.inference.Config.fraction_of_gpu_memory_for_pool()
 GPU设置代码示例：
 
 ```python
-# 引用 paddle inference 预测
+# 引用 paddle inference 预测库
 import paddle.inference as paddle_infer
 
 # 创建 config
