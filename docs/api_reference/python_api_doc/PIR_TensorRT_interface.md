@@ -190,7 +190,7 @@ API定义如下:
 # 参数:model_path:Paddle的模型路径，既可以是模型前缀，如model_dir/inference,也可以是model_dir/inference.json
 # config:TensorRTConfig
 # 返回:经过TensorRT优化的模型
-
+paddle.tensorrt.convert(model_path,config)
 ```
 
 代码示例1:
