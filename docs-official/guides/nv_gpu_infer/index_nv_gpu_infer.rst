@@ -35,7 +35,6 @@ Paddle Inference 支持通过以下两种方式在Nvidia-GPU上运行推理任�
     gpu_multi_stream.md
     gpu_mixed_precision.md
     gpu_trt_infer.md
-    trt_fp16_int8.md
 
 
 
