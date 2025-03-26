@@ -200,4 +200,10 @@ PIR-TRT 采用子图的形式对 TensorRT 进行集成，当模型加载后，�
 
 ## 6. 基于pdmodel模型格式的 TensorRT 推理
 
-在Paddle 3.0 版本之后，飞桨底层升级为全新的 PIR 架构，保存的模型结构以.json后缀的模型为主。虽然 3.0 进行了全面升级，但是出于兼容性考虑依然保留着旧架构的功能，即如果想在 Paddle 3.0 下对于保存的模型后缀为.pdmodel格式进行 TensorRT 加速推理，可以参考 [Paddle 2.x TensorRT 推理文档](https://www.paddlepaddle.org.cn/inference/v2.6/guides/nv_gpu_infer/gpu_trt_infer.html)；如果是使用 Paddle 3.0 新架构下保存的模型（.json后缀）进行 TensorRT 推理加速，则需要参考本章节介绍的 PIR-TRT 使用方法。
+在Paddle 3.0 版本之后，飞桨底层升级为全新的 PIR 架构，保存的模型结构以.json后缀的模型为主。虽然 3.0 进行了全面升级，但是出于兼容性考虑依然保留着旧架构的功能。
+
+如果是使用 Paddle 3.0 新架构下保存的模型（.json后缀）进行 TensorRT 推理加速，则需要参考本章节介绍的 PIR-TRT 使用方法。
+
+如果想在 Paddle 3.0 下对于保存的模型后缀为.pdmodel格式进行 TensorRT 加速推理，可以参考 [Paddle 2.x TensorRT 推理文档](https://www.paddlepaddle.org.cn/inference/v2.6/guides/nv_gpu_infer/gpu_trt_infer.html)。
+
+如果想在 Paddle 3.0 下对于保存的模型后缀为.pdmodel格式进行 TensorRT 低精度加速推理，可以参考 [Paddle 2.x TensorRT 低精度推理文档](https://www.paddlepaddle.org.cn/inference/v2.6/guides/nv_gpu_infer/trt_fp16_int8.html)。
