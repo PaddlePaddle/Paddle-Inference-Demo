@@ -67,20 +67,20 @@ print("Use GPU is: {}".format(config.use_gpu())) # False
 config.enable_use_gpu(100, 0, paddle_infer.PrecisionType.Half)
 ```
 
-## 旧版本TensorRT 设置
+## TensorRT 设置
 
 **注意：**
 1. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
 2. 对存在LoD信息的模型，如Bert, Ernie等NLP模型，必须使用动态 Shape
 3. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)
-4. 注意此方法只适用pdmodel格式的模型，对于json格式的模型，请参考PIR-TensorRT接口类
+__4. 注意此方法只适用pdmodel格式的模型，对于json格式的模型，请参考PIR-TensorRT接口类__
 
 更多 TensorRT 详细信息，请参考 [使用Paddle-TensorRT库预测](../../../optimize/paddle_trt)。
 
 API定义如下：
 
 ```python
-# 启用 旧版本TensorRT 进行预测加速
+# 启用 TensorRT 进行预测加速
 # 参数：workspace_size     - 指定 TensorRT 使用的工作空间大小
 #      max_batch_size     - 设置最大的 batch 大小，运行时 batch 大小不得超过此限定值
 #      min_subgraph_size  - Paddle-TRT 是以子图的形式运行，为了避免性能损失，当子图内部节点个数
