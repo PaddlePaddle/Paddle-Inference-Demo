@@ -23,7 +23,7 @@ paddle.tensorrt.Input(warmup_data,min_input_shape,max_input_shape,optim_input_sh
 - **name** (str | None = None) - 模型输入的名称
 
 返回 \
-None
+ None
 
 代码示例
 
@@ -62,7 +62,7 @@ paddle.tensorrt.PrecisionMode(Enum)
 - **Enum** (Enum) - 枚举类型，包括FP32、FP16、BF16和INT8。
 
 返回 \
-None
+ None
 
 代码示例
 
@@ -95,7 +95,7 @@ paddle.tensorrt.TensorRTConfig(inputs,min_subgraph_size,save_model_dir,disable_o
 - **workspace_size** (int, optional) - 指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
 
 返回 \
-None
+ None
 
 代码示例
 
@@ -133,7 +133,7 @@ paddle.tensorrt.convert(model_path,config)
 - **config** (TensorRTConfig) - TensorRTConfig实例
 
 返回 \
-program:经过TensorRT优化的program
+ program:经过TensorRT优化的program
 
 代码示例
 
