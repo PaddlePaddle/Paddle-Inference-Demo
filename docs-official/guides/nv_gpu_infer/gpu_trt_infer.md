@@ -3,8 +3,8 @@
 - [GPU TensorRT 加速推理](#gpu-tensorrt-加速推理)
   - [1. 概要](#1-概要)
   - [2. 环境准备](#2-环境准备)
-  - [3, API 使用介绍](#3-api-使用介绍)
-  - [4, 低精度和量化推理](#4-低精度和量化推理)
+  - [3. API 使用介绍](#3-api-使用介绍)
+  - [4. 低精度和量化推理](#4-低精度和量化推理)
   - [5. Paddle Inference 适配 TensorRT 原理介绍](#5-paddle-inference-适配-tensorrt-原理介绍)
   - [6. 基于pdmodel格式的旧架构 TensorRT 推理](#6-基于pdmodel格式的旧架构-TensorRT-推理)
 
@@ -48,7 +48,7 @@ PIR-TRT 支持动态 shape 输入，动态 shape 可用于输入 size 任意变�
 
 <a name="3"></a>
 
-## 3, API 使用介绍
+## 3. API 使用介绍
 
 PIR-TRT 功能实现分为俩个步骤，即模型转换（convert）阶段和运行推理阶段。
 
@@ -128,7 +128,7 @@ Paddle Inference 中推理阶段使用 TensorRT 加速也是遵照这样的流�
 
 <a name="4"></a>
 
-## 4, 低精度和量化推理
+## 4. 低精度和量化推理
 
 深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。采用 TensorRT 加速推理的方式也可支持 Fp32、Fp16 以及 Int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#hardware-precision-matrix)确保您的 GPU 硬件支持您使用的精度。
 
