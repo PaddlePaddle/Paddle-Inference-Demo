@@ -42,7 +42,7 @@ PIR-TRT 支持动态 shape 输入，动态 shape 可用于输入 size 任意变�
 
 1. 源码编译的时候，需要设置编译选项 WITH_TENSORRT 为 ON。另外可以设置编译选项 TENSORRT_ROOT 为 指定的 TensorRT SDK 的根目录，如果不设置将采用默认目录（"/usr"）。
 2. 请确保 Python 版本的 TensorRT 正确安装。如果是从源码编译 Paddle 安装包，你可以设置编译选项 WITH_PIP_TENSORRT 为 ON ，在安装 Paddle whl包的时候系统会自动搜寻默认目录下 C++ 版本 TensorRT SDK，并自动安装对应 Python 版本的 TensorRT。
-3. 当前3.0版本的 PIR-TRT 并不支持在 Windows 进行 TensorRT加速推理，如果需要在 Windows 上进行 TensorRT 加速，请参考第5小节内容。
+3. 当前 3.0 版本的 PIR-TRT 并不支持在 Windows 进行 TensorRT加速推理，如果需要在 Windows 上进行 TensorRT 加速，需要使用 Paddle 2.x 加速方式，请参考第6小节内容。
 4. 推荐使用的 TensorRT 的版本在 8.6 及以上，低于 8.5 版本的 TensorRT 功能将不可用。
 
 
