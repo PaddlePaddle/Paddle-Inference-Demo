@@ -7,12 +7,13 @@ API定义如下:
 Input
 -------------------------------
 
-.. py:class:: paddle.tensorrt.Input(warmup_data,min_input_shape,max_input_shape,optim_input_shape,input_data_type,input_range,name)
+```python
+paddle.tensorrt.Input(warmup_data,min_input_shape,max_input_shape,optim_input_shape,input_data_type,input_range,name)
+```
 
 用于为模型配置输入数据的类
 
 参数
-:::::::::
 - **warmup_data** (Tuple[np.ndarray,...] | None = None) - 实际输入数据的元组
 - **min_input_shape** (Tuple | None = None) - 输入的最小形状
 - **max_input_shape** (Tuple | None = None) - 输入的最大形状
@@ -22,11 +23,9 @@ Input
 - **name** (str | None = None) - 模型输入的名称
 
 返回
-:::::::::
 None
 
 代码示例
-:::::::::
 
 ```python
 >>> from paddle.tensorrt.export import Input
@@ -52,21 +51,20 @@ None
 PrecisionMode
 -------------------------------
 
-.. py:class:: paddle.tensorrt.PrecisionMode(Enum)
+```python
+paddle.tensorrt.PrecisionMode(Enum)
+```
 
 此类定义了可用于配置TensorRT优化的不同精度模式。这些模式包括FP32、FP16、BF16和INT8。
 
 参数
-:::::::::
 
 - **Enum** (Enum) - 枚举类型，包括FP32、FP16、BF16和INT8。
 
 返回
-:::::::::
 None
 
 代码示例
-:::::::::
 
 ```python
 PrecisionMode.FP32
@@ -78,12 +76,13 @@ PrecisionMode.BFP16
 TensorRTConfig
 -------------------------------
 
-.. py:class:: paddle.tensorrt.TensorRTConfig(inputs,min_subgraph_size,save_model_dir,disable_ops,precision_mode,ops_run_float,optimization_level,disable_passes,workspace_size)
+```python
+paddle.tensorrt.TensorRTConfig(inputs,min_subgraph_size,save_model_dir,disable_ops,precision_mode,ops_run_float,optimization_level,disable_passes,workspace_size)
+```
 
 用于配置TensorRT优化的类
 
 参数
-:::::::::
 
 - **inputs** (list) - 模型输入配置的列表,每个元素都是Input类的一个实例,用于指定输入数据的形状、类型等。
 - **min_subgraph_size** (int, optional) -最小可以被TensorRT优化的子图数量(默认为3)。
@@ -96,11 +95,9 @@ TensorRTConfig
 - **workspace_size** (int, optional) - 指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
 
 返回
-:::::::::
 None
 
 代码示例
-:::::::::
 
 ```python
 from paddle.tensorrt.export import(
@@ -125,21 +122,20 @@ paddle.tensorrt.convert(model_path,config)
 **注意：**
 __1. PIR-TensorRT建议使用json模型，同时也支持pdmodel，但是转换为PIR的过程中无法控制__
 
-.. py:function:: paddle.tensorrt.convert(model_path,config)
+```python
+paddle.tensorrt.convert(model_path,config)
+```
 
 加载Paddle模型并产生经过TensorRT优化的模型
 
 参数
-:::::::::
 - **model_path** (str) - 模型路径
 - **config** (TensorRTConfig) - TensorRTConfig实例
 
 返回
-:::::::::
 program:经过TensorRT优化的program
 
 代码示例
-:::::::::
 
 ```python
 # 此示例采用用户指定的模型输入形状，Paddle会在内部生成相应的随机数据
