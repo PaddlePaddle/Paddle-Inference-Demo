@@ -26,7 +26,7 @@ PIR-TRT 支持动态 shape 输入，动态 shape 可用于输入 size 任意变�
 要支持 PIR-TRT 功能，需要安装 CUDA、cuDNN、TensorRT 和对应版本的 Paddle 安装包。
 关于这几个软件的安装版本，请参考如下建议（原因：CUDA、cuDNN、TensorRT 版本众多，且有严格的版本对应关系）：
 
-- 电脑上 CUDA、cuDNN、TensorRT 都还没安装的开发者，建议参考 Paddle 提供的安装包信息，去安装对应版本的CUDA、cuDNN、TensorRT。
+- 电脑上 CUDA、cuDNN、TensorRT 都还没安装的开发者，建议使用 Paddle 提供的 [docker 镜像安装方式](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/docker/linux-docker.html)。
 - 电脑上已安装 CUDA、cuDNN，但没有安装 TensorRT，建议参考 Paddle 提供的cuda、cudnn的对应版本的TensorRT版本去安装TensorRT。
 - 电脑上已安装 CUDA、cuDNN、TensorRT的开发者，去下载对应版本的 Paddle 安装包。
   - 如果 Paddle 安装包没有对应版本的，一种方式是按照 Paddle 提供的安装包信息重新安装CUDA、cuDNN、TensorRT，一种是自己源码编译对应电脑上 CUDA、cuDNN、TensorRT 版本的 Paddle 包。从工程难易程度，建议选择第一种方案。
@@ -156,13 +156,14 @@ trt_config.precision_mode = PrecisionMode.FP16
 
 目前，PIR-TRT 支持模型压缩工具库 PaddleSlim 产出的量化模型。PaddleSlim 支持离线量化和在线量化功能。离线量化的优点是无需重新训练，简单易用，但量化后精度可能受影响；量化训练的优点是模型精度受量化影响较小，但需要重新训练模型，使用门槛稍高。具体使用PaddleSlim产出量化模型可以参考文档：
   
-  - 离线量化 [快速开始教程](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.3/docs/zh_cn/quick_start/static/quant_post_static_tutorial.md)
-  - 离线量化 [API 接口说明](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.3/docs/zh_cn/api_cn/static/quant/quantization_api.rst)
-  - 离线量化 [Demo](https://github.com/PaddlePaddle/PaddleSlim/tree/release/2.3/demo/quant/quant_post)
-  - 量化训练 [快速开始教程](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.3/docs/zh_cn/quick_start/dygraph/dygraph_quant_aware_training_tutorial.md)
-  - 量化训练 [API 接口说明](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.3/docs/zh_cn/api_cn/dygraph/quanter/qat.rst)
-  - 量化训练 [Demo](https://github.com/PaddlePaddle/PaddleSlim/tree/release/2.3/demo/quant/quant_aware)
+  - 离线量化 [快速开始教程](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.6/docs/zh_cn/quick_start/static/quant_post_static_tutorial.md)
+  - 离线量化 [API 接口说明](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.6/docs/zh_cn/api_cn/static/quant/quantization_api.rst)
+  - 离线量化 [Demo](https://github.com/PaddlePaddle/PaddleSlim/tree/release/2.6/demo/quant/quant_post)
+  - 量化训练 [快速开始教程](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.6/docs/zh_cn/quick_start/dygraph/dygraph_quant_aware_training_tutorial.md)
+  - 量化训练 [API 接口说明](https://github.com/PaddlePaddle/PaddleSlim/blob/release/2.6/docs/zh_cn/api_cn/dygraph/quanter/qat.rst)
+  - 量化训练 [Demo](https://github.com/PaddlePaddle/PaddleSlim/tree/release/2.6/demo/quant/quant_aware)
 
+如果想尝试快速使用 PaddleSlim 量化好的推理模型请参考[自动化压缩工具](https://github.com/PaddlePaddle/PaddleSlim/tree/develop/example/auto_compression)。
 
 **2. 使用量化模型进行 TensorRT Int8 推理**       
 
@@ -173,8 +174,6 @@ from paddle.tensorrt.export PrecisionMode
 
 trt_config.precision_mode = PrecisionMode.INT8
 ```
-
-Int8 量化推理的完整 demo 请参考[链接](https://github.com/PaddlePaddle/Paddle-Inference-Demo/tree/master/c%2B%2B/gpu/resnet50)。
 
 
 <a name="5"></a>
