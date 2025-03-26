@@ -7,13 +7,12 @@ API定义如下:
 Input
 -------------------------------
 
-```python
 .. py:class:: paddle.tensorrt.Input(warmup_data,min_input_shape,max_input_shape,optim_input_shape,input_data_type,input_range,name)
-```
+
 用于为模型配置输入数据的类
 
 参数
-::::::::::::
+:::::::::
 - **warmup_data** (Tuple[np.ndarray,...] | None = None) - 实际输入数据的元组
 - **min_input_shape** (Tuple | None = None) - 输入的最小形状
 - **max_input_shape** (Tuple | None = None) - 输入的最大形状
@@ -23,7 +22,7 @@ Input
 - **name** (str | None = None) - 模型输入的名称
 
 返回
-::::::::::::
+:::::::::
 None
 
 代码示例
@@ -63,7 +62,7 @@ PrecisionMode
 - **Enum** (Enum) - 枚举类型，包括FP32、FP16、BF16和INT8。
 
 返回
-::::::::::::
+:::::::::
 None
 
 代码示例
@@ -97,7 +96,7 @@ TensorRTConfig
 - **workspace_size** (int, optional) - 指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
 
 返回
-::::::::::::
+:::::::::
 None
 
 代码示例
@@ -131,16 +130,16 @@ __1. PIR-TensorRT建议使用json模型，同时也支持pdmodel，但是转换�
 加载Paddle模型并产生经过TensorRT优化的模型
 
 参数
-::::::::::::
+:::::::::
 - **model_path** (str) - 模型路径
 - **config** (TensorRTConfig) - TensorRTConfig实例
 
 返回
-::::::::::::
+:::::::::
 program:经过TensorRT优化的program
 
 代码示例
-::::::::::::
+:::::::::
 
 ```python
 # 此示例采用用户指定的模型输入形状，Paddle会在内部生成相应的随机数据
