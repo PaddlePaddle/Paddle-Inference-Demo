@@ -1,10 +1,10 @@
 # Paddle-TensorRT 接口类
 
-本文档共介绍四个公开接口
-paddle.tensorrt.Input 用于为模型配置输入数据
-paddle.tensorrt.PrecisionMode 用于为模型配置精度模式
-paddle.tensorrt.TensorRTConfig 用于TensorRT优化配置的类
-paddle.tensorrt.convert 加载Paddle模型并产生经过TensorRT优化的模型
+本文档共介绍四个公开接口<br>
+paddle.tensorrt.Input 用于为模型配置输入数据<br>
+paddle.tensorrt.PrecisionMode 用于为模型配置精度模式<br>
+paddle.tensorrt.TensorRTConfig 用于TensorRT优化配置的类<br>
+paddle.tensorrt.convert 加载Paddle模型并产生经过TensorRT优化的模型<br>
 
 API定义如下:
 
@@ -30,7 +30,7 @@ paddle.tensorrt.Input(warmup_data,min_input_shape,max_input_shape,optim_input_sh
 - **input_range** (Tuple | None = None) - 用于生成输入数据的值范围。对于浮点数，默认范围是 (0.0, 1.0)。对于整数，默认范围是 (1, 10)。此选项仅在提供了 min_input_shape、- optim_input_shape和max_input_shape时适用;不适用于warmup_data,默认值为 ``None`` 。
 - **name** (str | None = None) - 模型输入的名称,默认值为 ``None`` 。
 
-返回
+返回<br>
 None
 
 代码示例
@@ -69,7 +69,7 @@ paddle.tensorrt.PrecisionMode(Enum)
 
 - **Enum** (Enum) - 枚举类型，包括FP32、FP16、BF16和INT8。
 
-返回 \
+返回<br>
 None
 
 代码示例
@@ -102,7 +102,7 @@ paddle.tensorrt.TensorRTConfig(inputs,min_subgraph_size,save_model_dir,disable_o
 - **disable_passes** (str|list, 可选) - 一个字符串列表，表示不应用于原始程序的pass名称,默认为空列表[]。
 - **workspace_size** (int, 可选) - 指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
 
-返回
+返回<br>
 None
 
 代码示例
@@ -140,7 +140,7 @@ paddle.tensorrt.convert(model_path,config)
 - **model_path** (str) - 模型路径
 - **config** (TensorRTConfig) - TensorRTConfig实例
 
-返回
+返回<br>
 program:经过TensorRT优化的program
 
 代码示例
