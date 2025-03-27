@@ -128,7 +128,7 @@ paddle.tensorrt.convert(model_path,config)
 -------------------------------
 
 **注意：**
-__1. Paddle-TensorRT建议使用json模型，同时也支持pdmodel，但是转换为新的中间表示(PIR)的过程中无法控制__
+**Paddle-TensorRT建议使用json模型，同时也支持pdmodel，但是转换为新的中间表示(PIR)的过程中无法控制**
 
 ```python
 paddle.tensorrt.convert(model_path,config)
@@ -147,6 +147,7 @@ program:经过TensorRT优化的program
 
 ```python
 # 此示例采用用户指定的模型输入形状，Paddle会在内部生成相应的随机数据
+
 >>> import numpy as np
 >>> import paddle
 >>> import paddle.inference as paddle_infer
