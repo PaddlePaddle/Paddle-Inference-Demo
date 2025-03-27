@@ -17,7 +17,7 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 PIR-TRT 功能实现主要由俩个部分组成，PIR-TRT 转换阶段和 PIR-TRT 推理阶段。在 PIR-TRT 转换阶段，原始模型（后缀为 **.json** 的模型文件）被加载后，神经网络被表示为由运算节点和其输入输出组成的 PIR 图，PIR-TRT Converter组件会对 PIR 图进行分析同时发现图中可以使用 TensorRT 优化的子图，并使用 TensorRT 节点替换它们，然后将带有 TensorRT 节点的图序列化下来。在模型的推理阶段，Paddle Inference 加载上述序列化后的模型，如果遇到 TensorRT 节点，Paddle Infenrence 会调用 TensorRT 对该节点进行执行，其它节点调用 GPU 原生推理。TensorRT 除了有常见的 OP 融合以及显存/内存优化外，还针对性地对 OP 进行了优化加速实现，降低推理延迟，提升推理吞吐。
 
 
-PIR-TRT 支持动态 shape 输入，动态 shape 可用于输入 size 任意变化的模型，如动态 shape 的图像模型（FCN， Faster-RCNN）、 NLP 的 Bert/Ernie 等模型，当然也支持包括静态 shape 输入的模型。 PIR-TRT 支持fp32、fp16、int8 等多种计算精度，支持服务器端GPU，如T4、A30，也支持边缘端硬件，如 Jetson NX、 Jetson Nano、 Jetson TX2 等。 
+PIR-TRT 支持动态 shape 输入，动态 shape 可用于输入 size 任意变化的模型，如动态 shape 的图像模型（FCN， Faster-RCNN）、 NLP 的 Bert/Ernie 等模型，当然也支持包括静态 shape 输入的模型。 PIR-TRT 支持FP32、FP16、INT8 等多种计算精度，支持服务器端GPU，如T4、A30，也支持边缘端硬件，如 Jetson NX、 Jetson Nano、 Jetson TX2 等。 
 
 <a name="2"></a>
 
@@ -130,12 +130,12 @@ Paddle Inference 中推理阶段使用 TensorRT 加速也是遵照这样的流�
 
 ## 4. 低精度和量化推理
 
-深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。采用 TensorRT 加速推理的方式也可支持 Fp32、Fp16 以及 Int8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#hardware-precision-matrix)确保您的 GPU 硬件支持您使用的精度。
+深度学习模型训练好之后，其权重参数在一定程度上是冗余的，在很多任务上，我们可以采用低精度或量化进行模型推理而不影响模型精度。这一方面可以减少访存、提升计算效率，另一方面，可以降低显存占用。采用 TensorRT 加速推理的方式也可支持 FP32、FP16 以及 INT8 量化推理。使用前，请参考[链接](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#hardware-precision-matrix)确保您的 GPU 硬件支持您使用的精度。
 
 
 <a name="1"></a>
 
-### Fp16 推理
+### FP16 推理
 
 为了使用 TensorRT 利用半精度进行混合精度推理，需将制定精度类型参数设定为半精度。
 以第三节中的代码示例为例子，只需要对```TensorRTConfig```设置```precision_mode```，便可开启 FP16 推理。
@@ -148,9 +148,9 @@ trt_config.precision_mode = PrecisionMode.FP16
 
 <a name="2"></a>
 
-### Int8 量化推理
+### INT8 量化推理
 
-使用 Int8 量化推理的流程可以分为两步：（1）产出量化模型。（2）使用量化模型进行 TensorRT 加速推理。下面我们对使用 PIR-TRT 进行 Int8 量化推理的完整流程进行详细介绍。
+使用 INT8 量化推理的流程可以分为两步：（1）产出量化模型。（2）使用量化模型进行 TensorRT 加速推理。下面我们对使用 PIR-TRT 进行 INT8 量化推理的完整流程进行详细介绍。
 
 **1. 产出量化模型**
 
@@ -165,10 +165,10 @@ trt_config.precision_mode = PrecisionMode.FP16
 
 如果想尝试快速使用 PaddleSlim 量化好的推理模型请参考[自动化压缩工具](https://github.com/PaddlePaddle/PaddleSlim/tree/develop/example/auto_compression)。
 
-**2. 使用量化模型进行 TensorRT Int8 推理**       
+**2. 使用量化模型进行 TensorRT INT8 推理**       
 
 
-为了加载量化模型进行 TensorRT Int8 推理，需要在指定 TensorRT 配置时，对```TensorRTConfig```设置```precision_mode```，PIR-TRT 其他流程不需要变，便可开启 Int8 推理
+为了加载量化模型进行 TensorRT INT8 推理，需要在指定 TensorRT 配置时，对```TensorRTConfig```设置```precision_mode```，PIR-TRT 其他流程不需要变，便可开启 INT8 推理
 ```python
 from paddle.tensorrt.export PrecisionMode
 
