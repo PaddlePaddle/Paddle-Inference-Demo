@@ -1,6 +1,10 @@
-# PIR-TensorRT 接口类
+# Paddle-TensorRT 接口类
 
-PIR-TensorRT是基于pir开发的将paddle op下沉到TensorRT op的机制，该机制将原始的pir算子经过Marker Pass和Partition Pass识别出可以进入TRT的子图，经过TensorRT Converter将标记的子图转换成TensorRTEngine Op，最后大部分的执行逻辑在TensorRT中执行。
+本文档共介绍四个公开接口
+paddle.tensorrt.Input 用于为模型配置输入数据
+paddle.tensorrt.PrecisionMode 用于为模型配置精度模式
+paddle.tensorrt.TensorRTConfig 用于TensorRT优化配置的类
+paddle.tensorrt.convert 加载Paddle模型并产生经过TensorRT优化的模型
 
 API定义如下:
 
@@ -124,7 +128,7 @@ paddle.tensorrt.convert(model_path,config)
 -------------------------------
 
 **注意：**
-__1. PIR-TensorRT建议使用json模型，同时也支持pdmodel，但是转换为PIR的过程中无法控制__
+__1. Paddle-TensorRT建议使用json模型，同时也支持pdmodel，但是转换为新的中间表示(PIR)的过程中无法控制__
 
 ```python
 paddle.tensorrt.convert(model_path,config)
