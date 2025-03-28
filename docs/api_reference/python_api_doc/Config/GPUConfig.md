@@ -20,9 +20,9 @@ paddle.inference.Config.enable_use_gpu(memory_pool_init_size_mb: int, device_id:
 # 返回：None
 paddle.inference.Config.disable_gpu()
 
-# 判断是否启用 GPU 
+# 判断是否启用 GPU
 # 参数：None
-# 返回：bool - 是否启用 GPU 
+# 返回：bool - 是否启用 GPU
 paddle.inference.Config.use_gpu()
 
 # 获取 GPU 的device id
@@ -50,7 +50,7 @@ import paddle.inference as paddle_infer
 # 创建 config
 config = paddle_infer.Config("./mobilenet_v1")
 
-# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
 config.enable_use_gpu(100, 0)
 # 通过 API 获取 GPU 信息
 print("Use GPU is: {}".format(config.use_gpu())) # True
@@ -69,10 +69,12 @@ config.enable_use_gpu(100, 0, paddle_infer.PrecisionType.Half)
 
 ## TensorRT 设置
 
-**注意：** 
-1. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
-2. 对存在LoD信息的模型，如Bert, Ernie等NLP模型，必须使用动态 Shape
-3. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)
+**注意：**
+1. **注意此方法只适用pdmodel格式的模型，对于json格式的模型，请参考[Paddle-TensorRT接口类](../Paddle-TensorRT_interface.md)**
+2. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
+3. 对存在LoD信息的模型，如Bert, Ernie等NLP模型，必须使用动态 Shape
+4. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)
+
 
 更多 TensorRT 详细信息，请参考 [使用Paddle-TensorRT库预测](../../../optimize/paddle_trt)。
 
@@ -96,7 +98,7 @@ paddle.inference.Config.enable_tensorrt_engine(workspace_size: int = 1 << 20,
                                                use_static: bool,
                                                use_calib_mode: bool)
 
-# 判断是否启用 TensorRT 
+# 判断是否启用 TensorRT
 # 参数：None
 # 返回：bool - 是否启用 TensorRT
 paddle.inference.Config.tensorrt_engine_enabled()
@@ -107,9 +109,9 @@ paddle.inference.Config.tensorrt_engine_enabled()
 #      optim_input_shape        - TensorRT 子图支持动态 shape 的最优 shape
 #      disable_trt_plugin_fp16  - 设置 TensorRT 的 plugin 不在 fp16 精度下运行
 # 返回：None
-paddle.inference.Config.set_trt_dynamic_shape_info(min_input_shape: Dict[str, List[int]]={}, 
-                                                   max_input_shape: Dict[str, List[int]]={}, 
-                                                   optim_input_shape: Dict[str, List[int]]={}, 
+paddle.inference.Config.set_trt_dynamic_shape_info(min_input_shape: Dict[str, List[int]]={},
+                                                   max_input_shape: Dict[str, List[int]]={},
+                                                   optim_input_shape: Dict[str, List[int]]={},
                                                    disable_trt_plugin_fp16: bool=False)
 
 # 启用 TensorRT OSS 进行预测加速
@@ -142,33 +144,33 @@ import paddle.inference as paddle_infer
 # 创建 config
 config = paddle_infer.Config("./mobilenet_v1")
 
-# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
 config.enable_use_gpu(100, 0)
 
 # 启用 TensorRT 进行预测加速 - FP32
-config.enable_tensorrt_engine(workspace_size = 1 << 30, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 3, 
-                              precision_mode=paddle_infer.PrecisionType.Float32, 
+config.enable_tensorrt_engine(workspace_size = 1 << 30,
+                              max_batch_size = 1,
+                              min_subgraph_size = 3,
+                              precision_mode=paddle_infer.PrecisionType.Float32,
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 
 
 # 启用 TensorRT 进行预测加速 - FP16
-config.enable_tensorrt_engine(workspace_size = 1 << 30, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 3, 
-                              precision_mode=paddle_infer.PrecisionType.Half, 
+config.enable_tensorrt_engine(workspace_size = 1 << 30,
+                              max_batch_size = 1,
+                              min_subgraph_size = 3,
+                              precision_mode=paddle_infer.PrecisionType.Half,
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
 
 # 启用 TensorRT 进行预测加速 - Int8
-config.enable_tensorrt_engine(workspace_size = 1 << 30, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 3, 
-                              precision_mode=paddle_infer.PrecisionType.Int8, 
+config.enable_tensorrt_engine(workspace_size = 1 << 30,
+                              max_batch_size = 1,
+                              min_subgraph_size = 3,
+                              precision_mode=paddle_infer.PrecisionType.Int8,
                               use_static = False, use_calib_mode = False)
 # 通过 API 获取 TensorRT 启用结果 - true
 print("Enable TensorRT is: {}".format(config.tensorrt_engine_enabled()))
@@ -183,14 +185,14 @@ import paddle.inference as paddle_infer
 # 创建 config
 config = paddle_infer.Config("./mobilenet_v1")
 
-# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
 config.enable_use_gpu(100, 0)
 
 # 启用 TensorRT 进行预测加速 - Int8
-config.enable_tensorrt_engine(workspace_size = 1 << 30, 
-                              max_batch_size = 1, 
-                              min_subgraph_size = 1, 
-                              precision_mode=paddle_infer.PrecisionType.Int8, 
+config.enable_tensorrt_engine(workspace_size = 1 << 30,
+                              max_batch_size = 1,
+                              min_subgraph_size = 1,
+                              precision_mode=paddle_infer.PrecisionType.Int8,
                               use_static = False, use_calib_mode = True)
 
 # 设置 TensorRT 的动态 Shape
@@ -208,7 +210,7 @@ import paddle.inference as paddle_infer
 # 创建 config
 config = paddle_infer.Config("./mobilenet_v1")
 
-# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Deivce_ID 为 0
+# 启用 GPU 进行预测 - 初始化 GPU 显存 100M, Device_ID 为 0
 config.enable_use_gpu(100, 0)
 
 # 启用 TensorRT 进行预测加速
