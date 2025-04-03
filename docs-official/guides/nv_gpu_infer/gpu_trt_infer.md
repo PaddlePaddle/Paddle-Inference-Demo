@@ -1,6 +1,6 @@
-# GPU TensorRT 加速推理
+# Paddle Inference(TensorRT子图引擎)
 
-- [GPU TensorRT 加速推理](#gpu-tensorrt-加速推理)
+- [Paddle Inference(TensorRT子图引擎)](#gpu-tensorrt-加速推理)
   - [1. 概要](#1-概要)
   - [2. 环境准备](#2-环境准备)
   - [3. API 使用介绍](#3-api-使用介绍)
@@ -49,6 +49,8 @@ PIR-TRT 支持动态 shape 输入，动态 shape 可用于输入 size 任意变�
 <a name="3"></a>
 
 ## 3. API 使用介绍
+
+详细的 API文档请参考[Paddle-TensorRT接口类](https://www.paddlepaddle.org.cn/inference/v3.0/api_reference/python_api_doc/Paddle_TensorRT_interface.html)
 
 PIR-TRT 功能实现分为俩个步骤，即模型转换（convert）阶段和运行推理阶段。
 
