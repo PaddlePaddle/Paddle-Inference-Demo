@@ -10,3 +10,4 @@ Python API 文档
     PredictorPool.md
     Tensor.md
     Enum.md
+    Paddle_TensorRT_interface.md

@@ -70,7 +70,7 @@ config.enable_use_gpu(100, 0, paddle_infer.PrecisionType.Half)
 ## TensorRT 设置
 
 **注意：**
-1. **注意此方法只适用pdmodel格式的模型，对于json格式的模型，请参考[Paddle-TensorRT接口类](../Paddle-TensorRT_interface.md)**
+1. **注意此方法只适用pdmodel格式的模型，对于json格式的模型，请参考[Paddle-TensorRT接口类](../Paddle_TensorRT_interface.md)**
 2. 启用 TensorRT 的前提为已经启用 GPU，否则启用 TensorRT 无法生效
 3. 对存在LoD信息的模型，如Bert, Ernie等NLP模型，必须使用动态 Shape
 4. 启用 TensorRT OSS 可以支持更多 plugin，详细参考 [TensorRT OSS](https://news.developer.nvidia.com/nvidia-open-sources-parsers-and-plugins-in-tensorrt/)

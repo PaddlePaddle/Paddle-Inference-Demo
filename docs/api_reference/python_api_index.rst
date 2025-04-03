@@ -10,3 +10,4 @@ Python API 文档
     python_api_doc/PredictorPool
     python_api_doc/Tensor
     python_api_doc/Enum
+    python_api_doc/Paddle_TensorRT_interface
