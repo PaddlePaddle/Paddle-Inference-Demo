@@ -101,7 +101,7 @@ paddle.tensorrt.TensorRTConfig(inputs, min_subgraph_size, save_model_dir, disabl
 - **optimization_level** (int, 可选) - 设置TensorRT优化级别,默认为``3``。仅在TensorRT版本大于8.6时支持，优化级别通常控制TensorRT在优化过程中应用的优化程度。
 - **disable_passes** (str|list, 可选) - 一个字符串列表，表示不应用于原始程序的pass名称,默认为空列表[]。
 - **workspace_size** (int, 可选) - 指定TensorRT优化过程中可以使用的最大GPU内存(以字节为单位)(默认为1<<30,即1GB)
-- **use_cuda_graph** (bool, 可选) - 是否启用 CUDA Graph 优化。默认为 False，如果设置为 True，则全图需要进TensorRT才会生效。
+- **use_cuda_graph** (bool, 可选) - 是否启用 CUDA Graph 优化。默认为 False，如果设置为 True，则所有操作均被 TensorRT 优化时生效。
 
 返回<br>
 None
