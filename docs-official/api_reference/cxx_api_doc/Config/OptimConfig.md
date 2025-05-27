@@ -22,6 +22,9 @@ bool ir_optim() const;
 // 返回：None
 void SwitchIrDebug(int x = true);
 
+// 设置打开 PIR 推理
+void EnableNewIR(int x = true);
+
 // 返回 pass_builder，用来自定义图分析阶段选择的 IR
 // 参数：None
 // 返回：PassStrategy - pass_builder 对象
