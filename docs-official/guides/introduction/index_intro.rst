@@ -20,4 +20,3 @@ Paddle Inference 功能特性丰富，性能优异，针对不同平台不同的
     summary.md
     workflow.md
     design.rst
-    roadmap.md
