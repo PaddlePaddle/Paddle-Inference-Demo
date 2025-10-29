@@ -4,8 +4,8 @@
 
 ## 环境准备
 
-- Python: 3.8 / 3.9 / 3.10 / 3.11 / 3.12
-- CUDA 11.8 / CUDA 12.6, cuDNN 8.9 / cuDNN 9.5, TensorRT 8.5 /  TensorRT 8.6 /  TensorRT 10.5（仅在使用 GPU 版本的推理库时需要）
+- Python: 3.9 / 3.10 / 3.11 / 3.12 / 3.13
+- CUDA 11.8 / CUDA 12.6 / CUDA 12.9, cuDNN 8.9 / cuDNN 9.5 / cuDNN 9.9, TensorRT 8.5 / TensorRT 8.6 / TensorRT 10.5（仅在使用 GPU 版本的推理库时需要）
 
 您可参考 NVIDIA 官方文档了解 CUDA、cuDNN 和 TensorRT 的安装流程和配置方法，请见 [CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)，[cuDNN](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/)，[TensorRT](https://developer.nvidia.com/tensorrt)
 
@@ -16,6 +16,7 @@ Linux 下，版本对应关系如下表所示：
 |---|---|---|
 |11.8|8.9.7|8.6.1.6|
 |12.6|9.5.1|10.5.0.18|
+|12.9|9.9.0|10.5.0.18|
 
 Windows 下，版本对应关系如下表所示：
 
@@ -23,6 +24,7 @@ Windows 下，版本对应关系如下表所示：
 |---|---|---|
 |11.8|8.6.0|8.5.1.7|
 |12.6|9.5.1|10.5.0.18|
+|12.9|9.9.0|10.5.0.18|
 
 ## 开始安装
 
