@@ -21,7 +21,9 @@
 | 硬件后端 | 是否使用 avx |     编译器     |  CUDA/cuDNN/TensorRT 版本  | 数学库  |推理库(3.2.1 版本)   |
 |--------------|--------------|:----------------|:--------|:-------------|:-----------------|
 | CPU | 是 |  MSVC 2019 | - |MKL|[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/3.2.1/cxx_c/Windows/CPU/x86-64_avx-mkl-vs2019/paddle_inference.zip)|
-
+| GPU | 是 | MSVC 2019  | CUDA11.8/cuDNN8.6/TensorRT8.5 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/3.2.1/cxx_c/Windows/GPU/x86-64_cuda11.8_cudnn8.6.0_trt8.5.1.7_mkl_avx_vs2019/paddle_inference.zip) |
+| GPU | 是 | MSVC 2019  | CUDA12.6/cuDNN9.5/TensorRT10.5 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/3.2.1/cxx_c/Windows/GPU/x86-64_cuda12.6_cudnn9.5.1_trt10.5.0.18_mkl_avx_vs2019/paddle_inference.zip) |
+| GPU | 是 | MSVC 2019  | CUDA12.9/cuDNN9.9/TensorRT10.5 |MKL |[paddle_inference.zip](https://paddle-inference-lib.bj.bcebos.com/3.2.1/cxx_c/Windows/GPU/x86-64_cuda12.9_cudnn9.9.0_trt10.5.0.18_mkl_avx_vs2019/paddle_inference.zip) |
 
 # 下载安装 Mac 推理库
 
