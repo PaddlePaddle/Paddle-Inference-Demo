@@ -37,9 +37,9 @@ TensorRT 是一个针对 NVIDIA GPU 及 Jetson 系列硬件的高性能机器学
 
 Paddle Inference 提供的 Ubuntu/Windows 平台的官方 Release 推理库均支持 TensorRT 加速推理，如果您使用的是以上平台，我们优先推荐您通过以下链接直接下载，或者您也可以参照文档进行[源码编译](./compile/index_compile.md)。
 
-- [下载安装 Ubuntu 推理库](https://paddleinference.paddlepaddle.org.cn/install/download_lib.html#linux)
+- [下载安装 Ubuntu 推理库](https://www.paddlepaddle.org.cn/inference/guides/install/download_lib.html#linux)
   - 此链接中名称前缀包含 `nv_jetson` 的为用于NV Jetson平台的推理库。
-- [下载安装 Windows 推理库](https://paddleinference.paddlepaddle.org.cn/install/download_lib.html#windows)
+- [下载安装 Windows 推理库](https://www.paddlepaddle.org.cn/inference/guides/install/download_lib.html#windows)
 
 **Note:**
 
