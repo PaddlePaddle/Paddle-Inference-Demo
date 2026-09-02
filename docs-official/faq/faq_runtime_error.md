@@ -3,7 +3,20 @@
 
 
 1. 运行时报错`RuntimeError: parallel_for failed: cudaErrorNoKernelImageForDevice: no kernel image is available for execution on the device`。  
-**答：** 这种情况一般出现在编译和运行在不同架构的显卡上，且cmake时未指定运行时需要的CUDA架构。可以在 cmake 时加上 -DCUDA_ARCH_NAME=All（或者特定的架构如 Turing、Volta、Pascal 等），否则会使用默认值 Auto，此时只会当前的 CUDA 架构编译。
+**答：** 这种情况一般出现在编译和运行在不同架构的显卡上，且 cmake 时未指定运行时需要的 CUDA 架构。若不指定，会使用默认值 Auto，此时只会针对当前环境的 CUDA 架构编译。
+
+可以在 cmake 时通过以下方式指定架构：
+
+- `-DCUDA_ARCH_NAME=All`：编译所有可支持的架构，兼容性最好，但编译时间显著增加。
+- `-DCUDA_ARCH_NAME=Manual -DCUDA_ARCH_BIN="89;120"`：手动指定架构，多个架构用分号分隔。注意 `CUDA_ARCH_NAME=Manual` 必须写在 `CUDA_ARCH_BIN` 之前，否则架构列表会被忽略。
+
+常见架构对应关系：Ampere（RTX 30 系列）为 86，Ada（RTX 40 系列）为 89，Blackwell（RTX 50 系列）为 120。其中 Blackwell 需要 CUDA 12.8 及以上版本。
+
+编译完成后，可通过以下命令确认产物中实际包含的架构：
+
+```shell
+cuobjdump -lelf paddle_inference_install_dir/paddle/lib/libpaddle_inference.so | grep -oE 'sm_[0-9]+' | sort -u
+```
 
 2. 运行时报错`PaddleCheckError: Expected id < GetCUDADeviceCount(), but received id:0 >= GetCUDADeviceCount():0` 。  
 **答：** 一般原因是找不到驱动文件。请检查环境设置，需要在 LD_LIBRARY_PATH 中加入 /usr/lib64（驱动程序libcuda.so所在的实际路径）。
